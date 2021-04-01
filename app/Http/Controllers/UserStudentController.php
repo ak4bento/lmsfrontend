@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use DB;
+use Hash;
 
 class UserStudentController extends AppBaseController
 {
@@ -138,14 +139,18 @@ class UserStudentController extends AppBaseController
     public function update($id, UpdateUserStudentRequest $request)
     {
         $data = $request->all();
-        $userStudent = $this->userStudentRepository->find($id);
-        dd($data);
-        if($model['password'] == null){
-            $model['password'] = $data['password'];
+        $userStudent = $this->userStudentRepository->find($id); 
+
+        $profile = $this->profileRepository->allQuery(['user_id'=> $id])->first(); 
+
+        // dd($profile['id']);
+        if($data['password'] == null){
+            $data['password'] = $userStudent['password'];
         }
         else{
-            $model['password'] = Hash::make($model['password']);
+            $data['password'] = Hash::make($data['password']);
         }
+        // dd($data);
 
         if (empty($userStudent)) {
             Flash::error('User Student not found');
@@ -153,8 +158,9 @@ class UserStudentController extends AppBaseController
             return redirect(route('userStudents.index'));
         }
 
+        $profile = $this->profileRepository->update($request->all(), $profile['id']);
+        // dd($profile);
         $userStudent = $this->userStudentRepository->update($data, $id);
-
         Flash::success('User Student updated successfully.');
 
         return redirect(route('userStudents.index'));

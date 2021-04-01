@@ -23,7 +23,7 @@
 <!-- Password Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('password', 'Kata Sandi:') !!}
-    <input type="text" name="password" class="form-control" placeholder="Kata Sandi">
+    <input type="password" name="password" class="form-control" placeholder="Kata Sandi">
 </div>
  
 <!-- Full Name Field -->
