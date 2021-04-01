@@ -4,19 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserStudentRequest;
 use App\Http\Requests\UpdateUserStudentRequest;
+use App\Repositories\ClassroomUserRepository;
 use App\Repositories\UserStudentRepository;
+use App\Repositories\ProfileRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
 
 class UserStudentController extends AppBaseController
 {
     /** @var  UserStudentRepository */
     private $userStudentRepository;
 
-    public function __construct(UserStudentRepository $userStudentRepo)
+    /** @var  ClassroomUserRepository */
+    private $ClassroomUserRepository;
+
+    /** @var  ProfileRepository */
+    private $profileRepository;
+
+    public function __construct(UserStudentRepository $userStudentRepo,ClassroomUserRepository $ClassroomUserRepo, ProfileRepository $profileRepo)
     {
+        $this->profileRepository = $profileRepo;
+        $this->ClassroomUserRepository = $ClassroomUserRepo;
         $this->userStudentRepository = $userStudentRepo;
     }
 
@@ -57,6 +68,12 @@ class UserStudentController extends AppBaseController
         $input = $request->all();
 
         $userStudent = $this->userStudentRepository->create($input);
+        
+        $input = $request->all();
+        
+        $input['user_id'] = $userStudent['id'];
+        
+        $profile = $this->profileRepository->create($input);
 
         Flash::success('User Student saved successfully.');
 
@@ -73,14 +90,21 @@ class UserStudentController extends AppBaseController
     public function show($id)
     {
         $userStudent = $this->userStudentRepository->find($id);
-
+        // dd($id);
+        $classroom_users = $this->ClassroomUserRepository->allQuery(['user_id',$id])->get(); 
+        
+        $classroom_users = DB::table('classroom_user') 
+            ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+            ->select('classrooms.*' )
+            ->where('user_id',$id)
+            ->get();
+        // dd($classroom_users);
         if (empty($userStudent)) {
             Flash::error('User Student not found');
 
             return redirect(route('userStudents.index'));
         }
-
-        return view('user_students.show')->with('userStudent', $userStudent);
+        return view('user_students.show')->with('userStudent', $userStudent)->with('classroom_users', $classroom_users);
     }
 
     /**
@@ -93,14 +117,14 @@ class UserStudentController extends AppBaseController
     public function edit($id)
     {
         $userStudent = $this->userStudentRepository->find($id);
-
+        $profile = $this->profileRepository->allQuery(['user_id'=> $id])->first(); 
         if (empty($userStudent)) {
             Flash::error('User Student not found');
 
             return redirect(route('userStudents.index'));
         }
-
-        return view('user_students.edit')->with('userStudent', $userStudent);
+        // dd($profile);
+        return view('user_students.edit')->with('userStudent', $userStudent)->with('profile', $profile);
     }
 
     /**
@@ -113,7 +137,15 @@ class UserStudentController extends AppBaseController
      */
     public function update($id, UpdateUserStudentRequest $request)
     {
+        $data = $request->all();
         $userStudent = $this->userStudentRepository->find($id);
+        dd($data);
+        if($model['password'] == null){
+            $model['password'] = $data['password'];
+        }
+        else{
+            $model['password'] = Hash::make($model['password']);
+        }
 
         if (empty($userStudent)) {
             Flash::error('User Student not found');
@@ -121,7 +153,7 @@ class UserStudentController extends AppBaseController
             return redirect(route('userStudents.index'));
         }
 
-        $userStudent = $this->userStudentRepository->update($request->all(), $id);
+        $userStudent = $this->userStudentRepository->update($data, $id);
 
         Flash::success('User Student updated successfully.');
 

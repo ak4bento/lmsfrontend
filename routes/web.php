@@ -31,3 +31,7 @@ Route::resource('subjects', App\Http\Controllers\SubjectController::class);
 Route::resource('teachingPeriods', App\Http\Controllers\TeachingPeriodController::class);
 
 Route::resource('classrooms', App\Http\Controllers\ClassroomController::class);
+
+Route::resource('classroomUsers', App\Http\Controllers\ClassroomUserController::class);
+
+Route::resource('profiles', App\Http\Controllers\ProfileController::class);

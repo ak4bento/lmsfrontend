@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Daftar Mahasiswa</h1>
+                    <h1>Classroom Users</h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('userStudents.create') }}">
+                       href="{{ route('classroomUsers.create') }}">
                         Add New
                     </a>
                 </div>
@@ -24,12 +24,12 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            <div class="card-body">
-                @include('user_students.table')
+            <div class="card-body p-0">
+                @include('classroom_users.table')
 
                 <div class="card-footer clearfix float-right">
                     <div class="float-right">
-
+                        
                     </div>
                 </div>
             </div>

@@ -47,3 +47,19 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('classroomUsers.index') }}"
+       class="nav-link {{ Request::is('classroomUsers*') ? 'active' : '' }}">
+        <p>Classroom Users</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('profiles.index') }}"
+       class="nav-link {{ Request::is('profiles*') ? 'active' : '' }}">
+        <p>Profiles</p>
+    </a>
+</li>
+
+

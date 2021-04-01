@@ -46,8 +46,17 @@
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
+<script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+
 <script>
 $(function () {
+    $('.select2').select2({
+        theme: "bootstrap4",
+		placeholder: "Pilih",
+		// width: 'auto',
+		dropdownAutoWidth: true,
+		allowClear: true,
+	});
     $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
@@ -63,3 +72,5 @@ $(function () {
     });
 });
 </script>
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/js/tempusdominus-bootstrap-4.min.js" crossorigin="anonymous"></script>
