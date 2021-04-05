@@ -44,7 +44,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('full_name', 'Nama Lengkap   :') !!}
     <input type="text" disabled name="full_name"
-        value="{{ isset($userStudent) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name : '' }}"
+        value="{{ isset($userStudent) && isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name : '' }}"
         id="full_name" class="form-control" placeholder="Nama Lengkap">
 </div>
 
@@ -57,7 +57,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('phone_number', 'Nomor Hp   :') !!}
     <input type="text" disabled name="phone_number" id="phone_number" class="form-control" placeholder="Nomor Hp"
-        value="{{ isset($userStudent) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number : '' }}">
+        value="{{ isset($userStudent) && isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number : '' }}">
 </div>
 
 <!-- Last Accesed At Field -->
