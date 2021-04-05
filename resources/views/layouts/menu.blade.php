@@ -2,7 +2,7 @@
     <a href="/home" class="nav-link {{ Request::is('home*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
         <p>
-        Dashboard
+            Dashboard
         </p>
     </a>
 </li>
@@ -32,7 +32,8 @@
 
 
 <li class="nav-item">
-    <a href="{{ route('teachingPeriods.index') }}" class="nav-link {{ Request::is('teachingPeriods*') ? 'active' : '' }}">
+    <a href="{{ route('teachingPeriods.index') }}"
+        class="nav-link {{ Request::is('teachingPeriods*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-calendar"></i>
         <p>Tahun Ajaran</p>
     </a>
@@ -46,8 +47,7 @@
     </a>
 </li>
 
-
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('classroomUsers.index') }}"
        class="nav-link {{ Request::is('classroomUsers*') ? 'active' : '' }}">
         <p>Classroom Users</p>
@@ -60,6 +60,4 @@
        class="nav-link {{ Request::is('profiles*') ? 'active' : '' }}">
         <p>Profiles</p>
     </a>
-</li>
-
-
+</li> --}}

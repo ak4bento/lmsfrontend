@@ -70,8 +70,6 @@
             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
         </div>
     </div>
-
-
 </div>
 
 @push('page_scripts')

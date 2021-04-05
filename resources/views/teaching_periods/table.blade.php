@@ -2,33 +2,38 @@
     <table id="example2" class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Start At</th>
-                <th>End At</th>
-                <th>Action</th>
+                <th>No</th>
+                <th>Periode</th>
+                <th>Mulai</th>
+                <th>Selesai</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-        @foreach($teachingPeriods as $teachingPeriod)
-            <tr>
-                <td>{{ $teachingPeriod->name }}</td>
-            <td>{{ $teachingPeriod->start_at }}</td>
-            <td>{{ $teachingPeriod->end_at }}</td>
-                <td width="120">
-                    {!! Form::open(['route' => ['teachingPeriods.destroy', $teachingPeriod->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                        <a href="{{ route('teachingPeriods.show', [$teachingPeriod->id]) }}" class='btn btn-default btn-xs'>
+            @php
+                $no = 1;
+            @endphp
+            @foreach ($teachingPeriods as $teachingPeriod)
+                <tr>
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $teachingPeriod->name }}</td>
+                    <td>{{ $teachingPeriod->start_at }}</td>
+                    <td>{{ $teachingPeriod->end_at }}</td>
+                    <td width="120">
+                        {!! Form::open(['route' => ['teachingPeriods.destroy', $teachingPeriod->id], 'method' => 'delete']) !!}
+                        <a href="{{ route('teachingPeriods.show', [$teachingPeriod->id]) }}"
+                            class='btn btn-default btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('teachingPeriods.edit', [$teachingPeriod->id]) }}" class='btn btn-default btn-xs'>
+                        <a href="{{ route('teachingPeriods.edit', [$teachingPeriod->id]) }}"
+                            class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
-                    {!! Form::close() !!}
-                </td>
-            </tr>
-        @endforeach
+                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        {!! Form::close() !!}
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 </div>

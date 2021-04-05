@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Edit Teaching Period</h1>
+                    <h1>Edit Tahun Ajaran</h1>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <a href="{{ route('teachingPeriods.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
-           {!! Form::close() !!}
+            {!! Form::close() !!}
 
         </div>
     </div>

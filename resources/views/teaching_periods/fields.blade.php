@@ -1,37 +1,46 @@
 <!-- Name Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('name', 'Name:') !!}
-    {!! Form::text('name', null, ['class' => 'form-control','maxlength' => 191,'maxlength' => 191]) !!}
+    {!! Form::label('name', 'Tahun Ajaran:') !!}
+    {!! Form::text('name', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191]) !!}
 </div>
 
 <!-- Start At Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('start_at', 'Start At:') !!}
-    {!! Form::text('start_at', null, ['class' => 'form-control','id'=>'start_at']) !!}
+<div class="form-group col-sm-3">
+    {!! Form::label('start_at', 'Mulai:') !!}
+    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+        <input type="text" name="start_at" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+    </div>
 </div>
-
-@push('page_scripts')
-    <script type="text/javascript">
-        $('#start_at').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: true
-        })
-    </script>
-@endpush
 
 <!-- End At Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('end_at', 'End At:') !!}
-    {!! Form::text('end_at', null, ['class' => 'form-control','id'=>'end_at']) !!}
+<div class="form-group col-sm-3">
+    {!! Form::label('end_at', 'Selesai:') !!}
+    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+        <input type="text" name="end_at" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+    </div>
 </div>
 
 @push('page_scripts')
     <script type="text/javascript">
-        $('#end_at').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: true
-        })
+        $(function() {
+            $('#datetimepicker1').datetimepicker({
+                defaultDate: "{{ isset($teachingPeriod) ? $teachingPeriod->start_at : '' }}",
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker2').datetimepicker({
+                defaultDate: "{{ isset($teachingPeriod) ? $teachingPeriod->end_at : '' }}",
+            });
+        });
+
     </script>
 @endpush
