@@ -118,14 +118,18 @@ class ClassroomController extends AppBaseController
     public function update($id, UpdateClassroomRequest $request)
     {
         $classroom = $this->classroomRepository->find($id);
-
+        $input = $request->all();
+        $input['created_by']=auth()->user()->id;
+        $input['slug'] = str_replace(' ', '-', $input['title']);
+        $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );  
+        
         if (empty($classroom)) {
             Flash::error('Classroom not found');
 
             return redirect(route('classrooms.index'));
         }
 
-        $classroom = $this->classroomRepository->update($request->all(), $id);
+        $classroom = $this->classroomRepository->update($input, $id);
 
         Flash::success('Classroom updated successfully.');
 

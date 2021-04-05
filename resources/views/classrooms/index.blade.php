@@ -8,9 +8,8 @@
                     <h1>Daftar Kelas</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('classrooms.create') }}">
-                        Add New
+                    <a class="btn btn-primary float-right" href="{{ route('classrooms.create') }}">
+                        Tambah Kelas
                     </a>
                 </div>
             </div>
@@ -38,4 +37,3 @@
     </div>
 
 @endsection
-
