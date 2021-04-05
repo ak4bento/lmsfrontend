@@ -56,7 +56,10 @@ class ClassroomController extends AppBaseController
     public function store(CreateClassroomRequest $request)
     {
         $input = $request->all();
-
+        $input['created_by']=auth()->user()->id;
+        $input['slug'] = str_replace(' ', '-', $input['title']);
+        $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );  
+        
         $classroom = $this->classroomRepository->create($input);
 
         Flash::success('Classroom saved successfully.');

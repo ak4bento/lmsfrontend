@@ -73,13 +73,13 @@ class Classroom extends Model
     public static $rules = [
         'subject_id' => 'required|integer',
         'teaching_period_id' => 'required|integer',
-        'slug' => 'required|string|max:191',
+        // 'slug' => 'required|string|max:191',
         'code' => 'required|string|max:50',
         'title' => 'required|string|max:191',
         'description' => 'required|string',
         'start_at' => 'required',
-        'end_at' => 'required',
-        'created_by' => 'required|integer',
+        'end_at' => 'required|after:start_at',
+        // 'created_by' => 'required|integer',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
