@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ config('app.name') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-
+    <link rel="shortcut icon" href="/sejawat-logo-mobile.png">
     @include('layouts.datatables_css')
 
     @yield('third_party_stylesheets')

@@ -67,6 +67,13 @@ class UserStudentController extends AppBaseController
     public function store(CreateUserStudentRequest $request)
     {
         $input = $request->all();
+    
+        $validated = $request->validate([
+            'full_name' => 'required',
+            'phone_number' => 'required',
+            'address' => 'required',
+        ]);
+        $input['password'] = Hash::make($input['password']); 
 
         $userStudent = $this->userStudentRepository->create($input);
         
@@ -91,12 +98,11 @@ class UserStudentController extends AppBaseController
     public function show($id)
     {
         $userStudent = $this->userStudentRepository->find($id);
-        // dd($id);
-        $classroom_users = $this->ClassroomUserRepository->allQuery(['user_id',$id])->get(); 
+        // dd($id);  
         
         $classroom_users = DB::table('classroom_user') 
             ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
-            ->select('classrooms.*' )
+            ->select('classrooms.*' ,'classroom_user.id as classroom_user_id')
             ->where('user_id',$id)
             ->get();
         // dd($classroom_users);
@@ -190,5 +196,16 @@ class UserStudentController extends AppBaseController
         Flash::success('User Student deleted successfully.');
 
         return redirect(route('userStudents.index'));
+    }
+
+    public function getuserStudents($id)
+    {
+        $userStudent = DB::table('users') 
+            ->join('profiles', 'profiles.user_id', '=', 'users.id') 
+            ->select('profiles.*','users.*')
+            ->where('users.id',$id)
+            ->first();
+
+        return Response::json($userStudent);
     }
 }

@@ -4,19 +4,18 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6"> 
-                <h1>Kelas Mahasiswa</h1>
+                <div class="col-sm-6">
+                    <h1>Daftar Kelas {{ $userStudent->name }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right" style="margin-left:10px;"
-                        href="{{ route('classroomUsers.create') }}">
+                        href="{{ url('classroomUsers/create', [$userStudent->id]) }}">
                         Tambah Kelas
                     </a>
-                    <a class="btn btn-default float-right "
-                       href="{{ route('userStudents.index') }}">
+                    <a class="btn btn-default float-right " href="{{ route('userStudents.index') }}">
                         Kembali
-                    </a> 
-                </div> 
+                    </a>
+                </div>
             </div>
         </div>
     </section>

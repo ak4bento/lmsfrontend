@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
 
 class ClassroomController extends AppBaseController
 {
@@ -152,5 +153,17 @@ class ClassroomController extends AppBaseController
         Flash::success('Classroom deleted successfully.');
 
         return redirect(route('classrooms.index'));
+    }
+
+    public function getClassroom($id)
+    { 
+        $classroom = DB::table('classrooms') 
+            ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+            ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+            ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+            ->where('classrooms.id',$id)
+            ->first();
+
+        return Response::json($classroom);
     }
 }

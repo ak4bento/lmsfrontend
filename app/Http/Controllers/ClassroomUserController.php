@@ -6,6 +6,7 @@ use App\Http\Requests\CreateClassroomUserRequest;
 use App\Http\Requests\UpdateClassroomUserRequest;
 use App\Repositories\ClassroomUserRepository;
 use App\Repositories\ClassroomRepository;
+use App\Repositories\UserStudentRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -17,9 +18,12 @@ class ClassroomUserController extends AppBaseController
     private $classroomUserRepository;
     /** @var  ClassroomRepository */
     private $classroomRepository;
+    /** @var  UserStudentRepository */
+    private $userStudentRepository;
 
-    public function __construct(ClassroomUserRepository $classroomUserRepo, ClassroomRepository $classroomRepo)
+    public function __construct(ClassroomUserRepository $classroomUserRepo, ClassroomRepository $classroomRepo, UserStudentRepository $userStudentRepo,)
     {
+        $this->userStudentRepository = $userStudentRepo;
         $this->classroomRepository = $classroomRepo;
         $this->classroomUserRepository = $classroomUserRepo;
     }
@@ -44,9 +48,11 @@ class ClassroomUserController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('classroom_users.create');
+        $userStudent = $this->userStudentRepository->find($id);
+
+        return view('classroom_users.create')->with('userStudent', $userStudent);
     }
 
     /**
@@ -64,7 +70,7 @@ class ClassroomUserController extends AppBaseController
 
         Flash::success('Classroom User saved successfully.');
 
-        return redirect(route('classroomUsers.index'));
+        return redirect(route('userStudents.show',[$classroomUser->user_id]));
     }
 
     /**
@@ -98,6 +104,7 @@ class ClassroomUserController extends AppBaseController
     {
         $classroomUser = $this->classroomUserRepository->find($id);
         $classrooms = $this->classroomRepository->all();
+        $userStudent = $this->userStudentRepository->find($classroomUser->user_id);
 
 
         if (empty($classroomUser)) {
@@ -106,7 +113,7 @@ class ClassroomUserController extends AppBaseController
             return redirect(route('classroomUsers.index'));
         }
 
-        return view('classroom_users.edit')->with('classroomUser', $classroomUser)->with('classrooms',$classrooms);
+        return view('classroom_users.edit')->with('classroomUser', $classroomUser)->with('classrooms',$classrooms)->with('userStudent', $userStudent);
     }
 
     /**
@@ -120,7 +127,7 @@ class ClassroomUserController extends AppBaseController
     public function update($id, UpdateClassroomUserRequest $request)
     {
         $classroomUser = $this->classroomUserRepository->find($id);
-
+        // dd($classroomUser);
         if (empty($classroomUser)) {
             Flash::error('Classroom User not found');
 
@@ -131,7 +138,7 @@ class ClassroomUserController extends AppBaseController
 
         Flash::success('Classroom User updated successfully.');
 
-        return redirect(route('classroomUsers.index'));
+        return redirect(route('userStudents.show',[$classroomUser->user_id]));
     }
 
     /**

@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create User Student</h1>
+                    <h1>Buat Mahasiswa</h1>
                 </div>
             </div>
         </div>
