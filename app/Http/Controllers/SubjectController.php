@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Subject;
 
 class SubjectController extends AppBaseController
 {
@@ -55,7 +56,10 @@ class SubjectController extends AppBaseController
     public function store(CreateSubjectRequest $request)
     {
         $input = $request->all();
-
+        $input['slug'] = str_replace(' ', '-', $input['title']);
+        $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );   
+        $input['created_by']=auth()->user()->id;
+        // dd($input);
         $subject = $this->subjectRepository->create($input);
 
         Flash::success('Subject saved successfully.');
@@ -113,15 +117,29 @@ class SubjectController extends AppBaseController
      */
     public function update($id, UpdateSubjectRequest $request)
     {
+        
+        $input = $request->all();
         $subject = $this->subjectRepository->find($id);
-
+        $validator_title = Subject::where('title',$input['title'])->first(); 
         if (empty($subject)) {
             Flash::error('Subject not found');
-
+    
             return redirect(route('subjects.index'));
         }
+        if($validator_title['id'] == $id){
 
-        $subject = $this->subjectRepository->update($request->all(), $id);
+            
+            $input['slug'] = str_replace(' ', '-', $input['title']);
+            $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );   
+            $input['created_by']=auth()->user()->id;
+    
+            $subject = $this->subjectRepository->update($input, $id);
+            
+        }else{
+            $validated = $request->validate([
+                'title' => 'unique:subjects,title'
+            ]);
+        }
 
         Flash::success('Subject updated successfully.');
 

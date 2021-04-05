@@ -64,12 +64,12 @@ class Subject extends Model
      * @var array
      */
     public static $rules = [
-        'slug' => 'required|string|max:191',
+        'slug' => 'unique:subjects|string|max:191',
         'code' => 'required|string|max:191',
-        'title' => 'required|string|max:191',
+        // 'title' => 'required|unique:subjects|string|max:191',
         'description' => 'required|string',
         'default_category_id' => 'nullable|integer',
-        'created_by' => 'required|integer',
+        // 'created_by' => 'required|integer',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
