@@ -5,11 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tahun Ajaran</h1>
+                    <h1>Teachable Details</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right" href="{{ route('teachingPeriods.create') }}">
-                        Tambah Tahun Ajaran
+                    <a class="btn btn-default float-right"
+                       href="{{ route('teachables.index') }}">
+                        Back
                     </a>
                 </div>
             </div>
@@ -17,19 +18,14 @@
     </section>
 
     <div class="content px-3">
-
-        @include('flash::message')
-
-        <div class="clearfix"></div>
-
         <div class="card">
+
             <div class="card-body">
-                @include('teaching_periods.table')
-
-
+                <div class="row">
+                    @include('teachables.show_fields')
+                </div>
             </div>
 
         </div>
     </div>
-
 @endsection

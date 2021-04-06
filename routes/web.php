@@ -43,3 +43,11 @@ Route::resource('classroomUsers', App\Http\Controllers\ClassroomUserController::
 Route::get('classroomUsers/create/{id}', [App\Http\Controllers\ClassroomUserController::class,'create']);
 
 Route::resource('profiles', App\Http\Controllers\ProfileController::class);
+
+Route::resource('quizzes', App\Http\Controllers\QuizzesController::class);
+
+Route::resource('questions', App\Http\Controllers\QuestionController::class);
+
+Route::resource('questionQuizzes', App\Http\Controllers\QuestionQuizzesController::class);
+
+Route::resource('teachables', App\Http\Controllers\TeachableController::class);

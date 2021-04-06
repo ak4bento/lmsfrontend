@@ -39,11 +39,11 @@
 .fa.fa-file-o:before {
   content: "\f15b"; }
 
-.fa.fa-clock-o {
+.fa.fa-clock {
   font-family: 'Font Awesome 5 Free';
   font-weight: 400; }
 
-.fa.fa-clock-o:before {
+.fa.fa-clock:before {
   content: "\f017"; }
 
 .fa.fa-arrow-circle-o-down {
