@@ -120,7 +120,6 @@ class QuizzesController extends AppBaseController
         $quizzes = $this->quizzesRepository->find($id);
         $classrooms = $this->classroomRepository->all();
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','quiz')->select('teachables.*')->first();
-        $teachableClassrooms = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','quiz')->select('teachables.*')->get();
         // dd($teachable);
         if (empty($quizzes)) {
             Flash::error('Quizzes not found');
@@ -128,7 +127,7 @@ class QuizzesController extends AppBaseController
             return redirect(route('quizzes.index'));
         }
 
-        return view('quizzes.edit')->with('quizzes', $quizzes)->with('classrooms', $classrooms)->with('teachableClassrooms',$teachableClassrooms)->with('teachable',$teachable);
+        return view('quizzes.edit')->with('quizzes', $quizzes)->with('classrooms', $classrooms)->with('teachable',$teachable);
     }
 
     /**
@@ -142,7 +141,8 @@ class QuizzesController extends AppBaseController
     public function update($id, UpdateQuizzesRequest $request)
     {
         $quizzes = $this->quizzesRepository->find($id);
-
+        $input = $request->all();
+        dd($input);
         if (empty($quizzes)) {
             Flash::error('Quizzes not found');
 
