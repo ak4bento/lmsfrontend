@@ -70,22 +70,25 @@
 </li>
 <li class="nav-item">
     <a href="{{ route('questions.index') }}" class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-question "></i>
+
         <p>Questions</p>
     </a>
 </li>
-
-
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('questionQuizzes.index') }}"
         class="nav-link {{ Request::is('questionQuizzes*') ? 'active' : '' }}">
         <p>Question Quizzes</p>
     </a>
 </li>
 <li class="nav-item">
-    <a href="{{ route('teachables.index') }}"
-       class="nav-link {{ Request::is('teachables*') ? 'active' : '' }}">
+    <a href="{{ route('teachables.index') }}" class="nav-link {{ Request::is('teachables*') ? 'active' : '' }}">
         <p>Teachables</p>
     </a>
+</li> - --}}
+<li class="nav-item">
+    <a href="{{ route('questionChoiceItems.index') }}"
+        class="nav-link {{ Request::is('questionChoiceItems*') ? 'active' : '' }}">
+        <p>Question Choice Items</p>
+    </a>
 </li>
-
-

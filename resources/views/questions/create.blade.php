@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Create Question</h1>
+                    <h1>Buat Soal</h1>
                 </div>
             </div>
         </div>
@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'questions.store']) !!}
+            {!! Form::open(['route' => ['questions.store.id', $id], 'method' => 'post']) !!}
 
             <div class="card-body">
 

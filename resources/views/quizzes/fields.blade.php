@@ -11,6 +11,44 @@
     {!! Form::text('description', null, ['class' => 'form-control']) !!}
 </div>
 
+@if (isset($question_quizzes))
+    <div class="form-group col-sm-12 col-lg-12">
+        <h3>
+            Daftar Soal
+
+            <hr>
+        </h3>
+    </div>
+
+    <div class="form-group col-sm-12 col-lg-12">
+        <table id="example2" class="table table-bordered table-striped" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>Pertanyaan</th>
+                    <th width="200">Dibuat Oleh</th>
+                    <th width="100">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $no = 1;
+                @endphp
+                @foreach ($question_quizzes as $question_quizze)
+                    <tr>
+                        <td>{{ $question_quizze->content }} </td>
+                        <td> {{ App\Models\User::find($question_quizze->created_by)->name }} </td>
+                        <td width="120">
+                            <a href="{{ route('questions.edit', [$question_quizze->id]) }}"
+                                class='btn btn-primary btn-sm'>
+                                <i class="far fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
 <div class="form-group col-sm-12 col-lg-12" style="margin-top: 40px">
     <h3>
         Petakan pada Kelas
@@ -77,7 +115,7 @@
                 <tr>
                     <td>
                         <input type="checkbox"
-                            {{ isset(App\Models\Teachable::where('classroom_id', $classroom->id)->first()->id) ? 'checked' : '' }}
+                            {{ isset($teachable) && isset(App\Models\Teachable::where('classroom_id', $classroom->id)->first()->id) ? 'checked' : '' }}
                             name="id[]" value="{{ $classroom->id }}" />
                         {{ App\Models\Subject::find($classroom->subject_id)->title }}
                     </td>

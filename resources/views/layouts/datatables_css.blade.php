@@ -31,6 +31,6 @@
 <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 
-<link rel="stylesheet"
+{{-- <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/css/tempusdominus-bootstrap-4.min.css"
-    crossorigin="anonymous" />
+    crossorigin="anonymous" /> --}}

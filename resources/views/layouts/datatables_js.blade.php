@@ -60,7 +60,7 @@
         });
         $("#example1").DataTable({
             "responsive": true,
-            "lengthChange": false,
+            "lengthChange": true,
             "autoWidth": false,
             "buttons": ["colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -77,6 +77,7 @@
 
 </script>
 
-<script
+{{-- <script
     src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/js/tempusdominus-bootstrap-4.min.js"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script> --}}
+<script src="{{ asset('ckeditor/ckeditor.js') }}"></script>

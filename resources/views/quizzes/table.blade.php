@@ -19,11 +19,12 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $quizzes->title }}</td>
                     <td>{{ $quizzes->description }}</td>
-                    <td>{{ App\Models\QuestionQuizzes::where('quizzes_id', $quizzes->id)->count() }}</td>
+                    <td>{{ App\Models\QuestionQuizzes::where('quizzes_id', $quizzes->id)->where('deleted_at', null)->count() }}
+                    </td>
                     <td>{{ App\Models\User::find($quizzes->created_by)->name }}</td>
                     <td width="150">
                         {!! Form::open(['route' => ['quizzes.destroy', $quizzes->id], 'method' => 'delete']) !!}
-                        <a href="{{ route('quizzes.show', [$quizzes->id]) }}"
+                        <a href="{{ route('questions.create.quiz', [$quizzes->id]) }}"
                             class='btn btn-block btn-primary btn-sm'>
                             <i class="far fa-plus-square"></i> Tambah Pertanyaan
                         </a>

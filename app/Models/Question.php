@@ -64,8 +64,8 @@ class Question extends Model
         'question_type' => 'required|string|max:191',
         'answers' => 'required|string',
         'content' => 'required|string',
-        'scoring_method' => 'required|string|max:191',
-        'created_by' => 'required|integer',
+        // 'scoring_method' => 'required|string|max:191',
+        // 'created_by' => 'required|integer',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'

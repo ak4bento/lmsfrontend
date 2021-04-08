@@ -9,14 +9,18 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Repositories\QuestionChoiceItemRepository;
+use App\Repositories\QuestionQuizzesRepository;
 
 class QuestionController extends AppBaseController
 {
     /** @var  QuestionRepository */
     private $questionRepository;
 
-    public function __construct(QuestionRepository $questionRepo)
+    public function __construct(QuestionRepository $questionRepo, QuestionChoiceItemRepository $questionChoiceItemRepo,QuestionQuizzesRepository $questionQuizzesRepo)
     {
+        $this->questionQuizzesRepository = $questionQuizzesRepo;
+        $this->questionChoiceItemRepository = $questionChoiceItemRepo;
         $this->questionRepository = $questionRepo;
     }
 
@@ -40,9 +44,11 @@ class QuestionController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('questions.create');
+        // dd($id);
+
+        return view('questions.create')->with('id',$id);
     }
 
     /**
@@ -52,15 +58,40 @@ class QuestionController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateQuestionRequest $request)
+    public function store($id, CreateQuestionRequest $request)
     {
         $input = $request->all();
+        // dd($input); 
+        $input['scoring_method'] = "default";
+        $input['created_by'] = auth()->user()->id;
 
         $question = $this->questionRepository->create($input);
+        $data;
+        // dd($question);
+        for($a = 1; $a <= count($input['choice_text']); $a++){
+            // dd($input['choice_text'][$a] );
+            if(isset($input['choice_text'][$a])){
+                $data['question_id'] = $question->id;
+                // if()
+                $data['choice_text'] = $input['choice_text'][$a];
+                if(isset($input['is_correct'][$a]) ){
+                    $data['is_correct'] = 1;
+                }else{
+                    $data['is_correct'] = 0;
+                }
+                $data['question_id'] = $question->id;
+                $questionChoiceItem = $this->questionChoiceItemRepository->create($data);
+            }
+        }
+        // dd($data);
+
+        $questionQuizzes['quizzes_id'] = $id;
+        $questionQuizzes['question_id'] = $question->id;
+        $questionQuizzes = $this->questionQuizzesRepository->create($questionQuizzes);
 
         Flash::success('Question saved successfully.');
 
-        return redirect(route('questions.index'));
+        return redirect(route('quizzes.index'));
     }
 
     /**
@@ -125,7 +156,7 @@ class QuestionController extends AppBaseController
 
         Flash::success('Question updated successfully.');
 
-        return redirect(route('questions.index'));
+        return redirect(route('quizzes.index'));
     }
 
     /**
@@ -140,14 +171,15 @@ class QuestionController extends AppBaseController
     public function destroy($id)
     {
         $question = $this->questionRepository->find($id);
-
+        $questionQuizzes = QuestionQuizzes::where('question_id',$id)->first();
+dd($questionQuizzes);
         if (empty($question)) {
             Flash::error('Question not found');
 
             return redirect(route('questions.index'));
         }
 
-        $this->questionRepository->delete($id);
+        $this->questionRepository->delete($id); 
 
         Flash::success('Question deleted successfully.');
 

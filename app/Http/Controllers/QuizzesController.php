@@ -12,6 +12,7 @@ use Response;
 use App\Repositories\TeachableRepository;
 use App\Repositories\ClassroomRepository;
 use DB;
+use \stdClass;
 
 class QuizzesController extends AppBaseController
 {
@@ -118,16 +119,29 @@ class QuizzesController extends AppBaseController
     public function edit($id)
     {
         $quizzes = $this->quizzesRepository->find($id);
+        
         $classrooms = $this->classroomRepository->all();
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','quiz')->select('teachables.*')->first();
-        // dd($teachable);
+
+        $questionChoiceItems = DB::table('question_choice_items')->select('question_choice_items.*')->get();
+        $question_quizzes = DB::table('question_quizzes')->where('quizzes_id',$id)->select('question_quizzes.*')->get();
+        // dd($question_quizzes);
+
+        $questions = array();
+         $ss = null;
+
+        $question_quizzes = DB::table('question_quizzes')
+                            ->join('quizzes', 'quizzes.id', '=', 'question_quizzes.quizzes_id')
+                            ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')
+                            ->where('quizzes_id',$id)->where('questions.deleted_at',null)->select('questions.*')->get();
+       
         if (empty($quizzes)) {
             Flash::error('Quizzes not found');
 
             return redirect(route('quizzes.index'));
         }
 
-        return view('quizzes.edit')->with('quizzes', $quizzes)->with('classrooms', $classrooms)->with('teachable',$teachable);
+        return view('quizzes.edit')->with('quizzes', $quizzes)->with('classrooms', $classrooms)->with('teachable',$teachable)->with('question_quizzes',$question_quizzes);
     }
 
     /**
@@ -142,7 +156,34 @@ class QuizzesController extends AppBaseController
     {
         $quizzes = $this->quizzesRepository->find($id);
         $input = $request->all();
-        dd($input);
+
+        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','quiz')->where('deleted_at',null)->select('*')->get();
+        // dd($input['id']);
+
+        foreach($teachable as $data){ 
+            $this->teachableRepository->delete($data->id);
+        } 
+        $object = new stdClass();
+        $object->id = (object)$input['id'];
+        $input['grading_method'] = "standard";  
+        // dd($object);
+        $data = new stdClass();
+
+        foreach($object->id as $value){
+            // dd($value);
+            $data->classroom_id = $value;
+            $data->teachable_type = 'quiz';
+            $data->teachable_id = $quizzes['id'];
+            $data->created_by = auth()->user()->id;
+            $data->final_grade_weight = 0;
+            $data->max_attempts_count = $input['max_attempts_count'];
+            $data->order = 1;
+            $data->pass_threshold = $input['pass_threshold'];
+            $data->available_at = $input['available_at'];
+            $data->expires_at = $input['expires_at'];
+
+            $teachable = $this->teachableRepository->create($data);
+        }
         if (empty($quizzes)) {
             Flash::error('Quizzes not found');
 

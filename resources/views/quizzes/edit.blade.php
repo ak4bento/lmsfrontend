@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Edit Quizzes</h1>
+                    <h1>Edit Kuis</h1>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <a href="{{ route('quizzes.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
-           {!! Form::close() !!}
+            {!! Form::close() !!}
 
         </div>
     </div>

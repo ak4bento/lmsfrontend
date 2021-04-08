@@ -48,6 +48,13 @@ Route::resource('quizzes', App\Http\Controllers\QuizzesController::class);
 
 Route::resource('questions', App\Http\Controllers\QuestionController::class);
 
+Route::post('questions/{id}/store', [App\Http\Controllers\QuestionController::class,'store'])->name('questions.store.id');
+
+
+Route::get('questions/create/{id}', [App\Http\Controllers\QuestionController::class,'create'])->name('questions.create.quiz');
+
 Route::resource('questionQuizzes', App\Http\Controllers\QuestionQuizzesController::class);
 
 Route::resource('teachables', App\Http\Controllers\TeachableController::class);
+
+Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
