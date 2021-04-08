@@ -58,3 +58,4 @@ Route::resource('questionQuizzes', App\Http\Controllers\QuestionQuizzesControlle
 Route::resource('teachables', App\Http\Controllers\TeachableController::class);
 
 Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
+Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);

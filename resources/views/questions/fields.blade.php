@@ -38,6 +38,7 @@
 </div>
 
 <div id="dynamicTable" style="width: 100%">
+
 </div>
 @push('page_scripts')
     <script type="text/javascript">
@@ -57,11 +58,56 @@
             console.log("ini add button");
         });
 
+        // get data choice item
+        $(document).ready(function() {
+            var id = {{ $question->id }};
+            console.log("ini ID :", id);
+            var rute = "{{ url('get-choice-item') }}/" + id;
+            console.log("ini rute :", rute);
+            $.ajax({
+                url: rute,
+                type: 'get',
+                success: function(response) {
+                    console.log("ini re :", response);
+                    $.each(response, function(key, value) {
+                        var len = 0;
+                        // $('#userTable tbody').empty(); // Empty <tbody>
+                        if (response != null) {
+                            len = response.length;
+                        }
+                        console.log('ini len :', len);
+                        for (var i = 0; i < len; i++) {
+                            var id = response[i].id;
+                            var choice_text = response[i].choice_text;
+                            var is_correct = response[i].is_correct;
+
+                            var input =
+                                '<div    class="form-inline"    style="width: 100%;"    id="choice_text_option_' +
+                                i +
+                                '_id">    <div style="margin-top: 10px;" class="form-group col-sm-8"><input type="text" value="' +
+                                choice_text + '" name="choice_text[' +
+                                i +
+                                ']" placeholder="Jawaban" name="choice_text[]" class="form-control col-sm-12" /></div>    <div style="margin-top: 10px;" class="form-check col-sm-2"><input class="form-check-input float-left"  name="is_correct[' +
+                                i +
+                                ']" id="is_correct[]" type="checkbox" /> <label class="form-check-label"  >Jawaban yang Benar</label></div>    <div style="margin-top: 10px;" class="form-group col-sm-2">        <button            type="button"            onclick="myFunction(' +
+                                i +
+                                ')"            name="max_attempts_count"            class="btn btn-danger float-left form-control"        >            <i class="nav-icon fas fa-trash"></i>        </button>    </div></div>';
+
+                            $("#dynamicTable").append(input);
+                        }
+                    });
+                }
+            });
+        });
+
+
         myFunction = (id) => {
             // var id = "choice_text_option_" + id + "_id";
             var data = "choice_text_option_" + String(id) + "_id";
             console.log("ini id : ", data);
             var myobj = document.getElementById(data);
+            console.log("ini object ku : ", myobj);
+
             // var myobj = document.getElementById('id');
             if (myobj !== null) {
                 // $('#choice_text_option_1_id').remove();

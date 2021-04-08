@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use App\Repositories\QuestionChoiceItemRepository;
 use App\Repositories\QuestionQuizzesRepository;
+use DB;
 
 class QuestionController extends AppBaseController
 {
@@ -124,14 +125,15 @@ class QuestionController extends AppBaseController
     public function edit($id)
     {
         $question = $this->questionRepository->find($id);
-
+        $question_choice_items = DB::table('question_choice_items')->where('question_id',$id)->where('deleted_at',null)->select('*')->get();
+        // dd($item);
         if (empty($question)) {
             Flash::error('Question not found');
 
             return redirect(route('questions.index'));
         }
 
-        return view('questions.edit')->with('question', $question);
+        return view('questions.edit')->with('question', $question)->with('question_choice_items',$question_choice_items);
     }
 
     /**
@@ -170,9 +172,7 @@ class QuestionController extends AppBaseController
      */
     public function destroy($id)
     {
-        $question = $this->questionRepository->find($id);
-        $questionQuizzes = QuestionQuizzes::where('question_id',$id)->first();
-dd($questionQuizzes);
+        $question = $this->questionRepository->find($id); 
         if (empty($question)) {
             Flash::error('Question not found');
 

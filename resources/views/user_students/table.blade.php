@@ -24,7 +24,7 @@
                     <td width="120">
                         {!! Form::open(['route' => ['userStudents.destroy', $userStudent->id], 'method' => 'delete']) !!}
                         <!-- <div class='btn-group'> -->
-                        <a href="{{ route('userStudents.show', [$userStudent->id]) }}" class='btn btn-default btn-sm'>
+                        <a href="{{ route('userStudents.show', [$userStudent->id]) }}" class='btn btn-info btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
                         <a href="{{ route('userStudents.edit', [$userStudent->id]) }}" class='btn btn-primary btn-sm'>

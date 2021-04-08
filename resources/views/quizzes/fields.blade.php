@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-group col-sm-12 col-lg-12">
-        <table id="example2" class="table table-bordered table-striped" style="width: 100%">
+        <table id="example2" class="table table-bordered " style="width: 100%">
             <thead>
                 <tr>
                     <th>Pertanyaan</th>
@@ -35,7 +35,7 @@
                 @endphp
                 @foreach ($question_quizzes as $question_quizze)
                     <tr>
-                        <td>{{ $question_quizze->content }} </td>
+                        <td>{!! $question_quizze->content !!} </td>
                         <td> {{ App\Models\User::find($question_quizze->created_by)->name }} </td>
                         <td width="120">
                             <a href="{{ route('questions.edit', [$question_quizze->id]) }}"
@@ -95,7 +95,7 @@
 </div>
 
 <div class="form-group col-sm-12 col-lg-12">
-    <table id="example1" class="table table-bordered table-striped">
+    <table id="example1" class="table table-bordered ">
         <thead>
             <tr>
                 <th>Mata Kuliah</th>

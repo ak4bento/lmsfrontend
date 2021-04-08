@@ -86,9 +86,9 @@
         <p>Teachables</p>
     </a>
 </li> - --}}
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('questionChoiceItems.index') }}"
         class="nav-link {{ Request::is('questionChoiceItems*') ? 'active' : '' }}">
         <p>Question Choice Items</p>
     </a>
-</li>
+</li> --}}

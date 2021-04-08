@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
 
 class QuestionChoiceItemController extends AppBaseController
 {
@@ -153,4 +154,13 @@ class QuestionChoiceItemController extends AppBaseController
 
         return redirect(route('questionChoiceItems.index'));
     }
+
+    public function getChoiceItem($id)
+    {
+        $question_choice_items = DB::table('question_choice_items')->where('question_id',$id)->where('deleted_at',null)->select('*')->get();
+
+        return Response::json($question_choice_items);
+ 
+    }
+    
 }
