@@ -21,7 +21,7 @@
     </section>
 
     <div class="content px-3">
-        <div class="card">
+        <div class="card card-primary card-outline">
 
             <div class="card-body">
                 <div class="row">

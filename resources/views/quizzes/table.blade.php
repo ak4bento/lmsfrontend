@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table id="example2" class="table table-bordered table-striped">
+    <table id="example2" class="table table-bordered">
         <thead>
             <tr>
                 <th>No</th>
@@ -29,7 +29,7 @@
                             <i class="far fa-plus-square"></i> Tambah Pertanyaan
                         </a>
                         <div class='btn-group btn-block'>
-                            <a href="{{ route('quizzes.edit', [$quizzes->id]) }}" class='btn btn-success btn-sm'>
+                            <a href="{{ route('quizzes.edit', [$quizzes->id]) }}" class='btn btn-info btn-sm'>
                                 <i class="far fa-edit"></i>
                             </a>
                             {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}

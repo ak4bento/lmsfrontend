@@ -15,7 +15,7 @@
 
         @include('adminlte-templates::common.errors')
 
-        <div class="card">
+        <div class="card card-primary card-outline">
 
             {!! Form::model($classroom, ['route' => ['classrooms.update', $classroom->id], 'method' => 'patch']) !!}
 

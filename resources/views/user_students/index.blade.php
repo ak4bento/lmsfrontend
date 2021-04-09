@@ -8,8 +8,7 @@
                     <h1>Daftar Mahasiswa</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('userStudents.create') }}">
+                    <a class="btn btn-primary float-right" href="{{ route('userStudents.create') }}">
                         Tambah Mahasiswa
                     </a>
                 </div>
@@ -23,7 +22,7 @@
 
         <div class="clearfix"></div>
 
-        <div class="card">
+        <div class="card card-primary card-outline">
             <div class="card-body">
                 @include('user_students.table')
 
@@ -38,4 +37,3 @@
     </div>
 
 @endsection
-

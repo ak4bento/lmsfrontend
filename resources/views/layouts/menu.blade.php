@@ -61,22 +61,24 @@
         <p style="font-size: 18px;">Profiles</p>
     </a>
 </li> --}}
-<li class="nav-item menu-is-opening menu-open">
+<li class="nav-item 
+    {{ Request::is('questions*') ? 'menu-is-opening menu-open' : '' }}
+    {{ Request::is('quizzes*') ? 'menu-is-opening menu-open' : '' }}
+    ">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-pencil-alt"></i>
-
+        <i class="nav-icon fa fa-question"></i>
         <p>
             Kuis & Soal
-            <i class="right fas fa-angle-left"></i>
+            <i class="fas fa-angle-left right"></i>
         </p>
     </a>
-    <ul class="nav nav-treeview" style="display: block;">
+    <ul class="nav nav-treeview">
+
         <li class="nav-item">
             <a href="{{ route('quizzes.index') }}" class="nav-link {{ Request::is('quizzes*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
                 <p style="font-size: 18px;">Kuis</p>
             </a>
-
         </li>
         <li class="nav-item">
             <a href="{{ route('questions.index') }}"

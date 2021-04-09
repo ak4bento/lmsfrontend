@@ -15,7 +15,7 @@
 
         @include('adminlte-templates::common.errors')
 
-        <div class="card">
+        <div class="card card-primary card-outline">
 
             {!! Form::model($userTeacher, ['route' => ['userTeachers.update', $userTeacher->id], 'method' => 'patch']) !!}
 
@@ -30,7 +30,7 @@
                 <a href="{{ route('userTeachers.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
-           {!! Form::close() !!}
+            {!! Form::close() !!}
 
         </div>
     </div>

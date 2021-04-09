@@ -8,8 +8,7 @@
                     <h1>Profiles</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('profiles.create') }}">
+                    <a class="btn btn-primary float-right" href="{{ route('profiles.create') }}">
                         Add New
                     </a>
                 </div>
@@ -23,13 +22,13 @@
 
         <div class="clearfix"></div>
 
-        <div class="card">
+        <div class="card card-primary card-outline">
             <div class="card-body p-0">
                 @include('profiles.table')
 
                 <div class="card-footer clearfix float-right">
                     <div class="float-right">
-                        
+
                     </div>
                 </div>
             </div>
@@ -38,4 +37,3 @@
     </div>
 
 @endsection
-

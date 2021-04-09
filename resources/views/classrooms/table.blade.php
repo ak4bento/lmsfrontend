@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table id="example2" class="table table-bordered table-striped">
+    <table id="example2" class="table table-bordered">
         <thead>
             <tr>
                 <th>No</th>
@@ -31,7 +31,7 @@
                     <td>{{ App\Models\User::find($classroom->created_by)->name }}</td>
                     <td width="120">
                         {!! Form::open(['route' => ['classrooms.destroy', $classroom->id], 'method' => 'delete']) !!}
-                        <a href="{{ route('classrooms.show', [$classroom->id]) }}" class='btn btn-default btn-sm'>
+                        <a href="{{ route('classrooms.show', [$classroom->id]) }}" class='btn btn-info btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
                         <a href="{{ route('classrooms.edit', [$classroom->id]) }}" class='btn btn-primary btn-sm'>

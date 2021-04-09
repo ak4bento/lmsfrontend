@@ -22,7 +22,7 @@
 
         <div class="clearfix"></div>
 
-        <div class="card">
+        <div class="card card-primary card-outline">
             <div class="card-body">
                 @include('teaching_periods.table')
 

@@ -15,7 +15,7 @@
 
         @include('adminlte-templates::common.errors')
 
-        <div class="card">
+        <div class="card card-primary card-outline">
 
             {!! Form::open(['route' => ['questions.store.id', $id], 'method' => 'post']) !!}
 
