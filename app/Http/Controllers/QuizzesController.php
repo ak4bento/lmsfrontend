@@ -13,6 +13,7 @@ use App\Repositories\TeachableRepository;
 use App\Repositories\ClassroomRepository;
 use DB;
 use \stdClass;
+use Alert;
 
 class QuizzesController extends AppBaseController
 {
@@ -217,8 +218,9 @@ class QuizzesController extends AppBaseController
         }
 
         $this->quizzesRepository->delete($id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        Flash::success('Quizzes deleted successfully.');
+        // Flash::success('Quizzes deleted successfully.');
 
         return redirect(route('quizzes.index'));
     }

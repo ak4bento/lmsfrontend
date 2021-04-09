@@ -13,6 +13,7 @@ use Flash;
 use Response;
 use DB;
 use Hash;
+use Alert;
 
 class UserStudentController extends AppBaseController
 {
@@ -42,7 +43,6 @@ class UserStudentController extends AppBaseController
     public function index(Request $request)
     {
         $userStudents = $this->userStudentRepository->all();
-
         return view('user_students.index')
             ->with('userStudents', $userStudents);
     }
@@ -84,7 +84,6 @@ class UserStudentController extends AppBaseController
         $profile = $this->profileRepository->create($input);
 
         Flash::success('User Student saved successfully.');
-
         return redirect(route('userStudents.index'));
     }
 
@@ -184,7 +183,7 @@ class UserStudentController extends AppBaseController
     public function destroy($id)
     {
         $userStudent = $this->userStudentRepository->find($id);
-
+        // dd($id);
         if (empty($userStudent)) {
             Flash::error('User Student not found');
 
@@ -193,7 +192,8 @@ class UserStudentController extends AppBaseController
 
         $this->userStudentRepository->delete($id);
 
-        Flash::success('User Student deleted successfully.');
+        // Flash::success('User Student deleted successfully.');
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
         return redirect(route('userStudents.index'));
     }

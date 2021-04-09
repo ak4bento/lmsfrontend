@@ -14,6 +14,7 @@ use App\Repositories\QuestionQuizzesRepository;
 use App\Models\QuestionChoiceItem;
 use DB;
 use \stdClass;
+use Alert;
 
 class QuestionController extends AppBaseController
 {
@@ -212,8 +213,9 @@ class QuestionController extends AppBaseController
         }
 
         $this->questionRepository->delete($id); 
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        Flash::success('Question deleted successfully.');
+        // Flash::success('Question deleted successfully.');
 
         return redirect(route('questions.index'));
     }

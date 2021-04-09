@@ -11,6 +11,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Alert;
+use DB;
 
 class ClassroomUserController extends AppBaseController
 {
@@ -38,7 +40,7 @@ class ClassroomUserController extends AppBaseController
     public function index(Request $request)
     {
         $classroomUsers = $this->classroomUserRepository->all();
-
+        dd($classroomUsers);
         return view('classroom_users.index')
             ->with('classroomUsers', $classroomUsers);
     }
@@ -153,17 +155,20 @@ class ClassroomUserController extends AppBaseController
     public function destroy($id)
     {
         $classroomUser = $this->classroomUserRepository->find($id);
-
+        $id = $classroomUser->user_id;  
         if (empty($classroomUser)) {
             Flash::error('Classroom User not found');
-
-            return redirect(route('classroomUsers.index'));
+            return redirect(route('userStudents.index'));
+            
         }
+        // dd($id);
 
-        $this->classroomUserRepository->delete($id);
+        // $classroomUser = $this->classroomUserRepository->delete($id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        Flash::success('Classroom User deleted successfully.');
+        // Flash::success('Classroom User deleted successfully.');
+        return redirect(route('userStudents.index'));
 
-        return redirect(route('classroomUsers.index'));
+
     }
 }

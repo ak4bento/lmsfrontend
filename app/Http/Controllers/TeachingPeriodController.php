@@ -9,7 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
-
+use Alert;
 class TeachingPeriodController extends AppBaseController
 {
     /** @var  TeachingPeriodRepository */
@@ -148,8 +148,9 @@ class TeachingPeriodController extends AppBaseController
         }
 
         $this->teachingPeriodRepository->delete($id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        Flash::success('Teaching Period deleted successfully.');
+        // Flash::success('Teaching Period deleted successfully.');
 
         return redirect(route('teachingPeriods.index'));
     }

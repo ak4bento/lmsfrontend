@@ -37,7 +37,10 @@
                         <a href="{{ route('classrooms.edit', [$classroom->id]) }}" class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroom->id }}"
+                            data-url="{{ url('classrooms/destroy') }}/{{ $classroom->id }}">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
                         {!! Form::close() !!}
                     </td>
                 </tr>

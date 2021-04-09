@@ -78,6 +78,7 @@
     </div>
 
     @include('layouts.datatables_js')
+    @include('sweetalert::alert')
 
     @yield('third_party_scripts')
 

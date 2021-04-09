@@ -26,16 +26,19 @@
                     <td>{{ $classroom_user->start_at }} - {{ $classroom_user->end_at }}</td>
                     <td>{{ App\Models\TeachingPeriod::find($classroom_user->teaching_period_id)->name }}</td>
                     <td width="120">
-                        {!! Form::open(['route' => ['classroomUsers.destroy', $userStudent->id], 'method' => 'delete']) !!}
-                        <a href="{{ route('classroomUsers.show', [$classroom_user->classroom_user_id]) }}"
+                        {!! Form::open(['route' => ['classroomUsers.destroy', $classroom_user->id], 'method' => 'delete']) !!}
+                        <a href="{{ route('classroomUsers.show', [$classroom_user->id]) }}"
                             class='btn btn-info btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('classroomUsers.edit', [$classroom_user->classroom_user_id]) }}"
+                        <a href="{{ route('classroomUsers.edit', [$classroom_user->id]) }}"
                             class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroom_user->id }}"
+                            data-url="{{ url('classroomUsers/destroy') }}/{{ $classroom_user->id }}">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
                         {!! Form::close() !!}
                     </td>
                 </tr>

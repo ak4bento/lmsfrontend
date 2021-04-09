@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use App\Models\Subject;
+use DB;
 
 class SubjectController extends AppBaseController
 {
@@ -166,8 +167,9 @@ class SubjectController extends AppBaseController
         }
 
         $this->subjectRepository->delete($id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        Flash::success('Subject deleted successfully.');
+        // Flash::success('Subject deleted successfully.');
 
         return redirect(route('subjects.index'));
     }

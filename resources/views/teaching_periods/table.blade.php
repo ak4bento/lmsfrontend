@@ -29,7 +29,10 @@
                             class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $teachingPeriod->id }}"
+                            data-url="{{ url('teachingPeriods/destroy') }}/{{ $teachingPeriod->id }}">
+                            <i class="far fa-trash-alt"></i>
+                        </button>
                         {!! Form::close() !!}
                     </td>
                 </tr>

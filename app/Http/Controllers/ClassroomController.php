@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use DB;
+use Alert;
 
 class ClassroomController extends AppBaseController
 {
@@ -156,8 +157,9 @@ class ClassroomController extends AppBaseController
         }
 
         $this->classroomRepository->delete($id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        Flash::success('Classroom deleted successfully.');
+        // Flash::success('Classroom deleted successfully.');
 
         return redirect(route('classrooms.index'));
     }
