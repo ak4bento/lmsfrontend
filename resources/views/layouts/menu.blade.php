@@ -61,19 +61,32 @@
         <p style="font-size: 18px;">Profiles</p>
     </a>
 </li> --}}
-<li class="nav-item">
-    <a href="{{ route('quizzes.index') }}" class="nav-link {{ Request::is('quizzes*') ? 'active' : '' }}">
+<li class="nav-item menu-is-opening menu-open">
+    <a href="#" class="nav-link">
         <i class="nav-icon fas fa-pencil-alt"></i>
 
-        <p style="font-size: 18px;">Daftar Kuis</p>
+        <p>
+            Kuis & Soal
+            <i class="right fas fa-angle-left"></i>
+        </p>
     </a>
-</li>
-<li class="nav-item">
-    <a href="{{ route('questions.index') }}" class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-question "></i>
+    <ul class="nav nav-treeview" style="display: block;">
+        <li class="nav-item">
+            <a href="{{ route('quizzes.index') }}" class="nav-link {{ Request::is('quizzes*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+                <p style="font-size: 18px;">Kuis</p>
+            </a>
 
-        <p>Questions</p>
-    </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('questions.index') }}"
+                class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon"></i>
+
+                <p>Soal</p>
+            </a>
+        </li>
+    </ul>
 </li>
 {{-- <li class="nav-item">
     <a href="{{ route('questionQuizzes.index') }}"

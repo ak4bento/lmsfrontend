@@ -11,7 +11,9 @@ use Flash;
 use Response;
 use App\Repositories\QuestionChoiceItemRepository;
 use App\Repositories\QuestionQuizzesRepository;
+use App\Models\QuestionChoiceItem;
 use DB;
+use \stdClass;
 
 class QuestionController extends AppBaseController
 {
@@ -46,9 +48,9 @@ class QuestionController extends AppBaseController
      * @return Response
      */
     public function create($id)
-    {
-        // dd($id);
-
+    { 
+        // $question = new stdClass();
+        // $question->id='';
         return view('questions.create')->with('id',$id);
     }
 
@@ -147,7 +149,36 @@ class QuestionController extends AppBaseController
     public function update($id, UpdateQuestionRequest $request)
     {
         $question = $this->questionRepository->find($id);
+        $input =$request->all(); 
+        date_default_timezone_set("Asia/Makassar"); 
+        $QuestionChoiceItem = QuestionChoiceItem::where('question_id', $id)->get();
+        $delete['deleted_at'] =  date("Y-m-d h:i:s");
+        foreach($QuestionChoiceItem as $data){  
+            DB::table('question_choice_items')->where('id', $data->id)->update($delete);
+        }  
+        $data=array(0);
 
+        for($a = 0; $a <= count($input['choice_text']); $a++){
+            // dd($input['choice_text'][$a] );
+            if(isset($input['choice_text'][$a])){
+                $question_id = $id; 
+                $choice_text = $input['choice_text'][$a];
+                if(isset($input['is_correct'][$a]) ){
+                    $is_correct = 1;
+                }else{
+                    $is_correct = 0;
+                }
+                $question_id = $question->id; 
+                $data = DB::table('question_choice_items')
+                            ->insert(
+                                ['question_id' => $question_id,
+                                'is_correct' => $is_correct,
+                                'choice_text' => $choice_text]
+                            );
+                // $questionChoiceItem = QuestionChoiceItem::create($data);
+                // dd($questionChoiceItem);
+            }
+        }
         if (empty($question)) {
             Flash::error('Question not found');
 
@@ -155,6 +186,7 @@ class QuestionController extends AppBaseController
         }
 
         $question = $this->questionRepository->update($request->all(), $id);
+        // $question = DB::table('questions')->where('id', $id)->update($request->all());
 
         Flash::success('Question updated successfully.');
 

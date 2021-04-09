@@ -19,7 +19,7 @@
                     <td>{{ $no++ }}</td>
                     <td>{{ $question->question_type }}</td>
                     <td>{{ $question->answers }}</td>
-                    <td>{{ $question->content }}</td>
+                    <td>{!! $question->content !!}</td>
                     <td>{{ App\Models\User::find($question->created_by)->name }} </td>
                     <td width="120">
                         {!! Form::open(['route' => ['questions.destroy', $question->id], 'method' => 'delete']) !!}

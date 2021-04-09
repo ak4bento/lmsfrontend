@@ -60,7 +60,7 @@
 
         // get data choice item
         $(document).ready(function() {
-            var id = {{ $question->id }};
+            var id = {{ isset($question->id) ? $question->id : '0' }}
             console.log("ini ID :", id);
             var rute = "{{ url('get-choice-item') }}/" + id;
             console.log("ini rute :", rute);
@@ -69,6 +69,7 @@
                 type: 'get',
                 success: function(response) {
                     console.log("ini re :", response);
+                    // var i = 0;
                     $.each(response, function(key, value) {
                         var len = 0;
                         // $('#userTable tbody').empty(); // Empty <tbody>
@@ -76,25 +77,39 @@
                             len = response.length;
                         }
                         console.log('ini len :', len);
-                        for (var i = 0; i < len; i++) {
-                            var id = response[i].id;
-                            var choice_text = response[i].choice_text;
-                            var is_correct = response[i].is_correct;
+                        // for (var i = 0; i < len; i++) {
+                        var id = response[i].id;
+                        var choice_text = response[i].choice_text;
+                        var is_correct = response[i].is_correct;
+                        console.log('ini is_correct :', response[i].is_correct);
+                        console.log('ini i :', i);
 
-                            var input =
-                                '<div    class="form-inline"    style="width: 100%;"    id="choice_text_option_' +
-                                i +
-                                '_id">    <div style="margin-top: 10px;" class="form-group col-sm-8"><input type="text" value="' +
-                                choice_text + '" name="choice_text[' +
-                                i +
-                                ']" placeholder="Jawaban" name="choice_text[]" class="form-control col-sm-12" /></div>    <div style="margin-top: 10px;" class="form-check col-sm-2"><input class="form-check-input float-left"  name="is_correct[' +
-                                i +
-                                ']" id="is_correct[]" type="checkbox" /> <label class="form-check-label"  >Jawaban yang Benar</label></div>    <div style="margin-top: 10px;" class="form-group col-sm-2">        <button            type="button"            onclick="myFunction(' +
-                                i +
-                                ')"            name="max_attempts_count"            class="btn btn-danger float-left form-control"        >            <i class="nav-icon fas fa-trash"></i>        </button>    </div></div>';
+                        var is_checked = 0;
 
-                            $("#dynamicTable").append(input);
+                        if (is_correct) {
+                            is_checked = "checked"
                         }
+                        var input_checked =
+                            '<input class="form-check-input float-left"  name="is_correct[' +
+                            i +
+                            ']" id="is_correct[]" ' + is_checked + ' type="checkbox" />'
+                        var input =
+                            '<div    class="form-inline"    style="width: 100%;"    id="choice_text_option_' +
+                            i +
+                            '_id">  <input type="hidden" value="' + id +
+                            '" name="id[' + id +
+                            ']">  <div style="margin-top: 10px;" class="form-group col-sm-8"><input type="text" value="' +
+                            choice_text + '" name="choice_text[' +
+                            i +
+                            ']" placeholder="Jawaban" class="form-control col-sm-12" /></div>    <div style="margin-top: 10px;" class="form-check col-sm-2">' +
+                            input_checked +
+                            ' <label class="form-check-label"  >Jawaban yang Benar</label></div> <div style="margin-top: 10px;" class="form-group col-sm-2"> <button type="button" onclick="myFunction(' +
+                            i +
+                            ')" class="btn btn-danger float-left form-control"> <i class="nav-icon fas fa-trash"></i></button> </div></div>';
+
+                        $("#dynamicTable").append(input);
+                        // }
+                        i++;
                     });
                 }
             });
