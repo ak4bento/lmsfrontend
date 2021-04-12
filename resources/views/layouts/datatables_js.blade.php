@@ -82,7 +82,7 @@
     crossorigin="anonymous"></script> --}}
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
+<script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
 <script>
     $("#delete").click(function(e) {
         e.preventDefault();

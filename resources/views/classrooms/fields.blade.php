@@ -32,33 +32,33 @@
 <!-- Code Field -->
 <div class="form-group col-sm-3">
     {!! Form::label('code', 'Kode:') !!}
-    {!! Form::text('code', null, ['class' => 'form-control', 'maxlength' => 50, 'maxlength' => 50]) !!}
+    {!! Form::text('code', null, ['class' => 'form-control', 'maxlength' => 50, 'maxlength' => 50, 'placeholder' => 'Kode Kelas']) !!}
 </div>
 
 <!-- Title Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('title', 'Kelas:') !!}
-    {!! Form::text('title', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191]) !!}
-</div>
-
-<!-- Description Field -->
-<div class="form-group col-sm-6 col-lg-6">
-    {!! Form::label('description', 'Deskripsi:') !!}
-    {!! Form::text('description', null, ['class' => 'form-control']) !!}
+    {!! Form::text('title', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191, 'placeholder' => 'Nama Kelas']) !!}
 </div>
 
 <!-- Start At Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-3">
     {!! Form::label('start_at', 'Mulai:') !!}
     <input type="time" class="form-control" name="start_at"
         value="{{ isset($classroom->start_at) ? $classroom->start_at : '' }}">
 </div>
 
 <!-- End At Field -->
-<div class=" form-group col-sm-6">
+<div class=" form-group col-sm-3">
     {!! Form::label('end_at', 'Selesai:') !!}
-    <input type="time" class="form-control" name="end_at"
+    <input type="time" class="form-control " name="end_at"
         value="{{ isset($classroom->end_at) ? $classroom->end_at : '' }}">
+</div>
+
+<!-- Description Field -->
+<div class="form-group col-sm-12 col-lg-12">
+    {!! Form::label('description', 'Deskripsi:') !!}
+    {!! Form::text('description', null, ['class' => 'form-control', 'placeholder' => 'Deskripsi Kelas']) !!}
 </div>
 
 <!-- Created By Field -->
@@ -66,3 +66,13 @@
     {!! Form::label('created_by', 'Created By:') !!}
     {!! Form::number('created_by', null, ['class' => 'form-control']) !!}
 </div> --}}
+@push('page_scripts')
+    {{-- <script type="text/javascript">
+        $('#timepicker').timepicker({
+            showInputs: false,
+            showMeridian: false
+        });
+
+    </script> --}}
+
+@endpush

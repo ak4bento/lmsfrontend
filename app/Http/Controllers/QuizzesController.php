@@ -64,6 +64,9 @@ class QuizzesController extends AppBaseController
     {
         $input = $request->all();
         // dd($input);
+        $validated = $request->validate([
+            'id' => 'required',
+        ]);
         $created_by = auth()->user()->id;
         $input['grading_method'] = "standard";
         $input['created_by'] = $created_by;

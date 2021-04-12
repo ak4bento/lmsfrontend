@@ -31,6 +31,7 @@
         $(function() {
             $('#datetimepicker1').datetimepicker({
                 defaultDate: "{{ isset($teachingPeriod) ? $teachingPeriod->start_at : '' }}",
+                locale: 'id'
             });
         });
 
@@ -39,6 +40,7 @@
         $(function() {
             $('#datetimepicker2').datetimepicker({
                 defaultDate: "{{ isset($teachingPeriod) ? $teachingPeriod->end_at : '' }}",
+                locale: 'id'
             });
         });
 

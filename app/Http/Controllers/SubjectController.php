@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use App\Models\Subject;
 use DB;
+use Alert;
 
 class SubjectController extends AppBaseController
 {

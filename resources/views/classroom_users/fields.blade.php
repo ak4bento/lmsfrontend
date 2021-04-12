@@ -125,6 +125,8 @@
         $(function() {
             $('#datetimepicker1').datetimepicker({
                 defaultDate: "{{ isset($classroomUser) ? $classroomUser->last_accesed_at : '' }}",
+                locale: 'id'
+
             });
         });
 
