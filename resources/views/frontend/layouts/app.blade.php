@@ -35,7 +35,7 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="dashboard.html" class="nav-link">Home</a>
+                            <a href="/home" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
                             <a href="classes.html" class="nav-link">Classes</a>
@@ -47,7 +47,7 @@
                             <a href="schedule.html" class="nav-link">Schedule</a>
                         </li>
                         <li class="nav-item">
-                            <a href="discover.html" class="nav-link">Discover</a>
+                            <a href="/discover" class="nav-link">Discover</a>
                         </li>
                     </ul>
 

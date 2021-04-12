@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers\Frontend;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Repositories\ProfileRepository;
+use Auth;
+use App\Repositories\ClassroomRepository;
+use DB;
+
+class DiscoverController extends Controller
+{
+    /** @var  ClassroomRepository */
+    private $classroomRepository;
+
+    public function __construct(ClassroomRepository $classroomRepo)
+    {
+        $this->classroomRepository = $classroomRepo;
+        $this->middleware('auth'); 
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $classrooms = DB::table('classrooms') 
+            ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+            ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+            ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods') 
+            ->get();
+        // dd($classrooms);
+        return view('frontend.users.discover')->with('classrooms', $classrooms);
+    }
+}
