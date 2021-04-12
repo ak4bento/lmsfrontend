@@ -27,7 +27,7 @@ Route::group(['middleware' => ['role:student']], function () {
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
     //
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
 
 
     Route::resource('userStudents', App\Http\Controllers\UserStudentController::class);
