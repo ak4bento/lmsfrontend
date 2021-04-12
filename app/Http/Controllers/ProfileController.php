@@ -58,7 +58,7 @@ class ProfileController extends AppBaseController
 
         $profile = $this->profileRepository->create($input);
 
-        Flash::success('Profile saved successfully.');
+        Alert::success('Profile saved successfully.');
 
         return redirect(route('profiles.index'));
     }
@@ -123,7 +123,7 @@ class ProfileController extends AppBaseController
 
         $profile = $this->profileRepository->update($request->all(), $id);
 
-        Flash::success('Profile updated successfully.');
+        Alert::success('Profile updated successfully.');
 
         return redirect(route('profiles.index'));
     }
@@ -149,7 +149,7 @@ class ProfileController extends AppBaseController
 
         $this->profileRepository->delete($id);
 
-        Flash::success('Profile deleted successfully.');
+        Alert::success('Profile deleted successfully.');
 
         return redirect(route('profiles.index'));
     }

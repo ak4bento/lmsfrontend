@@ -58,7 +58,7 @@ class UserTeacherController extends AppBaseController
 
         $userTeacher = $this->userTeacherRepository->create($input);
 
-        Flash::success('User Teacher saved successfully.');
+        Alert::success('User Teacher saved successfully.');
 
         return redirect(route('userTeachers.index'));
     }
@@ -123,7 +123,7 @@ class UserTeacherController extends AppBaseController
 
         $userTeacher = $this->userTeacherRepository->update($request->all(), $id);
 
-        Flash::success('User Teacher updated successfully.');
+        Alert::success('User Teacher updated successfully.');
 
         return redirect(route('userTeachers.index'));
     }
@@ -149,7 +149,7 @@ class UserTeacherController extends AppBaseController
 
         $this->userTeacherRepository->delete($id);
 
-        Flash::success('User Teacher deleted successfully.');
+        Alert::success('User Teacher deleted successfully.');
 
         return redirect(route('userTeachers.index'));
     }

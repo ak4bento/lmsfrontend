@@ -59,7 +59,7 @@ class QuestionChoiceItemController extends AppBaseController
 
         $questionChoiceItem = $this->questionChoiceItemRepository->create($input);
 
-        Flash::success('Question Choice Item saved successfully.');
+        Alert::success('Question Choice Item saved successfully.');
 
         return redirect(route('questionChoiceItems.index'));
     }
@@ -124,7 +124,7 @@ class QuestionChoiceItemController extends AppBaseController
 
         $questionChoiceItem = $this->questionChoiceItemRepository->update($request->all(), $id);
 
-        Flash::success('Question Choice Item updated successfully.');
+        Alert::success('Question Choice Item updated successfully.');
 
         return redirect(route('questionChoiceItems.index'));
     }
@@ -150,7 +150,7 @@ class QuestionChoiceItemController extends AppBaseController
 
         $this->questionChoiceItemRepository->delete($id);
 
-        Flash::success('Question Choice Item deleted successfully.');
+        Alert::success('Question Choice Item deleted successfully.');
 
         return redirect(route('questionChoiceItems.index'));
     }

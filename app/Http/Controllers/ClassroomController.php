@@ -63,7 +63,7 @@ class ClassroomController extends AppBaseController
         
         $classroom = $this->classroomRepository->create($input);
 
-        Flash::success('Classroom saved successfully.');
+        Alert::success('Classroom saved successfully.');
 
         return redirect(route('classrooms.index'));
     }
@@ -132,7 +132,7 @@ class ClassroomController extends AppBaseController
 
         $classroom = $this->classroomRepository->update($input, $id);
 
-        Flash::success('Classroom updated successfully.');
+        Alert::success('Classroom updated successfully.');
 
         return redirect(route('classrooms.index'));
     }
@@ -159,7 +159,7 @@ class ClassroomController extends AppBaseController
         $this->classroomRepository->delete($id);
         Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        // Flash::success('Classroom deleted successfully.');
+        // Alert::success('Classroom deleted successfully.');
 
         return redirect(route('classrooms.index'));
     }

@@ -83,7 +83,7 @@ class UserStudentController extends AppBaseController
         
         $profile = $this->profileRepository->create($input);
 
-        Flash::success('User Student saved successfully.');
+        Alert::success('User Student saved successfully.');
         return redirect(route('userStudents.index'));
     }
 
@@ -166,7 +166,7 @@ class UserStudentController extends AppBaseController
         $profile = $this->profileRepository->update($request->all(), $profile['id']);
         // dd($profile);
         $userStudent = $this->userStudentRepository->update($data, $id);
-        Flash::success('User Student updated successfully.');
+        Alert::success('User Student updated successfully.');
 
         return redirect(route('userStudents.index'));
     }
@@ -192,7 +192,7 @@ class UserStudentController extends AppBaseController
 
         $this->userStudentRepository->delete($id);
 
-        // Flash::success('User Student deleted successfully.');
+        // Alert::success('User Student deleted successfully.');
         Alert::success('Berhasil', 'Data Berhasil dihapus');
 
         return redirect(route('userStudents.index'));

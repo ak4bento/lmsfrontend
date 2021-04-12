@@ -58,7 +58,7 @@ class TeachableController extends AppBaseController
 
         $teachable = $this->teachableRepository->create($input);
 
-        Flash::success('Teachable saved successfully.');
+        Alert::success('Teachable saved successfully.');
 
         return redirect(route('teachables.index'));
     }
@@ -123,7 +123,7 @@ class TeachableController extends AppBaseController
 
         $teachable = $this->teachableRepository->update($request->all(), $id);
 
-        Flash::success('Teachable updated successfully.');
+        Alert::success('Teachable updated successfully.');
 
         return redirect(route('teachables.index'));
     }
@@ -149,7 +149,7 @@ class TeachableController extends AppBaseController
 
         $this->teachableRepository->delete($id);
 
-        Flash::success('Teachable deleted successfully.');
+        Alert::success('Teachable deleted successfully.');
 
         return redirect(route('teachables.index'));
     }

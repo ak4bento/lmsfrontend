@@ -63,7 +63,7 @@ class SubjectController extends AppBaseController
         // dd($input);
         $subject = $this->subjectRepository->create($input);
 
-        Flash::success('Subject saved successfully.');
+        Alert::success('Subject saved successfully.');
 
         return redirect(route('subjects.index'));
     }
@@ -142,7 +142,7 @@ class SubjectController extends AppBaseController
             ]);
         }
 
-        Flash::success('Subject updated successfully.');
+        Alert::success('Subject updated successfully.');
 
         return redirect(route('subjects.index'));
     }
@@ -169,7 +169,7 @@ class SubjectController extends AppBaseController
         $this->subjectRepository->delete($id);
         Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        // Flash::success('Subject deleted successfully.');
+        // Alert::success('Subject deleted successfully.');
 
         return redirect(route('subjects.index'));
     }

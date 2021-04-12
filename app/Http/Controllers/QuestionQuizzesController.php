@@ -58,7 +58,7 @@ class QuestionQuizzesController extends AppBaseController
 
         $questionQuizzes = $this->questionQuizzesRepository->create($input);
 
-        Flash::success('Question Quizzes saved successfully.');
+        Alert::success('Question Quizzes saved successfully.');
 
         return redirect(route('questionQuizzes.index'));
     }
@@ -123,7 +123,7 @@ class QuestionQuizzesController extends AppBaseController
 
         $questionQuizzes = $this->questionQuizzesRepository->update($request->all(), $id);
 
-        Flash::success('Question Quizzes updated successfully.');
+        Alert::success('Question Quizzes updated successfully.');
 
         return redirect(route('questionQuizzes.index'));
     }
@@ -149,7 +149,7 @@ class QuestionQuizzesController extends AppBaseController
 
         $this->questionQuizzesRepository->delete($id);
 
-        Flash::success('Question Quizzes deleted successfully.');
+        Alert::success('Question Quizzes deleted successfully.');
 
         return redirect(route('questionQuizzes.index'));
     }

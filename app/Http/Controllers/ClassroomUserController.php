@@ -70,7 +70,7 @@ class ClassroomUserController extends AppBaseController
 
         $classroomUser = $this->classroomUserRepository->create($input);
 
-        Flash::success('Classroom User saved successfully.');
+        Alert::success('Classroom User saved successfully.');
 
         return redirect(route('userStudents.show',[$classroomUser->user_id]));
     }
@@ -138,7 +138,8 @@ class ClassroomUserController extends AppBaseController
 
         $classroomUser = $this->classroomUserRepository->update($request->all(), $id);
 
-        Flash::success('Classroom User updated successfully.');
+        Alert::success('Classroom User updated successfully.'); 
+
 
         return redirect(route('userStudents.show',[$classroomUser->user_id]));
     }
@@ -159,14 +160,13 @@ class ClassroomUserController extends AppBaseController
         if (empty($classroomUser)) {
             Flash::error('Classroom User not found');
             return redirect(route('userStudents.index'));
-            
         }
         // dd($id);
 
         // $classroomUser = $this->classroomUserRepository->delete($id);
         Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        // Flash::success('Classroom User deleted successfully.');
+        // Alert::success('Classroom User deleted successfully.');
         return redirect(route('userStudents.index'));
 
 

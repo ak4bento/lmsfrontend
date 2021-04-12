@@ -58,7 +58,7 @@ class TeachingPeriodController extends AppBaseController
 
         $teachingPeriod = $this->teachingPeriodRepository->create($input);
 
-        Flash::success('Teaching Period saved successfully.');
+        Alert::success('Teaching Period saved successfully.');
 
         return redirect(route('teachingPeriods.index'));
     }
@@ -123,7 +123,7 @@ class TeachingPeriodController extends AppBaseController
 
         $teachingPeriod = $this->teachingPeriodRepository->update($request->all(), $id);
 
-        Flash::success('Teaching Period updated successfully.');
+        Alert::success('Teaching Period updated successfully.');
 
         return redirect(route('teachingPeriods.index'));
     }
@@ -150,7 +150,7 @@ class TeachingPeriodController extends AppBaseController
         $this->teachingPeriodRepository->delete($id);
         Alert::success('Berhasil', 'Data Berhasil dihapus');
 
-        // Flash::success('Teaching Period deleted successfully.');
+        // Alert::success('Teaching Period deleted successfully.');
 
         return redirect(route('teachingPeriods.index'));
     }
