@@ -19,7 +19,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['middleware' => ['role:super']], function () {
+Route::group(['middleware' => ['role:student']], function () {
+    Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
+
+});
+
+Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
     //
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -62,8 +67,4 @@ Route::group(['middleware' => ['role:super']], function () {
 
     Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
     Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
-});
-Route::group(['middleware' => ['role:student']], function () {
-    Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
-
 });
