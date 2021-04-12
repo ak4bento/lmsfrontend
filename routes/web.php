@@ -22,6 +22,7 @@ Auth::routes();
 Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
+    Route::get('/class-detail/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'show'])->name('classroom.detail');
 
 });
 

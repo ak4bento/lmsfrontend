@@ -20,7 +20,7 @@
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
                 <a href="dashboard.html" class="navbar-brand">
-                    <img src="dist/img/Logo.png" alt="Sejawat" class="brand-image img-circle elevation-3"
+                    <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat" class="brand-image img-circle elevation-3"
                         style="opacity: .8">
                     <span class="brand-text font-weight-light">Sejawat LMS</span>
                 </a>

@@ -9,7 +9,7 @@
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right" style="margin-left:10px;"
-                        href="{{ url('classroomUsers/create', [$userStudent->id]) }}">
+                        href="{{ url('admin/classroomUsers/create', [$userStudent->id]) }}">
                         Tambah Kelas
                     </a>
                     <a class="btn btn-default float-right " href="{{ route('userStudents.index') }}">

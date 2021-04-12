@@ -7,10 +7,22 @@
                     <div class="card-body">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <span class="input-group-text sm"><i class="fas fa-search"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Cari Kelas" />
+                            <input type="text" class="form-control form-control-sm" placeholder="Cari Kelas" />
                         </div>
+                        <ul class="list-group list-group-unbordered mb-3">
+                            @foreach ($subjects as $subject)
+                                <div class="form-group clearfix">
+                                    <div class="icheck-primary d-inline">
+                                        <input type="checkbox" id="checkboxPrimary{{ $subject->id }}">
+                                        <label for="checkboxPrimary{{ $subject->id }}" style="font-size:13px">
+                                            {{ $subject->title }}
+                                        </label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </ul>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -20,9 +32,8 @@
                 <!-- Default box -->
                 <div class="card card-solid">
                     <div class="card-body pb-0">
-                        @foreach ($classrooms as $item)
-
-                            <div class="row d-flex align-items-stretch">
+                        <div class="row d-flex align-items-stretch">
+                            @foreach ($classrooms as $item)
                                 <div class="col-12 col-sm-6 col-md-6 d-flex align-items-stretch">
                                     <div class="card bg-light">
                                         <div class="card-header text-muted border-bottom-0">
@@ -44,8 +55,11 @@
                                         </div>
                                         <div class="card-footer">
                                             <div class="text-right">
-                                                <a href="#" class="btn btn-sm bg-teal"> <strong>
-                                                        {{ $item->id }}</strong>&nbsp;Joined </a>
+                                                <a href="#" class="btn btn-sm bg-teal">
+                                                    <strong>
+                                                        {{ App\Models\ClassroomUser::where('classroom_id', $item->id)->count() }}
+                                                    </strong>&nbsp;Joined
+                                                </a>
                                                 <a href="{{ url('class-detail/') }}/{{ $item->slug }}"
                                                     class="btn btn-sm btn-primary">
                                                     View Classes
@@ -54,8 +68,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                     <!-- /.card-body -->
 

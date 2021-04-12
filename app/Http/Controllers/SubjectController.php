@@ -121,6 +121,7 @@ class SubjectController extends AppBaseController
     {
         
         $input = $request->all();
+        // dd($input);
         $subject = $this->subjectRepository->find($id);
         $validator_title = Subject::where('title',$input['title'])->first(); 
         if (empty($subject)) {
@@ -129,14 +130,10 @@ class SubjectController extends AppBaseController
             return redirect(route('subjects.index'));
         }
         if($validator_title['id'] == $id){
-
-            
             $input['slug'] = str_replace(' ', '-', $input['title']);
             $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );   
             $input['created_by']=auth()->user()->id;
-    
             $subject = $this->subjectRepository->update($input, $id);
-            
         }else{
             $validated = $request->validate([
                 'title' => 'unique:subjects,title'
