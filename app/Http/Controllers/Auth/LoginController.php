@@ -50,11 +50,11 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         if($user->hasRole('super')) {
-            return redirect()->intended('admin/home');
+            return redirect()->route('admin.home');
         }
 
         if ($user->hasRole('student') || $user->hasRole('teacher')) {
-            return redirect()->intended('/home');
+            return redirect()->route('home');
         }
     }
 }
