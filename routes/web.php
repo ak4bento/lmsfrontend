@@ -23,6 +23,7 @@ Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
     Route::get('/class-detail/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'show'])->name('classroom.detail');
+    Route::get('/class-work-detail/{slug}/{id}', [App\Http\Controllers\Frontend\ClassroomController::class, 'classWork'])->name('class.work.detail');
 
 });
 
@@ -70,3 +71,8 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
     Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
     Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
 }); 
+
+
+Route::resource('resources', App\Http\Controllers\ResourceController::class);
+
+Route::resource('assignments', App\Http\Controllers\AssignmentController::class);

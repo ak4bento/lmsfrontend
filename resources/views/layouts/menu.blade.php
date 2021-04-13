@@ -107,3 +107,19 @@
         <p>Question Choice Items</p>
     </a>
 </li> --}}
+<li class="nav-item">
+    <a href="{{ route('resources.index') }}"
+       class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
+        <p>Resources</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('assignments.index') }}"
+       class="nav-link {{ Request::is('assignments*') ? 'active' : '' }}">
+        <p>Assignments</p>
+    </a>
+</li>
+
+

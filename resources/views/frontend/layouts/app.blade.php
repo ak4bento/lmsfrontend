@@ -19,9 +19,9 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
             <div class="container">
-                <a href="dashboard.html" class="navbar-brand">
-                    <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat" class="brand-image img-circle elevation-3"
-                        style="opacity: .8">
+                <a href="{{ url('home') }}" class="navbar-brand">
+                    <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat"
+                        class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">Sejawat LMS</span>
                 </a>
 
@@ -35,7 +35,7 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="/home" class="nav-link">Home</a>
+                            <a href="{{ url('home') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
                             <a href="classes.html" class="nav-link">Classes</a>
@@ -47,7 +47,7 @@
                             <a href="schedule.html" class="nav-link">Schedule</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/discover" class="nav-link">Discover</a>
+                            <a href="{{ url('discover') }}" class="nav-link">Discover</a>
                         </li>
                     </ul>
 
@@ -77,7 +77,7 @@
                             <a href="#" class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
-                                    <img src="dist/img/user1-128x128.jpg" alt="User Avatar"
+                                    <img src="{{ asset('dist/img/user1-128x128.jpg') }}" alt="User Avatar"
                                         class="img-size-50 mr-3 img-circle">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">
@@ -95,7 +95,7 @@
                             <a href="#" class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
-                                    <img src="dist/img/user8-128x128.jpg" alt="User Avatar"
+                                    <img src="{{ asset('dist/img/user8-128x128.jpg') }}" alt="User Avatar"
                                         class="img-size-50 img-circle mr-3">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">
@@ -113,7 +113,7 @@
                             <a href="#" class="dropdown-item">
                                 <!-- Message Start -->
                                 <div class="media">
-                                    <img src="dist/img/user3-128x128.jpg" alt="User Avatar"
+                                    <img src="{{ asset('dist/img/user3-128x128.jpg') }}" alt="User Avatar"
                                         class="img-size-50 img-circle mr-3">
                                     <div class="media-body">
                                         <h3 class="dropdown-item-title">

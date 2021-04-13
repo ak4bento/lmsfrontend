@@ -1,9 +1,16 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2">
+            <div class="container">
+                <h1 class="display-4">Discover</h1>
+                <p class="lead">Temukan kelas terbaik untuk anda.</p>
+            </div>
+        </div>
+
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 ">
                 <!-- About Me Box -->
-                <div class="card">
+                <div class="card position-fixed">
                     <div class="card-body">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -15,7 +22,7 @@
                             @foreach ($subjects as $subject)
                                 <div class="form-group clearfix">
                                     <div class="icheck-primary d-inline">
-                                        <input type="checkbox" id="checkboxPrimary{{ $subject->id }}">
+                                        <input type="checkbox" name="subject[]" id="checkboxPrimary{{ $subject->id }}">
                                         <label for="checkboxPrimary{{ $subject->id }}" style="font-size:13px">
                                             {{ $subject->title }}
                                         </label>
@@ -44,7 +51,7 @@
                                                 <div class="col-7">
                                                     <label class="lead">{{ $item->title }}</label>
 
-                                                    {{ $item->description }}
+                                                    {{ substr($item->description, 0, 100) }}...
                                                 </div>
                                                 <div class="col-5 text-center">
                                                     <img src="dist/img/user1-128x128.jpg" alt="user-avatar"
