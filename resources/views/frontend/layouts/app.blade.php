@@ -38,7 +38,7 @@
                             <a href="{{ url('home') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="classes.html" class="nav-link">Classes</a>
+                            <a href="/classes" class="nav-link">Classes</a>
                         </li>
                         <li class="nav-item">
                             <a href="backpack.html" class="nav-link">Backpack</a>
@@ -171,7 +171,7 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <section class="content">
                 <div class="container-fluid">
                     <div class="row mb-2">
                     </div>
