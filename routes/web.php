@@ -24,6 +24,7 @@ Route::group(['middleware' => ['role:student']], function () {
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
     Route::get('/class-detail/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'show'])->name('classroom.detail');
 
+    Route::get('/classes', [App\Http\Controllers\Frontend\ClassesController::class, 'index'])->name('classes');
 });
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
@@ -69,4 +70,4 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
 
     Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
     Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
-}); 
+});
