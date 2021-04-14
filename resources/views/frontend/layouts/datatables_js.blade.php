@@ -1,5 +1,3 @@
-<!-- Datatables -->
-
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -79,6 +77,9 @@
 
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+{{-- <script src="https://cdn.jwplayer.com/libraries/tUJv9MP1.js"></script> --}}
+
 <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
 <script>
     const player = new Plyr('#player');

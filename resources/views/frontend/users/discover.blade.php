@@ -10,7 +10,8 @@
         <div class="row">
             <div class="col-md-3 ">
                 <!-- About Me Box -->
-                <div class="card position-fixed">
+                <!-- <div class="card position-fixed"> -->
+                <div class="card">
                     <div class="card-body">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
