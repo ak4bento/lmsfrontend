@@ -2,18 +2,12 @@
 
 @section('content')
     <div class="container">
-        <section class="content">
-            <div class="row">
-                <div class="col-md-12 col-lg-12 col-xl-12">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="dist/img/Group.png" alt="Dist Photo 3" width="100%" height="250px">
-                    <div class="card-img-overlay">
-                        <h1>Kelas yang di ikuti.</h1>
-                    </div>
-                </div>
-                </div>
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6">
+            <div class="container">
+                <h1 class="display-4">Kelas</h1>
+                <p class="lead">Temukan kelas yang anda ikuti.</p>
             </div>
-        </section>
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <!-- About Me Box -->
@@ -58,7 +52,8 @@
                                                 <div class="col-7">
                                                     <label class="lead">{{ $item->title }}</label>
 
-                                                    {{ substr($item->description, 0, 100) }} <a href="{{ url('class-detail/') }}/{{ $item->slug }}">read more</a>...
+                                                    {{ substr($item->description, 0, 100) }} <a
+                                                        href="{{ url('class-detail/') }}/{{ $item->slug }}">read more</a>...
                                                 </div>
                                                 <div class="col-5 text-center">
                                                     <img src="dist/img/user1-128x128.jpg" alt="user-avatar"
@@ -90,7 +85,8 @@
                                         </div>
                                         <div class="card-body pt-0">
                                             <div class="row">
-                                                Silahkan join di kelas yang ada melalui menu Discover atau klik link berikut ini. <a href="/discover">pergi ke DISCOVER</a>
+                                                Silahkan join di kelas yang ada melalui menu Discover atau klik link berikut
+                                                ini. <a href="/discover">pergi ke DISCOVER</a>
                                             </div>
                                         </div>
                                     </div>

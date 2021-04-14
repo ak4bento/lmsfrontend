@@ -124,9 +124,9 @@
                                     <!-- /.card-body -->
                                 </div>
                                 <!-- /.card -->
-                                <a href="quiz_multiple_choicce.html">
-                                    <button type="button" class="btn btn-block btn-primary btn-lg">Take Quiz</button>
-                                </a>
+
+                                <a href="{{ url('quizzes/quiz') }}/{{ $classWork->id }}" type="button"
+                                    class="btn btn-block btn-primary btn-lg">Take Quiz</a>
                             </div>
                             <!-- /.col -->
                         </div>

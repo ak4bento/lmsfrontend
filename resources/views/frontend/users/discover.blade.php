@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6">
             <div class="container">
                 <h1 class="display-4">Discover</h1>
                 <p class="lead">Temukan kelas terbaik untuk anda.</p>

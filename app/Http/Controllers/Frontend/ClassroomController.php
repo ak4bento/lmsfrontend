@@ -51,6 +51,7 @@ class ClassroomController extends Controller
     public function classWork($slug,$id)
     {
         $classWork = DB::table($slug)->where('id',$id)->first();
+        // dd($classWork);
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
 
         // if($slug == 'quizzes'){
