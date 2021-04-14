@@ -31,7 +31,10 @@
 <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 
-<link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
+<link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+<link href="{{ asset('../node_modules/video.js/dist/video-js.css') }}" rel="stylesheet" />
+
+{{-- <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" /> --}}
 {{-- <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/css/tempusdominus-bootstrap-4.min.css"
     crossorigin="anonymous" /> --}}

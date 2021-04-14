@@ -1,50 +1,139 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
-
-        <div class="container">
-            <h1 class="display-4"> {{ $classWork->title }} </h1>
-        </div>
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <div class="col-lg-12">
+        <section class="content-header">
+            <div class="row mb-2">
+                <div class="col-md-12">
                     <div class="row">
-                        <!-- /.col -->
-                        <div class="col-md-12">
-                            <div class="card">
-                                <video controls crossorigin playsinline id="player"
-                                    poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg">
-                                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                                        type="video/mp4" size="576">
-                                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"
-                                        type="video/mp4" size="720">
-                                    <source src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4"
-                                        type="video/mp4" size="1080">
-
-                                    <!-- Caption files -->
-                                    <track kind="captions" label="English" srclang="en"
-                                        src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.en.vtt"
-                                        default>
-                                    <track kind="captions" label="Français" srclang="fr"
-                                        src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.fr.vtt">
-                                    <!-- Fallback for browsers that don't support the <video> element -->
-                                    <a href="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-                                        download>Download</a>
-                                </video>
-                            </div>
+                        <div class="col-sm-6">
+                            <h1>Kuis</h1>
                         </div>
-                        <!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
+                                <li class="breadcrumb-item active">Quiz</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+        <!-- Main content -->
         <section class="content">
-            <div class="card col-12">
-                <div class="card-body">
-                    <h5 class="card-title">Deskripsi</h5>
-                    <p class="card-text">{{ $classWork->description }}.</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- Box Comment -->
+                                        <div class="card card-widget">
+                                            <div class="card-header">
+                                                <div class="user-block">
+                                                    <img class="img-circle"
+                                                        src="https://img.icons8.com/carbon-copy/2x/file.png"
+                                                        alt="User Image">
+                                                    <span class="username"><a href="#">{{ $classWork->title }}</a></span>
+                                                    <span class="description">Shared publicly -
+                                                        {{ $classWork->created_at }}
+                                                    </span>
+                                                </div>
+                                                <!-- /.user-block -->
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- /.card-tools -->
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+                                                <!-- post text -->
+                                                <p>
+                                                    {{ $classWork->description }}
+                                                </p>
+                                            </div>
+                                            <!-- /.card-body -->
+                                            <div class="card-footer card-comments">
+                                                <div class="card-comment">
+                                                    <!-- User image -->
+                                                    <img class="img-circle img-sm"
+                                                        src="{{ asset('dist/img/user3-128x128.jpg') }}" alt="User Image">
+
+                                                    <div class="comment-text">
+                                                        <span class="username">
+                                                            Maria Gonzales
+                                                            <span class="text-muted float-right">8:03 PM Today</span>
+                                                        </span><!-- /.username -->
+                                                        It is a long established fact that a reader will be distracted
+                                                        by the readable content of a page when looking at its layout.
+                                                    </div>
+                                                    <!-- /.comment-text -->
+                                                </div>
+                                                <!-- /.card-comment -->
+                                                <div class="card-comment">
+                                                    <!-- User image -->
+                                                    <img class="img-circle img-sm"
+                                                        src="{{ asset('dist/img/user5-128x128.jpg') }}" alt="User Image">
+
+                                                    <div class="comment-text">
+                                                        <span class="username">
+                                                            Nora Havisham
+                                                            <span class="text-muted float-right">8:03 PM Today</span>
+                                                        </span><!-- /.username -->
+                                                        The point of using Lorem Ipsum is that it hrs a morer-less
+                                                        normal distribution of letters, as opposed to using
+                                                        'Content here, content here', making it look like readable English.
+                                                    </div>
+                                                    <!-- /.comment-text -->
+                                                </div>
+                                                <!-- /.card-comment -->
+                                            </div>
+                                            <!-- /.card-footer -->
+                                            <div class="card-footer">
+                                                <form action="#" method="post">
+                                                    <img class="img-fluid img-circle img-sm"
+                                                        src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="Alt Text">
+                                                    <!-- .img-push is used to add margin to elements next to floating images -->
+                                                    <div class="img-push">
+                                                        <textarea type="text" class="form-control form-control-sm"
+                                                            placeholder="Press enter to post comment"></textarea>
+                                                        <input type="submit" class="btn btn-primary btn-sm float-right"
+                                                            value="kirim" style="margin-top:5px">
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <!-- /.card-footer -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-3">
+
+                                <!-- Profile Image -->
+                                <div class="card card-primary card-outline">
+                                    <div class="card-body box-profile">
+                                        <h3 class="profile-username">Completion Status</h3>
+                                        <p class="text-success"><i class="fas fa-check-circle"></i> Completed</p>
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                                <a href="quiz_multiple_choicce.html">
+                                    <button type="button" class="btn btn-block btn-primary btn-lg">Take Quiz</button>
+                                </a>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
         </section>
     </div>
 @endsection

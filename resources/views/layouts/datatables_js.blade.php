@@ -76,13 +76,13 @@
     });
 
 </script>
-
+<script src="{{ asset('../node_modules/video.js/dist/video.js') }}"></script>
 {{-- <script
     src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/js/tempusdominus-bootstrap-4.min.js"
     crossorigin="anonymous"></script> --}}
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
+{{-- <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script> --}}
 <script>
     $("#delete").click(function(e) {
         e.preventDefault();
