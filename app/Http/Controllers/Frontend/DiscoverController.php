@@ -18,7 +18,7 @@ class DiscoverController extends Controller
     public function __construct(ClassroomRepository $classroomRepo)
     {
         $this->classroomRepository = $classroomRepo;
-        $this->middleware('auth'); 
+        $this->middleware('auth');
     }
 
     /**
@@ -26,17 +26,33 @@ class DiscoverController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $classrooms = DB::table('classrooms') 
-            ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
-            ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
-            ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods') 
-            ->get();
+        // dd($request);
+        $classrooms = $this->query()->queryWhere(1)->get();
+        dd($classrooms);
+        // $classrooms = DB::table('classrooms')
+        //     ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+        //     ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+        //     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+        //     ->get();
         // dd($classrooms);
 
         $subjects = Subject::all();
 
         return view('frontend.users.discover')->with('classrooms', $classrooms)->with('subjects',$subjects);
+    }
+
+    public function query()
+    {
+        return DB::table('classrooms')
+        ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+        ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+        ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods');
+    }
+
+    public function queryWhere($id)
+    {
+        return $this->where('subjects.id', $id);
     }
 }
