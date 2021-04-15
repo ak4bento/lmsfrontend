@@ -13,7 +13,7 @@ use App\Repositories\QuizzesRepository;
 use App\Repositories\TeachableRepository;
 use App\Models\Question;
 use App\Models\QuestionChoiceItem;
-
+use Response;
 class QuizController extends Controller
 {
         /** @var  QuizzesRepository */
@@ -49,7 +49,9 @@ class QuizController extends Controller
 
     public function getQuestion($id)
     {
-        $question = DB::table('questions')->select('*')->where('id',$id);
-        return Response::json($question);
+        $question = DB::table('questions')->select('*')->where('id',$id)->first();
+        $choceItems = DB::table('question_choice_items')->select('*')->where('question_id',$id)->get();
+        $data =   array( 'question'=>$question,'choceItems'=>$choceItems);
+        return Response::json($data);
     }
 }
