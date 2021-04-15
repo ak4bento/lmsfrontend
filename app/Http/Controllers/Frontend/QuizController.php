@@ -11,6 +11,8 @@ use DB;
 use App\Models\Subject;
 use App\Repositories\QuizzesRepository;
 use App\Repositories\TeachableRepository;
+use App\Models\Question;
+use App\Models\QuestionChoiceItem;
 
 class QuizController extends Controller
 {
@@ -23,7 +25,6 @@ class QuizController extends Controller
         $this->teachableRepository = $teachableRepo;
         $this->quizzesRepository = $quizzesRepo;
         $this->middleware('auth'); 
-
     }
 
     /**
@@ -34,13 +35,15 @@ class QuizController extends Controller
     public function quiz($id)
     {
         $quizzes = $this->quizzesRepository->find($id);
-        $quiz = DB::table('question_quizzes')  
-            ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
-            ->select('questions.*')
-            ->inRandomOrder()
-            ->where('question_quizzes.quizzes_id',$id) 
-            ->get();
+        // $quiz = DB::table('question_quizzes')  
+        //     ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
+        //     ->select('questions.*')
+        //     ->inRandomOrder()
+        //     ->where('question_quizzes.quizzes_id',$id) 
+        //     ->get();
+        $quiz = QuestionChoiceItem::all();
+
+        dd($quiz);
         return view('frontend.users.quiz');
-        
     }
 }

@@ -34,6 +34,7 @@ class Question extends Model
 
 
     public $fillable = [
+        'id',
         'question_type',
         'answers',
         'content',
