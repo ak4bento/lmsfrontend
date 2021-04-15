@@ -5,12 +5,20 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-xl-12">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="dist/img/Group.png" alt="Dist Photo 3" width="100%" height="250px">
-                    <div class="card-img-overlay">
-                        <h1>Kelas yang di ikuti.</h1>
+                    <div class="card mb-2">
+                        <img class="card-img-top" src="dist/img/Group.png" alt="Dist Photo 3" width="100%" height="250px">
+                        <div class="card-img-overlay">
+                            <div class="container">
+                                <h1 class="display-4">Kelas yang di ikuti.</h1>
+                                <p class="lead">
+                                    {{ __('Tambahkan materi anda, untuk meningkatkan kemampuan anda.') }}
+                                </p>
+                                <p class="lead">
+                                    Materi hari ini : {{ date('d/m/Y') }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </section>

@@ -18,7 +18,7 @@ class ClassroomController extends Controller
     public function __construct(ClassroomRepository $classroomRepo)
     {
         $this->classroomRepository = $classroomRepo;
-        $this->middleware('auth'); 
+        $this->middleware('auth');
     }
 
     /**
@@ -29,20 +29,20 @@ class ClassroomController extends Controller
     public function show($slug)
     {
         // dd($slug);
-        $classrooms = DB::table('classrooms') 
+        $classrooms = DB::table('classrooms')
             ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
             ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
             ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
-            ->where('classrooms.slug',$slug) 
+            ->where('classrooms.slug',$slug)
             ->first();
         // dd($classrooms);
 
-        $teachables = DB::table('teachables')  
+        $teachables = DB::table('teachables')
             ->select('teachables.*')
-            ->where('teachables.classroom_id',$classrooms->id)  
+            ->where('teachables.classroom_id',$classrooms->id)
             ->get();
             // dd($teachables);
- 
+
         $subjects = Subject::all();
 
         return view('frontend.users.classDetail')->with('classrooms', $classrooms)->with('subjects',$subjects)->with('teachables',$teachables);
@@ -51,6 +51,17 @@ class ClassroomController extends Controller
     public function classWork($slug,$id)
     {
         $classWork = DB::table($slug)->where('id',$id)->first();
+
+        if($slug =='assignments'){
+            $complete = DB::table('media')
+                ->where('media_type','assigment')
+                ->where('media_id',$id)
+                ->where('custom_properties','{"user":'.Auth::user()->id.'}')
+                ->first();
+// dd($complete);
+            return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete);
+        }
+
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
 
         // if($slug == 'quizzes'){
@@ -58,10 +69,6 @@ class ClassroomController extends Controller
         // }
         // if($slug == 'resource'){
         //     return view('frontend.classWork.resource')->with('classWork',$classWork);
-        // }
-        // if($slug =='assignment'){
-        //     return view('frontend.classWork.assignment')->with('classWork',$classWork);
-
         // }
     }
 }
