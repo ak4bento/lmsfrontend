@@ -68,13 +68,13 @@
                 url: rute,
                 type: 'get',
                 success: function(response) {
-                    console.log("ini re :", response);
+                    console.log("ini re :", response.question);
                     // var i = 0;
                     $.each(response, function(key, value) {
                         var len = 0;
                         // $('#userTable tbody').empty(); // Empty <tbody>
                         if (response != null) {
-                            len = response.length;
+                            len = response.question.length;
                         }
                         console.log('ini len :', len);
                         // for (var i = 0; i < len; i++) {
