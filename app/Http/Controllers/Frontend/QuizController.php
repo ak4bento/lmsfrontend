@@ -34,24 +34,53 @@ class QuizController extends Controller
      */
     public function quiz($id)
     {
+        date_default_timezone_set("Asia/Makassar");
+        if(session()->get('timerStartQuiz')){
+        }else{
+            $timeStart =  date("h:i:s"); 
+            $timeEnd = date('H:i:s', strtotime($timeStart) + 60*60);
+            session()->put('timerStartQuiz', $timeStart); 
+            session()->put('timerEndQuiz', $timeEnd); 
+            session()->put('remainingTime', $remainingTime); 
+        }
+
+        if(session()->get('timerEndQuiz') ==  date("h:i:s")){
+            $remainingTime = strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')) ;
+        }
         $quizzes = $this->quizzesRepository->find($id);
         $question = DB::table('question_quizzes')  
             ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
             ->select('questions.*')
             ->inRandomOrder()
-            ->where('question_quizzes.quizzes_id',$id) 
+            ->where('question_quizzes.quizzes_id',$id)
             ->get();
-        // $quiz = QuestionChoiceItem::all();
+        $quiz =  DB::table('question_quizzes')  
+                ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
+                ->select('questions.*')
+                ->inRandomOrder()
+                ->where('question_quizzes.quizzes_id',$id) 
+                ->first();
 
         // dd($question);
-        return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question);
+
+
+        
+        
+        return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question)->with('quiz', $quiz);
     }
 
     public function getQuestion($id)
     {
         $question = DB::table('questions')->select('*')->where('id',$id)->first();
         $choceItems = DB::table('question_choice_items')->select('*')->where('question_id',$id)->get();
-        $data =   array( 'question'=>$question,'choceItems'=>$choceItems);
-        return Response::json($data);
+
+        $question_choceItems = DB::table('question_choice_items')  
+                    ->join('questions', 'questions.id', '=', 'question_choice_items.question_id')  
+                    ->select('questions.*','question_choice_items.id as qc_id','question_choice_items.choice_text', 'question_choice_items.is_correct')
+                    ->inRandomOrder()
+                    ->where('question_choice_items.question_id',$id)->where('question_choice_items.deleted_at',null)
+                    ->get();
+        $data = array('question_choceItems'=>$question_choceItems);
+        return Response::json($question_choceItems);
     }
 }
