@@ -23,7 +23,7 @@ class Quizzes extends Model
     use HasFactory;
 
     public $table = 'quizzes';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -67,5 +67,5 @@ class Quizzes extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+
 }
