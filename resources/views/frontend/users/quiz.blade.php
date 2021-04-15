@@ -9,45 +9,8 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12">
             <div class="row">
-                <div class="col-lg-3 col-md-12 col-sm-12" style="margin-bottom:10px;">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-primary card-outline">
-                                <div class="card-body box-profile">
-                                    <div class="btn-group btn-block">
-                                        <button type="button" class="btn btn-primary">1</button>
-                                        <button type="button" class="btn btn-default">2</button>
-                                        <button type="button" class="btn btn-primary">3</button>
-                                        <button type="button" class="btn btn-default">4</button>
-                                        <button type="button" class="btn btn-primary">5</button>
-                                    </div>
-                                    <div class="btn-group btn-block">
-                                        <button type="button" class="btn btn-primary">6</button>
-                                        <button type="button" class="btn btn-default">7</button>
-                                        <button type="button" class="btn btn-default">8</button>
-                                        <button type="button" class="btn btn-primary">9</button>
-                                        <button type="button" class="btn btn-primary">10</button>
-                                    </div>
-                                    <div class="btn-group btn-block">
-                                        <button type="button" class="btn btn-primary">11</button>
-                                        <button type="button" class="btn btn-default">12</button>
-                                        <button type="button" class="btn btn-primary">13</button>
-                                        <button type="button" class="btn btn-primary">14</button>
-                                        <button type="button" class="btn btn-default">15</button>
-                                    </div>
-                                    <div class="btn-group btn-block">
-                                        <button type="button" class="btn btn-default">16</button>
-                                        <button type="button" class="btn btn-default">17</button>
-                                        <button type="button" class="btn btn-primary">18</button>
-                                        <button type="button" class="btn btn-primary">19</button>
-                                        <button type="button" class="btn btn-primary">20</button>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                    <div class="row" style="margin-bottom:10px;">
                         <div class="col-12">
                             <!-- Profile Image -->
                             <div class="card card-primary card-outline">
@@ -62,6 +25,21 @@
                             </a>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary card-outline">
+                                <div class="card-body">
+                                    <div class="align-items-center" style="text-align:center">
+                                        @foreach ($question as $item)
+                                        <button style="margin-bottom:2px;width:23%" type="button"
+                                            class="btn btn-default">
+                                            {{ $item->id }}</button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-9 col-md-12 col-sm-12">
                     <div class="row">
@@ -72,8 +50,8 @@
                                     <div class="user-block">
                                         <img class="img-circle" src="https://img.icons8.com/carbon-copy/2x/file.png"
                                             alt="User Image">
-                                        <span class="username"><a href="#">Question 17</a></span>
-                                        <span class="description">of 20</span>
+                                        <span class="username"><a href="#">Soal 1</a></span>
+                                        <span class="description">of {{ $question->count() }}</span>
                                     </div>
                                     <!-- /.user-block -->
                                     <div class="card-tools">
@@ -99,23 +77,12 @@
                                     <p>Far far away, behind the word mountains, far from the
                                         countries Vokalia and Consonantia, there live the blind
                                         texts. Separated they live in Bookmarksgrove right at</p>
-
-                                    <p>the coast of the Semantics, a large language ocean.
-                                        A small river named Duden flows by their place and supplies
-                                        it with the necessary regelialia. It is a paradisematic
-                                        country, in which roasted parts of sentences fly into
-                                        your mouth.</p>
                                 </div>
                             </div>
-                            <!-- /.card -->
                         </div>
-                        <!-- /.col -->
-                        <!-- /.col -->
                         <div class="col-md-12">
-                            <!-- Box Comment -->
                             <div class="card card-widget">
                                 <div class="card-body">
-                                    <!-- radio -->
                                     <div class="form-group" style="font-size: large;">
                                         <div class="custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" id="customRadio1"
@@ -123,31 +90,10 @@
                                             <label for="customRadio1" class="custom-control-label">Custom Radio</label>
                                         </div>
                                         <hr>
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" type="radio" id="customRadio2"
-                                                name="customRadio">
-                                            <label for="customRadio2" class="custom-control-label">Custom Radio
-                                                checked</label>
-                                        </div>
-                                        <hr>
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" type="radio" id="customRadio3"
-                                                name="customRadio">
-                                            <label for="customRadio3" class="custom-control-label">Custom Radio</label>
-                                        </div>
-                                        <hr>
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" type="radio" id="customRadio4"
-                                                name="customRadio">
-                                            <label for="customRadio4" class="custom-control-label">Custom Radio
-                                                checked</label>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card -->
                         </div>
-                        <!-- /.col -->
                     </div>
                 </div>
             </div>
@@ -155,3 +101,45 @@
     </div>
 </div>
 @endsection
+@push('page_scripts')
+<script>
+    $(document).ready(function() {
+            var id = {{ isset($question->id) ? $question->id : '0' }}
+            console.log("ini ID :", id);
+            var rute = "{{ url('get-question') }}/" + id;
+            console.log("ini rute :", rute);
+            $.ajax({
+                url: rute,
+                type: 'get',
+                success: function(response) {
+                    console.log("ini re :", response);
+                    // var i = 0;
+                    $.each(response, function(key, value) {
+                        var len = 0;
+                        // $('#userTable tbody').empty(); // Empty <tbody>
+                        if (response != null) {
+                            len = response.length;
+                        }
+                        console.log('ini len :', len);
+                        // for (var i = 0; i < len; i++) {
+                        var id = response[i].id;
+                        var choice_text = response[i].choice_text;
+                        var is_correct = response[i].is_correct;
+                        console.log('ini is_correct :', response[i].is_correct);
+                        console.log('ini i :', i);
+
+                        var is_checked = 0;
+
+                        if (is_correct) {
+                            is_checked = "checked"
+                        } 
+
+                        $("#dynamicTable").append(input);
+                        
+                        i++;
+                    });
+                }
+            });
+        });
+</script>
+@endpush

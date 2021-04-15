@@ -35,15 +35,21 @@ class QuizController extends Controller
     public function quiz($id)
     {
         $quizzes = $this->quizzesRepository->find($id);
-        // $quiz = DB::table('question_quizzes')  
-        //     ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
-        //     ->select('questions.*')
-        //     ->inRandomOrder()
-        //     ->where('question_quizzes.quizzes_id',$id) 
-        //     ->get();
-        $quiz = QuestionChoiceItem::all();
+        $question = DB::table('question_quizzes')  
+            ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
+            ->select('questions.*')
+            ->inRandomOrder()
+            ->where('question_quizzes.quizzes_id',$id) 
+            ->get();
+        // $quiz = QuestionChoiceItem::all();
 
-        dd($quiz);
-        return view('frontend.users.quiz');
+        // dd($question);
+        return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question);
+    }
+
+    public function getQuestion($id)
+    {
+        $question = DB::table('questions')->select('*')->where('id',$id);
+        return Response::json($question);
     }
 }
