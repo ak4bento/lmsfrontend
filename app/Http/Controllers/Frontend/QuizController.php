@@ -35,18 +35,23 @@ class QuizController extends Controller
     public function quiz($id)
     {
         date_default_timezone_set("Asia/Makassar");
+        $remainingTime=0;
         if(session()->get('timerStartQuiz')){
+            $remainingTime = date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("h:i:s")));
+            session()->put('remainingTime', date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("h:i:s"))));
         }else{
-            $timeStart =  date("h:i:s"); 
+            $timeStart =  date("H:i:s"); 
             $timeEnd = date('H:i:s', strtotime($timeStart) + 60*60);
             session()->put('timerStartQuiz', $timeStart); 
             session()->put('timerEndQuiz', $timeEnd); 
-            session()->put('remainingTime', $remainingTime); 
+            $remainingTime = date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
+            session()->put('remainingTime', date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("h:i:s"))));
         }
 
         if(session()->get('timerEndQuiz') ==  date("h:i:s")){
-            $remainingTime = strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')) ;
+            $remainingTime = date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
         }
+
         $quizzes = $this->quizzesRepository->find($id);
         $question = DB::table('question_quizzes')  
             ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
@@ -59,14 +64,9 @@ class QuizController extends Controller
                 ->select('questions.*')
                 ->inRandomOrder()
                 ->where('question_quizzes.quizzes_id',$id) 
-                ->first();
-
-        // dd($question);
-
-
-        
-        
-        return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question)->with('quiz', $quiz);
+                ->first(); 
+        // dd($quizzes);
+        return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question)->with('quiz', $quiz)->with('remainingTime',$remainingTime);
     }
 
     public function getQuestion($id)
@@ -80,7 +80,19 @@ class QuizController extends Controller
                     ->inRandomOrder()
                     ->where('question_choice_items.question_id',$id)->where('question_choice_items.deleted_at',null)
                     ->get();
+
         $data = array('question_choceItems'=>$question_choceItems);
         return Response::json($question_choceItems);
+    }
+
+    public function getQuiz($id)
+    {
+        $quiz =  DB::table('question_quizzes')  
+                ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
+                ->select('questions.*')
+                ->inRandomOrder()
+                ->where('question_quizzes.quizzes_id',$id) 
+                ->get(); 
+        return Response::json($quiz);
     }
 }

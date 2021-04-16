@@ -31,6 +31,7 @@ Route::group(['middleware' => ['role:student']], function () {
     Route::get('/classes', [App\Http\Controllers\Frontend\ClassesController::class, 'index'])->name('classes');
 
     Route::get('/get-question/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuestion'])->name('getQuestion');
+    Route::get('/get-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuiz'])->name('getQuiz');
 });
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
