@@ -51,7 +51,7 @@
                                     <div class="user-block">
                                         <img class="img-circle" src="https://img.icons8.com/carbon-copy/2x/file.png"
                                             alt="User Image">
-                                        <span class="username"><a href="#">Soal 1</a></span>
+                                        <span class="username"><a href="#" id="questionCounting"></a></span>
                                         <span class="description">of {{ $question->count() }}</span>
                                     </div>
                                     <!-- /.user-block -->
@@ -94,6 +94,7 @@
                                 <div class="card-body">
                                     <div class="form-group" style="font-size: large;" id="itemOption">
                                         {{-- option --}}
+
                                     </div>
                                 </div>
                             </div>
@@ -123,6 +124,7 @@
             type: 'get',
             success: function(response) {
                 console.log("ini re :", response.length);
+                document.getElementById('questionCounting').innerHTML = "";
                 var question = "<p> " + response[0].content + "</p> </div>";
                 $("#question").append(question);
                 $.each(response, function(key, value) {
@@ -144,15 +146,19 @@
             success: function(response) {
                 var i = 1;
                 $.each(response, function(key, value) {
+                    document.getElementById('questionCounting').innerHTML = "";
                     console.log("ini quiz : ",response[key].id);
-                    var btn_question_number = '<button style="margin-bottom:2px;width:23%;margin-left:2px;margin-right:2px;" id="btn_question_'+response[key].id+'" data-question_id="'+response[key].id+'" type="button" class="btn btn-default"  onclick="btnQuestion('+response[key].id+')" >'+ i++ +'</button>';
+                    var btn_question_number = '<button style="margin-bottom:2px;width:23%;margin-left:2px;margin-right:2px;" id="btn_question_'+response[key].id+'" data-question_id="'+response[key].id+'" type="button" class="btn btn-default"  onclick="btnQuestion('+response[key].id+','+i+')" >'+ i++ +'</button>';
                     $("#btn_question_number").append(btn_question_number);
+                    $("#questionCounting").append("Soal Nomor 1");
                 }); 
             }
         });
     });
 
-    btnQuestion = (id) => {
+    btnQuestion = (id,number) => {
+        // questionCounting
+        loadingView();
         console.log('ini id',id);
         var rute = "{{ url('get-question') }}/" + id;
         console.log("ini rute :", rute);
@@ -161,8 +167,7 @@
             type: 'get',
             success: function(response) {
                 // var myobj = document.getElementById('question_text');
-                document.getElementById('question').innerHTML = "";
-                document.getElementById('itemOption').innerHTML = "";
+                remover();
                 var question = "<p> " + response[0].content + "</p>";
                 $("#question").append(question);
                 $.each(response, function(key, value) {
@@ -172,8 +177,22 @@
                                     +'</label></div><hr>'; 
                     $("#itemOption").append(option);
                 }); 
+                number = "Soal Nomor "+number;
+                $("#questionCounting").append(number);
             }
         });
+    }
+
+    function remover(){
+        document.getElementById('question').innerHTML = "";
+        document.getElementById('itemOption').innerHTML = "";
+        document.getElementById('questionCounting').innerHTML = "";
+    }
+
+    function loadingView(){
+        document.getElementById('question').innerHTML = "Loading";
+        document.getElementById('itemOption').innerHTML = "Loading";
+        document.getElementById('questionCounting').innerHTML = "Loading";
     }
 
     $('#btn_question_1').on('click', function (e) { 
