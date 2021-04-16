@@ -55,21 +55,8 @@
                                         <span class="description">of {{ $question->count() }}</span>
                                     </div>
                                     <!-- /.user-block -->
-                                    <div class="card-tools">
-                                        @foreach ($question as $key => $item)
-                                        @if($key % 2 == 0)
-                                        <button type="button" id="back" data-question_id="{{$item->id}}"
-                                            class="btn btn-primary">
-                                            <i class="fas fa-angle-left"></i>
-                                        </button>
-                                        @endif
-                                        @if($key % 2 == 1)
-                                        <button type="button" id="next" data-question_id="{{$item->id}}"
-                                            class="btn btn-primary">
-                                            <i class="fas fa-angle-right"></i>
-                                        </button>
-                                        @endif
-                                        @endforeach
+                                    <div class="card-tools" id="arrow_button">
+
                                     </div>
                                     <!-- /.card-tools -->
                                 </div>
@@ -114,6 +101,14 @@
         var rute = "{{ url('get-question') }}/" + id; 
     });
 
+    function itemOptionClick(question_id,itemOption_radio) {  
+        checkedItem = itemOption_radio.value;
+        data = '{question id: '+question_id+',checked item id:'+checkedItem+'}';
+        question = 'question id: '+question_id;
+        sessionStorage.setItem(question_id,checkedItem);
+    }
+    
+    // question and option
     $(document).ready(function() {
         var id = {{ $quiz->id }};
         console.log("ini ID :", id);
@@ -128,15 +123,21 @@
                 var question = "<p> " + response[0].content + "</p> </div>";
                 $("#question").append(question);
                 $.each(response, function(key, value) {
-                    console.log("ini mi responya :", response[key]);
-                    var option = '<div class="custom-control custom-radio"> <input class="custom-control-input" type="radio" id="itemOption_radio_'+response[key].qc_id+'" name="itemOption_radio"> <label for="itemOption_radio_'+response[key].qc_id+'" class="custom-control-label">'+
+                    checkedItem = sessionStorage.getItem(response[key].id); 
+                    console.log("yang tercek : ",checkedItem);
+                    checking = null;
+                    if(checkedItem == response[key].qc_id )
+                        checking = "checked";
+                    var option = '<div class="custom-control custom-radio"> <input '+checking+' onclick="itemOptionClick('+response[key].id+',this);" value="'+response[key].qc_id+'" class="custom-control-input" type="radio" id="itemOption_radio_'+response[key].qc_id+'" name="itemOption_radio"> <label for="itemOption_radio_'+response[key].qc_id+'" class="custom-control-label">'+
                                 response[key].choice_text
-                                    +'</label></div><hr>'; 
+                                    +'</label></div><hr>';  
                     $("#itemOption").append(option);
                 }); 
             }
         });
     });
+
+    // button number ready
     $(document).ready(function() {
         var id = {{ $quizzes->id }};
         var rute = "{{ url('get-quiz') }}/" + id;
@@ -156,6 +157,7 @@
         });
     });
 
+    // button number onclick
     btnQuestion = (id,number) => {
         // questionCounting
         loadingView();
@@ -168,13 +170,20 @@
             success: function(response) {
                 // var myobj = document.getElementById('question_text');
                 remover();
+                
                 var question = "<p> " + response[0].content + "</p>";
                 $("#question").append(question);
                 $.each(response, function(key, value) {
+                    checkedItem = sessionStorage.getItem(response[key].id); 
+                    console.log("yang tercek : ",checkedItem);
+                    checking = null;
+                    if(checkedItem == response[key].qc_id )
+                        checking = "checked";
+
                     console.log("ini mi responya :", value);
-                    var option = '<div class="custom-control custom-radio"> <input class="custom-control-input" type="radio" id="itemOption_radio_'+response[key].qc_id+'" name="itemOption_radio"> <label for="itemOption_radio_'+response[key].qc_id+'" class="custom-control-label">'+
+                    var option = '<div class="custom-control custom-radio"> <input '+checking+' onclick="itemOptionClick('+response[key].id+',this);" value="'+response[key].qc_id+'" class="custom-control-input" type="radio" id="itemOption_radio_'+response[key].qc_id+'" name="itemOption_radio"> <label for="itemOption_radio_'+response[key].qc_id+'" class="custom-control-label">'+
                                 response[key].choice_text
-                                    +'</label></div><hr>'; 
+                                    +'</label></div><hr>';  
                     $("#itemOption").append(option);
                 }); 
                 number = "Soal Nomor "+number;
