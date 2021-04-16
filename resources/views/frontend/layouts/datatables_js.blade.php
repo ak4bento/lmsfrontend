@@ -117,4 +117,18 @@
         })
 
     });
+    var fixmeTop = $('.fixme').offset().top;
+    $(window).scroll(function() {
+        var currentScroll = $(window).scrollTop();
+        if (currentScroll >= fixmeTop) {
+            $('.fixme').css({
+                position: 'sticky',
+                top: '10px',
+            });
+        } else {
+            $('.fixme').css({
+                position: 'static'
+            });
+        }
+    });
 </script>

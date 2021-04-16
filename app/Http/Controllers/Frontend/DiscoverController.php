@@ -15,6 +15,9 @@ class DiscoverController extends Controller
     /** @var  ClassroomRepository */
     private $classroomRepository;
 
+    /** @var  queryCustom */
+    private $queryCustom;
+
     public function __construct(ClassroomRepository $classroomRepo)
     {
         $this->classroomRepository = $classroomRepo;
@@ -28,15 +31,17 @@ class DiscoverController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request);
-        $classrooms = $this->query()->queryWhere(1)->get();
-        dd($classrooms);
-        // $classrooms = DB::table('classrooms')
-        //     ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
-        //     ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
-        //     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
-        //     ->get();
-        // dd($classrooms);
+        //dd($request->all());
+        $classrooms = $this->query();
+        foreach ($request->all() as $key => $value) {
+            if ($key != 'search') {
+                $classrooms = $classrooms->orWhere('subjects.id', $key);
+            }
+            if ($key == 'search') {
+                $classrooms = $classrooms->orWhere('subjects.title','like','%'.$value.'%');
+            }
+        }
+        $classrooms = $classrooms->get();
 
         $subjects = Subject::all();
 
@@ -49,10 +54,5 @@ class DiscoverController extends Controller
         ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
         ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
         ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods');
-    }
-
-    public function queryWhere($id)
-    {
-        return $this->where('subjects.id', $id);
     }
 }

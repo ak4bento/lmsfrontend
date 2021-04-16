@@ -10,10 +10,13 @@
         <div class="row">
             <div class="col-md-3 ">
                 <!-- About Me Box -->
-                <div class="card position-fixed">
+                <div class="card fixme">
                     <form action="?" method="get">
                         <div class="card-body">
                             <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text sm"><i class="fas fa-search"></i></span>
+                                </div>
                                 <input type="text" class="form-control form-control-sm" id="search" name="search" placeholder="Cari Kelas" />
                             </div>
                             <ul class="list-group list-group-unbordered mb-3">

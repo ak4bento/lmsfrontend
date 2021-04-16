@@ -11,28 +11,30 @@
         <div class="row">
             <div class="col-md-3">
                 <!-- About Me Box -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text sm"><i class="fas fa-search"></i></span>
-                            </div>
-                            <input type="text" class="form-control form-control-sm" placeholder="Cari Kelas" />
-                        </div>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            @foreach ($subjects as $subject)
-                                <div class="form-group clearfix">
-                                    <div class="icheck-primary d-inline">
-                                        <input type="checkbox" id="checkboxPrimary{{ $subject->id }}">
-                                        <label for="checkboxPrimary{{ $subject->id }}" style="font-size:13px">
-                                            {{ $subject->title }}
-                                        </label>
-                                    </div>
+                <div class="card fixme">
+                    <form action="?" method="get">
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text sm"><i class="fas fa-search"></i></span>
                                 </div>
-                            @endforeach
-                        </ul>
-                    </div>
-                    <!-- /.card-body -->
+                                <input type="text" class="form-control form-control-sm" id="search" name="search" placeholder="Cari Kelas" />
+                            </div>
+                            <ul class="list-group list-group-unbordered mb-3">
+                                @foreach ($subjects as $subject)
+                                    <div class="form-group clearfix">
+                                        <div class="icheck-primary d-inline">
+                                            <input type="checkbox" name="{{ $subject->id }}" id="checkboxPrimary{{ $subject->id }}">
+                                            <label for="checkboxPrimary{{ $subject->id }}" style="font-size:13px">
+                                                {{ $subject->title }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </form>
                 </div>
                 <!-- /.card -->
             </div>
