@@ -16,34 +16,32 @@
         </thead>
         <tbody>
             @php
-                $no = 1;
+            $no = 1;
             @endphp
             @foreach ($classrooms as $classroom)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ App\Models\Subject::find($classroom->subject_id)->title }}</td>
-                    <td>{{ App\Models\TeachingPeriod::find($classroom->teaching_period_id)->name }}</td>
-                    <td>{{ $classroom->slug }}</td>
-                    <td>{{ $classroom->code }}</td>
-                    <td>{{ $classroom->title }}</td>
-                    <td>{{ $classroom->description }}</td>
-                    <td>{{ $classroom->start_at }} - {{ $classroom->end_at }}</td>
-                    <td>{{ App\Models\User::find($classroom->created_by)->name }}</td>
-                    <td width="120">
-                        {!! Form::open(['route' => ['classrooms.destroy', $classroom->id], 'method' => 'delete']) !!}
-                        <a href="{{ route('classrooms.show', [$classroom->id]) }}" class='btn btn-info btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('classrooms.edit', [$classroom->id]) }}" class='btn btn-primary btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroom->id }}"
-                            data-url="{{ url('classrooms/destroy') }}/{{ $classroom->id }}">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ App\Models\Subject::find($classroom->subject_id)->title }}</td>
+                <td>{{ App\Models\TeachingPeriod::find($classroom->teaching_period_id)->name }}</td>
+                <td>{{ $classroom->slug }}</td>
+                <td>{{ $classroom->code }}</td>
+                <td>{{ $classroom->title }}</td>
+                <td>{{ $classroom->description }}</td>
+                <td>{{ $classroom->start_at }} - {{ $classroom->end_at }}</td>
+                <td>{{ App\Models\User::find($classroom->created_by)->name }}</td>
+                <td width="120">
+                    <a href="{{ route('classrooms.show', [$classroom->id]) }}" class='btn btn-info btn-sm'>
+                        <i class="far fa-eye"></i>
+                    </a>
+                    <a href="{{ route('classrooms.edit', [$classroom->id]) }}" class='btn btn-primary btn-sm'>
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroom->id }}"
+                        data-url="{{ url('classrooms/destroy') }}/{{ $classroom->id }}">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>

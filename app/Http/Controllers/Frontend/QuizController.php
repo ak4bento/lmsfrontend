@@ -64,6 +64,8 @@ class QuizController extends Controller
                 ->select('questions.*')
                 ->inRandomOrder()
                 ->where('question_quizzes.quizzes_id',$id) 
+                ->where('question_quizzes.deleted_at',null) 
+                ->where('questions.deleted_at',null) 
                 ->first(); 
         // dd($quizzes);
         return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question)->with('quiz', $quiz)->with('remainingTime',$remainingTime);
@@ -71,7 +73,7 @@ class QuizController extends Controller
 
     public function getQuestion($id)
     {
-        $question = DB::table('questions')->select('*')->where('id',$id)->first();
+        $question = DB::table('questions')->select('*')->where('id',$id)->where("deleted_at",null)->first();
         $choceItems = DB::table('question_choice_items')->select('*')->where('question_id',$id)->get();
 
         $question_choceItems = DB::table('question_choice_items')  
@@ -92,7 +94,13 @@ class QuizController extends Controller
                 ->select('questions.*')
                 ->inRandomOrder()
                 ->where('question_quizzes.quizzes_id',$id) 
+                ->where('question_quizzes.deleted_at',null) 
+                ->where('questions.deleted_at',null) 
                 ->get(); 
         return Response::json($quiz);
+    }
+
+    public function submitQuiz($data){
+        dd($data);
     }
 }

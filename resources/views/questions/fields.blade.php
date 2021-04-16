@@ -41,8 +41,8 @@
 
 </div>
 @push('page_scripts')
-    <script type="text/javascript">
-        var i = 0;
+<script type="text/javascript">
+    var i = 0;
         $("#add").click(function() {
             ++i;
             $("#dynamicTable").append(
@@ -62,19 +62,19 @@
         $(document).ready(function() {
             var id = {{ isset($question->id) ? $question->id : '0' }}
             console.log("ini ID :", id);
-            var rute = "{{ url('get-choice-item') }}/" + id;
+            var rute = "{{ url('admin/get-choice-item') }}/" + id;
             console.log("ini rute :", rute);
             $.ajax({
                 url: rute,
                 type: 'get',
                 success: function(response) {
-                    console.log("ini re :", response.question);
+                    console.log("ini re :", response);
                     // var i = 0;
                     $.each(response, function(key, value) {
                         var len = 0;
                         // $('#userTable tbody').empty(); // Empty <tbody>
                         if (response != null) {
-                            len = response.question.length;
+                            len = response.length;
                         }
                         console.log('ini len :', len);
                         // for (var i = 0; i < len; i++) {
@@ -139,14 +139,14 @@
 
         // });
 
-    </script>
+</script>
 
-    <script>
-        var konten = document.getElementById("content");
+<script>
+    var konten = document.getElementById("content");
         CKEDITOR.replace(konten, {
             language: 'en-gb'
         });
         CKEDITOR.config.allowedContent = true;
 
-    </script>
+</script>
 @endpush

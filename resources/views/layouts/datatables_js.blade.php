@@ -76,7 +76,6 @@
     });
 
 </script>
-<script src="{{ asset('../node_modules/video.js/dist/video.js') }}"></script>
 {{-- <script
     src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.38.0/js/tempusdominus-bootstrap-4.min.js"
     crossorigin="anonymous"></script> --}}
@@ -84,7 +83,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 {{-- <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script> --}}
 <script>
-    $("#delete").click(function(e) {
+    $(".delete").click(function(e) {
         e.preventDefault();
         // let id = $(this).data('id');
         let url = $(this).data('url');
@@ -98,12 +97,13 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
+            cancelButtonText:'Batal',
             confirmButtonText: 'Yes, Delete '
         }).then((result) => {
             if (result.value) {
                 // $(".form").submit();
                 // window.location.href = form.submit();
-                window.location.href = url;
+                // window.location.href = url;
                 // window.location.href = "{{ url('/candidate/delete/') }}" + "/" + postId;
             }
         })
