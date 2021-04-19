@@ -103,7 +103,7 @@
             if (result.value) {
                 // $(".form").submit();
                 // window.location.href = form.submit();
-                // window.location.href = url;
+                window.location.href = url;
                 // window.location.href = "{{ url('/candidate/delete/') }}" + "/" + postId;
             }
         })

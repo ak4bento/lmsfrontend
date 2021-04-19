@@ -156,12 +156,15 @@
             confirmButtonText: 'Yes'
         }).then((result) => {
             if (result.value) {  
+                sessionStorage.clear();
                 $.ajax({ 
                     type:'post',
                     url:rute, 
                     data:{allData :data,_token:_token},
                     success:function(data){
-                        console.log(data);
+                        console.log(data); 
+                        url = "{{ url('class-work-detail/quizzes') }}"+"/"+quizzes_id;
+                        window.location.href = url;
                     }
                 });
             }
@@ -172,7 +175,7 @@
         checkedItem = itemOption_radio.value;
         data = '{question id: '+question_id+',checked item id:'+checkedItem+'}';
         question = 'question id: '+question_id;
-        // sessionStorage.setItem(question_id,checkedItem);
+        sessionStorage.setItem(question_id,checkedItem);
         allData = '{"question_id":"'+question_id+'","checkedItem_id":"'+checkedItem+'"}';
         sessionStorage.setItem('data_'+question_id,allData);
         console.log(Object.keys(sessionStorage));
