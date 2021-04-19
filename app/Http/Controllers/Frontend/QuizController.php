@@ -14,6 +14,9 @@ use App\Repositories\TeachableRepository;
 use App\Models\Question;
 use App\Models\QuestionChoiceItem;
 use Response;
+use App\Models\TeachableUser;
+use App\Models\ClassroomUser;
+
 class QuizController extends Controller
 {
         /** @var  QuizzesRepository */
@@ -100,7 +103,28 @@ class QuizController extends Controller
         return Response::json($quiz);
     }
 
-    public function submitQuiz($data){
-        dd($data);
+    public function submitQuiz(Request $request)
+    {
+        // $quizzes = $this->quizzesRepository->find($id);
+        // ClassroomUser::Auth::user()->id;
+        // TeachableUser::where('')->select('*');
+        // $data = json_decode($data);
+        // dd($data);
+        $data = $request->all();
+        $value = json_decode($data['allData']); 
+        
+        // switch (json_last_error())
+        // {
+        // case JSON_ERROR_NONE: $value= ' - No errors'."\n";break;
+        // case JSON_ERROR_DEPTH: $value= ' - Maximum stack depth exceeded'."\n";break;
+        // case JSON_ERROR_STATE_MISMATCH: $value= ' - Underflow or the modes mismatch'."\n";break;
+        // case JSON_ERROR_CTRL_CHAR: $value= ' - Unexpected control character found'."\n";break;
+        // case JSON_ERROR_SYNTAX: $value= ' - Syntax error, malformed JSON'."\n";break;
+        // case JSON_ERROR_UTF8: $value= ' - Malformed UTF-8 characters, possibly incorrectly encoded'."\n";break;
+        // default: $value= ' - Unknown error'."\n";break;
+        // }
+        // $value = $value;
+        return Response::json($value);
+
     }
 }

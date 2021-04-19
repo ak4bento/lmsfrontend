@@ -1,4 +1,10 @@
-@extends('frontend.layouts.app') @section('content')
+@extends('frontend.layouts.app')
+
+@push('page_css')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+@endpush
+
+@section('content')
 <div class="container">
     <section class="content-header">
         <div class="row mb-2">
@@ -112,9 +118,34 @@
         e.preventDefault();
         // let id = $(this).data('id');
         let url = $(this).data('url');
-        url = url+"/"+Object.keys(sessionStorage);
+    
+        // url = url;
         // url = url.replace(':id', id);
+        key = Object.keys(sessionStorage);
+        console.log("ini key : ",key);
+        data = "";
+        var dataArray="";
+        for (let index = 0; index < key.length; index++) {
+            const element = key[index];
+            console.log("ini element : ",index);
+            if(element !== 'quizzes_id'){
+                // dataArray[index] = element;
+                if( index ===  key.length-1)
+                data = data +'"' +element+'":' + sessionStorage.getItem(element) ;
+                else
+                data = data +'"' +element+'":' + sessionStorage.getItem(element)+',';
+            }
+        }
+        let quizzes_id =sessionStorage.getItem('quizzes_id');
+        console.log('ini quizzes id',quizzes_id);
+        
+        data = '{"quizzes_id":"'+quizzes_id+'","data":{'+data+'}}';
+        // console.log("ini gabungan element : ",data);
         console.log('url', url);
+        var rute = url;
+        console.log("ini gabungan element : ",data);
+        // var rute = url+"/" + data;
+        let _token   = $('meta[name="csrf-token"]').attr('content');
         Swal.fire({
             title: 'Anda Yakin?',
             text: "Anda tidak dapat mengulanginya kembali!",
@@ -124,15 +155,13 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes'
         }).then((result) => {
-            if (result.value) { 
-                // sessionStorage.getItem("lastname");
-                $.ajax({
-                    // window.location.href = url; 
-                    type:'POST',
-                    url:url,
-                    data:{name:name, password:password, email:email},
+            if (result.value) {  
+                $.ajax({ 
+                    type:'post',
+                    url:rute, 
+                    data:{allData :data,_token:_token},
                     success:function(data){
-                        alert(data.success);
+                        console.log(data);
                     }
                 });
             }
@@ -143,9 +172,9 @@
         checkedItem = itemOption_radio.value;
         data = '{question id: '+question_id+',checked item id:'+checkedItem+'}';
         question = 'question id: '+question_id;
-        sessionStorage.setItem(question_id,checkedItem);
-        allData = "{ question_id:"+question_id+",checkedItem_id:"+checkedItem+"}";
-        sessionStorage.setItem("data_"+question_id,allData);
+        // sessionStorage.setItem(question_id,checkedItem);
+        allData = '{"question_id":"'+question_id+'","checkedItem_id":"'+checkedItem+'"}';
+        sessionStorage.setItem('data_'+question_id,allData);
         console.log(Object.keys(sessionStorage));
         // console.log("ini datanya : ",sessionStorage.getItem("data"));
     }
@@ -153,6 +182,8 @@
     // button number ready
     $(document).ready(function() {
         var id = {{ $quizzes->id }};
+        sessionStorage.setItem('quizzes_id',id);
+
         var rute = "{{ url('get-quiz') }}/" + id;
         $.ajax({
             url: rute,

@@ -32,7 +32,8 @@ Route::group(['middleware' => ['role:student']], function () {
 
     Route::get('/get-question/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuestion'])->name('getQuestion');
     Route::get('/get-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuiz'])->name('getQuiz');
-    Route::get('/submit-quiz/{slug}', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
+    // Route::get('/submit-quiz/{data}', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
+    Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
 });
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
@@ -84,3 +85,8 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
 Route::resource('resources', App\Http\Controllers\ResourceController::class);
 
 Route::resource('assignments', App\Http\Controllers\AssignmentController::class);
+
+
+Route::resource('quizAttempts', App\Http\Controllers\QuizAttemptController::class);
+
+Route::resource('teachableUsers', App\Http\Controllers\TeachableUserController::class);

@@ -117,4 +117,19 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
     <a href="{{ route('assignments.index') }}" class="nav-link {{ Request::is('assignments*') ? 'active' : '' }}">
         <p>Assignments</p>
     </a>
-</li> --}}
+</li> --}}<li class="nav-item">
+    <a href="{{ route('quizAttempts.index') }}"
+       class="nav-link {{ Request::is('quizAttempts*') ? 'active' : '' }}">
+        <p>Quiz Attempts</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('teachableUsers.index') }}"
+       class="nav-link {{ Request::is('teachableUsers*') ? 'active' : '' }}">
+        <p>Teachable Users</p>
+    </a>
+</li>
+
+

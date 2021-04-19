@@ -36,7 +36,7 @@
                     <a href="{{ route('classrooms.edit', [$classroom->id]) }}" class='btn btn-primary btn-sm'>
                         <i class="far fa-edit"></i>
                     </a>
-                    <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroom->id }}"
+                    <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $classroom->id }}"
                         data-url="{{ url('classrooms/destroy') }}/{{ $classroom->id }}">
                         <i class="far fa-trash-alt"></i>
                     </button>

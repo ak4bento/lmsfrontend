@@ -24,7 +24,7 @@
                             class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>
                         </a>
-                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroomUsers->id }}"
+                        <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $classroomUsers->id }}"
                             data-url="classroomUsers">
                             <i class="far fa-trash-alt"></i>
                         </button>

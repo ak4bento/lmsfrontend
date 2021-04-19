@@ -12,28 +12,28 @@
         </thead>
         <tbody>
             @php
-                $no = 1;
+            $no = 1;
             @endphp
             @foreach ($questions as $question)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $question->question_type }}</td>
-                    <td>{{ $question->answers }}</td>
-                    <td>{!! $question->content !!}</td>
-                    <td>{{ App\Models\User::find($question->created_by)->name }} </td>
-                    <td width="120">
-                        {!! Form::open(['route' => ['questions.destroy', $question->id], 'method' => 'delete']) !!}
+            <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ $question->question_type }}</td>
+                <td>{{ $question->answers }}</td>
+                <td>{!! $question->content !!}</td>
+                <td>{{ App\Models\User::find($question->created_by)->name }} </td>
+                <td width="120">
+                    {!! Form::open(['route' => ['questions.destroy', $question->id], 'method' => 'delete']) !!}
 
-                        <a href="{{ route('questions.edit', [$question->id]) }}" class='btn btn-primary btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $question->id }}"
-                            data-url="{{ url('questions/destroy') }}/{{ $question->id }}">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
+                    <a href="{{ route('questions.edit', [$question->id]) }}" class='btn btn-primary btn-sm'>
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $question->id }}"
+                        data-url="{{ url('questions/destroy') }}/{{ $question->id }}">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                    {!! Form::close() !!}
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
