@@ -104,7 +104,7 @@
             text: "Anda tidak akan dapat mengembalikan ini!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#174ea6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, Delete '
         }).then((result) => {

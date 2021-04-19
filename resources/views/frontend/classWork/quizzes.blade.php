@@ -156,9 +156,9 @@
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
-
-                            <a data-url="{{ url('quizzes/quiz') }}/{{ $classWork->id }}" type="button"
-                                class="btn btn-block btn-primary btn-lg quiz">Take Quiz</a>
+                            @if($quiz_attempts < 1) <a data-url="{{ url('quizzes/quiz') }}/{{ $classWork->id }}"
+                                type="button" class="btn btn-block btn-primary btn-lg quiz">Take Quiz</a>
+                                @endif
                         </div>
                         <!-- /.col -->
                     </div>
@@ -183,7 +183,7 @@
             text: "Setelah menekan Mulai, waktu kuis akan berjalan!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#174ea6',
             cancelButtonColor: '#d33',
             cancelButtonText:'Batal',
             confirmButtonText: 'Mulai'
