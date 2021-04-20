@@ -175,6 +175,7 @@ class QuizController extends Controller
                         ->where('questions.deleted_at',null)
                         ->select('questions.*')
                         ->get();
+                        
         $classroom = DB::table('classrooms') 
                         ->where('id',$teachable->classroom_id)
                         ->where('deleted_at',null)
