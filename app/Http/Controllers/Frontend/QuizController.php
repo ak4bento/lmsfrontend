@@ -14,17 +14,23 @@ use App\Repositories\TeachableRepository;
 use App\Models\Question;
 use App\Models\QuestionChoiceItem;
 use Response;
+use App\Models\TeachableUser;
+use App\Models\ClassroomUser;
+use App\Repositories\QuizAttemptRepository;
+use App\Models\QuizAttempt;
+
 class QuizController extends Controller
 {
         /** @var  QuizzesRepository */
     private $quizzesRepository;
 
-    public function __construct(QuizzesRepository $quizzesRepo,TeachableRepository $teachableRepo,ClassroomRepository $classroomRepo)
+    public function __construct(QuizzesRepository $quizzesRepo,TeachableRepository $teachableRepo,ClassroomRepository $classroomRepo,QuizAttemptRepository $quizAttemptRepo)
     {
+        $this->quizAttemptRepository = $quizAttemptRepo;
         $this->classroomRepository = $classroomRepo;
         $this->teachableRepository = $teachableRepo;
         $this->quizzesRepository = $quizzesRepo;
-        $this->middleware('auth'); 
+        // $this->middleware('auth'); 
     }
 
     /**
@@ -64,6 +70,8 @@ class QuizController extends Controller
                 ->select('questions.*')
                 ->inRandomOrder()
                 ->where('question_quizzes.quizzes_id',$id) 
+                ->where('question_quizzes.deleted_at',null) 
+                ->where('questions.deleted_at',null) 
                 ->first(); 
         // dd($quizzes);
         return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question)->with('quiz', $quiz)->with('remainingTime',$remainingTime);
@@ -71,7 +79,7 @@ class QuizController extends Controller
 
     public function getQuestion($id)
     {
-        $question = DB::table('questions')->select('*')->where('id',$id)->first();
+        $question = DB::table('questions')->select('*')->where('id',$id)->where("deleted_at",null)->first();
         $choceItems = DB::table('question_choice_items')->select('*')->where('question_id',$id)->get();
 
         $question_choceItems = DB::table('question_choice_items')  
@@ -92,7 +100,63 @@ class QuizController extends Controller
                 ->select('questions.*')
                 ->inRandomOrder()
                 ->where('question_quizzes.quizzes_id',$id) 
+                ->where('question_quizzes.deleted_at',null) 
+                ->where('questions.deleted_at',null) 
                 ->get(); 
         return Response::json($quiz);
+    }
+
+    public function submitQuiz(Request $request)
+    {
+        // $quizzes = $this->quizzesRepository->find($id);
+        $data = $request->all();
+        // dd($data);
+        $value = json_decode($data['allData']); 
+        $teachable     = DB::table('teachables') 
+                        ->select('*')
+                        ->where('teachable_type','quiz')  
+                        ->where('teachable_id',$value->quizzes_id)
+                        ->first();
+        $classroomUser = DB::table('classroom_user') 
+                        ->select('*')
+                        ->where('user_id',Auth::user()->id)  
+                        ->where('classroom_id',$teachable->classroom_id)
+                        ->first();
+        $teachableUser = DB::table('teachable_users') 
+                        ->select('*')
+                        ->where('classroom_user_id',$classroomUser->id)  
+                        ->where('teachable_id',$teachable->id)
+                        ->first();
+        $quiz_attempts = DB::table('quiz_attempts') 
+                        ->select('*') 
+                        ->where('teachable_user_id',$teachableUser->id)
+                        ->get();
+        $model = new QuizAttempt;
+        if($quiz_attempts->count()>0){
+            $model['attempt'] = $quiz_attempts->count() + 1;
+        }
+
+        date_default_timezone_set("Asia/Makassar");
+
+        $model['teachable_user_id'] = $teachableUser->id;
+        $model['questions'] = $value->quizzes_id;
+        $model['answers'] = json_encode($value->data);
+        $model['completed_at'] = date("Y/m/d h:i:sa");
+        $model['grading_method'] = "standard";
+        $save = $model->save(); 
+
+        return Response::json($save);
+        
+        // switch (json_last_error())
+        // {
+        // case JSON_ERROR_NONE: $value= ' - No errors'."\n";break;
+        // case JSON_ERROR_DEPTH: $value= ' - Maximum stack depth exceeded'."\n";break;
+        // case JSON_ERROR_STATE_MISMATCH: $value= ' - Underflow or the modes mismatch'."\n";break;
+        // case JSON_ERROR_CTRL_CHAR: $value= ' - Unexpected control character found'."\n";break;
+        // case JSON_ERROR_SYNTAX: $value= ' - Syntax error, malformed JSON'."\n";break;
+        // case JSON_ERROR_UTF8: $value= ' - Malformed UTF-8 characters, possibly incorrectly encoded'."\n";break;
+        // default: $value= ' - Unknown error'."\n";break;
+        // }
+        // $value = $value;
     }
 }

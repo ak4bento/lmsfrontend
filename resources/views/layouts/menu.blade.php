@@ -49,15 +49,14 @@
 
 {{-- <li class="nav-item">
     <a href="{{ route('classroomUsers.index') }}"
-       class="nav-link {{ Request::is('classroomUsers*') ? 'active' : '' }}">
-        <p style="font-size: 18px;">Classroom Users</p>
-    </a>
+class="nav-link {{ Request::is('classroomUsers*') ? 'active' : '' }}">
+<p style="font-size: 18px;">Classroom Users</p>
+</a>
 </li>
 
 
 <li class="nav-item">
-    <a href="{{ route('profiles.index') }}"
-       class="nav-link {{ Request::is('profiles*') ? 'active' : '' }}">
+    <a href="{{ route('profiles.index') }}" class="nav-link {{ Request::is('profiles*') ? 'active' : '' }}">
         <p style="font-size: 18px;">Profiles</p>
     </a>
 </li> --}}
@@ -81,8 +80,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('questions.index') }}"
-                class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
+            <a href="{{ route('questions.index') }}" class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
 
                 <p>Soal</p>
@@ -92,9 +90,9 @@
 </li>
 {{-- <li class="nav-item">
     <a href="{{ route('questionQuizzes.index') }}"
-        class="nav-link {{ Request::is('questionQuizzes*') ? 'active' : '' }}">
-        <p>Question Quizzes</p>
-    </a>
+class="nav-link {{ Request::is('questionQuizzes*') ? 'active' : '' }}">
+<p>Question Quizzes</p>
+</a>
 </li>
 <li class="nav-item">
     <a href="{{ route('teachables.index') }}" class="nav-link {{ Request::is('teachables*') ? 'active' : '' }}">
@@ -103,22 +101,34 @@
 </li> - --}}
 {{-- <li class="nav-item">
     <a href="{{ route('questionChoiceItems.index') }}"
-        class="nav-link {{ Request::is('questionChoiceItems*') ? 'active' : '' }}">
-        <p>Question Choice Items</p>
-    </a>
+class="nav-link {{ Request::is('questionChoiceItems*') ? 'active' : '' }}">
+<p>Question Choice Items</p>
+</a>
 </li> --}}
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('resources.index') }}"
-       class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
-        <p>Resources</p>
+class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
+<p>Resources</p>
+</a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('assignments.index') }}" class="nav-link {{ Request::is('assignments*') ? 'active' : '' }}">
+        <p>Assignments</p>
+    </a>
+</li> --}}<li class="nav-item">
+    <a href="{{ route('quizAttempts.index') }}"
+       class="nav-link {{ Request::is('quizAttempts*') ? 'active' : '' }}">
+        <p>Quiz Attempts</p>
     </a>
 </li>
 
 
 <li class="nav-item">
-    <a href="{{ route('assignments.index') }}"
-       class="nav-link {{ Request::is('assignments*') ? 'active' : '' }}">
-        <p>Assignments</p>
+    <a href="{{ route('teachableUsers.index') }}"
+       class="nav-link {{ Request::is('teachableUsers*') ? 'active' : '' }}">
+        <p>Teachable Users</p>
     </a>
 </li>
 

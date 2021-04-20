@@ -11,31 +11,28 @@
         </thead>
         <tbody>
             @php
-                $no = 1;
+            $no = 1;
             @endphp
             @foreach ($teachingPeriods as $teachingPeriod)
-                <tr>
-                    <td>{{ $no++ }}</td>
-                    <td>{{ $teachingPeriod->name }}</td>
-                    <td>{{ $teachingPeriod->start_at }}</td>
-                    <td>{{ $teachingPeriod->end_at }}</td>
-                    <td width="120">
-                        {!! Form::open(['route' => ['teachingPeriods.destroy', $teachingPeriod->id], 'method' => 'delete']) !!}
-                        <a href="{{ route('teachingPeriods.show', [$teachingPeriod->id]) }}"
-                            class='btn btn-info btn-sm'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('teachingPeriods.edit', [$teachingPeriod->id]) }}"
-                            class='btn btn-primary btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $teachingPeriod->id }}"
-                            data-url="{{ url('teachingPeriods/destroy') }}/{{ $teachingPeriod->id }}">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $no++ }}</td>
+                <td>{{ $teachingPeriod->name }}</td>
+                <td>{{ $teachingPeriod->start_at }}</td>
+                <td>{{ $teachingPeriod->end_at }}</td>
+                <td width="120">
+
+                    <a href="{{ route('teachingPeriods.show', [$teachingPeriod->id]) }}" class='btn btn-info btn-sm'>
+                        <i class="far fa-eye"></i>
+                    </a>
+                    <a href="{{ route('teachingPeriods.edit', [$teachingPeriod->id]) }}" class='btn btn-primary btn-sm'>
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $teachingPeriod->id }}"
+                        data-url="{{ url('teachingPeriods/destroy') }}/{{ $teachingPeriod->id }}">
+                        <i class="far fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
