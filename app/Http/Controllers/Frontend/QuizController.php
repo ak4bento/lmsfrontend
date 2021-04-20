@@ -108,9 +108,7 @@ class QuizController extends Controller
 
     public function submitQuiz(Request $request)
     {
-        // $quizzes = $this->quizzesRepository->find($id);
-        $data = $request->all();
-        // dd($data);
+        $data = $request->all(); 
         $value = json_decode($data['allData']); 
         $teachable     = DB::table('teachables') 
                         ->select('*')
@@ -131,6 +129,7 @@ class QuizController extends Controller
                         ->select('*') 
                         ->where('teachable_user_id',$teachableUser->id)
                         ->get();
+        
         $model = new QuizAttempt;
         if($quiz_attempts->count()>0){
             $model['attempt'] = $quiz_attempts->count() + 1;
@@ -144,6 +143,7 @@ class QuizController extends Controller
         $model['completed_at'] = date("Y/m/d h:i:sa");
         $model['grading_method'] = "standard";
         $save = $model->save(); 
+        
 
         return Response::json($save);
         
@@ -158,5 +158,28 @@ class QuizController extends Controller
         // default: $value= ' - Unknown error'."\n";break;
         // }
         // $value = $value;
+    }
+
+    public function submitedQuiz($id)
+    {
+        $teachable     = DB::table('teachables') 
+                        ->select('*')
+                        ->where('teachable_type','quiz')  
+                        ->where('teachable_id',$id)
+                        ->first();
+
+        $quiestion_quiz = DB::table('question_quizzes')
+                        ->join('quizzes', 'quizzes.id', '=', 'question_quizzes.quizzes_id')
+                        ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')
+                        ->where('quizzes_id',$teachable->teachable_id)
+                        ->where('questions.deleted_at',null)
+                        ->select('questions.*')
+                        ->get();
+        $classroom = DB::table('classrooms') 
+                        ->where('id',$teachable->classroom_id)
+                        ->where('deleted_at',null)
+                        ->select('*')
+                        ->first();
+        return view('frontend.users.quizSubmit')->with('quiestion_quiz',$quiestion_quiz)->with('classroom',$classroom);
     }
 }

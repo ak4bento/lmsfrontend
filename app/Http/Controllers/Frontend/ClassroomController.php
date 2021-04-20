@@ -82,7 +82,9 @@ class ClassroomController extends Controller
                             ->select('*') 
                             ->where('teachable_user_id',$teachableUser->id)
                             ->get();
-            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count());
+        
+                            // dd($quiestion_quiz);
+            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable);
         }
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
 

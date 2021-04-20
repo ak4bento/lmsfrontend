@@ -163,7 +163,7 @@
                     data:{allData :data,_token:_token},
                     success:function(data){
                         console.log(data); 
-                        url = "{{ url('class-work-detail/quizzes') }}"+"/"+quizzes_id;
+                        url = "{{ url('submited-quiz') }}"+"/"+quizzes_id;
                         window.location.href = url;
                     }
                 });
