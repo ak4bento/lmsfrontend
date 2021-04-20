@@ -38,7 +38,7 @@ class DiscoverController extends Controller
                 $classrooms = $classrooms->orWhere('subjects.id', $key);
             }
             if ($key == 'search') {
-                $classrooms = $classrooms->orWhere('subjects.title','like','%'.$value.'%');
+                $classrooms = $classrooms->where('subjects.title','like','%'.$value.'%');
             }
         }
         $classrooms = $classrooms->get();

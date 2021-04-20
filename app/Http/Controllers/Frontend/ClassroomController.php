@@ -52,41 +52,47 @@ class ClassroomController extends Controller
     {
         $classWork = DB::table($slug)->where('id',$id)->first();
 
+        $discussions = DB::table('discussions')->where('discussable_type',$slug)->where('discussable_id',$id)->get();
+
+        // dd($discussions);
+
         if($slug =='assignments'){
             $complete = DB::table('media')
                 ->where('media_type','assigment')
                 ->where('media_id',$id)
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
-// dd($complete);
+            // dd($complete);
             return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete);
         }
-        
+
+
         if($slug == 'quizzes'){
-            $teachable     = DB::table('teachables') 
+            $teachable     = DB::table('teachables')
                             ->select('*')
-                            ->where('teachable_type','quiz')  
+                            ->where('teachable_type','quiz')
                             ->where('teachable_id',$classWork->id)
                             ->first();
-            $classroomUser = DB::table('classroom_user') 
+            $classroomUser = DB::table('classroom_user')
                             ->select('*')
-                            ->where('user_id',Auth::user()->id)  
+                            ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
-            $teachableUser = DB::table('teachable_users') 
+            $teachableUser = DB::table('teachable_users')
                             ->select('*')
-                            ->where('classroom_user_id',$classroomUser->id)  
+                            ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
-            $quiz_attempts = DB::table('quiz_attempts') 
-                            ->select('*') 
+            $quiz_attempts = DB::table('quiz_attempts')
+                            ->select('*')
                             ->where('teachable_user_id',$teachableUser->id)
                             ->get();
         
                             // dd($quiestion_quiz);
             return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable);
         }
-        return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
+        return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
+        // return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
 
         // if($slug == 'quizzes'){
         //     return view('frontend.classWork.quizzes')->with('classWork',$classWork);
