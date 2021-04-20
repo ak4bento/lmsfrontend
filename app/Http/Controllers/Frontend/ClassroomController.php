@@ -52,17 +52,21 @@ class ClassroomController extends Controller
     {
         $classWork = DB::table($slug)->where('id',$id)->first();
 
+        $discussions = DB::table('discussions')->where('discussable_type',$slug)->where('discussable_id',$id)->get();
+
+        // dd($discussions);
+
         if($slug =='assignments'){
             $complete = DB::table('media')
                 ->where('media_type','assigment')
                 ->where('media_id',$id)
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
-// dd($complete);
+            // dd($complete);
             return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete);
         }
 
-        return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
+        return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
 
         // if($slug == 'quizzes'){
         //     return view('frontend.classWork.quizzes')->with('classWork',$classWork);
