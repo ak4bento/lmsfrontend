@@ -30,22 +30,33 @@ class ClassroomController extends Controller
     {
         // dd($slug);
         $classrooms = DB::table('classrooms')
-            ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
-            ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
-            ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
-            ->where('classrooms.slug',$slug)
-            ->first();
+                    ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+                    ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+                    ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+                    ->where('classrooms.slug',$slug)
+                    ->first();
         // dd($classrooms);
 
         $teachables = DB::table('teachables')
-            ->select('teachables.*')
-            ->where('teachables.classroom_id',$classrooms->id)
-            ->get();
+                    ->select('teachables.*')
+                    ->where('teachables.classroom_id',$classrooms->id)
+                    ->get();
             // dd($teachables);
 
+        $classroomUsers = DB::table('classroom_user')
+                        ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                        ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                        ->select('classrooms.*','users.id as user_id')
+                        ->where('classroom_user.user_id',Auth::user()->id)
+                        ->where('classroom_user.deleted_at',null)
+                        ->count();
         $subjects = Subject::all();
-
-        return view('frontend.users.classDetail')->with('classrooms', $classrooms)->with('subjects',$subjects)->with('teachables',$teachables);
+        // dd($classroomUsers);
+        return view('frontend.users.classDetail')
+                ->with('classroomUsers', $classroomUsers)
+                ->with('classrooms', $classrooms)
+                ->with('subjects',$subjects)
+                ->with('teachables',$teachables);
     }
 
     public function classWork($slug,$id)

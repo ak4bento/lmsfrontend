@@ -76,6 +76,7 @@
                                         @endif
                                     </div>
                                     <div class="col-2">
+                                        @if($classroomUsers > 0)
                                         @if ($teachable->teachable_type == 'quiz')
                                         <a href="{{ url('/class-work-detail') }}/{{ 'quizzes' }}/{{ $teachable->teachable_id }}"
                                             class="btn btn-primary btn-sm float-right"><i class="far fa-eye"></i>
@@ -89,7 +90,11 @@
                                             class="btn btn-primary btn-sm float-right"><i class="far fa-eye"></i>
                                             Lihat</a>
                                         @endif
-
+                                        @else
+                                        <a class="btn btn-primary btn-sm float-right not_allowed"><i
+                                                class="far fa-eye"></i>
+                                            Lihat</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -105,3 +110,19 @@
     </section>
 </div>
 @endsection
+@push('page_scripts')
+<script>
+    $(".not_allowed").click(function(e) {
+        e.preventDefault(); 
+        Swal.fire({
+            title: 'Tidak di Izinkan',
+            text: "Anda tidak terdaftar atau  tidak diizankan membuka materi ini!",
+            icon: 'warning', 
+            confirmButtonColor: '#174ea6',
+            cancelButtonColor: '#d33',
+            cancelButtonText:'Batal',
+            confirmButtonText: 'Tutup'
+        }) 
+    });
+</script>
+@endpush

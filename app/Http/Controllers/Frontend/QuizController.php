@@ -43,38 +43,49 @@ class QuizController extends Controller
         date_default_timezone_set("Asia/Makassar");
         $remainingTime=0;
         if(session()->get('timerStartQuiz')){
-            $remainingTime = date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("h:i:s")));
-            session()->put('remainingTime', date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("h:i:s"))));
+            $remainingTime = date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("d/m/Y h:i:s")));
+            session()->put('remainingTime', date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("d/m/Y h:i:s"))));
         }else{
-            $timeStart =  date("H:i:s"); 
-            $timeEnd = date('H:i:s', strtotime($timeStart) + 60*60);
+            $timeStart = date("d/m/Y H:i:s"); 
+            $timeEnd = date("d/m/Y H:i:s",strtotime('1 hour')); 
             session()->put('timerStartQuiz', $timeStart); 
             session()->put('timerEndQuiz', $timeEnd); 
-            $remainingTime = date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
-            session()->put('remainingTime', date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("h:i:s"))));
+            $remainingTime = date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
+            session()->put('remainingTime', date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("d/m/Y h:i:s"))));
         }
 
-        if(session()->get('timerEndQuiz') ==  date("h:i:s")){
-            $remainingTime = date("h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
+        if(session()->get('timerEndQuiz') ==  date("d/m/Y h:i:s")){
+            $remainingTime = date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
         }
 
         $quizzes = $this->quizzesRepository->find($id);
         $question = DB::table('question_quizzes')  
-            ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
-            ->select('questions.*')
-            ->inRandomOrder()
-            ->where('question_quizzes.quizzes_id',$id)
-            ->get();
+                        ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
+                        ->select('questions.*')
+                        ->inRandomOrder()
+                        ->where('question_quizzes.quizzes_id',$id)
+                        ->get();
         $quiz =  DB::table('question_quizzes')  
-                ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
-                ->select('questions.*')
-                ->inRandomOrder()
-                ->where('question_quizzes.quizzes_id',$id) 
-                ->where('question_quizzes.deleted_at',null) 
-                ->where('questions.deleted_at',null) 
-                ->first(); 
-        // dd($quizzes);
-        return view('frontend.users.quiz')->with('quizzes',$quizzes)->with('question',$question)->with('quiz', $quiz)->with('remainingTime',$remainingTime);
+                    ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')  
+                    ->select('questions.*')
+                    ->inRandomOrder()
+                    ->where('question_quizzes.quizzes_id',$id) 
+                    ->where('question_quizzes.deleted_at',null) 
+                    ->where('questions.deleted_at',null) 
+                    ->first(); 
+        
+        $teachable = DB::table('teachables') 
+                    ->select('*')
+                    ->where('teachable_type','quiz')  
+                    ->where('teachable_id',$id)
+                    ->first();
+        // dd($teachable);
+        return view('frontend.users.quiz')
+                ->with('quizzes',$quizzes)
+                ->with('question',$question)
+                ->with('quiz', $quiz)
+                ->with('teachable',$teachable)
+                ->with('remainingTime',$remainingTime);
     }
 
     public function getQuestion($id)
