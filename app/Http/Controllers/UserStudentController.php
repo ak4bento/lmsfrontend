@@ -80,7 +80,6 @@ class UserStudentController extends AppBaseController
         $input = $request->all();
         
         $input['user_id'] = $userStudent['id'];
-        
         $profile = $this->profileRepository->create($input);
 
         Alert::success('User Student saved successfully.');
@@ -102,7 +101,8 @@ class UserStudentController extends AppBaseController
         $classroom_users = DB::table('classroom_user') 
             ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
             ->select('classrooms.*' ,'classroom_user.id as classroom_user_id')
-            ->where('user_id',$id)
+            ->where('classroom_user.user_id',$id)
+            ->where('classroom_user.deleted_at',null)
             ->get();
         // dd($classroom_users);
         if (empty($userStudent)) {

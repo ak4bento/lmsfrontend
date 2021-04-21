@@ -60,7 +60,9 @@ class ClassroomController extends AppBaseController
         $input['created_by']=auth()->user()->id;
         $input['slug'] = str_replace(' ', '-', $input['title']);
         $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );  
-        
+        $validated = $input->validate([
+            'slug' => 'required|unique:classrooms,slug',
+        ]);
         $classroom = $this->classroomRepository->create($input);
 
         Alert::success('Classroom saved successfully.');
@@ -123,7 +125,9 @@ class ClassroomController extends AppBaseController
         $input['created_by']=auth()->user()->id;
         $input['slug'] = str_replace(' ', '-', $input['title']);
         $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );  
-        
+        $validated = $request->validate([
+            'title' => 'required|unique:classrooms,title',
+        ]);
         if (empty($classroom)) {
             Flash::error('Classroom not found');
 

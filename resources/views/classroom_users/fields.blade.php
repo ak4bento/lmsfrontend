@@ -39,7 +39,7 @@
 
 <!-- User Id Field -->
 <input type="hidden" name="user_id" id="user_id"
-    value="{{ isset($userStudent) ? App\Models\User::find($userStudent->id)->first()->id : '' }}">
+    value="{{ isset($userStudent) ?  $userStudent->id : '' }}">
 
 <div class="form-group col-sm-6">
     {!! Form::label('full_name', 'Nama Lengkap   :') !!}

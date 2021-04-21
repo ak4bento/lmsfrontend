@@ -80,7 +80,8 @@ class="nav-link {{ Request::is('classroomUsers*') ? 'active' : '' }}">
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('questions.index') }}" class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
+            <a href="{{ route('questions.index') }}"
+                class="nav-link {{ Request::is('questions*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon"></i>
 
                 <p>Soal</p>
@@ -119,7 +120,7 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
     </a>
 </li> --}}<li class="nav-item">
     <a href="{{ route('quizAttempts.index') }}"
-       class="nav-link {{ Request::is('quizAttempts*') ? 'active' : '' }}">
+        class="nav-link {{ Request::is('quizAttempts*') ? 'active' : '' }}">
         <p>Quiz Attempts</p>
     </a>
 </li>
@@ -127,9 +128,7 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
 
 <li class="nav-item">
     <a href="{{ route('teachableUsers.index') }}"
-       class="nav-link {{ Request::is('teachableUsers*') ? 'active' : '' }}">
+        class="nav-link {{ Request::is('teachableUsers*') ? 'active' : '' }}">
         <p>Teachable Users</p>
     </a>
 </li>
-
-

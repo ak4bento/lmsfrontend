@@ -53,7 +53,7 @@ class ClassroomUserController extends AppBaseController
     public function create($id)
     {
         $userStudent = $this->userStudentRepository->find($id);
-
+// dd($userStudent);
         return view('classroom_users.create')->with('userStudent', $userStudent);
     }
 
@@ -67,6 +67,7 @@ class ClassroomUserController extends AppBaseController
     public function store(CreateClassroomUserRequest $request)
     {
         $input = $request->all();
+        // dd($input);
 
         $classroomUser = $this->classroomUserRepository->create($input);
 
@@ -156,14 +157,15 @@ class ClassroomUserController extends AppBaseController
     public function destroy($id)
     {
         $classroomUser = $this->classroomUserRepository->find($id);
-        $id = $classroomUser->user_id;  
+        // dd($classroomUser);
+        $id = $classroomUser->id;  
         if (empty($classroomUser)) {
             Flash::error('Classroom User not found');
             return redirect(route('userStudents.index'));
         }
         // dd($id);
 
-        // $classroomUser = $this->classroomUserRepository->delete($id);
+        $classroomUser = $this->classroomUserRepository->delete($id);
         Alert::success('Berhasil', 'Data Berhasil dihapus');
 
         // Alert::success('Classroom User deleted successfully.');

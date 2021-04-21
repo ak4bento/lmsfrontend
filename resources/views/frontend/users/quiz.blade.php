@@ -35,10 +35,7 @@
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <h1 class="text-center" id="time">
-                                        {{-- mulai : {{ Session::get('timerStartQuiz')}}
-                                        selesai : {{ Session::get('timerEndQuiz')}}
-                                        <br>
-                                        sisa :{{ Session::get('remainingTime')}} --}}
+                                        Time
                                     </h1>
                                 </div>
                                 <!-- /.card-body -->
@@ -67,10 +64,9 @@
                             <div class="card card-widget">
                                 <div class="card-header">
                                     <div class="user-block">
-                                        <img class="img-circle" src="https://img.icons8.com/carbon-copy/2x/file.png"
-                                            alt="User Image">
-                                        <span class="username"><a href="#" id="questionCounting"></a></span>
-                                        <span class="description">of {{ $question->count() }}</span>
+
+                                        <p class="card-title"><a id="questionCounting"></a></p>
+                                        <p>Dari {{ $question->count() }} Soal</p>
                                     </div>
                                     <!-- /.user-block -->
                                     <div class="card-tools" id="arrow_button">
@@ -113,6 +109,35 @@
 </div>
 @endsection
 @push('page_scripts')
+<script>
+    $(document).ready(function() {
+        var date = "{{session()->get('timerStartQuiz')}}";
+
+        var countDownDate = new Date(date).getTime();
+        console.log("date : ", date);
+        var myfunc = setInterval(function() {
+
+            var now = new Date().getTime();
+            console.log("now : ",now);
+            var timeleft = countDownDate - now;
+                
+            // Calculating the days, hours, minutes and seconds left
+            var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+                
+            // Result is output to the specific element
+            document.getElementById("time").innerHTML = days + "d " + hours + "h "+ minutes + "m " + seconds + "s "; 
+                
+            // Display the message when countdown is over
+            if (timeleft < 0) {
+                clearInterval(myfunc); 
+                document.getElementById("time").innerHTML = "TIME UP!!";
+            }
+        }, 1000);
+    });
+</script>
 <script>
     $("#submitQuiz").click(function(e) {
         e.preventDefault();
@@ -163,7 +188,7 @@
                     data:{allData :data,_token:_token},
                     success:function(data){
                         console.log(data); 
-                        url = "{{ url('class-work-detail/quizzes') }}"+"/"+quizzes_id;
+                        url = "{{ url('submited-quiz') }}"+"/"+quizzes_id;
                         window.location.href = url;
                     }
                 });
@@ -276,46 +301,15 @@
     }
 
     function loadingView(){
-        document.getElementById('question').innerHTML = "Loading";
-        document.getElementById('itemOption').innerHTML = "Loading";
-        document.getElementById('questionCounting').innerHTML = "Loading";
+        document.getElementById('question').innerHTML = "Loading...";
+        document.getElementById('itemOption').innerHTML = "Loading...";
+        document.getElementById('questionCounting').innerHTML = "Loading...";
     }
 
     $('#btn_question_1').on('click', function (e) { 
         let id = $(this).data('question_id');
         // console.log("question id : ", id);
         var rute = "{{ url('get-question') }}/" + id; 
-    });
-
-    $(document).ready(function() {
-        // Set the date we're counting down to
-        countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
-    
-        // Update the count down every 1 second
-        var x = setInterval(function() {
-    
-        // Get today's date and time
-        var now = new Date().getTime();
-    
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
-    
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-        // Display the result in the element with id="time"
-        document.getElementById("time").innerHTML = days + "d " + hours + "h "
-        + minutes + "m " + seconds + "s ";
-    
-            // If the count down is finished, write some text
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("time").innerHTML = "EXPIRED";
-            }
-        }, 1000);
     });
 </script>
 @endpush

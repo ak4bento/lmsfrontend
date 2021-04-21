@@ -84,7 +84,7 @@ class QuizzesController extends AppBaseController
             $data['available_at'] = $input['available_at'];
             $data['expires_at'] = $input['expires_at'];
 
-            $teachable = $this->teachableRepository->create($data);
+            $teachable = $this->teachableRepository->create($data); 
         }
         
         // dd($data);
