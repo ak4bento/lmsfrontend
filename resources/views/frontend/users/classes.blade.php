@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
             <div class="container">
                 <h1 class="display-4">Kelas</h1>
                 <p class="lead">Temukan kelas yang anda ikuti.</p>
@@ -18,13 +18,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text sm"><i class="fas fa-search"></i></span>
                                 </div>
-                                <input type="text" class="form-control form-control-sm" id="search" name="search" placeholder="Cari Kelas" />
+                                <input type="text" class="form-control form-control-sm" id="search" name="search"
+                                    placeholder="Cari Kelas" />
                             </div>
                             <ul class="list-group list-group-unbordered mb-3">
                                 @foreach ($subjects as $subject)
                                     <div class="form-group clearfix">
                                         <div class="icheck-primary d-inline">
-                                            <input type="checkbox" name="{{ $subject->id }}" id="checkboxPrimary{{ $subject->id }}">
+                                            <input type="checkbox" name="{{ $subject->id }}"
+                                                id="checkboxPrimary{{ $subject->id }}">
                                             <label for="checkboxPrimary{{ $subject->id }}" style="font-size:13px">
                                                 {{ $subject->title }}
                                             </label>
@@ -55,7 +57,8 @@
                                                     <label class="lead">{{ $item->title }}</label>
 
                                                     {{ substr($item->description, 0, 100) }} <a
-                                                        href="{{ url('class-detail/') }}/{{ $item->slug }}">read more</a>...
+                                                        href="{{ url('class-detail/') }}/{{ $item->slug }}">read
+                                                        more</a>...
                                                 </div>
                                                 <div class="col-5 text-center">
                                                     <img src="dist/img/user1-128x128.jpg" alt="user-avatar"

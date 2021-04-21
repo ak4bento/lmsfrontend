@@ -19,6 +19,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
+
+// teacher assignment
+Route::get('create-assignment/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'create'])->name('createAssignment');
+Route::post('store-assignment', [App\Http\Controllers\Frontend\AssignmentController::class, 'store'])->name('storeAssignment');
+Route::get('edit-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'edit'])->name('editAssignment');
+Route::post('update-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'update'])->name('updateAssignment');
+Route::get('destroy-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'destroy'])->name('destroyAssignment');
+
 Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
@@ -34,12 +43,10 @@ Route::group(['middleware' => ['role:student']], function () {
     Route::get('/get-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuiz'])->name('getQuiz');
     Route::get('/submited-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'submitedQuiz'])->name('submitedQuiz');
 });
-Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
     //
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('admin.home');
-
 
     Route::resource('userStudents', App\Http\Controllers\UserStudentController::class);
 

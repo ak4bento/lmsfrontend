@@ -76,9 +76,10 @@
         });
     });
 
-    $(function () {
-    bsCustomFileInput.init();
+    $(function() {
+        bsCustomFileInput.init();
     });
+
 </script>
 
 <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
@@ -106,7 +107,8 @@
             showCancelButton: true,
             confirmButtonColor: '#174ea6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Delete '
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.value) {
                 // $(".form").submit();
@@ -131,4 +133,5 @@
             });
         }
     });
+
 </script>

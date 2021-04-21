@@ -34,12 +34,14 @@ class ClassroomController extends Controller
                     ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
+                    ->where('classrooms.deleted_at',null)
                     ->first();
         // dd($classrooms);
 
         $teachables = DB::table('teachables')
                     ->select('teachables.*')
                     ->where('teachables.classroom_id',$classrooms->id)
+                    ->where('teachables.deleted_at',null)
                     ->get();
             // dd($teachables);
 
@@ -52,7 +54,7 @@ class ClassroomController extends Controller
                         ->where('classroom_user.deleted_at',null)
                         ->count();
         $subjects = Subject::all();
-        // dd($classroomUsers);
+        // dd($teachables);
         return view('frontend.users.classDetail')
                 ->with('classroomUsers', $classroomUsers)
                 ->with('classrooms', $classrooms)
