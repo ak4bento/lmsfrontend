@@ -78,16 +78,14 @@
                                     <!-- /.card-footer -->
                                     <div class="card-footer">
                                         <form action="#" method="post">
+                                            @csrf
                                             <img class="img-fluid img-circle img-sm"
                                                 src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="Alt Text">
                                             <!-- .img-push is used to add margin to elements next to floating images -->
                                             <div class="img-push">
-                                                <textarea type="text" class="form-control form-control-sm"
-                                                    placeholder="Press enter to post comment"></textarea>
-                                                <input type="submit" class="btn btn-primary btn-sm float-right"
-                                                    value="kirim" style="margin-top:5px">
+                                                <textarea type="text" class="form-control form-control-sm" name="comment" placeholder="Press enter to post comment"></textarea>
+                                                <input type="submit" class="btn btn-primary btn-sm float-right" value="kirim" style="margin-top:5px">
                                             </div>
-
                                         </form>
                                     </div>
                                     <!-- /.card-footer -->

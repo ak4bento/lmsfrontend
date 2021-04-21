@@ -24,6 +24,7 @@ Route::group(['middleware' => ['role:student']], function () {
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
     Route::get('/class-detail/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'show'])->name('classroom.detail');
     Route::get('/class-work-detail/{slug}/{id}', [App\Http\Controllers\Frontend\ClassroomController::class, 'classWork'])->name('class.work.detail');
+    Route::post('/class-work-detail/resources/{id}', [App\Http\Controllers\Frontend\ClassroomController::class, 'discussions'])->name('classroom.discussions');
 
     Route::post('/upload-assigment', [App\Http\Controllers\Frontend\UploadController::class, 'assigment'])->name('upload.assigment');
     Route::get('/quizzes/quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'quiz'])->name('class.quiz');

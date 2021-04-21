@@ -9,6 +9,8 @@ use Auth;
 use App\Repositories\ClassroomRepository;
 use DB;
 use App\Models\Subject;
+use App\Models\Discussion;
+use Redirect;
 
 class ClassroomController extends Controller
 {
@@ -46,6 +48,30 @@ class ClassroomController extends Controller
         $subjects = Subject::all();
 
         return view('frontend.users.classDetail')->with('classrooms', $classrooms)->with('subjects',$subjects)->with('teachables',$teachables);
+    }
+
+
+    /**
+     * discussions the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function discussions(Request $request, $id)
+    {
+        // dd($request);
+        $discuss = new Discussion;
+
+        $discuss['discussable_type'] = 'resources';
+        $discuss['discussable_id'] = $id;
+        $discuss['message'] = $request['comment'];
+        $discuss['user_id'] = Auth::user()->id;
+        // dd($classrooms);
+
+        $discuss->save();
+
+        $subjects = Subject::all();
+
+        return Redirect::back();
     }
 
     public function classWork($slug,$id)
