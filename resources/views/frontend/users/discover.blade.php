@@ -2,7 +2,7 @@
     <div class="container">
         <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2;border-radius: 10px ;">
             <div class="container">
-                <h1 class="display-4">Discover</h1>
+                <h1 class="display-4"><strong>Discover</strong> </h1>
                 <p class="lead">Temukan kelas terbaik untuk anda.</p>
             </div>
         </div>
@@ -45,7 +45,7 @@
 
                     @foreach ($classrooms as $item)
                         <div class="col-lg-6
-                            col-sm-6 col-md-6">
+                                col-sm-6 col-md-6">
                             <div class="card bg-light card-primary card-outline">
                                 <div class="card-header text-muted border-bottom-0">
                                     <label>

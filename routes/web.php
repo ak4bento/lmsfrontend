@@ -28,6 +28,13 @@ Route::get('edit-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\Assignm
 Route::post('update-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'update'])->name('updateAssignment');
 Route::get('destroy-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'destroy'])->name('destroyAssignment');
 
+//teacher resources
+Route::get('create-resources/{slug}', [App\Http\Controllers\Frontend\ResourcesController::class, 'create'])->name('createResources');
+Route::post('store-resources', [App\Http\Controllers\Frontend\ResourcesController::class, 'store'])->name('storeResources');
+Route::get('edit-resources/{slug}/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'edit'])->name('editResources');
+Route::post('update-resources/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'update'])->name('updateResources');
+Route::get('destroy-resources/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'destroy'])->name('destroyResources');
+
 Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
