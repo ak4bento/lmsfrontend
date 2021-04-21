@@ -48,6 +48,7 @@ class ClassroomController extends Controller
                         ->join('users', 'users.id', '=', 'classroom_user.user_id')
                         ->select('classrooms.*','users.id as user_id')
                         ->where('classroom_user.user_id',Auth::user()->id)
+                        ->where('classroom_user.classroom_id',$classrooms->id)
                         ->where('classroom_user.deleted_at',null)
                         ->count();
         $subjects = Subject::all();

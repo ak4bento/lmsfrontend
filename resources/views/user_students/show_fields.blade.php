@@ -26,20 +26,19 @@
                     <td>{{ $classroom_user->start_at }} - {{ $classroom_user->end_at }}</td>
                     <td>{{ App\Models\TeachingPeriod::find($classroom_user->teaching_period_id)->name }}</td>
                     <td width="120">
-                        {!! Form::open(['route' => ['classroomUsers.destroy', $classroom_user->id], 'method' => 'delete']) !!}
-                        <a href="{{ route('classroomUsers.show', [$classroom_user->id]) }}"
+                        <a href="{{ route('classroomUsers.show', [$classroom_user->classroom_user_id]) }}"
                             class='btn btn-info btn-sm'>
                             <i class="far fa-eye"></i>
                         </a>
-                        <a href="{{ route('classroomUsers.edit', [$classroom_user->id]) }}"
+                        <a href="{{ route('classroomUsers.edit', [$classroom_user->classroom_user_id]) }}"
                             class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        <button class="btn btn-danger btn-sm" id="delete" data-id="{{ $classroom_user->id }}"
-                            data-url="{{ url('classroomUsers/destroy') }}/{{ $classroom_user->id }}">
+                        <button class="btn btn-danger btn-sm delete" id="delete"
+                            data-id="{{ $classroom_user->classroom_user_id }}"
+                            data-url="{{ url('admin/classroomUsers/destroy') }}/{{ $classroom_user->classroom_user_id }}">
                             <i class="far fa-trash-alt"></i>
                         </button>
-                        {!! Form::close() !!}
                     </td>
                 </tr>
             @endforeach
