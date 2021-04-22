@@ -15,7 +15,6 @@
         <section class="content">
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="row">
                         <div class="col-md-3">
                             <div class="card">
@@ -28,6 +27,11 @@
                                     <dl>
                                         {{ $classrooms->description }}
                                     </dl>
+                                    @if ($classroomUsers < 1)
+                                        <a class="btn btn-primary btn-block join-class">
+                                            Gabung ke Dalam kelas
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                             <!-- /.card -->
@@ -40,121 +44,102 @@
                                         assignment </a>
                                     <a href="{{ route('createResources', $classrooms->slug) }}">
                                         resources </a>
-
                                 </div>
                             </div>
                             @foreach ($teachables as $teachable)
-                                <div class="card card-widget">
-                                    <div class="card-header">
-                                        <div class="user-block">
-                                            @if ($teachable->teachable_type == 'quiz')
-                                                {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                            @elseif ($teachable->teachable_type == 'resource')
-                                                {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                            @elseif ($teachable->teachable_type == 'assignment')
-                                                {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                            @endif
-                                        </div>
-                                        <!-- /.user-block -->
-                                        <div class="card-tools">
-                                            @php
-                                            @endphp
-                                            Ditambahkan :
-                                            {{ date('h:ia', strtotime($teachable->updated_at)) }}
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <!-- /.card-tools -->
-                                    </div>
-                                    <!-- /.card-header -->
+                                <div class="card">
+                                    {{-- onclick="location.href='asdhasjkh';" style="cursor: pointer;" --}}
                                     <div class="card-body">
-                                        <!-- post text -->
-                                        <div class="row align-items-end">
-                                            <div class="col-lg-9 col-md-8 col-sm-6">
-                                                @if ($teachable->teachable_type == 'quiz')
-                                                    {!! App\Models\Quizzes::find($teachable->teachable_id)->description !!}
-                                                @elseif ($teachable->teachable_type == 'resource')
-                                                    {!! App\Models\Resource::find($teachable->teachable_id)->description !!}
-                                                @elseif ($teachable->teachable_type == 'assignment')
-                                                    {!! App\Models\Assignment::find($teachable->teachable_id)->description !!}
-                                                @endif
+                                        <div class="row align-items-center">
+                                            <div class="col col-lg-1 col-md-1 col-sm-1">
+                                                <img src="{{ asset('study.png') }}" class="img-fluid">
                                             </div>
-                                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                                @if ($classroomUsers > 0)
-                                                    @if ($teachable->teachable_type == 'quiz')
-                                                        <a href="{{ url('/class-work-detail') }}/{{ 'quizzes' }}/{{ $teachable->teachable_id }}"
-                                                            class="btn btn-primary btn-sm float-right" data-html="true"
-                                                            data-toggle="tooltip" title="<h6>Lihat Kuis</h6>"><i
-                                                                class="far fa-eye"></i>
-                                                        </a>
-                                                    @elseif ($teachable->teachable_type == 'resource')
-                                                        {{-- resource --}}
-                                                        {{-- hapus --}}
-                                                        <a data-url="{{ route('destroyResources', $teachable->teachable_id) }}"
-                                                            class="btn btn-danger btn-sm float-right delete"
-                                                            data-html="true" style="margin-left: 2px" data-toggle="tooltip"
-                                                            title="<h6>Hapus Materi</h6>"><i class="fa fa-trash"></i>
-                                                        </a>
-                                                        {{-- edit --}}
-                                                        <a href="{{ route('editResources', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                            class="btn btn-success btn-sm float-right"
-                                                            style="margin-left: 2px" data-toggle="tooltip" data-html="true"
-                                                            title="<h6>Edit Materi</h6>"><i class="far fa-edit"></i>
-                                                        </a>
+                                            <div class="col col-lg-9 col-md-9 col-sm-9  ">
+                                                @if ($teachable->teachable_type == 'quiz')
+                                                    <a
+                                                        href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
+                                                        {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                    </a>
+                                                @elseif ($teachable->teachable_type == 'resource')
+                                                    <a
+                                                        href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
+                                                        {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                    </a>
+                                                @elseif ($teachable->teachable_type == 'assignment')
+                                                    <a
+                                                        href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
+                                                        {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                    </a>
 
-                                                        {{-- lihat --}}
-                                                        <a href="{{ url('/class-work-detail') }}/{{ 'resources' }}/{{ $teachable->teachable_id }}"
-                                                            class="btn btn-primary btn-sm float-right" data-html="true"
-                                                            data-toggle="tooltip" title="<h6>Lihat Materi</h6>"><i
-                                                                class="far fa-eye"></i>
-                                                        </a>
-                                                    @elseif ($teachable->teachable_type == 'assignment')
-                                                        {{-- assignment --}}
-                                                        {{-- hapus --}}
-                                                        <a data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}"
-                                                            class="btn btn-danger btn-sm float-right delete"
-                                                            data-html="true" style="margin-left: 2px" data-toggle="tooltip"
-                                                            title="<h6>Hapus Tugas</h6>"><i class="fa fa-trash"></i>
-                                                        </a>
-
-                                                        {{-- edit --}}
-                                                        <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                            class="btn btn-success btn-sm float-right"
-                                                            style="margin-left: 2px" data-toggle="tooltip" data-html="true"
-                                                            title="<h6>Edit Tugas</h6>"><i class="far fa-edit"></i>
-                                                        </a>
-
-                                                        {{-- lihat --}}
-                                                        <a href="{{ url('/class-work-detail') }}/{{ 'assignments' }}/{{ $teachable->teachable_id }}"
-                                                            class="btn btn-primary btn-sm float-right" data-html="true"
-                                                            data-toggle="tooltip" title="<h6>Lihat Tugas</h6>"><i
-                                                                class="far fa-eye"></i>
-                                                        </a>
-                                                        {{-- end assignment --}}
-                                                    @endif
-                                                @else
-                                                    <a class="btn btn-primary btn-sm float-right not_allowed"
-                                                        data-html="true" data-toggle="tooltip" title="<h6>Lihat</h6>"><i
-                                                            class="far fa-eye"></i>
-                                                        Lihat</a>
                                                 @endif
+                                                <p> Diterbitkan :
+                                                    {{ date('d-m-Y H:i', strtotime($teachable->updated_at)) }}</p>
+                                            </div>
+                                            <div class="col col-lg-2 col-md-2 col-sm-2  ">
+                                                <div class="dropdown">
+                                                    <a class="btn float-right" href="#" role="button" id="dropdownMenuLink"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="fas fa-ellipsis-v primary"></i>
+                                                    </a>
+
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                        @if ($teachable->teachable_type == 'quiz')
+                                                            <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                class="dropdown-item">Edit </a>
+                                                            <a class="dropdown-item btn delete" href=""
+                                                                data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
+                                                                Hapus</a>
+                                                        @elseif ($teachable->teachable_type == 'resource')
+                                                            <a href="{{ route('editResources', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                class="dropdown-item">Edit </a>
+                                                            <a class="dropdown-item btn delete" href=""
+                                                                data-url="{{ route('destroyResources', $teachable->teachable_id) }}">
+                                                                Hapus</a>
+                                                        @elseif ($teachable->teachable_type == 'assignment')
+                                                            <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                class="dropdown-item">Edit </a>
+                                                            <a class="dropdown-item btn delete" href=""
+                                                                data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
+                                                                Hapus</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /.card -->
                             @endforeach
                         </div>
-                        <!-- /.col -->
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
         </section>
     </div>
 @endsection
 @push('page_scripts')
+    <script>
+        $(".join-class").click(function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+
+            console.log('url', url);
+            Swal.fire({
+                title: 'Anda Yakin?',
+                text: 'Tekan Tombol "Gabung" Jika Anda Ingin Bergabung Dikelas ini!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#174ea6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Gabung',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    // window.location.href = url;
+                }
+            })
+        });
+
+    </script>
     <script>
         $(".delete").click(function(e) {
             e.preventDefault();

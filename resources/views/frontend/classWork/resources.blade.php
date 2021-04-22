@@ -31,32 +31,30 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <!-- /.col -->
-                        <div class="col-md-12">
-                            <div class="card">
-                                <video id="player" playsinline controls data-poster="{{ $classWork->data }}">
-                                    <source src="{{ $classWork->data }}" type="video/mp4" size="576"> />
-                                    <source src="{{ $classWork->data }}" type="video/mp4" size="876"> />
-                                    <!-- Captions are optional -->
-                                    <track kind="captions" label="English captions" src="/path/to/captions.vtt" srclang="en"
-                                        default />
-                                </video>
+                        @if ($classWork->type == 'video')
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <video id="player" playsinline controls data-poster="{{ $classWork->data }}">
+                                        <source src="{{ $classWork->data }}" type="video/mp4" size="576"> />
+                                        <source src="{{ $classWork->data }}" type="video/mp4" size="876"> />
+                                        <!-- Captions are optional -->
+                                        <track kind="captions" label="English captions" src="/path/to/captions.vtt"
+                                            srclang="en" default />
+                                    </video>
+
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <!-- /.col -->
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
                                     <!-- Box Comment -->
-                                    <div class="card card-widget">
+                                    <div class="card card-widget card-primary card-outline">
                                         <div class="card-header">
-                                            <div class="user-block">
-                                                <img class="img-circle" src="https://img.icons8.com/carbon-copy/2x/file.png"
-                                                    alt="User Image">
-                                                <span class="username"><a href="#">{{ $classWork->title }}</a></span>
-                                                <span class="description">Shared publicly -
-                                                    {{ $classWork->created_at }}
-                                                </span>
-                                            </div>
+                                            <span class="card-title" style="font-size: 15px">
+                                                Diterbitkan - {{ $classWork->created_at }}
+                                            </span>
                                             <!-- /.user-block -->
                                             <div class="card-tools">
                                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -69,8 +67,18 @@
                                         <div class="card-body">
                                             <!-- post text -->
                                             <p>
-                                                {{ $classWork->description }}
+                                                {!! $classWork->description !!}
                                             </p>
+                                            @if ($classWork->type == 'audio' || $classWork->type == 'documents')
+                                                <a target="_blank"
+                                                    href="{{ asset(
+    'files/' .
+        App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->file_name,
+) }}">
+                                                    {{ App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->name }}
+                                                </a>
+
+                                            @endif
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer card-comments">
@@ -119,14 +127,6 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="row">
-            <div class="card col-12">
-                <div class="card-body">
-                    <h5 class="card-title">Deskripsi</h5>
-                    <p class="card-text">{{ $classWork->description }}.</p>
-                </div>
-            </div>
-        </div> --}}
         </section>
     </div>
 @endsection
