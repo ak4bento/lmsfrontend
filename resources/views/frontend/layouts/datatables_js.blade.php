@@ -95,10 +95,8 @@
 <script>
     $("#delete").click(function(e) {
         e.preventDefault();
-        // let id = $(this).data('id');
         let url = $(this).data('url');
 
-        // url = url.replace(':id', id);
         console.log('url', url);
         Swal.fire({
             title: 'Anda Yakin?',
@@ -111,13 +109,9 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.value) {
-                // $(".form").submit();
-                // window.location.href = form.submit();
                 window.location.href = url;
-                // window.location.href = "{{ url('/candidate/delete/') }}" + "/" + postId;
             }
         })
-
     });
     var fixmeTop = $('.fixme').offset().top;
     $(window).scroll(function() {

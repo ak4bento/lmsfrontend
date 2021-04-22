@@ -29,7 +29,7 @@
             @include('adminlte-templates::common.errors')
 
             <div class="card card-primary card-outline">
-                <form action="{{ route('storeResources') }}" method="POST">
+                <form action="{{ route('storeResources') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-row">
                             @include('frontend.teacher.resources.fields')

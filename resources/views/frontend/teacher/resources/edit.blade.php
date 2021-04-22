@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h1>Perbaharui Tugas</h1>
+                            <h1>Perbaharui Materi</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -16,7 +16,7 @@
                                     <a href="{{ route('classroom.detail', $classrooms->slug) }}">Kelas</a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                    Perbaharui Tugas
+                                    Perbaharui Materi
                                 </li>
                             </ol>
                         </div>
@@ -29,10 +29,11 @@
             @include('adminlte-templates::common.errors')
 
             <div class="card card-primary card-outline">
-                <form action="{{ route('updateAssignment', $assignments->id) }}" method="POST">
+                <form action="{{ route('updateResources', $resources->id) }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-row">
                             @include('frontend.teacher.resources.fields')
+
                         </div>
                     </div>
                     <div class="card-footer">

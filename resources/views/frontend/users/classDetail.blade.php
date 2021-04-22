@@ -92,11 +92,10 @@
                                                         {{-- resource --}}
                                                         {{-- hapus --}}
                                                         <a data-url="{{ route('destroyResources', $teachable->teachable_id) }}"
-                                                            class="btn btn-danger btn-sm float-right" id="delete"
+                                                            class="btn btn-danger btn-sm float-right delete"
                                                             data-html="true" style="margin-left: 2px" data-toggle="tooltip"
                                                             title="<h6>Hapus Materi</h6>"><i class="fa fa-trash"></i>
                                                         </a>
-
                                                         {{-- edit --}}
                                                         <a href="{{ route('editResources', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                             class="btn btn-success btn-sm float-right"
@@ -114,7 +113,7 @@
                                                         {{-- assignment --}}
                                                         {{-- hapus --}}
                                                         <a data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}"
-                                                            class="btn btn-danger btn-sm float-right" id="delete"
+                                                            class="btn btn-danger btn-sm float-right delete"
                                                             data-html="true" style="margin-left: 2px" data-toggle="tooltip"
                                                             title="<h6>Hapus Tugas</h6>"><i class="fa fa-trash"></i>
                                                         </a>
@@ -157,6 +156,26 @@
 @endsection
 @push('page_scripts')
     <script>
+        $(".delete").click(function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+
+            console.log('url', url);
+            Swal.fire({
+                title: 'Anda Yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#174ea6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = url;
+                }
+            })
+        });
         $(".not_allowed").click(function(e) {
             e.preventDefault();
             Swal.fire({

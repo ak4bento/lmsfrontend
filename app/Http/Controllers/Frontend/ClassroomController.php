@@ -9,6 +9,7 @@ use Auth;
 use App\Repositories\ClassroomRepository;
 use DB;
 use App\Models\Subject;
+use App\Models\Classroom;
 
 class ClassroomController extends Controller
 {
@@ -68,7 +69,27 @@ class ClassroomController extends Controller
 
         $discussions = DB::table('discussions')->where('discussable_type',$slug)->where('discussable_id',$id)->get();
 
-        // dd($discussions);
+        // dd($classWork);
+
+        if($slug =='resources'){
+            $teachable     = DB::table('teachables')
+                            ->select('*')
+                            ->where('teachable_type','resource')
+                            ->where('teachable_id',$classWork->id)
+                            ->first();
+            $classroomUser = DB::table('classroom_user')
+                            ->select('*')
+                            ->where('user_id',Auth::user()->id)
+                            ->where('classroom_id',$teachable->classroom_id)
+                            ->first();
+            $teachableUser = DB::table('teachable_users')
+                            ->select('*')
+                            ->where('classroom_user_id',$classroomUser->id)
+                            ->where('teachable_id',$teachable->id)
+                            ->first();
+            $classrooms = Classroom::find($teachable->classroom_id);
+            return view('frontend.classWork.resources')->with('classWork',$classWork)->with('classrooms',$classrooms)->with('discussions',$discussions);
+        }
 
         if($slug =='assignments'){
             $complete = DB::table('media')
@@ -77,7 +98,14 @@ class ClassroomController extends Controller
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
             // dd($complete);
-            return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete);
+            $teachable     = DB::table('teachables')
+                            ->select('*')
+                            ->where('teachable_type','assignment')
+                            ->where('teachable_id',$classWork->id)
+                            ->first();
+            $classrooms = Classroom::find($teachable->classroom_id);
+
+            return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete)->with('classrooms',$classrooms);
         }
 
 
@@ -101,9 +129,10 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('teachable_user_id',$teachableUser->id)
                             ->get();
+            $classrooms = Classroom::find($teachable->classroom_id);
         
                             // dd($quiestion_quiz);
-            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable);
+            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable)->with('classrooms',$classrooms);
         }
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
         // return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
