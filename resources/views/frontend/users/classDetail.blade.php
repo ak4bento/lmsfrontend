@@ -6,9 +6,9 @@
                 <p class="lead">
                     {{ $classrooms->subject }}
                 </p>
-                <p class="lead">
+                {{-- <p class="lead">
                     Ditambahkan : {{ date('d/m/Y', strtotime($classrooms->created_at)) }}
-                </p>
+                </p> --}}
             </div>
         </div>
         <!-- Main content -->
