@@ -26,6 +26,8 @@
         </section>
         <!-- Main content -->
         <section class="content px-3">
+            @include('adminlte-templates::common.errors')
+
             <div class="card card-primary card-outline">
                 <form action="{{ route('updateAssignment', $assignments->id) }}" method="POST">
                     <div class="card-body">

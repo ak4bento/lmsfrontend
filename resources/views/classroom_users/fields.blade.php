@@ -38,8 +38,7 @@
 </div>
 
 <!-- User Id Field -->
-<input type="hidden" name="user_id" id="user_id"
-    value="{{ isset($userStudent) ?  $userStudent->id : '' }}">
+<input type="hidden" name="user_id" id="user_id" value="{{ isset($userStudent) ? $userStudent->id : '' }}">
 
 <div class="form-group col-sm-6">
     {!! Form::label('full_name', 'Nama Lengkap   :') !!}
@@ -79,7 +78,7 @@
             $('#classroom_id').change(function() {
                 var id = $(this).val();
                 console.log("ini ID :", id);
-                var rute = "{{ url('get-classrooms') }}/" + id;
+                var rute = "{{ url('admin/get-classrooms') }}/" + id;
                 console.log("ini ID :", rute);
 
                 $.ajax({
@@ -102,7 +101,7 @@
             $('#user_id').change(function() {
                 var id = $(this).val();
                 console.log("ini ID :", id);
-                var rute = "{{ url('get-user-students') }}/" + id;
+                var rute = "{{ url('admin/get-user-students') }}/" + id;
                 // console.log("ini ID :", rute);
 
                 $.ajax({
@@ -126,7 +125,6 @@
             $('#datetimepicker1').datetimepicker({
                 defaultDate: "{{ isset($classroomUser) ? $classroomUser->last_accesed_at : '' }}",
                 locale: 'id'
-
             });
         });
 
