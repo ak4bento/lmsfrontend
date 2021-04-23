@@ -2,7 +2,11 @@
     <div class="container">
         <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2;border-radius: 10px ;">
             <div class="container">
-                <h1 class="display-4">{{ $classrooms->title }}</h1>
+                <h1 class="display-4">
+                    <strong>
+                        {{ $classrooms->title }}
+                    </strong>
+                </h1>
                 <p class="lead">
                     {{ $classrooms->subject }}
                 </p>
@@ -60,7 +64,6 @@
                                             </div> --}}
                                             <div class="col col-lg-10 col-md-10 col-sm-10">
                                                 <div class="row">
-
                                                     @if ($teachable->teachable_type == 'quiz')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
                                                             style="font-weight: bold;"
@@ -118,7 +121,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>

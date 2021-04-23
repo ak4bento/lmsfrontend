@@ -1,12 +1,25 @@
+@push('page_css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+@endpush
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
 <input type="hidden" name="classroom_id" value="{{ $classrooms->id }}" />
 
 <input type="hidden" name="slug" value="{{ $classrooms->slug }}" />
 
-<div class="form-group col-sm-12 col-md-12 col-lg-12">
+<div class="form-group col-sm-12 col-md-6 col-lg-9">
     <label for="">Judul :</label>
     <input type="text" value="{{ isset($assignments) ? $assignments->title : '' }}" name="title" class="form-control">
+</div>
+
+<div class="form-group col-sm-12 col-md-6 col-lg-3">
+    <label for="user_id">Pilih Partisipan : </label>
+    <select name="user_id[]" class="selectpicker my-select form-control" multiple data-actions-box="true" multiple
+        data-style="btn-default" data-live-search="true" id="user_id">
+        @foreach (App\Models\UserStudent::all() as $data)
+            <option value="{{ $data->id }}" {{ $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
+        @endforeach
+    </select>
 </div>
 
 {{-- max_attempts_count --}}
@@ -54,13 +67,25 @@
         class="form-control">{{ isset($assignments) ? $assignments->description : '' }}</textarea>
 </div>
 
+
 @push('page_scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
     <script>
         var konten = document.getElementById("Deskripsi");
         CKEDITOR.replace(konten, {
             language: 'en-gb'
         });
         CKEDITOR.config.allowedContent = true;
+        $(function() {
+            $('.my-select').selectpicker();
+        });
+        // $(document).ready(function() {
+        //     $('.js-example-basic-multiple').select2({
+        //         theme: "bootstrap4",
+
+        //     });
+        // });
 
     </script>
     <script type="text/javascript">

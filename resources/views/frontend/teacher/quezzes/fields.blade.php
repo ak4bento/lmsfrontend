@@ -5,7 +5,7 @@
 <!-- Title Field -->
 <div class="form-group col-sm-12 col-lg-12 col-md-12 ">
     {!! Form::label('title', 'Judul:') !!}
-    {!! Form::text('title', null, ['class' => 'form-control', 'maxlength' => 191, 'maxlength' => 191]) !!}
+    <input type="text" name="title" class="form-control" value="{{ isset($quizzes) ? $quizzes->title : '' }}">
 </div>
 @if (isset($question_quizzes))
     <div class="form-group col-sm-12 col-lg-12">
@@ -18,7 +18,7 @@
     <div class="form-group col-sm-12 col-lg-12">
         <table id="example2" class="table table-bordered " style="width: 100%">
             <thead>
-                <tr>
+                <tr>edit
                     <th>Pertanyaan</th>
                     <th width="200">Dibuat Oleh</th>
                     <th width="100">Aksi</th>
@@ -33,7 +33,7 @@
                         <td>{!! $question_quizze->content !!} </td>
                         <td> {{ App\Models\User::find($question_quizze->created_by)->name }} </td>
                         <td width="120">
-                            <a href="{{ route('questions.edit', [$question_quizze->id]) }}"
+                            <a href="{{ route('editQuestion', [$question_quizze->id]) }}"
                                 class='btn btn-primary btn-sm'>
                                 <i class="far fa-edit"></i>
                             </a>
@@ -86,7 +86,7 @@
 <div class="form-group col-sm-12 col-md-12 col-lg-12">
     <label for="">Deskripsi :</label>
     <textarea id="Deskripsi" name="description"
-        class="form-control">{{ isset($resources) ? $resources->description : '' }}</textarea>
+        class="form-control">{{ isset($quizzes) ? $quizzes->description : '' }}</textarea>
 </div>
 
 @push('page_scripts')

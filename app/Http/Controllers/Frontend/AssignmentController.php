@@ -46,6 +46,7 @@ class AssignmentController extends AppBaseController
             'title' => 'required|unique:assignments,title',
         ]);
         $input = $request->all();
+        dd($input);
         $input['created_by'] = auth()->user()->id;
         $input['final_grade_weight'] = 0;
         $input['order'] = 1;
