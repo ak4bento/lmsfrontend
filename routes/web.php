@@ -35,6 +35,21 @@ Route::get('edit-resources/{slug}/{id}', [App\Http\Controllers\Frontend\Resource
 Route::post('update-resources/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'update'])->name('updateResources');
 Route::get('destroy-resources/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'destroy'])->name('destroyResources');
 
+//teacher Quezzes
+Route::get('create-quezzes/{slug}', [App\Http\Controllers\Frontend\QuezzesController::class, 'create'])->name('createQuezzes');
+Route::post('store-quezzes', [App\Http\Controllers\Frontend\QuezzesController::class, 'store'])->name('storeQuezzes');
+Route::get('edit-quezzes/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'edit'])->name('editQuezzes');
+Route::post('update-quezzes/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'update'])->name('updateQuezzes');
+Route::get('destroy-quezzes/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'destroy'])->name('destroyQuezzes');
+
+//teacher Question
+Route::get('create-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'create'])->name('createQuestion');
+Route::post('store-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'store'])->name('storeQuestion');
+Route::get('edit-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'edit'])->name('editQuestion');
+Route::post('update-question/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'update'])->name('updateQuestion');
+Route::get('destroy-question/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'destroy'])->name('destroyQuestion');
+Route::get('quiz/all-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'index'])->name('showAllQuestion');
+
 Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');

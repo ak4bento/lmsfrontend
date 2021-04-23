@@ -14,6 +14,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
+
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-md-3">
@@ -34,7 +35,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <!-- /.card -->
+
                         </div>
                         <!-- /.col -->
                         <div class="col-md-9">
@@ -44,6 +45,8 @@
                                         assignment </a>
                                     <a href="{{ route('createResources', $classrooms->slug) }}">
                                         resources </a>
+                                    <a href="{{ route('createQuezzes', $classrooms->slug) }}">
+                                        Quezzes </a>
                                 </div>
                             </div>
                             @foreach ($teachables as $teachable)
@@ -51,31 +54,39 @@
                                     {{-- onclick="location.href='asdhasjkh';" style="cursor: pointer;" --}}
                                     <div class="card-body">
                                         <div class="row align-items-center">
-                                            <div class="col col-lg-1 col-md-1 col-sm-1">
-                                                <img src="{{ asset('study.png') }}" class="img-fluid">
-                                            </div>
-                                            <div class="col col-lg-9 col-md-9 col-sm-9  ">
-                                                @if ($teachable->teachable_type == 'quiz')
-                                                    <a
-                                                        href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
-                                                        {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                                    </a>
-                                                @elseif ($teachable->teachable_type == 'resource')
-                                                    <a
-                                                        href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
-                                                        {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                                    </a>
-                                                @elseif ($teachable->teachable_type == 'assignment')
-                                                    <a
-                                                        href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
-                                                        {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                                    </a>
+                                            {{-- <div class="col col-lg-1 col-md-1 col-sm-1">
+                                                <img src="{{ asset('study.png') }}" style="max-width: 50px"
+                                                    class="img-fluid">
+                                            </div> --}}
+                                            <div class="col col-lg-10 col-md-10 col-sm-10">
+                                                <div class="row">
 
-                                                @endif
-                                                <p> Diterbitkan :
-                                                    {{ date('d-m-Y H:i', strtotime($teachable->updated_at)) }}</p>
+                                                    @if ($teachable->teachable_type == 'quiz')
+                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
+                                                            style="font-weight: bold;"
+                                                            href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
+                                                            {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                        </a>
+                                                    @elseif ($teachable->teachable_type == 'resource')
+                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat Materi"
+                                                            style="font-weight: bold;"
+                                                            href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
+                                                            {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                        </a>
+                                                    @elseif ($teachable->teachable_type == 'assignment')
+                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
+                                                            style="font-weight: bold;"
+                                                            href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
+                                                            {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                                <div class="row">
+                                                    <span style="color: grey;font-size:10px"> Diposting
+                                                        {{ date('d-m-Y H:i', strtotime($teachable->updated_at)) }}</span>
+                                                </div>
                                             </div>
-                                            <div class="col col-lg-2 col-md-2 col-sm-2  ">
+                                            <div class="col col-lg-2 col-md-2 col-sm-2">
                                                 <div class="dropdown">
                                                     <a class="btn float-right" href="#" role="button" id="dropdownMenuLink"
                                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,27 +95,30 @@
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                         @if ($teachable->teachable_type == 'quiz')
-                                                            <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                            <a href="{{ route('showAllQuestion', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                class="dropdown-item">Lihat Soal </a>
+                                                            <a href="{{ route('editQuezzes', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                 class="dropdown-item">Edit </a>
-                                                            <a class="dropdown-item btn delete" href=""
-                                                                data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
+                                                            <a class="dropdown-item btn delete"
+                                                                data-url="{{ route('destroyQuezzes', $teachable->teachable_id) }}">
                                                                 Hapus</a>
                                                         @elseif ($teachable->teachable_type == 'resource')
                                                             <a href="{{ route('editResources', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                 class="dropdown-item">Edit </a>
-                                                            <a class="dropdown-item btn delete" href=""
+                                                            <a class="dropdown-item btn delete"
                                                                 data-url="{{ route('destroyResources', $teachable->teachable_id) }}">
                                                                 Hapus</a>
                                                         @elseif ($teachable->teachable_type == 'assignment')
                                                             <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                 class="dropdown-item">Edit </a>
-                                                            <a class="dropdown-item btn delete" href=""
+                                                            <a class="dropdown-item btn delete"
                                                                 data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
                                                                 Hapus</a>
                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
