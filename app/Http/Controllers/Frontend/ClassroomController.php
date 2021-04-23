@@ -45,8 +45,9 @@ class ClassroomController extends Controller
                     ->select('teachables.*')
                     ->where('teachables.classroom_id',$classrooms->id)
                     ->where('teachables.deleted_at',null)
+                    ->orderBy('teachables.created_at','DESC')
                     ->get();
-            // dd($teachables);
+        // dd($teachables);
 
         $classroomUsers = DB::table('classroom_user')
                         ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')

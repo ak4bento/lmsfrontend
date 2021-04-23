@@ -26,20 +26,23 @@
         </section>
         <!-- Main content -->
         <section class="content px-3">
-            @include('adminlte-templates::common.errors')
+            <div class="row">
 
-            <div class="card card-primary card-outline">
-                <form action="{{ route('storeAssignment') }}" method="POST">
-                    <div class="card-body">
-                        <div class="form-row">
-                            @include('frontend.teacher.assignment.fields')
+                @include('adminlte-templates::common.errors')
+
+                <div class="card card-primary card-outline">
+                    <form action="{{ route('storeAssignment') }}" method="POST">
+                        <div class="card-body">
+                            <div class="form-row">
+                                @include('frontend.teacher.assignment.fields')
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <input type="submit" value="Simpan" class="btn btn-primary">
-                        <a href="{{ route('classroom.detail', $classrooms->slug) }}" class="btn btn-default">Batal</a>
-                    </div>
-                </form>
+                        <div class="card-footer">
+                            <input type="submit" value="Simpan" class="btn btn-primary">
+                            <a href="{{ route('classroom.detail', $classrooms->slug) }}" class="btn btn-default">Batal</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
     </div>
