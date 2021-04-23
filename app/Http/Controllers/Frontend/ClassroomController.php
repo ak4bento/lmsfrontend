@@ -70,12 +70,12 @@ class ClassroomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function discussions(Request $request, $id)
+    public function discussions(Request $request, $slug, $id)
     {
         // dd($request);
         $discuss = new Discussion;
 
-        $discuss['discussable_type'] = 'resources';
+        $discuss['discussable_type'] = $slug;
         $discuss['discussable_id'] = $id;
         $discuss['message'] = $request['comment'];
         $discuss['user_id'] = Auth::user()->id;
@@ -103,7 +103,7 @@ class ClassroomController extends Controller
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
             // dd($complete);
-            return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete);
+            return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete)->with('discussions',$discussions);
         }
 
 
@@ -127,7 +127,7 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('teachable_user_id',$teachableUser->id)
                             ->get();
-        
+
                             // dd($quiestion_quiz);
             return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable);
         }

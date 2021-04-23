@@ -64,7 +64,7 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         @forelse (DB::table('classroom_user')->where('user_id', Auth::user()->id)->get() as $class)
-                            <i class="far fa-circle"> {{ App\Models\Classroom::find($class->id)->title }}</i><br>
+                            <i class="far fa-circle"> {{ App\Models\Classroom::find($class->classroom_id)->title }}</i><br>
                         @empty
                             Data kelas anda kosong
                         @endforelse
