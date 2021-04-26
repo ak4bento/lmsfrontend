@@ -49,8 +49,15 @@ Route::get('edit-question/{slugClass}/{slugQuiz}/{id}', [App\Http\Controllers\Fr
 Route::post('update-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'update'])->name('updateQuestion');
 Route::get('destroy-question/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'destroy'])->name('destroyQuestion');
 Route::get('quiz/all-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'index'])->name('showAllQuestion');
-
 Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
+
+// owner classroom
+Route::get('create-classroom', [App\Http\Controllers\Frontend\ClassroomController::class,'createClassroom'])->name('createClassroom');
+Route::post('store-classroom', [App\Http\Controllers\Frontend\ClassroomController::class,'storeClassroom'])->name('storeClassroom');
+Route::get('edit-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'editClassroom'])->name('editClassroom');
+Route::post('update-classroom/{id}', [App\Http\Controllers\Frontend\ClassroomController::class,'updateClassroom'])->name('updateClassroom');
+Route::get('delete-classroom/{id}', [App\Http\Controllers\Frontend\ClassroomController::class,'destroyClassroom'])->name('destroyClassroom');
+
 
 Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
@@ -67,6 +74,7 @@ Route::group(['middleware' => ['role:student']], function () {
     Route::get('/get-question/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuestion'])->name('getQuestion');
     Route::get('/get-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuiz'])->name('getQuiz');
     Route::get('/submited-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'submitedQuiz'])->name('submitedQuiz');
+    Route::get('/join-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'joinClassroom'])->name('joinClassroom');
 });
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
