@@ -12,6 +12,8 @@ use Alert;
 use App\Repositories\TeachableRepository;
 use Auth;
 use App\Models\Media;
+use App\Models\ClassroomUser;
+use App\Models\TeachableUser;
 
 class ResourcesController extends AppBaseController
 {
@@ -39,7 +41,14 @@ class ResourcesController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
-        return view('frontend.teacher.resources.create')->with('classrooms',$classrooms);
+        $user = DB::table('classroom_user')
+                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->select('classrooms.*','users.id as user_id','users.name')
+                    ->where('classrooms.slug',$slug)
+                    ->where('classroom_user.deleted_at',null)
+                    ->get();
+        return view('frontend.teacher.resources.create')->with('classrooms',$classrooms)->with('user',$user);
     }
 
     public function store(Request $request)
@@ -51,7 +60,7 @@ class ResourcesController extends AppBaseController
         $input = $request->all();
         $input['type']='video';
 
-        $data = new Media;
+        $data=null;
         $files = $request->file('file');
 
         $collection_name = $request->file('file')->extension();
@@ -92,14 +101,27 @@ class ResourcesController extends AppBaseController
         $resource = $this->resourceRepository->create($input);
         $input['teachable_type'] = "resource";
         $input['teachable_id'] = $resource['id'];
-        $input['classroom_id'] = $input['classroom_id'];
         
         $teachable = $this->teachableRepository->create($input); 
         
         $data['media_id'] = $resource['id'];
         $data['custom_properties'] = json_encode(array('user' => Auth::user()->id));
-        $save = $data->save();
-
+        
+        Media::create($data);
+        if(isset($input['user_id'])){
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                // dd($input['classroom_id']);
+                if($ClassroomUser){
+                    $value['classroom_user_id'] = $ClassroomUser['id'];
+                    $value['teachable_id'] = $teachable['id'];
+                    $deleted_at['deleted_at'] = date('d/m/Y H:i:s');
+                    $TeachableUser = TeachableUser::where('teachable_id',$value['teachable_id'])->delete();
+                    
+                    TeachableUser::create($value);
+                }
+            } 
+        }
         $files->move('images',$files->getClientOriginalName());
 
         Alert::success('Materi saved successfully.');
@@ -114,10 +136,29 @@ class ResourcesController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
-        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('teachables.*')->first();
+        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','resource')->where('deleted_at',null)->select('*')->first();
         $resources = DB::table('resources')->where('id',$id)->where('deleted_at',null)->select('resources.*')->first();
         // dd($teachable);
-        return view('frontend.teacher.resources.edit')->with('classrooms',$classrooms)->with('teachable',$teachable)->with('resources',$resources);
+        $user = DB::table('classroom_user')
+                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->select('classrooms.*','users.id as user_id','users.name')
+                    ->where('classrooms.slug',$slug)
+                    ->get();
+        $teachableUser = DB::table('teachable_users')
+                    ->join('classroom_user', 'classroom_user.id', '=', 'teachable_users.classroom_user_id')
+                    ->join('teachables', 'teachables.id', '=', 'teachable_users.teachable_id')
+                    ->select('classroom_user.*')
+                    ->where('teachable_users.teachable_id',$teachable->id)
+                    ->where('teachable_users.deleted_at',null)
+                    ->get();
+                    // dd($teachableUser);
+        return view('frontend.teacher.resources.edit')
+                ->with('classrooms',$classrooms)
+                ->with('teachable',$teachable)
+                ->with('resources',$resources)
+                ->with('teachableUser',$teachableUser)
+                ->with('user',$user);
     }
 
     public function update($id, Request $request)
@@ -177,7 +218,20 @@ class ResourcesController extends AppBaseController
         $data['custom_properties'] = json_encode(array('user' => Auth::user()->id));
 
         Media::find($model['id'])->update($data);
-
+        if(isset($input['user_id'])){
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                if($ClassroomUser){
+                    $value['classroom_user_id'] = $ClassroomUser['id'];
+                    $value['teachable_id'] = $teachable['id'];
+                    $deleted_at['deleted_at'] = date('d/m/Y H:i:s');
+                    $TeachableUser = TeachableUser::where('teachable_id',$value['teachable_id'])->delete();
+                    TeachableUser::create($value);
+                }
+            } 
+        }else{
+            $TeachableUser = TeachableUser::where('teachable_id',$teachable['id'])->delete();
+        }
         Alert::success('Materi saved successfully.');
         return redirect()->route('classroom.detail', $input['slug']);
     }

@@ -16,9 +16,20 @@
     <label for="user_id">Pilih Partisipan : </label>
     <select name="user_id[]" class="selectpicker my-select form-control" multiple data-actions-box="true" multiple
         data-style="btn-default" data-live-search="true" id="user_id">
-        @foreach (App\Models\UserStudent::all() as $data)
-            <option value="{{ $data->id }}" {{ $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
-        @endforeach
+        @if (isset($teachableUser) && $teachableUser->count() != 0)
+            @foreach ($user as $data)
+                @foreach ($teachableUser as $item)
+                    <option value="{{ $data->user_id }}" {{ $data->user_id == $item->user_id ? 'selected' : '' }}>
+                        {{ $data->name }}</option>
+                @endforeach
+            @endforeach
+        @else
+            @foreach ($user as $data)
+                <option value="{{ $data->user_id }}" {{ isset($teachableUser) ? '' : 'selected' }}>
+                    {{ $data->name }}
+                </option>
+            @endforeach
+        @endif
     </select>
 </div>
 

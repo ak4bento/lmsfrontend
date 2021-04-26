@@ -1,12 +1,38 @@
+@push('page_css')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+@endpush
 <input type="hidden" name="classroom_id" value="{{ $classroom->id }}" />
 <input type="hidden" name="slug" value="{{ $classroom->slug }}" />
 <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
 <!-- Title Field -->
-<div class="form-group col-sm-12 col-lg-12 col-md-12 ">
+<div class="form-group col-sm-12 col-lg-9 col-md-6 ">
     {!! Form::label('title', 'Judul:') !!}
     <input type="text" name="title" class="form-control" value="{{ isset($quizzes) ? $quizzes->title : '' }}">
 </div>
+
+<div class="form-group col-sm-12 col-md-6 col-lg-3">
+    <label for="user_id">Pilih Partisipan : </label>
+    <select name="user_id[]" class="selectpicker my-select form-control" multiple data-actions-box="true" multiple
+        data-style="btn-default" data-live-search="true" id="user_id">
+        @if (isset($teachableUser) && $teachableUser->count() != 0)
+            @foreach ($user as $data)
+                @foreach ($teachableUser as $item)
+                    <option value="{{ $data->user_id }}" {{ $data->user_id == $item->user_id ? 'selected' : '' }}>
+                        {{ $data->name }}</option>
+                @endforeach
+            @endforeach
+        @else
+            @foreach ($user as $data)
+                <option value="{{ $data->user_id }}" {{ isset($teachableUser) ? '' : 'selected' }}>
+                    {{ $data->name }}
+                </option>
+            @endforeach
+        @endif
+    </select>
+</div>
+
+
 @if (isset($question_quizzes))
     <div class="form-group col-sm-12 col-lg-12">
         <h3>
@@ -90,6 +116,14 @@
 </div>
 
 @push('page_scripts')
+    <script>
+        $(function() {
+            $('.my-select').selectpicker();
+        });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
     <script>
         var konten = document.getElementById("Deskripsi");
         CKEDITOR.replace(konten, {

@@ -11,6 +11,8 @@ use Response;
 use DB;
 use Alert;
 use App\Repositories\TeachableRepository;
+use App\Models\TeachableUser;
+use App\Models\ClassroomUser;
 
 class AssignmentController extends AppBaseController
 {
@@ -37,7 +39,16 @@ class AssignmentController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
-        return view('frontend.teacher.assignment.create')->with('classrooms',$classrooms);
+
+        $classroomUser = ClassroomUser::where('classroom_id', $classrooms->id)->where('deleted_at', null)->get();
+        $user = DB::table('classroom_user')
+                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->select('classrooms.*','users.id as user_id','users.name')
+                    ->where('classrooms.slug',$slug)
+                    ->get();
+        // dd($user);
+        return view('frontend.teacher.assignment.create')->with('classrooms',$classrooms)->with('classroomUser',$classroomUser)->with('user',$user);
     }
 
     public function store(Request $request)
@@ -45,20 +56,26 @@ class AssignmentController extends AppBaseController
         $validated = $request->validate([
             'title' => 'required|unique:assignments,title',
         ]);
-        $input = $request->all();
-        dd($input);
+        $input = $request->all(); 
         $input['created_by'] = auth()->user()->id;
         $input['final_grade_weight'] = 0;
         $input['order'] = 1;
 
-        // dd($input);
         $assignment = $this->assignmentRepository->create($input);
         $input['teachable_type'] = "assignment";
         $input['teachable_id'] = $assignment['id'];
         $input['classroom_id'] = $input['classroom_id'];
-        
         $teachable = $this->teachableRepository->create($input); 
-
+        if(isset($input['user_id'])){
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                if($ClassroomUser){
+                    $data['classroom_user_id'] = $ClassroomUser['id'];
+                    $data['teachable_id'] = $teachable['id'];
+                    TeachableUser::create($data);
+                }
+            } 
+        }
         Alert::success('Assignment saved successfully.');
         return redirect()->route('classroom.detail', $input['slug']);
     }
@@ -73,8 +90,27 @@ class AssignmentController extends AppBaseController
                     ->first();
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('teachables.*')->first();
         $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('assignments.*')->first();
-        // dd($teachable);
-        return view('frontend.teacher.assignment.edit')->with('classrooms',$classrooms)->with('teachable',$teachable)->with('assignments',$assignments);
+        $classroomUser = ClassroomUser::where('classroom_id', $classrooms->id)->where('deleted_at', null)->get();
+        $user = DB::table('classroom_user')
+                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->select('classrooms.*','users.id as user_id','users.name')
+                    ->where('classrooms.slug',$slug)
+                    ->get();
+        $teachableUser = DB::table('teachable_users')
+                    ->join('classroom_user', 'classroom_user.id', '=', 'teachable_users.classroom_user_id')
+                    ->join('teachables', 'teachables.id', '=', 'teachable_users.teachable_id')
+                    ->select('classroom_user.*')
+                    ->where('teachable_users.teachable_id',$teachable->id)
+                    ->where('teachable_users.deleted_at',null)
+                    ->get();
+                    // dd($teachableUser);
+        return view('frontend.teacher.assignment.edit')
+                ->with('classrooms',$classrooms)
+                ->with('teachable',$teachable)
+                ->with('assignments',$assignments)
+                ->with('user',$user)
+                ->with('teachableUser',$teachableUser);
     }
 
     public function update($id, Request $request)
@@ -96,9 +132,20 @@ class AssignmentController extends AppBaseController
         $input['classroom_id'] = $input['classroom_id'];
         
         $teachable = $this->teachableRepository->update($input, $teachable->id);
-        // dd($input);
-
-
+        if(isset($input['user_id'])){
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                if($ClassroomUser){
+                    $value['classroom_user_id'] = $ClassroomUser['id'];
+                    $value['teachable_id'] = $teachable['id'];
+                    $deleted_at['deleted_at'] = date('d/m/Y H:i:s');
+                    $TeachableUser = TeachableUser::where('teachable_id',$value['teachable_id'])->delete();
+                    TeachableUser::create($value);
+                }
+            } 
+        }else{
+            $TeachableUser = TeachableUser::where('teachable_id',$teachable['id'])->delete();
+        }
         Alert::success('Assignment saved successfully.');
         return redirect()->route('classroom.detail', $input['slug']);
     }
