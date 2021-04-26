@@ -1,5 +1,21 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
+        {{-- <section class="content-header py-5" style="background-color: #1967d2;border-radius: 10px;margin-bottom:10px">
+            <div class="row text-white ">
+                <div class="col-lg-10 ">
+                    <h1 class="display-4">
+                        <strong>
+                            {{ $classrooms->title }}
+                        </strong>
+                    </h1>
+                    <p class="lead">
+                        {{ $classrooms->subject }}
+                    </p>
+                </div>
+                <div class="col-lg-2" style="background:#C60012;height:70px;">
+                </div>
+            </div>
+        </section> --}}
         <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2;border-radius: 10px ;">
             <div class="container">
                 <h1 class="display-4">
@@ -19,37 +35,57 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        Deskripsi
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <dl>
-                                        {{ $classrooms->description }}
-                                    </dl>
-                                    @if ($classroomUsers < 1)
-                                        <a class="btn btn-primary btn-block join-class">
-                                            Gabung ke Dalam kelas
+                            <div class="fixme">
+                                <div class="card">
+                                    <div class="dropdown ">
+                                        <a class="btn btn-primary btn-block py-2" href="#" role="button"
+                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <i class="fa fa-plus primary"></i> &nbsp;Buat
                                         </a>
-                                    @endif
-                                </div>
-                            </div>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" style="font-size: 18px"
+                                                href="{{ route('createAssignment', $classrooms->slug) }}">
+                                                <i class="fa fa-book"> </i>&nbsp; Tugas
+                                            </a>
+                                            <a class="dropdown-item" style="font-size: 18px"
+                                                href="{{ route('createResources', $classrooms->slug) }}">
+                                                <i class="fa fa-bookmark" aria-hidden="true"></i>
+                                                &nbsp; Materi </a>
+                                            <a class="dropdown-item" style="font-size: 18px"
+                                                href="{{ route('createQuezzes', $classrooms->slug) }}">
+                                                <i class="fa fa-book"></i>&nbsp; Kuis </a>
+                                        </div>
+                                    </div>
 
+                                </div>
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Deskripsi
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <dl>
+                                            {{ $classrooms->description }}
+                                        </dl>
+                                        @if ($classroomUsers < 1)
+                                            <a class="btn btn-primary btn-block join-class">
+                                                Gabung ke Dalam kelas
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-md-9">
-                            <div class="card card-widget">
+                            {{-- <div class="card card-widget">
                                 <div class="card-body">
-                                    <a href="{{ route('createAssignment', $classrooms->slug) }}">
-                                        assignment </a>
-                                    <a href="{{ route('createResources', $classrooms->slug) }}">
-                                        resources </a>
-                                    <a href="{{ route('createQuezzes', $classrooms->slug) }}">
-                                        Quezzes </a>
+
                                 </div>
-                            </div>
+                            </div> --}}
                             @foreach ($teachables as $teachable)
                                 <div class="card">
                                     {{-- onclick="location.href='asdhasjkh';" style="cursor: pointer;" --}}
