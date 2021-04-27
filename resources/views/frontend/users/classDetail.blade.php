@@ -69,6 +69,10 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-body">
+                                    <dl>
+                                        {{ $classrooms->description }}
+                                    </dl>
                                 {{-- owner --}}
                                 <div class="card">
                                     <div class="dropdown ">
@@ -106,12 +110,14 @@
                                         <dl>
                                             {{ $classrooms->description }}
                                         </dl>
-                                        @if ($classroomUsers < 1)
+                                        @hasanyrole('student')
+                                            @if ($classroomUsers < 1)
                                             <a class="btn btn-primary btn-block join-class"
                                                 data-url="{{ route('joinClassroom', $classrooms->slug) }}">
                                                 Gabung ke Dalam kelas
                                             </a>
-                                        @endif
+                                            @endif
+                                        @endhasanyrole
                                     </div>
                                 </div>
 
