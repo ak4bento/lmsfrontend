@@ -17,7 +17,7 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white ">
             <div class="container">
                 <a href="{{ url('home') }}" class="navbar-brand py-4">
                     <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat"
@@ -38,14 +38,14 @@
                             <a href="{{ url('home') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/classes" class="nav-link">Classes</a>
+                            <a href="/classes" class="nav-link">Classrooms</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="backpack.html" class="nav-link">Backpack</a>
-                        </li>
-                        <li class="nav-item">
+                        </li> --}}
+                        {{-- <li class="nav-item">
                             <a href="schedule.html" class="nav-link">Schedule</a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ url('discover') }}" class="nav-link">Discover</a>
                         </li>
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- Right navbar links -->
-                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                {{-- <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <!-- Messages Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -163,7 +163,7 @@
                             <i class="fas fa-th-large"></i>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
         </nav>
         <!-- /.navbar -->
