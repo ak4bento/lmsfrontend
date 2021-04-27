@@ -17,7 +17,7 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white ">
             <div class="container">
                 <a href="{{ url('home') }}" class="navbar-brand py-4">
                     <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat"

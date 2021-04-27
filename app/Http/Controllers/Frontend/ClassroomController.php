@@ -15,15 +15,20 @@ use App\Models\Classroom;
 use App\Models\ClassroomUser;
 use Alert;
 use Illuminate\Support\Str;
+use App\Repositories\ClassroomUserRepository;
 
 class ClassroomController extends Controller
 {
     /** @var  ClassroomRepository */
     private $classroomRepository;
+    /** @var  ClassroomUserRepository */
+    private $classroomUserRepository;
 
-    public function __construct(ClassroomRepository $classroomRepo)
+    public function __construct(ClassroomRepository $classroomRepo,ClassroomUserRepository $classroomUserRepo)
     {
         $this->classroomRepository = $classroomRepo;
+        $this->classroomUserRepository = $classroomUserRepo;
+
         $this->middleware('auth');
     }
 
@@ -84,7 +89,7 @@ class ClassroomController extends Controller
 
         Alert::success('Classroom saved successfully.');
 
-        return redirect()->route('classroom.detail', $Classroom->slug);
+        return redirect()->route('classroom.detail', $input['slug']);
 
     }
 
@@ -235,6 +240,20 @@ class ClassroomController extends Controller
         
         ClassroomUser::create($data);
         return redirect()->route('classroom.detail', $slug);
+        
+    }
+
+    public function destroyClassroom($slug)
+    {
+        $classrooms = Classroom::where('slug',$slug)->first();
+        // dd($classrooms);
+        // $classroomUsers = ClassroomUsers::where('classroom_id',$classrooms->id)->get();
+        // foreach($classroomUsers as $classroomUser){
+        //     $classroomUser = $this->classroomUserRepository->delete($classroomUser->id);
+        // }
+        $this->classroomRepository->delete($classrooms->id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
+        return redirect()->route('classes');
         
     }
 }

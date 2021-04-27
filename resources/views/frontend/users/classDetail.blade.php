@@ -1,4 +1,12 @@
 @extends('frontend.layouts.app') @section('content')
+    @push('page_css')
+        <style>
+            .ion-medium {
+                font-size: 18px;
+            }
+
+        </style>
+    @endpush
     <div class="container">
         {{-- <section class="content-header py-5" style="background-color: #1967d2;border-radius: 10px;margin-bottom:10px">
             <div class="row text-white ">
@@ -43,20 +51,25 @@
                                             <i class="fa fa-plus primary"></i> &nbsp;Buat Aktifitas
                                         </a>
                                         <div class="dropdown-menu">
+
                                             <a class="dropdown-item py-2"
                                                 href="{{ route('createAssignment', $classrooms->slug) }}">
-                                                <i class="fa fa-book"> </i>&nbsp; Tugas
+                                                <ion-icon name="document-text-outline" class="ion-medium"></ion-icon>
+                                                &nbsp;
+                                                Tugas
                                             </a>
                                             <a class="dropdown-item py-2"
                                                 href="{{ route('createResources', $classrooms->slug) }}">
-                                                <i class="fa fa-bookmark" aria-hidden="true"></i>
-                                                &nbsp; Materi </a>
+                                                <ion-icon name="book-outline" class="ion-medium"></ion-icon> &nbsp; Materi
+                                            </a>
                                             <a class="dropdown-item py-2"
                                                 href="{{ route('createQuezzes', $classrooms->slug) }}">
-                                                <i class="fa fa-book"></i>&nbsp; Kuis </a>
+                                                <ion-icon name="bookmarks-outline" class="ion-medium"></ion-icon>&nbsp; Kuis
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
+                                {{-- owner --}}
                                 <div class="card">
                                     <div class="dropdown ">
                                         <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
@@ -66,18 +79,20 @@
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item py-2"
                                                 href="{{ route('createAssignment', $classrooms->slug) }}">
-                                                <i class="fa fa-plus"></i> &nbsp; Tambah Pengajar
+                                                <ion-icon name="person-add" class="ion-medium"></ion-icon> &nbsp; Tambah
+                                                Pengajar
                                             </a>
                                             <a class="dropdown-item py-2"
                                                 href="{{ route('editClassroom', $classrooms->slug) }}">
                                                 <i class="far fa-edit"></i>
                                                 &nbsp; Edit Kelas </a>
-                                            <a class="dropdown-item py-2"
-                                                href="{{ route('createQuezzes', $classrooms->slug) }}">
+                                            <a class="dropdown-item py-2 delete" href=""
+                                                data-url="{{ route('destroyClassroom', $classrooms->slug) }}">
                                                 <i class="fa fa-trash"></i> &nbsp; Hapus Kelas </a>
                                         </div>
                                     </div>
                                 </div>
+                                {{-- end owner --}}
                                 <div class="card ">
                                     <div class="card-header">
                                         <h3 class="card-title">

@@ -33,14 +33,16 @@
 <!-- Code Field -->
 <div class="form-group col-sm-3">
     {!! Form::label('code', 'Kode:') !!}
-    <input type="text" class="form-control" value="{{ $classrooms->code }}" name="code">
+    <input type="text" class="form-control" value="{{ isset($classrooms->code) ? $classrooms->code : '' }}"
+        name="code">
 
 </div>
 
 <!-- Title Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('title', 'Kelas:') !!}
-    <input type="text" class="form-control" value="{{ $classrooms->title }}" name="title">
+    <input type="text" class="form-control" value="{{ isset($classrooms->title) ? $classrooms->title : '' }}"
+        name="title">
 </div>
 
 <!-- Start At Field -->
@@ -60,5 +62,6 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('description', 'Deskripsi:') !!}
-    <input type="text" class="form-control" value="{{ $classrooms->description }}" name="description">
+    <input type="text" class="form-control"
+        value="{{ isset($classrooms->description) ? $classrooms->description : '' }}" name="description">
 </div>

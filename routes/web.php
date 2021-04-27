@@ -56,7 +56,7 @@ Route::get('create-classroom', [App\Http\Controllers\Frontend\ClassroomControlle
 Route::post('store-classroom', [App\Http\Controllers\Frontend\ClassroomController::class,'storeClassroom'])->name('storeClassroom');
 Route::get('edit-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'editClassroom'])->name('editClassroom');
 Route::post('update-classroom/{id}', [App\Http\Controllers\Frontend\ClassroomController::class,'updateClassroom'])->name('updateClassroom');
-Route::get('delete-classroom/{id}', [App\Http\Controllers\Frontend\ClassroomController::class,'destroyClassroom'])->name('destroyClassroom');
+Route::get('delete-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'destroyClassroom'])->name('destroyClassroom');
 
 
 Route::group(['middleware' => ['role:student']], function () {
