@@ -27,14 +27,56 @@
             </section>
             <div class="content col-lg-12 col-sm-12 col-md-12">
                 <div class="row">
-                    @include('flash::message')
+                    @include('adminlte-templates::common.errors')
                     <div class="col-lg-12 col-sm-12 col-md-12">
                         <div class="card">
                             <div class="card-header card-outline card-primary">
                                 <div class="d-flex justify-content-between">
                                     <p class="card-title">Pengajar</p>
-                                    <a class="btn btn-primary btn-sm delete">
-                                        Tambah</a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#exampleModalCenter">
+                                        Tambah
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <form action="{{ route('storeTeacher', $classroom->slug) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">
+                                                            Tambah Pengajar
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group col-sm-12">
+                                                            <select name="user_id" class="form-control select2" id="user_id"
+                                                                style="width: 100%;">
+                                                                @foreach (App\Models\User::all() as $data)
+                                                                    <option {{ $data->id }} value="{{ $data->id }}">
+                                                                        {{ $data->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Tutup</button>
+                                                        <input type="submit" value="Simpan" class="btn btn-primary">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -77,9 +119,6 @@
                             <div class="card-header card-outline card-primary">
                                 <div class="d-flex justify-content-between">
                                     <p class="card-title">Murid</p>
-
-                                    <a class="btn btn-primary btn-sm delete">
-                                        Tambah</a>
                                 </div>
                             </div>
                             <div class="card-body">

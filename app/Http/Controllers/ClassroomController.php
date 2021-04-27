@@ -124,10 +124,10 @@ class ClassroomController extends AppBaseController
         $classroom = $this->classroomRepository->find($id);
         $input = $request->all();
         $input['created_by']=auth()->user()->id;
-        $input['slug'] = str_replace(' ', '-', $input['title']);
-        $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );  
+        $input['slug'] = Str::slug($request->title); 
+ 
         $validated = $request->validate([
-            'title' => 'required|unique:classrooms,title',
+            'title' => 'required|unique:classrooms',
         ]);
         if (empty($classroom)) {
             Flash::error('Classroom not found');
