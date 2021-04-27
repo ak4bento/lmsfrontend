@@ -28,11 +28,13 @@
                                     <dl>
                                         {{ $classrooms->description }}
                                     </dl>
-                                    @if ($classroomUsers < 1)
+                                    @hasanyrole('student')
+                                    {{-- @if ($classroomUsers < 1) --}}
                                         <a class="btn btn-primary btn-block join-class">
                                             Gabung ke Dalam kelas
                                         </a>
-                                    @endif
+                                    {{-- @endif --}}
+                                    @endhasanyrole
                                 </div>
                             </div>
 
