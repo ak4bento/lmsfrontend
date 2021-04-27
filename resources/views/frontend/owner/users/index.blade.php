@@ -33,9 +33,8 @@
                             <div class="card-header card-outline card-primary">
                                 <div class="d-flex justify-content-between">
                                     <p class="card-title">Pengajar</p>
-
                                     <a class="btn btn-primary btn-sm delete">
-                                        Tambah Pengajar</a>
+                                        Tambah</a>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -80,7 +79,7 @@
                                     <p class="card-title">Murid</p>
 
                                     <a class="btn btn-primary btn-sm delete">
-                                        Tambah Murid</a>
+                                        Tambah</a>
                                 </div>
                             </div>
                             <div class="card-body">

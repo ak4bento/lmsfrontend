@@ -69,10 +69,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <dl>
-                                        {{ $classrooms->description }}
-                                    </dl>
+
                                 {{-- owner --}}
                                 <div class="card">
                                     <div class="dropdown ">
@@ -111,12 +108,12 @@
                                             {{ $classrooms->description }}
                                         </dl>
                                         @hasanyrole('student')
-                                            @if ($classroomUsers < 1)
+                                        @if ($classroomUsers < 1)
                                             <a class="btn btn-primary btn-block join-class"
                                                 data-url="{{ route('joinClassroom', $classrooms->slug) }}">
                                                 Gabung ke Dalam kelas
                                             </a>
-                                            @endif
+                                        @endif
                                         @endhasanyrole
                                     </div>
                                 </div>
@@ -125,14 +122,8 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-lg-9 col-md-9 col-sm-12">
-                            {{-- <div class="card card-widget">
-                                <div class="card-body">
-
-                                </div>
-                            </div> --}}
                             @foreach ($teachables as $teachable)
                                 <div class="card">
-                                    {{-- onclick="location.href='asdhasjkh';" style="cursor: pointer;" --}}
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             {{-- <div class="col col-lg-1 col-md-1 col-sm-1">
