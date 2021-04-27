@@ -18,6 +18,7 @@ use App\Models\TeachableUser;
 use App\Models\ClassroomUser;
 use App\Repositories\QuizAttemptRepository;
 use App\Models\QuizAttempt;
+use Alert;
 
 class QuizController extends Controller
 {
@@ -73,7 +74,14 @@ class QuizController extends Controller
                     ->where('question_quizzes.deleted_at',null) 
                     ->where('questions.deleted_at',null) 
                     ->first(); 
-        
+        if($quiz == null){
+            Alert::error('Belum ada Soal.');
+
+            return redirect()->route('class.work.detail', ['slug'=> 'quizzes' ,'id'=>$id]);
+        }
+
+             
+
         $teachable = DB::table('teachables') 
                     ->select('*')
                     ->where('teachable_type','quiz')  
@@ -154,21 +162,8 @@ class QuizController extends Controller
         $model['completed_at'] = date("Y/m/d h:i:sa");
         $model['grading_method'] = "standard";
         $save = $model->save(); 
-        
 
-        return Response::json($save);
-        
-        // switch (json_last_error())
-        // {
-        // case JSON_ERROR_NONE: $value= ' - No errors'."\n";break;
-        // case JSON_ERROR_DEPTH: $value= ' - Maximum stack depth exceeded'."\n";break;
-        // case JSON_ERROR_STATE_MISMATCH: $value= ' - Underflow or the modes mismatch'."\n";break;
-        // case JSON_ERROR_CTRL_CHAR: $value= ' - Unexpected control character found'."\n";break;
-        // case JSON_ERROR_SYNTAX: $value= ' - Syntax error, malformed JSON'."\n";break;
-        // case JSON_ERROR_UTF8: $value= ' - Malformed UTF-8 characters, possibly incorrectly encoded'."\n";break;
-        // default: $value= ' - Unknown error'."\n";break;
-        // }
-        // $value = $value;
+        return Response::json($save); 
     }
 
     public function submitedQuiz($id)

@@ -47,7 +47,7 @@ Route::get('create-question/{slug}/{id}', [App\Http\Controllers\Frontend\Questio
 Route::post('store-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'store'])->name('storeQuestion');
 Route::get('edit-question/{slugClass}/{slugQuiz}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'edit'])->name('editQuestion');
 Route::post('update-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'update'])->name('updateQuestion');
-Route::get('destroy-question/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'destroy'])->name('destroyQuestion');
+Route::get('destroy-question/{slug}/{quiz_id}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'destroy'])->name('destroyQuestion');
 Route::get('quiz/all-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'index'])->name('showAllQuestion');
 Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
 
@@ -57,6 +57,10 @@ Route::post('store-classroom', [App\Http\Controllers\Frontend\ClassroomControlle
 Route::get('edit-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'editClassroom'])->name('editClassroom');
 Route::post('update-classroom/{id}', [App\Http\Controllers\Frontend\ClassroomController::class,'updateClassroom'])->name('updateClassroom');
 Route::get('delete-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'destroyClassroom'])->name('destroyClassroom');
+
+//owner classroom user
+Route::get('user-classroom/{slug}', [App\Http\Controllers\Frontend\UserController::class,'index'])->name('showUser');
+
 
 
 Route::group(['middleware' => ['role:student']], function () {

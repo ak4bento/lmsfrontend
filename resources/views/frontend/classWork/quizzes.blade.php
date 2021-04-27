@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <p>
-                                                    {{ $classWork->description }}
+                                                    {!! $classWork->description !!}
                                                 </p>
                                             </div>
                                             <div class="card-footer card-comments">

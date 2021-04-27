@@ -17,7 +17,7 @@ use DB;
 use \stdClass;
 use Alert;
 
-class QuestionController extends AppBaseController
+class UserController extends AppBaseController
 {
     /** @var  QuestionRepository */
     private $questionRepository;
@@ -36,27 +36,24 @@ class QuestionController extends AppBaseController
      *
      * @return Response
      */
-    public function index($slug,$id,Request $request)
+    public function index($slug)
     {
-        $questions = DB::table('question_quizzes')
-                    ->join('questions', 'questions.id', '=', 'question_quizzes.question_id')
-                    ->join('quizzes', 'quizzes.id', '=', 'question_quizzes.quizzes_id')
-                    ->select('questions.*','quizzes.id as quiz_id','quizzes.title','quizzes.description')
-                    ->where('quizzes.id',$id)
-                    ->where('questions.deleted_at',null)
-                    ->get(); 
-
-        $quizzes = Quizzes::find($id); 
-
         $classroom = DB::table('classrooms')
                     ->select('*')
                     ->where('slug',$slug)
+                    ->where('deleted_at',null)
                     ->first();
-        // dd($quizzes);
-        return view('frontend.teacher.question.index')
+
+        $classroomUser = DB::table('classroom_user')
+                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                    ->select('users.name','users.email','users.id')
+                    ->where('classrooms.id',$classroom->id)
+                    ->get();
+
+        return view('frontend.owner.users.index')
                 ->with('classroom', $classroom)
-                ->with('quizzes', $quizzes)
-                ->with('questions', $questions);
+                ->with('classroomUser', $classroomUser);
     }
 
     /**

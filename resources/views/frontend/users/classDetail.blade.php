@@ -2,7 +2,7 @@
     @push('page_css')
         <style>
             .ion-medium {
-                font-size: 18px;
+                font-size: 16px;
             }
 
         </style>
@@ -48,7 +48,7 @@
                                     <div class="dropdown ">
                                         <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-plus primary"></i> &nbsp;Buat Aktifitas
+                                            <i class="fa fa-plus"></i> &nbsp;Buat Aktifitas
                                         </a>
                                         <div class="dropdown-menu">
 
@@ -73,14 +73,15 @@
                                 <div class="card">
                                     <div class="dropdown ">
                                         <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            &nbsp;Aktifitas Owner
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                                class="fas fa-cog"></i>
+                                            &nbsp;Pengaturan
                                         </a>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item py-2"
-                                                href="{{ route('createAssignment', $classrooms->slug) }}">
-                                                <ion-icon name="person-add" class="ion-medium"></ion-icon> &nbsp; Tambah
-                                                Pengajar
+                                                href=" {{ route('showUser', $classrooms->slug) }}">
+                                                <ion-icon name="person" class="ion-medium"></ion-icon>
+                                                &nbsp;Pengguna Kelas
                                             </a>
                                             <a class="dropdown-item py-2"
                                                 href="{{ route('editClassroom', $classrooms->slug) }}">
@@ -92,6 +93,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+
                                 {{-- end owner --}}
                                 <div class="card ">
                                     <div class="card-header">
@@ -154,7 +157,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <span style="color: grey;font-size:10px"> Diposting
-                                                        {{ date('d-m-Y H:i', strtotime($teachable->updated_at)) }}</span>
+                                                        {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}</span>
                                                 </div>
                                             </div>
                                             <div class="col col-lg-2 col-md-2 col-sm-2">

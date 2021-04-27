@@ -28,7 +28,7 @@
                             <i class="far fa-edit"></i>
                         </a>
                         <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $question->id }}"
-                            data-url="{{ url('questions/destroy') }}/{{ $question->id }}">
+                            data-url="{{ route('destroyQuestion', ['slug' => $classroom->slug, 'quiz_id' => $quizzes->id, 'id' => $question->id]) }}">
                             <i class="far fa-trash-alt"></i>
                         </button>
 
