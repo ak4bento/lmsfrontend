@@ -53,6 +53,7 @@ class DiscoverController extends Controller
         return DB::table('classrooms')
         ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
         ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
-        ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods');
+        ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+        ->where('classrooms.deleted_at',null);
     }
 }

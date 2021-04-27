@@ -51,7 +51,7 @@ class QuestionController extends AppBaseController
                     ->select('*')
                     ->where('slug',$slug)
                     ->first();
-        
+        // dd($quizzes);
         return view('frontend.teacher.question.index')
                 ->with('classroom', $classroom)
                 ->with('quizzes', $quizzes)
@@ -117,6 +117,7 @@ class QuestionController extends AppBaseController
      */
     public function show($id)
     {
+        
         $question = $this->questionRepository->find($id);
 
         if (empty($question)) {
@@ -135,8 +136,10 @@ class QuestionController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($slugClass,$slugQuiz,$id)
     {
+        $quizzes = Quizzes::find($slugQuiz); 
+// dd($quizzes);
         $question = $this->questionRepository->find($id);
         $question_choice_items = DB::table('question_choice_items')->where('question_id',$id)->where('deleted_at',null)->select('*')->get();
         // dd($item);
@@ -146,7 +149,7 @@ class QuestionController extends AppBaseController
             return redirect(route('questions.index'));
         }
 
-        return view('questions.edit')->with('question', $question)->with('question_choice_items',$question_choice_items);
+        return view('frontend.teacher.question.edit')->with('quizzes', $quizzes)->with('slug',$slugClass)->with('question',$question);
     }
 
     /**
@@ -157,18 +160,19 @@ class QuestionController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateQuestionRequest $request)
+    public function update($slug, $id, Request $request)
     {
         $question = $this->questionRepository->find($id);
         $input =$request->all(); 
+        // dd($input);
         date_default_timezone_set("Asia/Makassar"); 
-        $QuestionChoiceItem = QuestionChoiceItem::where('question_id', $id)->get();
+        $QuestionChoiceItem = QuestionChoiceItem::where('question_id', $id)->select('*')->get();
         $delete['deleted_at'] =  date("Y-m-d h:i:s");
         foreach($QuestionChoiceItem as $data){  
             DB::table('question_choice_items')->where('id', $data->id)->update($delete);
         }  
         $data=array(0);
-
+        
         for($a = 0; $a <= count($input['choice_text']); $a++){
             // dd($input['choice_text'][$a] );
             if(isset($input['choice_text'][$a])){
@@ -181,27 +185,29 @@ class QuestionController extends AppBaseController
                 }
                 $question_id = $question->id; 
                 $data = DB::table('question_choice_items')
-                            ->insert(
-                                ['question_id' => $question_id,
-                                'is_correct' => $is_correct,
-                                'choice_text' => $choice_text]
-                            );
+                ->insert(
+                    ['question_id' => $question_id,
+                    'is_correct' => $is_correct,
+                    'choice_text' => $choice_text]
+                );
                 // $questionChoiceItem = QuestionChoiceItem::create($data);
                 // dd($questionChoiceItem);
             }
         }
         if (empty($question)) {
             Flash::error('Question not found');
-
+            
             return redirect(route('questions.index'));
         }
-
-        $question = $this->questionRepository->update($request->all(), $id);
+        $input['id'] = $id;
+        // dd($input);
+        $question = $this->questionRepository->update($input, $id);
         // $question = DB::table('questions')->where('id', $id)->update($request->all());
 
         Alert::success('Question updated successfully.');
 
-        return redirect(route('quizzes.index'));
+        return redirect(route('showAllQuestion',['slug'=>$slug,'id'=>$input['quizzes_id']]));
+
     }
 
     /**

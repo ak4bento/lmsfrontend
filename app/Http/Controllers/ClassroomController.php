@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use DB;
 use Alert;
+use Illuminate\Support\Str;
 
 class ClassroomController extends AppBaseController
 {
@@ -56,13 +57,13 @@ class ClassroomController extends AppBaseController
      */
     public function store(CreateClassroomRequest $request)
     {
-        $input = $request->all();
-        $input['created_by']=auth()->user()->id;
-        $input['slug'] = str_replace(' ', '-', $input['title']);
-        $input['slug'] = preg_replace("/\s+/", "",strtolower($input['slug']) );  
-        $validated = $input->validate([
-            'slug' => 'required|unique:classrooms,slug',
+        $validated = $request->validate([
+            'title' => 'required|unique:classrooms,title',
         ]);
+        $input = $request->all();
+        $input['created_by']=auth()->user()->id; 
+        $input['slug'] = Str::slug($request->title); 
+
         $classroom = $this->classroomRepository->create($input);
 
         Alert::success('Classroom saved successfully.');

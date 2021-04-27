@@ -17,6 +17,7 @@
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2",
         "realrashid/sweet-alert": "^3.2",
+        "snapappointments/bootstrap-select": "^1.13",
         "spatie/laravel-permission": "^4.0"
     },
     "require-dev": {

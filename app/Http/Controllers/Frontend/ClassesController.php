@@ -53,6 +53,7 @@ class ClassesController extends Controller
             ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
             ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
             ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
-            ->where('classroom_user.user_id', Auth::user()->id);
+            ->where('classroom_user.user_id', Auth::user()->id)
+            ->where('classrooms.deleted_at', null);
     }
 }

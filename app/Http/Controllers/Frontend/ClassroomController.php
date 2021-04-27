@@ -12,15 +12,23 @@ use App\Models\Subject;
 use App\Models\Discussion;
 use Redirect;
 use App\Models\Classroom;
+use App\Models\ClassroomUser;
+use Alert;
+use Illuminate\Support\Str;
+use App\Repositories\ClassroomUserRepository;
 
 class ClassroomController extends Controller
 {
     /** @var  ClassroomRepository */
     private $classroomRepository;
+    /** @var  ClassroomUserRepository */
+    private $classroomUserRepository;
 
-    public function __construct(ClassroomRepository $classroomRepo)
+    public function __construct(ClassroomRepository $classroomRepo,ClassroomUserRepository $classroomUserRepo)
     {
         $this->classroomRepository = $classroomRepo;
+        $this->classroomUserRepository = $classroomUserRepo;
+
         $this->middleware('auth');
     }
 
@@ -29,6 +37,62 @@ class ClassroomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function createClassroom()
+    {
+        return view('frontend.owner.classroom.create');
+    }
+
+    public function storeClassroom(Request $request)
+    { 
+        $input = $request->all();
+        $validated = $request->validate([
+            'title' => 'required|unique:classrooms,title',
+        ]);
+        $input['created_by']=auth()->user()->id;
+        $input['slug'] = Str::slug($request->title); 
+
+        $classroom = $this->classroomRepository->create($input);
+
+        $data['classroom_id'] = $classroom->id;
+        $data['user_id'] = Auth::user()->id;
+        $data['last_accesed_at'] = date('Y-m-d H:i:s');
+        ClassroomUser::create($data);
+
+        Alert::success('Classroom saved successfully.');
+
+        return redirect()->route('classes');
+
+    }
+
+    public function editClassroom($slug)
+    {
+        $classrooms = Classroom::where('slug',$slug)->where('deleted_at',null)->first();
+        // dd($classrooms);
+        return view('frontend.owner.classroom.edit')->with('classrooms', $classrooms); 
+    }
+
+    public function updateClassroom(Request $request, $id)
+    {
+        $input = $request->all();
+        // dd($input);
+        // $validated = $request->validate([
+        //     'title' => 'required|unique:classrooms,title',
+        // ]);
+        $Classroom = Classroom::find($id);
+
+        $input['created_by']=auth()->user()->id;
+        $input['slug'] = Str::slug($request->title); 
+
+        $classroom = $this->classroomRepository->update($input, $Classroom->id);
+
+
+        Alert::success('Classroom saved successfully.');
+
+        return redirect()->route('classroom.detail', $input['slug']);
+
+    }
+
     public function show($slug)
     {
         // dd($slug);
@@ -162,14 +226,34 @@ class ClassroomController extends Controller
                             // dd($quiestion_quiz);
             return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable)->with('classrooms',$classrooms);
         }
-        return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
-        // return view('frontend.classWork.'.$slug)->with('classWork',$classWork);
+        return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions); 
+    }
 
-        // if($slug == 'quizzes'){
-        //     return view('frontend.classWork.quizzes')->with('classWork',$classWork);
+    public function joinClassroom($slug)
+    {
+        date_default_timezone_set("Asia/Makassar");
+        $classrooms = Classroom::where('slug',$slug)->first();
+        // dd($classrooms);
+        $data['classroom_id'] = $classrooms->id;
+        $data['user_id'] = Auth::user()->id;
+        $data['last_accesed_at'] = date('Y-m-d H:i:s');
+        
+        ClassroomUser::create($data);
+        return redirect()->route('classroom.detail', $slug);
+        
+    }
+
+    public function destroyClassroom($slug)
+    {
+        $classrooms = Classroom::where('slug',$slug)->first();
+        // dd($classrooms);
+        // $classroomUsers = ClassroomUsers::where('classroom_id',$classrooms->id)->get();
+        // foreach($classroomUsers as $classroomUser){
+        //     $classroomUser = $this->classroomUserRepository->delete($classroomUser->id);
         // }
-        // if($slug == 'resource'){
-        //     return view('frontend.classWork.resource')->with('classWork',$classWork);
-        // }
+        $this->classroomRepository->delete($classrooms->id);
+        Alert::success('Berhasil', 'Data Berhasil dihapus');
+        return redirect()->route('classes');
+        
     }
 }

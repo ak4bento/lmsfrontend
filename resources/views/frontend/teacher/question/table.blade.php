@@ -23,7 +23,8 @@
                     <td>{{ App\Models\User::find($question->created_by)->name }} </td>
                     <td width="120">
 
-                        <a href="{{ route('questions.edit', [$question->id]) }}" class='btn btn-primary btn-sm'>
+                        <a href="{{ route('editQuestion', ['slugClass' => $classroom->slug, 'slugQuiz' => $quizzes->id, 'id' => $question->id]) }}"
+                            class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
                         <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $question->id }}"

@@ -11,16 +11,18 @@
     </select>
 </div>
 
+<input type="hidden" name="quizzes_id" value="{{ $quizzes->id }}">
 <!-- Content Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('content', 'Pentanyaan:') !!}
-    {!! Form::textarea('content', null, ['class' => 'form-control', 'id' => 'content']) !!}
+    <textarea name="content" class="form-control"
+        id="content">{{ isset($question) ? $question->content : '' }}</textarea>
 </div>
 
 <!-- Answers Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('answers', 'Answers:') !!}
-    {!! Form::text('answers', null, ['class' => 'form-control']) !!}
+    <input type="text" class="form-control" name="answers" value="{{ isset($question) ? $question->answers : '' }}">
 </div>
 
 <div class="form-group col-sm-12 col-lg-12" style="margin-top: 30px">
@@ -63,7 +65,7 @@
         $(document).ready(function() {
             var id = {{ isset($question->id) ? $question->id : '0' }}
             console.log("ini ID :", id);
-            var rute = "{{ url('admin/get-choice-item') }}/" + id;
+            var rute = "{{ url('get-choice-item') }}/" + id;
             console.log("ini rute :", rute);
             $.ajax({
                 url: rute,
