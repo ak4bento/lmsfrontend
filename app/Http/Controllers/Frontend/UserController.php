@@ -77,10 +77,10 @@ class UserController extends AppBaseController
         if($classroomUser != null){
             Alert::error('Pengajar telah terdaftar sebelumnya.');
         }else{
-            DB::table('model_has_roles')
-            ->where('model_id', $input['user_id'])
-            ->update(['role_id' => 3]);
             ClassroomUser::create($input);
+            // DB::table('model_has_roles')
+            // ->where('model_id', $input['user_id'])
+            // ->update(['role_id' => 3]);
             Alert::success('Pengajar berhasil ditambahkan.');
         }
 

@@ -111,16 +111,16 @@ class ClassroomController extends Controller
                     ->where('teachables.deleted_at',null)
                     ->orderBy('teachables.created_at','DESC')
                     ->get();
-        // dd($teachables);
 
         $classroomUsers = DB::table('classroom_user')
                         ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
                         ->join('users', 'users.id', '=', 'classroom_user.user_id')
                         ->select('classrooms.*','users.id as user_id','users.name as username','classroom_user.id as classroom_user_id')
-                        ->where('classroom_user.user_id',Auth::user()->id)
                         ->where('classroom_user.classroom_id',$classrooms->id)
                         ->where('classroom_user.deleted_at',null)
                         ->get();
+        // dd($teachables);
+
         $subjects = Subject::all();
 
         return view('frontend.users.classDetail')

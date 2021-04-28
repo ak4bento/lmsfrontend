@@ -21,34 +21,13 @@
         </style>
     @endpush
     <div class="container">
-        {{-- <section class="content-header py-5" style="background-color: #1967d2;border-radius: 10px;margin-bottom:10px">
-            <div class="row text-white ">
-                <div class="col-lg-10 ">
-                    <h1 class="display-4">
-                        <strong>
-                            {{ $classrooms->title }}
-                        </strong>
-                    </h1>
-                    <p class="lead">
-                        {{ $classrooms->subject }}
-                    </p>
-                </div>
-                <div class="col-lg-2" style="background:#C60012;height:70px;">
-                </div>
-            </div>
-        </section> --}}
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
             <div class="container">
-                <h1 class="display-4">
-                    <strong>
-                        {{ $classrooms->title }}
-                    </strong>
-                </h1>
-                <p class="lead">
-                    {{ $classrooms->subject }}
-                </p>
+                <h1 class="display-4"><strong>{{ $classrooms->title }}</strong> </h1>
+                <p class="lead">{{ $classrooms->subject }}</p>
             </div>
         </div>
+
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -129,7 +108,7 @@
                                             <div class="modal-body">
                                                 <div class="container-fluid">
                                                     @foreach ($classroomUsers as $data)
-                                                        <div class="row justify-content-between">
+                                                        <div class="row justify-content-between ">
                                                             <div class="col-10">
                                                                 <span>
                                                                     {{ $data->username }}
@@ -144,7 +123,7 @@
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                        <hr>
+                                                        <hr />
                                                     @endforeach
                                                 </div>
                                             </div>
@@ -324,6 +303,7 @@
         });
 
     </script>
+
     <script>
         $(".delete").click(function(e) {
             e.preventDefault();

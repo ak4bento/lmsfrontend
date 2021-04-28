@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1967d2;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
             <div class="container">
                 <h1 class="display-4"><strong>Discover</strong> </h1>
                 <p class="lead">Temukan kelas terbaik untuk anda.</p>
@@ -56,7 +56,8 @@
                                         <div class="col-8">
                                             <label class="lead">{{ $item->title }}</label>
                                             <p>
-                                                {{ substr($item->description, 0, 100) }}...
+                                                {{ substr($item->description, 0, 100) }} <br> <a
+                                                    href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
                                             </p>
                                         </div>
                                         <div class="col-4 text-center">
