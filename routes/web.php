@@ -61,8 +61,7 @@ Route::get('delete-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomCo
 //owner classroom user
 Route::get('user-classroom/{slug}', [App\Http\Controllers\Frontend\UserController::class,'index'])->name('showUser');
 Route::post('store-teacher/{slug}', [App\Http\Controllers\Frontend\UserController::class,'store'])->name('storeTeacher');
-
-
+Route::get('delete-teacher/{slug}/{id}', [App\Http\Controllers\Frontend\UserController::class,'destroy'])->name('destroyTeacher');
 
 Route::group(['middleware' => ['role:student']], function () {
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');

@@ -5,6 +5,19 @@
                 font-size: 16px;
             }
 
+            #card {
+                border-radius: 4px;
+                background: #fff;
+                box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+                transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+                /* cursor: pointer; */
+            }
+
+            #card:hover {
+                /* transform: scale(1.05); */
+                box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+            }
+
         </style>
     @endpush
     <div class="container">
@@ -79,8 +92,8 @@
                                             &nbsp;Pengaturan
                                         </a>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item py-2"
-                                                href=" {{ route('showUser', $classrooms->slug) }}">
+                                            <a type="button" class=" dropdown-item py-2" data-toggle="modal"
+                                                data-target="#exampleModalCenter">
                                                 <ion-icon name="person" class="ion-medium"></ion-icon>
                                                 &nbsp;Pengguna Kelas
                                             </a>
@@ -95,7 +108,94 @@
                                     </div>
                                 </div>
 
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="container-fluid">
+                                                    <span style="font-size: 20px" id="exampleModalLongTitle">
+                                                        Pengajar
+                                                    </span>
+                                                    <button type="button" data-togglebtn="tooltip" data-placement="top"
+                                                        title="Tambah Pengajar" class="btn btn-primary btn-sm float-right"
+                                                        data-dismiss="modal" data-toggle="modal"
+                                                        data-target="#exampleModalCenter1">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="container-fluid">
+                                                    @foreach ($classroomUsers as $data)
+                                                        <div class="row justify-content-between">
+                                                            <div class="col-10">
+                                                                <span>
+                                                                    {{ $data->username }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <a data-toggle="tooltip" data-placement="top"
+                                                                    title="Hapus Pengajar"
+                                                                    class="btn btn-danger btn-sm float-right delete"
+                                                                    data-url="{{ route('destroyTeacher', ['slug' => $classrooms->slug, 'id' => $data->user_id]) }}">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <div class="container-fluid">
 
+                                                    <button type="button" class="btn btn-warning btn-sm float-right"
+                                                        data-togglebtn="tooltip" data-placement="top" title="Tutup"
+                                                        data-dismiss="modal"><i class="fas fa-times"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <form action="{{ route('storeTeacher', $classrooms->slug) }}" method="POST">
+                                                @csrf
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">
+                                                        Tambah Pengajar
+                                                    </h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="form-group col-sm-12">
+                                                        <select name="user_id" class="form-control select2" id="user_id"
+                                                            style="width: 100%;">
+                                                            @foreach (App\Models\User::all() as $data)
+                                                                <option {{ $data->id }} value="{{ $data->id }}">
+                                                                    {{ $data->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-sm btn-warning"
+                                                        data-dismiss="modal" data-togglebtn="tooltip" data-placement="top"
+                                                        title="Tutup" data-target="#exampleModalCenter"
+                                                        data-toggle="modal"><i class="fas fa-times"></i></button>
+                                                    <button type="submit" data-togglebtn="tooltip" data-placement="top"
+                                                        title="Simpan" class="btn btn-sm btn-primary"><i
+                                                            class="far fa-save"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 {{-- end owner --}}
                                 <div class="card ">
                                     <div class="card-header">
@@ -108,7 +208,7 @@
                                             {{ $classrooms->description }}
                                         </dl>
                                         @hasanyrole('student')
-                                        @if ($classroomUsers < 1)
+                                        @if ($classroomUsersCount < 1)
                                             <a class="btn btn-primary btn-block join-class"
                                                 data-url="{{ route('joinClassroom', $classrooms->slug) }}">
                                                 Gabung ke Dalam kelas
@@ -123,7 +223,7 @@
                         <!-- /.col -->
                         <div class="col-lg-9 col-md-9 col-sm-12">
                             @foreach ($teachables as $teachable)
-                                <div class="card">
+                                <div class="card" id="card">
                                     <div class="card-body">
                                         <div class="row align-items-center">
                                             {{-- <div class="col col-lg-1 col-md-1 col-sm-1">
@@ -259,6 +359,9 @@
         });
         $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+        $(document).ready(function() {
+            $('[data-togglebtn="tooltip"]').tooltip();
         });
 
     </script>

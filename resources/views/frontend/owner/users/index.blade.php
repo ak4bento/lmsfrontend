@@ -29,11 +29,11 @@
                 <div class="row">
                     @include('adminlte-templates::common.errors')
                     <div class="col-lg-12 col-sm-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header card-outline card-primary">
-                                <div class="d-flex justify-content-between">
-                                    <p class="card-title">Pengajar</p>
-                                    <!-- Button trigger modal -->
+                        <div class="card card-primary card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">Pengajar</h3>
+
+                                <div class="card-tools">
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#exampleModalCenter">
                                         Tambah
@@ -78,87 +78,83 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- /.card-tools -->
                             </div>
-                            <div class="card-body">
-                                <div class="row align-items-center ">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 ">
-                                        @foreach ($classroomUser as $item)
-                                            <div class="row align-items-center">
-                                                <table style="width: 100%">
+                            <!-- /.card-header -->
+                            <div class="card-body p-0">
+                                <div class="mailbox-controls">
+                                    <div class="table-responsive mailbox-messages">
+                                        <table class="table table-hover table-striped">
+                                            <tbody>
+                                                @foreach ($classroomUser as $item)
+
                                                     <tr>
-                                                        <td width="50px">
-                                                            <div class="icheck-primary d-inline">
-                                                                <input type="checkbox" name="{{ $item->id }}"
-                                                                    id="{{ $item->id }}">
-                                                                <label for="{{ $item->id }}" style="font-size:13px">
-                                                                </label>
+                                                        <td>
+                                                            <div class="icheck-primary">
+                                                                <input type="checkbox" value="" id="check1">
+                                                                <label for="check1"></label>
                                                             </div>
                                                         </td>
-                                                        <td width="60px">
-                                                            <img src="{{ asset('sejawat-logo-mobile.png') }}"
-                                                                style="width: 30px" alt="">
+                                                        <td class="mailbox-name"><a>{{ $item->name }}</a>
                                                         </td>
-                                                        <td style="width: 85%">
-                                                            <label>{{ $item->name }}</label>
+                                                        <td class="mailbox-subject"><b>AdminLTE 3.0 Issue</b> - Trying to
+                                                            find a
+                                                            solution to this problem...
                                                         </td>
-                                                        <td>
-                                                            <a href="" class="btn btn-sm btn-danger"><i
-                                                                    class="fa fa-trash"></i></a>
-                                                        </td>
+                                                        <td class="mailbox-attachment"></td>
+                                                        <td class="mailbox-date">5 mins ago</td>
                                                     </tr>
-                                                </table>
-                                            </div>
-                                            <hr>
-                                        @endforeach
+                                                @endforeach
+
+                                            </tbody>
+                                        </table>
+                                        <!-- /.table -->
                                     </div>
+                                    <!-- /.mail-box-messages -->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="card">
-                            <div class="card-header card-outline card-primary">
-                                <div class="d-flex justify-content-between">
-                                    <p class="card-title">Murid</p>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="row align-items-center ">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 ">
-                                        @foreach ($classroomUser as $item)
-                                            <div class="row align-items-center">
-                                                <table style="width: 100%">
-                                                    <tr>
-                                                        <td width="50px">
-                                                            <div class="icheck-primary d-inline">
-                                                                <input type="checkbox" name="{{ $item->id }}"
-                                                                    id="{{ $item->id }}">
-                                                                <label for="{{ $item->id }}" style="font-size:13px">
-                                                                </label>
-                                                            </div>
-                                                        </td>
-                                                        <td width="60px">
-                                                            <img src="{{ asset('sejawat-logo-mobile.png') }}"
-                                                                style="width: 30px" alt="">
-                                                        </td>
-                                                        <td style="width: 85%">
-                                                            <label>{{ $item->name }}</label>
-                                                        </td>
-                                                        <td>
-                                                            <a href="" class="btn btn-sm btn-danger"><i
-                                                                    class="fa fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <hr>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@push('page_scripts')
+    <script>
+        $(function() {
+            //Enable check and uncheck all functionality
+            $('.checkbox-toggle').click(function() {
+                var clicks = $(this).data('clicks')
+                if (clicks) {
+                    //Uncheck all checkboxes
+                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', false)
+                    $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass(
+                        'fa-square')
+                } else {
+                    //Check all checkboxes
+                    $('.mailbox-messages input[type=\'checkbox\']').prop('checked', true)
+                    $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass(
+                        'fa-check-square')
+                }
+                $(this).data('clicks', !clicks)
+            })
+
+            //Handle starring for font awesome
+            $('.mailbox-star').click(function(e) {
+                e.preventDefault()
+                //detect type
+                var $this = $(this).find('a > i')
+                var fa = $this.hasClass('fa')
+
+                //Switch states
+                if (fa) {
+                    $this.toggleClass('fa-star')
+                    $this.toggleClass('fa-star-o')
+                }
+            })
+        })
+
+    </script>
+@endpush

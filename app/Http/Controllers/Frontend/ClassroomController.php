@@ -116,14 +116,15 @@ class ClassroomController extends Controller
         $classroomUsers = DB::table('classroom_user')
                         ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
                         ->join('users', 'users.id', '=', 'classroom_user.user_id')
-                        ->select('classrooms.*','users.id as user_id')
+                        ->select('classrooms.*','users.id as user_id','users.name as username','classroom_user.id as classroom_user_id')
                         ->where('classroom_user.user_id',Auth::user()->id)
                         ->where('classroom_user.classroom_id',$classrooms->id)
                         ->where('classroom_user.deleted_at',null)
-                        ->count();
+                        ->get();
         $subjects = Subject::all();
-        // dd($teachables);
+
         return view('frontend.users.classDetail')
+                ->with('classroomUsersCount', $classroomUsers->count())
                 ->with('classroomUsers', $classroomUsers)
                 ->with('classrooms', $classrooms)
                 ->with('subjects',$subjects)
