@@ -259,6 +259,8 @@
                                                                 data-url="{{ route('destroyResources', $teachable->teachable_id) }}">
                                                                 Hapus</a>
                                                         @elseif ($teachable->teachable_type == 'assignment')
+                                                            <a href="{{ route('allAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                class="dropdown-item">Lihat Daftar Pengumpulan </a>
                                                             <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                 class="dropdown-item">Edit </a>
                                                             <a class="dropdown-item btn delete"

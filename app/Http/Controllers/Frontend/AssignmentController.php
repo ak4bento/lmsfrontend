@@ -31,6 +31,22 @@ class AssignmentController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function index($slug, $id)
+    {
+        $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('*')->first();
+        $media = DB::table('media')->where('media_type','assigment',)->where('media_id',$id)->select('*')->get();
+        $classrooms = DB::table('classrooms')
+                    ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+                    ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+                    ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+                    ->where('classrooms.slug',$slug)
+                    ->first();
+        
+        return view('frontend.teacher.assignment.index')->with('assignments',$assignments)->with('media',$media)->with('classrooms',$classrooms);
+
+    }
+
     public function create($slug)
     { 
         $classrooms = DB::table('classrooms')

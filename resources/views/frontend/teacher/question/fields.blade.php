@@ -2,12 +2,9 @@
 <!-- Question Type Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('question_type', 'Question Type:') !!}
-    <select name="question_type" class="form-control">
+    <select name="question_type" id="question_type" class="form-control">
         <option value="multiple-choice">Multiple Choice</option>
         <option value="boolean">Boolean</option>
-        <option value="multiple-response">Multiple Response</option>
-        <option value="fill-in">Fill-In</option>
-        <option value="essay">Essay</option>
     </select>
 </div>
 
@@ -44,6 +41,7 @@
 
 </div>
 @push('page_scripts')
+
     <script type="text/javascript">
         var i = 0;
         $("#add").click(function() {
@@ -58,6 +56,7 @@
                 i +
                 ')"            name="max_attempts_count"            class="btn btn-danger float-left form-control"        >            <i class="nav-icon fas fa-trash"></i>        </button>    </div></div>'
             );
+
             console.log("ini add button");
         });
 

@@ -28,6 +28,8 @@ Route::get('edit-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\Assignm
 Route::post('update-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'update'])->name('updateAssignment');
 Route::get('destroy-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'destroy'])->name('destroyAssignment');
 
+Route::get('all-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'index'])->name('allAssignment');
+
 //teacher resources
 Route::get('create-resources/{slug}', [App\Http\Controllers\Frontend\ResourcesController::class, 'create'])->name('createResources');
 Route::post('store-resources', [App\Http\Controllers\Frontend\ResourcesController::class, 'store'])->name('storeResources');
