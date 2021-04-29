@@ -50,19 +50,7 @@
                             <a href="{{ url('discover') }}" class="nav-link">Discover</a>
                         </li>
 
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                @auth
-                                    <a href="#" class="nav-link"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Sign out
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                @endauth
-                            </li>
-                        @endif
+
                     </ul>
 
                     <!-- SEARCH FORM -->
@@ -79,7 +67,7 @@
                     </form>
                 </div>
                 <!-- Right navbar links -->
-                {{-- <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <!-- Messages Dropdown Menu -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -176,7 +164,30 @@
                             <i class="fas fa-th-large"></i>
                         </a>
                     </li>
-                </ul> --}}
+                    @if (Route::has('login'))
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ auth()->user()->email }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Ganti Password</a>
+                                @auth
+                                    <a href="#" class="nav-link"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Sign out
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                @endauth
+                            </div>
+                        </li>
+                        <li class="nav-item">
+
+                        </li>
+                    @endif
+                </ul>
             </div>
         </nav>
         <!-- /.navbar -->
