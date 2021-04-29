@@ -44,13 +44,13 @@ class ClassroomController extends Controller
     }
 
     public function storeClassroom(Request $request)
-    { 
+    {
         $input = $request->all();
         $validated = $request->validate([
             'title' => 'required|unique:classrooms,title',
         ]);
         $input['created_by']=auth()->user()->id;
-        $input['slug'] = Str::slug($request->title); 
+        $input['slug'] = Str::slug($request->title);
 
         $classroom = $this->classroomRepository->create($input);
 
@@ -69,7 +69,7 @@ class ClassroomController extends Controller
     {
         $classrooms = Classroom::where('slug',$slug)->where('deleted_at',null)->first();
         // dd($classrooms);
-        return view('frontend.owner.classroom.edit')->with('classrooms', $classrooms); 
+        return view('frontend.owner.classroom.edit')->with('classrooms', $classrooms);
     }
 
     public function updateClassroom(Request $request, $id)
@@ -82,7 +82,7 @@ class ClassroomController extends Controller
         $Classroom = Classroom::find($id);
 
         $input['created_by']=auth()->user()->id;
-        $input['slug'] = Str::slug($request->title); 
+        $input['slug'] = Str::slug($request->title);
 
         $classroom = $this->classroomRepository->update($input, $Classroom->id);
 
@@ -117,6 +117,7 @@ class ClassroomController extends Controller
                         ->join('users', 'users.id', '=', 'classroom_user.user_id')
                         ->select('classrooms.*','users.id as user_id','users.name as username','classroom_user.id as classroom_user_id')
                         ->where('classroom_user.classroom_id',$classrooms->id)
+                        ->where('classroom_user.user_id',auth()->user()->id)
                         ->where('classroom_user.deleted_at',null)
                         ->get();
         // dd($teachables);
@@ -174,11 +175,16 @@ class ClassroomController extends Controller
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
+
             $teachableUser = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
+            if (is_null($teachableUser)) {
+                Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                return redirect()->back();
+            }
             $classrooms = Classroom::find($teachable->classroom_id);
             return view('frontend.classWork.resources')->with('classWork',$classWork)->with('classrooms',$classrooms)->with('discussions',$discussions);
         }
@@ -196,6 +202,23 @@ class ClassroomController extends Controller
                             ->where('teachable_id',$classWork->id)
                             ->first();
             $classrooms = Classroom::find($teachable->classroom_id);
+
+            $classroomUser = DB::table('classroom_user')
+                            ->select('*')
+                            ->where('user_id',Auth::user()->id)
+                            ->where('classroom_id',$teachable->classroom_id)
+                            ->first();
+
+            $teachableUser = DB::table('teachable_users')
+                            ->select('*')
+                            ->where('classroom_user_id',$classroomUser->id)
+                            ->where('teachable_id',$teachable->id)
+                            ->first();
+
+            if (is_null($teachableUser)) {
+                Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                return redirect()->back();
+            }
 
             return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete)->with('classrooms',$classrooms)->with('discussions',$discussions);
         }
@@ -217,6 +240,11 @@ class ClassroomController extends Controller
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
+            if (is_null($teachableUser)) {
+                Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                return redirect()->back();
+            }
+
             $quiz_attempts = DB::table('quiz_attempts')
                             ->select('*')
                             ->where('teachable_user_id',$teachableUser->id)
@@ -227,7 +255,7 @@ class ClassroomController extends Controller
                             // dd($quiestion_quiz);
             return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable)->with('classrooms',$classrooms);
         }
-        return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions); 
+        return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
     }
 
     public function joinClassroom($slug)
@@ -238,10 +266,10 @@ class ClassroomController extends Controller
         $data['classroom_id'] = $classrooms->id;
         $data['user_id'] = Auth::user()->id;
         $data['last_accesed_at'] = date('Y-m-d H:i:s');
-        
+
         ClassroomUser::create($data);
         return redirect()->route('classroom.detail', $slug);
-        
+
     }
 
     public function destroyClassroom($slug)
@@ -255,6 +283,6 @@ class ClassroomController extends Controller
         $this->classroomRepository->delete($classrooms->id);
         Alert::success('Berhasil', 'Data Berhasil dihapus');
         return redirect()->route('classes');
-        
+
     }
 }

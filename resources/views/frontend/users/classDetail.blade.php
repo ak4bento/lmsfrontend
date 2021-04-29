@@ -36,6 +36,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-12">
                             <div class="fixme">
+                                @hasanyrole('teacher')
                                 <div class="card">
                                     <div class="dropdown ">
                                         <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
@@ -61,7 +62,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endhasanyrole
 
+                                @hasanyrole('owner')
                                 {{-- owner --}}
                                 <div class="card">
                                     <div class="dropdown ">
@@ -86,6 +89,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                @endhasanyrole
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -236,6 +240,7 @@
                                                         {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}</span>
                                                 </div>
                                             </div>
+                                            @hasanyrole('teacher')
                                             <div class="col col-lg-2 col-md-2 col-sm-2">
                                                 <div class="dropdown">
                                                     <a class="btn float-right" href="#" role="button" id="dropdownMenuLink"
@@ -270,6 +275,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endhasanyrole
                                         </div>
                                     </div>
                                 </div>
