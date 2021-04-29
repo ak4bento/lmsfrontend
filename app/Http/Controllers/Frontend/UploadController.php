@@ -33,7 +33,7 @@ class UploadController extends Controller
         $data = new Media;
         $files = $request->file('file');
 
-        $fileName = $files->getClientOriginalName();
+        $fileName = date('Ymd').'-'.Auth::user()->id.'-'.$files->getClientOriginalName();
         $name = pathinfo($fileName, PATHINFO_FILENAME);
 
         $data['name'] = $name;
@@ -49,7 +49,7 @@ class UploadController extends Controller
 
         $save = $data->save();
 
-        $files->move('images',$files->getClientOriginalName());
+        $files->move('files',$fileName);
 
         Alert::success('File anda berhasil di unggah');
 
