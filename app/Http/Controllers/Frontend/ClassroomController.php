@@ -10,6 +10,8 @@ use App\Repositories\ClassroomRepository;
 use DB;
 use App\Models\Subject;
 use App\Models\Discussion;
+use App\Models\Grade;
+use App\Models\Media;
 use Redirect;
 use App\Models\Classroom;
 use App\Models\ClassroomUser;
@@ -196,31 +198,33 @@ class ClassroomController extends Controller
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
             // dd($complete);
-            $teachable     = DB::table('teachables')
+            $teachable      = DB::table('teachables')
                             ->select('*')
                             ->where('teachable_type','assignment')
                             ->where('teachable_id',$classWork->id)
                             ->first();
-            $classrooms = Classroom::find($teachable->classroom_id);
+            $classrooms     = Classroom::find($teachable->classroom_id);
 
-            $classroomUser = DB::table('classroom_user')
+            $classroomUser  = DB::table('classroom_user')
                             ->select('*')
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
 
-            $teachableUser = DB::table('teachable_users')
+            $teachableUser  = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
-
+            $media  = Media::where('media_id', $classWork->id)->where('media_type', 'assigment')->where('deleted_at', null)->where('custom_properties', '{"user":'.auth()->user()->id.'}')->first();
+            $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
+            // dd($grade);
             if (is_null($teachableUser)) {
                 Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
                 return redirect()->back();
             }
 
-            return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete)->with('classrooms',$classrooms)->with('discussions',$discussions);
+            return view('frontend.classWork.assignments')->with('grade',$grade)->with('classWork',$classWork)->with('complete',$complete)->with('classrooms',$classrooms)->with('discussions',$discussions);
         }
 
 
