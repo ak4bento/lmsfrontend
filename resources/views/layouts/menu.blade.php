@@ -141,3 +141,11 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('modelHasRoles.index') }}"
+       class="nav-link {{ Request::is('modelHasRoles*') ? 'active' : '' }}">
+        <p>Model Has Roles</p>
+    </a>
+</li>
+
+

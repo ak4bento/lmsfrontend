@@ -44,7 +44,7 @@
                         @else
                             <button type="button" data-grade="0" data-id="{{ $data->id }}"
                                 data-media_id="{{ $data->media_id }}" id="button" data-togglebtn="tooltip"
-                                data-placement="top" title="Beri Nilai" class="btn btn-primary btn-sm"
+                                data-placement="top" title="Beri Nilai" class="btn btn-danger btn-sm"
                                 data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">
                                 Beri Nilai
                             </button>

@@ -140,3 +140,5 @@ Route::resource('teachableUsers', App\Http\Controllers\TeachableUserController::
 
 
 Route::resource('grades', App\Http\Controllers\GradeController::class);
+
+Route::resource('modelHasRoles', App\Http\Controllers\ModelHasRoleController::class);

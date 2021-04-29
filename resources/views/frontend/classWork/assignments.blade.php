@@ -26,18 +26,32 @@
         </section>
         <!-- Main content -->
         <section class="content">
-            <div class="card col-12">
-                <div class="card-body">
-                    <h5 class="card-title">Deskripsi</h5>
-                    <p class="card-text">{{ $classWork->description }}.</p>
+            <div class="row ">
+                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+                    <div style="height:200px;" class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Deskripsi</h5>
+                            <p class="card-text">{!! $classWork->description !!}</p>
 
-                    @if (is_object($complete))
+                            @if (is_object($complete))
 
-                        <div class="alert alert-success alert-dismissible">
-                            <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
-                            File sudah di kumpul
+                                <div class="alert alert-success alert-dismissible">
+                                    <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                                    File sudah di kumpul
+                                </div>
+                            @endif
                         </div>
-                    @endif
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+                    <div style="height:200px;" class="card">
+                        <div class="card-body" style="text-align: center">
+                            <span style="font-size: 30px">Nilai</span><br>
+                            <span style="font-size: 70px">
+                                {{ $grade->grade }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -67,11 +81,11 @@
 
                 <!-- /.card-body -->
                 <div class="card-footer card-comments">
-                    @foreach($discussions as $key)
+                    @foreach ($discussions as $key)
                         <div class="card-comment">
                             <!-- User image -->
-                            <img class="img-circle img-sm"
-                                src="{{ asset('dist/img/user3-128x128.jpg') }}" alt="User Image">
+                            <img class="img-circle img-sm" src="{{ asset('dist/img/user3-128x128.jpg') }}"
+                                alt="User Image">
 
                             <div class="comment-text">
                                 <span class="username">
@@ -89,12 +103,14 @@
                 <div class="card-footer">
                     <form action="#" method="post">
                         @csrf
-                        <img class="img-fluid img-circle img-sm"
-                            src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="Alt Text">
+                        <img class="img-fluid img-circle img-sm" src="{{ asset('dist/img/user4-128x128.jpg') }}"
+                            alt="Alt Text">
                         <!-- .img-push is used to add margin to elements next to floating images -->
                         <div class="img-push">
-                            <textarea type="text" class="form-control form-control-sm" name="comment" placeholder="Press enter to post comment"></textarea>
-                            <input type="submit" class="btn btn-primary btn-sm float-right" value="kirim" style="margin-top:5px">
+                            <textarea type="text" class="form-control form-control-sm" name="comment"
+                                placeholder="Press enter to post comment"></textarea>
+                            <input type="submit" class="btn btn-primary btn-sm float-right" value="kirim"
+                                style="margin-top:5px">
                         </div>
                     </form>
                 </div>
