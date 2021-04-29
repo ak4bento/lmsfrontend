@@ -149,7 +149,7 @@ class ClassroomController extends Controller
         $discuss['discussable_id'] = $id;
         $discuss['message'] = $request['comment'];
         $discuss['user_id'] = Auth::user()->id;
-        // dd($classrooms);
+        // dd($discuss);
 
         $discuss->save();
 

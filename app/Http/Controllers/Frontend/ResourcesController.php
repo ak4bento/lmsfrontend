@@ -95,7 +95,7 @@ class ResourcesController extends AppBaseController
         $input['order'] = 1;
         $input['max_attempts_count']=1;
         $input['pass_threshold']=1;
-        $input['data']= 'http://lms.sipsedutech.id/files/'.$fileName;
+        $input['data']= $request->getHttpHost().'/files/'.$fileName;
 
 
         $resource = $this->resourceRepository->create($input);
