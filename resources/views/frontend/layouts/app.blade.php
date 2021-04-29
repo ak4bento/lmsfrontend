@@ -49,6 +49,20 @@
                         <li class="nav-item">
                             <a href="{{ url('discover') }}" class="nav-link">Discover</a>
                         </li>
+
+                        @if (Route::has('login'))
+                            <li class="nav-item">
+                                @auth
+                                    <a href="#" class="nav-link"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Sign out
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                @endauth
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- SEARCH FORM -->
@@ -64,7 +78,6 @@
                         </div>
                     </form>
                 </div>
-
                 <!-- Right navbar links -->
                 {{-- <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                     <!-- Messages Dropdown Menu -->
