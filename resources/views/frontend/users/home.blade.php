@@ -63,7 +63,7 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        @forelse (DB::table('classroom_user')->where('user_id', Auth::user()->id)->get() as $class)
+                        @forelse (DB::table('classroom_user')->where('user_id', Auth::user()->id)->where('deleted_at', null)->get() as $class)
                             <i class="far fa-circle">
                                 {{ App\Models\Classroom::find($class->classroom_id)->title }}</i><br>
                         @empty
