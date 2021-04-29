@@ -158,6 +158,7 @@ class ClassroomController extends Controller
 
     public function classWork($slug,$id)
     {
+        $user = Auth::user();
         $classWork = DB::table($slug)->where('id',$id)->first();
 
         $discussions = DB::table('discussions')->where('discussable_type',$slug)->where('discussable_id',$id)->get();
@@ -181,9 +182,11 @@ class ClassroomController extends Controller
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
-            if (is_null($teachableUser)) {
-                Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
-                return redirect()->back();
+            if ($user->hasRole('student')) {
+                if (is_null($teachableUser)) {
+                    Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                    return redirect()->back();
+                }
             }
             $classrooms = Classroom::find($teachable->classroom_id);
             return view('frontend.classWork.resources')->with('classWork',$classWork)->with('classrooms',$classrooms)->with('discussions',$discussions);
@@ -214,10 +217,11 @@ class ClassroomController extends Controller
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
-
-            if (is_null($teachableUser)) {
-                Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
-                return redirect()->back();
+            if ($user->hasRole('student')) {
+                if (is_null($teachableUser)) {
+                    Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                    return redirect()->back();
+                }
             }
 
             return view('frontend.classWork.assignments')->with('classWork',$classWork)->with('complete',$complete)->with('classrooms',$classrooms)->with('discussions',$discussions);
@@ -240,20 +244,27 @@ class ClassroomController extends Controller
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
-            if (is_null($teachableUser)) {
-                Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
-                return redirect()->back();
+            $value = null;
+
+            if ($user->hasRole('student')) {
+                if (is_null($teachableUser)) {
+                    Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                    return redirect()->back();
+                }
+
+                $quiz_attempts = DB::table('quiz_attempts')
+                                ->select('*')
+                                ->where('teachable_user_id',$teachableUser->id)
+                                ->get();
+
+                $value = $quiz_attempts->count();
             }
 
-            $quiz_attempts = DB::table('quiz_attempts')
-                            ->select('*')
-                            ->where('teachable_user_id',$teachableUser->id)
-                            ->get();
 
             $classrooms = Classroom::find($teachable->classroom_id);
 
                             // dd($quiestion_quiz);
-            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$quiz_attempts->count())->with('teachable',$teachable)->with('classrooms',$classrooms);
+            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$value)->with('teachable',$teachable)->with('classrooms',$classrooms);
         }
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
     }

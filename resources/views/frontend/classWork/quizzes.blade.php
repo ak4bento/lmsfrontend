@@ -102,6 +102,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @hasanyrole('student')
                             <div class="col-md-3">
                                 <div class="card card-primary card-outline">
                                     <div class="card-body box-profile">
@@ -127,6 +128,7 @@
                                     </a>
                                 @endif
                             </div>
+                            @endhasanyrole
                         </div>
                     </div>
                 </div>
