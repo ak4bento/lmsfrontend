@@ -178,7 +178,10 @@ class ClassroomController extends Controller
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
-
+            if (is_null($classroomUser)) {
+                Alert::warning('Anda tidak dapat mengakses halaman ini');
+                return redirect()->back();
+            }
             $teachableUser = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
@@ -213,7 +216,10 @@ class ClassroomController extends Controller
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
-
+            if (is_null($classroomUser)) {
+                Alert::warning('Anda tidak dapat mengakses halaman ini');
+                return redirect()->back();
+            }
             $teachableUser  = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
@@ -244,6 +250,10 @@ class ClassroomController extends Controller
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
+            if (is_null($classroomUser)) {
+                    Alert::warning('Anda tidak dapat mengakses halaman ini');
+                    return redirect()->back();
+            }
             $teachableUser = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)

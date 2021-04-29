@@ -38,31 +38,35 @@
                         <div class="col-lg-3 col-md-3 col-sm-12">
                             <div class="fixme">
                                 @hasanyrole('teacher')
-                                <div class="card">
-                                    <div class="dropdown ">
-                                        <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-plus"></i> &nbsp;Buat Aktifitas
-                                        </a>
-                                        <div class="dropdown-menu">
+                                @if ($classroomUsersCount > 0)
+                                    <div class="card">
+                                        <div class="dropdown ">
+                                            <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-plus"></i> &nbsp;Buat Aktifitas
+                                            </a>
+                                            <div class="dropdown-menu">
 
-                                            <a class="dropdown-item py-2"
-                                                href="{{ route('createAssignment', $classrooms->slug) }}">
-                                                <ion-icon name="document-text-outline" class="ion-medium"></ion-icon>
-                                                &nbsp;
-                                                Tugas
-                                            </a>
-                                            <a class="dropdown-item py-2"
-                                                href="{{ route('createResources', $classrooms->slug) }}">
-                                                <ion-icon name="book-outline" class="ion-medium"></ion-icon> &nbsp; Materi
-                                            </a>
-                                            <a class="dropdown-item py-2"
-                                                href="{{ route('createQuezzes', $classrooms->slug) }}">
-                                                <ion-icon name="bookmarks-outline" class="ion-medium"></ion-icon>&nbsp; Kuis
-                                            </a>
+                                                <a class="dropdown-item py-2"
+                                                    href="{{ route('createAssignment', $classrooms->slug) }}">
+                                                    <ion-icon name="document-text-outline" class="ion-medium"></ion-icon>
+                                                    &nbsp;
+                                                    Tugas
+                                                </a>
+                                                <a class="dropdown-item py-2"
+                                                    href="{{ route('createResources', $classrooms->slug) }}">
+                                                    <ion-icon name="book-outline" class="ion-medium"></ion-icon> &nbsp;
+                                                    Materi
+                                                </a>
+                                                <a class="dropdown-item py-2"
+                                                    href="{{ route('createQuezzes', $classrooms->slug) }}">
+                                                    <ion-icon name="bookmarks-outline" class="ion-medium"></ion-icon>&nbsp;
+                                                    Kuis
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                                 @endhasanyrole
 
                                 @hasanyrole('owner')
@@ -242,40 +246,43 @@
                                                 </div>
                                             </div>
                                             @hasanyrole('teacher')
-                                            <div class="col col-lg-2 col-md-2 col-sm-2">
-                                                <div class="dropdown">
-                                                    <a class="btn float-right" href="#" role="button" id="dropdownMenuLink"
-                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v primary"></i>
-                                                    </a>
+                                            @if ($classroomUsersCount > 0)
+                                                <div class="col col-lg-2 col-md-2 col-sm-2">
+                                                    <div class="dropdown">
+                                                        <a class="btn float-right" href="#" role="button"
+                                                            id="dropdownMenuLink" data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v primary"></i>
+                                                        </a>
 
-                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                        @if ($teachable->teachable_type == 'quiz')
-                                                            <a href="{{ route('showAllQuestion', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                                class="dropdown-item">Lihat Soal </a>
-                                                            <a href="{{ route('editQuezzes', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                                class="dropdown-item">Edit </a>
-                                                            <a class="dropdown-item btn delete"
-                                                                data-url="{{ route('destroyQuezzes', $teachable->teachable_id) }}">
-                                                                Hapus</a>
-                                                        @elseif ($teachable->teachable_type == 'resource')
-                                                            <a href="{{ route('editResources', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                                class="dropdown-item">Edit </a>
-                                                            <a class="dropdown-item btn delete"
-                                                                data-url="{{ route('destroyResources', $teachable->teachable_id) }}">
-                                                                Hapus</a>
-                                                        @elseif ($teachable->teachable_type == 'assignment')
-                                                            <a href="{{ route('allAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                                class="dropdown-item">Lihat Daftar Pengumpulan </a>
-                                                            <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
-                                                                class="dropdown-item">Edit </a>
-                                                            <a class="dropdown-item btn delete"
-                                                                data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
-                                                                Hapus</a>
-                                                        @endif
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                            @if ($teachable->teachable_type == 'quiz')
+                                                                <a href="{{ route('showAllQuestion', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                    class="dropdown-item">Lihat Soal </a>
+                                                                <a href="{{ route('editQuezzes', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                    class="dropdown-item">Edit </a>
+                                                                <a class="dropdown-item btn delete"
+                                                                    data-url="{{ route('destroyQuezzes', $teachable->teachable_id) }}">
+                                                                    Hapus</a>
+                                                            @elseif ($teachable->teachable_type == 'resource')
+                                                                <a href="{{ route('editResources', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                    class="dropdown-item">Edit </a>
+                                                                <a class="dropdown-item btn delete"
+                                                                    data-url="{{ route('destroyResources', $teachable->teachable_id) }}">
+                                                                    Hapus</a>
+                                                            @elseif ($teachable->teachable_type == 'assignment')
+                                                                <a href="{{ route('allAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                    class="dropdown-item">Lihat Daftar Pengumpulan </a>
+                                                                <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                    class="dropdown-item">Edit </a>
+                                                                <a class="dropdown-item btn delete"
+                                                                    data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
+                                                                    Hapus</a>
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                             @endhasanyrole
                                         </div>
                                     </div>

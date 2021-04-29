@@ -27,36 +27,52 @@
         <!-- Main content -->
         <section class="content">
             <div class="row ">
+                @hasanyrole('student')
+
                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                    <div style="height:200px;" class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Deskripsi</h5>
-                            <p class="card-text">{!! $classWork->description !!}</p>
+                    @endhasanyrole
+                    @hasanyrole('teacher')
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                            @if (is_object($complete))
+                        @endhasanyrole
 
-                                <div class="alert alert-success alert-dismissible">
-                                    <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
-                                    File sudah di kumpul
-                                </div>
-                            @endif
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Deskripsi</h5>
+                                <p class="card-text">{!! $classWork->description !!}</p>
+                                @hasanyrole('student')
+
+                                @if (is_object($complete))
+
+                                    <div class="alert alert-success alert-dismissible">
+                                        <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                                        File sudah di kumpul
+                                    </div>
+                                @endif
+                                @endhasanyrole
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-                    <div style="height:200px;" class="card">
-                        <div class="card-body" style="text-align: center">
-                            <span style="font-size: 30px">Nilai</span><br>
-                            <span style="font-size: 70px">
-                                {{ $grade->grade }}
-                            </span>
+                    @hasanyrole('student')
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
+                        <div class="card">
+                            <div class="card-body" style="text-align: center">
+                                <span style="font-size: 30px">Nilai</span><br>
+                                <span style="font-size: 70px">
+
+                                    {{ $grade->grade }}
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    @endhasanyrole
                 </div>
-            </div>
         </section>
         <section class="content">
             <div class="card">
+                @hasanyrole('student')
+
                 <div class="card-body">
                     <h3 class="card-title">Unggah Tugas</h3>
                     <p class="card-text">
@@ -78,6 +94,7 @@
                     </form>
                     </p>
                 </div>
+                @endhasanyrole
 
                 <!-- /.card-body -->
                 <div class="card-footer card-comments">
