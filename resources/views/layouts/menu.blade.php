@@ -133,3 +133,11 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
         <p>Teachable Users</p>
     </a>
 </li> --}}
+<li class="nav-item">
+    <a href="{{ route('grades.index') }}"
+       class="nav-link {{ Request::is('grades*') ? 'active' : '' }}">
+        <p>Grades</p>
+    </a>
+</li>
+
+

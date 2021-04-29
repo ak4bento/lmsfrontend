@@ -29,6 +29,7 @@ Route::post('update-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentC
 Route::get('destroy-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'destroy'])->name('destroyAssignment');
 
 Route::get('all-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'index'])->name('allAssignment');
+Route::post('store-grade/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'gradeStore'])->name('gradeStore');
 
 //teacher resources
 Route::get('create-resources/{slug}', [App\Http\Controllers\Frontend\ResourcesController::class, 'create'])->name('createResources');
@@ -136,3 +137,6 @@ Route::resource('assignments', App\Http\Controllers\AssignmentController::class)
 Route::resource('quizAttempts', App\Http\Controllers\QuizAttemptController::class);
 
 Route::resource('teachableUsers', App\Http\Controllers\TeachableUserController::class);
+
+
+Route::resource('grades', App\Http\Controllers\GradeController::class);

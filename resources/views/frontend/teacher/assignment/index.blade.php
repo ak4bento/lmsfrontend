@@ -27,8 +27,7 @@
             </section>
             <div class="content px-3 col-lg-12">
                 <div class="row">
-                    @include('flash::message')
-                    <div class="clearfix"></div>
+                    @include('adminlte-templates::common.errors')
                     <div class="card card-primary card-outline col-sm-12 col-md-12 col-lg-12">
                         <div class="card-header align-items-center">
                             <div class="d-flex justify-content-between">
