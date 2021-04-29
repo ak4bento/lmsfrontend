@@ -13,15 +13,20 @@ use Alert;
 use App\Repositories\TeachableRepository;
 use App\Models\TeachableUser;
 use App\Models\ClassroomUser;
+use App\Repositories\GradeRepository;
+use Auth;
+use App\Models\Grade;
 
 class AssignmentController extends AppBaseController
 {
     /** @var  AssignmentRepository */
     private $assignmentRepository; 
     private $teachableRepository;
+    private $gradeRepository;
 
-    public function __construct(TeachableRepository $teachableRepo,AssignmentRepository $assignmentRepo)
+    public function __construct(TeachableRepository $teachableRepo,AssignmentRepository $assignmentRepo,GradeRepository $gradeRepo)
     {
+        $this->gradeRepository = $gradeRepo;
         $this->teachableRepository = $teachableRepo;
         $this->assignmentRepository = $assignmentRepo;
     }
@@ -36,6 +41,7 @@ class AssignmentController extends AppBaseController
     {
         $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('*')->first();
         $media = DB::table('media')->where('media_type','assigment',)->where('media_id',$id)->select('*')->get();
+        // dd($assignments);
         $classrooms = DB::table('classrooms')
                     ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
                     ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
@@ -44,6 +50,29 @@ class AssignmentController extends AppBaseController
                     ->first();
         
         return view('frontend.teacher.assignment.index')->with('assignments',$assignments)->with('media',$media)->with('classrooms',$classrooms);
+
+    }
+
+    public function gradeStore(Request $request,$slug)
+    {
+        $input = $request->all();
+        $validated = $request->validate([
+            'grade' => 'required|numeric|min:0|max:100',
+        ]);
+        $input['gradeable_id']  = $input['id'];
+        $input['comments']      = '-';
+        $input['gradeable_type']= 'media';
+        $input['graded_by']     = Auth::user()->id;
+        $grade = Grade::where('gradeable_id',$input['gradeable_id'])->where('gradeable_type','media')->select('*')->first();
+        if($grade != null){
+            $this->gradeRepository->update($input, $grade->id);
+            Alert::success('Nilai Berhasil Diperbaharui.');
+
+        }else{
+            $grade = $this->gradeRepository->create($input);
+            Alert::success('Nilai Berhasil Ditambahkan.');
+        }
+        return redirect()->route('allAssignment', ['slug'=>$slug, 'id'=>$input['media_id']]);
 
     }
 
@@ -63,7 +92,7 @@ class AssignmentController extends AppBaseController
                     ->select('classrooms.*','users.id as user_id','users.name')
                     ->where('classrooms.slug',$slug)
                     ->get();
-        // dd($user);
+
         return view('frontend.teacher.assignment.create')->with('classrooms',$classrooms)->with('classroomUser',$classroomUser)->with('user',$user);
     }
 

@@ -16,7 +16,11 @@
             @foreach ($media as $data)
                 <tr>
                     <td width="5%">{{ $no++ }}</td>
-                    <td>{{ $data->custom_properties }} </td>
+                    <td>
+                        @foreach (json_decode($data->custom_properties) as $item)
+                            {{ App\Models\User::find($item)->name }}
+                        @endforeach
+                    </td>
                     <td>
                         <a target="_blank" href="{{ asset('files') }}/{{ $data->file_name }}">
                             {{ $data->name }}
@@ -26,11 +30,26 @@
                         {{ $data->created_at }}
                     </td>
                     <td width="9%">
-                        <button type="button" data-togglebtn="tooltip" data-placement="top" title="Beri Nilai"
-                            class="btn btn-primary btn-sm" data-dismiss="modal" data-toggle="modal"
-                            data-target="#exampleModalCenter">
-                            Beri Nilai
-                        </button>
+
+                        @if (App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first() != null)
+                            <button type="button"
+                                data-grade="{{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }}"
+                                data-id="{{ $data->id }}" data-media_id="{{ $data->media_id }}" id="button"
+                                data-togglebtn="tooltip" data-placement="top" title="Beri Nilai"
+                                class="btn btn-primary btn-sm" data-dismiss="modal" data-toggle="modal"
+                                data-target="#exampleModalCenter">
+                                {{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }}
+                            </button>
+
+                        @else
+                            <button type="button" data-grade="0" data-id="{{ $data->id }}"
+                                data-media_id="{{ $data->media_id }}" id="button" data-togglebtn="tooltip"
+                                data-placement="top" title="Beri Nilai" class="btn btn-primary btn-sm"
+                                data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">
+                                Beri Nilai
+                            </button>
+                        @endif
+
                     </td>
                 </tr>
             @endforeach
@@ -49,17 +68,22 @@
 
                 </div>
             </div>
-            <div class="modal-body">
-                <div class="form-group col-sm-12">
-                    <input type="number" placeholder="80" class="form-control">
+            <form action="{{ route('gradeStore', $classrooms->slug) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group col-sm-12">
+                        <input type="hidden" id="id" name="id">
+                        <input type="hidden" id="media_id" name="media_id">
+                        <input type="number" placeholder="80" name="grade" id="grade" class="form-control">
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-warning" data-dismiss="modal" data-togglebtn="tooltip"
-                    data-placement="top" title="Tutup"><i class="fas fa-times"></i></button>
-                <button type="submit" data-togglebtn="tooltip" data-placement="top" title="Simpan"
-                    class="btn btn-sm btn-primary"><i class="far fa-save"></i></button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-warning" data-dismiss="modal" data-togglebtn="tooltip"
+                        data-placement="top" title="Tutup"><i class="fas fa-times"></i></button>
+                    <button type="submit" data-togglebtn="tooltip" data-placement="top" title="Simpan"
+                        class="btn btn-sm btn-primary"><i class="far fa-save"></i></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -67,6 +91,16 @@
     <script>
         $(document).ready(function() {
             $('[data-togglebtn="tooltip"]').tooltip();
+        });
+        $("#button").click(function(e) {
+            e.preventDefault();
+            let id = $(this).data('id');
+            let media_id = $(this).data('media_id');
+            let grade = $(this).data('grade');
+            console.log('ini data ku :', id);
+            $("#id").val(id);
+            $("#media_id").val(media_id);
+            $("#grade").val(grade);
         });
 
     </script>
