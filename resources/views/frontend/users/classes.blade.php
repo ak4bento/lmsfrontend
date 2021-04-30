@@ -80,11 +80,11 @@
                                         <a href="#" class="btn btn-sm bg-teal">
                                             <strong>
                                                 {{ App\Models\ClassroomUser::where('classroom_id', $item->id)->count() }}
-                                            </strong>&nbsp;Joined
+                                            </strong>&nbsp;Bergabung
                                         </a>
                                         <a href="{{ url('class-detail/') }}/{{ $item->slug }}"
                                             class="btn btn-sm btn-primary">
-                                            View Classes
+                                            Lihat Kelas
                                         </a>
                                     </div>
                                 </div>

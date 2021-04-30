@@ -89,8 +89,11 @@ class AssignmentController extends AppBaseController
         $user = DB::table('classroom_user')
                     ->join('users', 'users.id', '=', 'classroom_user.user_id')
                     ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
                     ->select('classrooms.*','users.id as user_id','users.name')
                     ->where('classrooms.slug',$slug)
+                    ->where('model_has_roles.role_id','!=',3) 
+                    ->where('classroom_user.deleted_at',null)
                     ->get();
 
         return view('frontend.teacher.assignment.create')->with('classrooms',$classrooms)->with('classroomUser',$classroomUser)->with('user',$user);
@@ -145,9 +148,11 @@ class AssignmentController extends AppBaseController
         $teachableUser = DB::table('teachable_users')
                     ->join('classroom_user', 'classroom_user.id', '=', 'teachable_users.classroom_user_id')
                     ->join('teachables', 'teachables.id', '=', 'teachable_users.teachable_id')
+                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
                     ->select('classroom_user.*')
                     ->where('teachable_users.teachable_id',$teachable->id)
                     ->where('teachable_users.deleted_at',null)
+                    ->where('classroom_user.deleted_at',null)
                     ->get();
                     // dd($teachableUser);
         return view('frontend.teacher.assignment.edit')

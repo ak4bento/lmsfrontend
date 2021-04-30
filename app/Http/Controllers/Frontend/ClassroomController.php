@@ -243,16 +243,16 @@ class ClassroomController extends Controller
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
-
+            $grade = null;
             if ($user->hasRole('student')) {
                 if (is_null($teachableUser)) {
                     Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
                     return redirect()->back();
                 }
+                $media  = Media::where('media_id', $classWork->id)->where('media_type', 'assigment')->where('deleted_at', null)->where('custom_properties', '{"user":'.auth()->user()->id.'}')->first();
+                $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
             }
 
-            $media  = Media::where('media_id', $classWork->id)->where('media_type', 'assigment')->where('deleted_at', null)->where('custom_properties', '{"user":'.auth()->user()->id.'}')->first();
-            $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
 
             return view('frontend.classWork.assignments')
                     ->with('grade',$grade)

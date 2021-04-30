@@ -44,10 +44,13 @@ class ResourcesController extends AppBaseController
         $user = DB::table('classroom_user')
                     ->join('users', 'users.id', '=', 'classroom_user.user_id')
                     ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
-                    ->select('classrooms.*','users.id as user_id','users.name')
+                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
+                    ->select('classrooms.*','users.id as user_id','users.name','model_has_roles.role_id')
                     ->where('classrooms.slug',$slug)
+                    ->where('model_has_roles.role_id','!=',3) 
                     ->where('classroom_user.deleted_at',null)
                     ->get();
+                    // dd($user);
         return view('frontend.teacher.resources.create')->with('classrooms',$classrooms)->with('user',$user);
     }
 
@@ -138,19 +141,23 @@ class ResourcesController extends AppBaseController
                     ->first();
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','resource')->where('deleted_at',null)->select('*')->first();
         $resources = DB::table('resources')->where('id',$id)->where('deleted_at',null)->select('resources.*')->first();
-        // dd($teachable);
         $user = DB::table('classroom_user')
                     ->join('users', 'users.id', '=', 'classroom_user.user_id')
                     ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
                     ->select('classrooms.*','users.id as user_id','users.name')
+                    ->where('model_has_roles.role_id','!=',3) 
                     ->where('classrooms.slug',$slug)
                     ->get();
+        // dd($user);
         $teachableUser = DB::table('teachable_users')
                     ->join('classroom_user', 'classroom_user.id', '=', 'teachable_users.classroom_user_id')
                     ->join('teachables', 'teachables.id', '=', 'teachable_users.teachable_id')
+                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
                     ->select('classroom_user.*')
                     ->where('teachable_users.teachable_id',$teachable->id)
                     ->where('teachable_users.deleted_at',null)
+                    ->where('model_has_roles.role_id','!=',3) 
                     ->get();
                     // dd($teachableUser);
         return view('frontend.teacher.resources.edit')
