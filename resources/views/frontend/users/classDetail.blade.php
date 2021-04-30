@@ -70,121 +70,129 @@
                                 @endhasanyrole
 
                                 @hasanyrole('owner')
-                                {{-- owner --}}
-                                <div class="card">
-                                    <div class="dropdown ">
-                                        <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-                                                class="fas fa-cog"></i>
-                                            &nbsp;Pengaturan
-                                        </a>
-                                        <div class="dropdown-menu">
-                                            <a type="button" class=" dropdown-item py-2" data-toggle="modal"
-                                                data-target="#exampleModalCenter">
-                                                <ion-icon name="person" class="ion-medium"></ion-icon>
-                                                &nbsp;Pengguna Kelas
+                                @if ($classroomUsersCount > 0)
+                                    {{-- owner --}}
+                                    <div class="card">
+                                        <div class="dropdown ">
+                                            <a class="btn btn-primary btn-block py-2" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                                                    class="fas fa-cog"></i>
+                                                &nbsp;Pengaturan
                                             </a>
-                                            <a class="dropdown-item py-2"
-                                                href="{{ route('editClassroom', $classrooms->slug) }}">
-                                                <i class="far fa-edit"></i>
-                                                &nbsp; Edit Kelas </a>
-                                            <a class="dropdown-item py-2 delete" href=""
-                                                data-url="{{ route('destroyClassroom', $classrooms->slug) }}">
-                                                <i class="fa fa-trash"></i> &nbsp; Hapus Kelas </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endhasanyrole
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <div class="container-fluid">
-                                                    <span style="font-size: 20px" id="exampleModalLongTitle">
-                                                        Pengajar
-                                                    </span>
-                                                    <button type="button" data-togglebtn="tooltip" data-placement="top"
-                                                        title="Tambah Pengajar" class="btn btn-primary btn-sm float-right"
-                                                        data-dismiss="modal" data-toggle="modal"
-                                                        data-target="#exampleModalCenter1">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="container-fluid">
-                                                    @foreach ($classroomUsers as $data)
-                                                        <div class="row justify-content-between ">
-                                                            <div class="col-10">
-                                                                <span>
-                                                                    {{ $data->username }}
-                                                                </span>
-                                                            </div>
-                                                            <div class="col-2">
-                                                                <a data-toggle="tooltip" data-placement="top"
-                                                                    title="Hapus Pengajar"
-                                                                    class="btn btn-danger btn-sm float-right delete"
-                                                                    data-url="{{ route('destroyTeacher', ['slug' => $classrooms->slug, 'id' => $data->user_id]) }}">
-                                                                    <i class="far fa-trash-alt"></i>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <hr />
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <div class="container-fluid">
-
-                                                    <button type="button" class="btn btn-warning btn-sm float-right"
-                                                        data-togglebtn="tooltip" data-placement="top" title="Tutup"
-                                                        data-dismiss="modal"><i class="fas fa-times"></i></button>
-                                                </div>
+                                            <div class="dropdown-menu">
+                                                <a type="button" class=" dropdown-item py-2" data-toggle="modal"
+                                                    data-target="#exampleModalCenter">
+                                                    <ion-icon name="person" class="ion-medium"></ion-icon>
+                                                    &nbsp;Pengguna Kelas
+                                                </a>
+                                                <a class="dropdown-item py-2"
+                                                    href="{{ route('editClassroom', $classrooms->slug) }}">
+                                                    <i class="far fa-edit"></i>
+                                                    &nbsp; Edit Kelas </a>
+                                                <a class="dropdown-item py-2 delete" href=""
+                                                    data-url="{{ route('destroyClassroom', $classrooms->slug) }}">
+                                                    <i class="fa fa-trash"></i> &nbsp; Hapus Kelas </a>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <form action="{{ route('storeTeacher', $classrooms->slug) }}" method="POST">
-                                                @csrf
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">
-                                                        Tambah Pengajar
-                                                    </h5>
+                                                    <div class="container-fluid">
+                                                        <span style="font-size: 20px" id="exampleModalLongTitle">
+                                                            Pengajar
+                                                        </span>
+                                                        <button type="button" data-togglebtn="tooltip" data-placement="top"
+                                                            title="Tambah Pengajar"
+                                                            class="btn btn-primary btn-sm float-right" data-dismiss="modal"
+                                                            data-toggle="modal" data-target="#exampleModalCenter1">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <div class="form-group col-sm-12">
-                                                        <select name="user_id" class="form-control select2" id="user_id"
-                                                            style="width: 100%;">
-                                                            @foreach (App\Models\User::all() as $data)
-                                                                <option {{ $data->id }} value="{{ $data->id }}">
-                                                                    {{ $data->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="container-fluid">
+                                                        @foreach ($classroomTeacher as $data)
+                                                            <div class="row">
+                                                                <div class="card py-2 col-12 ">
+                                                                    <div class=" row justify-content-between ">
+                                                                        <div class=" col-10">
+                                                                            <span>
+                                                                                {{ $data->username }}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <a data-toggle="tooltip" data-placement="top"
+                                                                                title="Hapus Pengajar"
+                                                                                class="btn btn-danger btn-sm float-right delete"
+                                                                                data-url="{{ route('destroyTeacher', ['slug' => $classrooms->slug, 'id' => $data->user_id]) }}">
+                                                                                <i class="far fa-trash-alt"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-sm btn-warning"
-                                                        data-dismiss="modal" data-togglebtn="tooltip" data-placement="top"
-                                                        title="Tutup" data-target="#exampleModalCenter"
-                                                        data-toggle="modal"><i class="fas fa-times"></i></button>
-                                                    <button type="submit" data-togglebtn="tooltip" data-placement="top"
-                                                        title="Simpan" class="btn btn-sm btn-primary"><i
-                                                            class="far fa-save"></i></button>
+                                                    <div class="container-fluid">
+
+                                                        <button type="button" class="btn btn-warning btn-sm float-right"
+                                                            data-togglebtn="tooltip" data-placement="top" title="Tutup"
+                                                            data-dismiss="modal"><i class="fas fa-times"></i></button>
+                                                    </div>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <form action="{{ route('storeTeacher', $classrooms->slug) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">
+                                                            Tambah Pengajar
+                                                        </h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group col-sm-12">
+                                                            <select name="user_id" class="form-control select2" id="user_id"
+                                                                style="width: 100%;">
+                                                                @foreach ($studentTeacher as $data)
+                                                                    <option {{ $data->id }}
+                                                                        value="{{ $data->id }}">
+                                                                        {{ $data->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-sm btn-warning"
+                                                            data-dismiss="modal" data-togglebtn="tooltip"
+                                                            data-placement="top" title="Tutup"
+                                                            data-target="#exampleModalCenter" data-toggle="modal"><i
+                                                                class="fas fa-times"></i></button>
+                                                        <button type="submit" data-togglebtn="tooltip" data-placement="top"
+                                                            title="Simpan" class="btn btn-sm btn-primary"><i
+                                                                class="far fa-save"></i></button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @endhasanyrole
                                 {{-- end owner --}}
+
                                 <div class="card ">
                                     <div class="card-header">
                                         <h3 class="card-title">

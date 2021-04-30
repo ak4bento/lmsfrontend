@@ -9,7 +9,6 @@
 
         <div class="row">
             <div class="col-md-4 col-lg-3 col-sm-12">
-                <!-- About Me Box -->
                 <div class="card fixme">
                     <form action="?" method="get">
                         <div class="card-body">
@@ -35,14 +34,10 @@
                             </ul>
                         </div>
                     </form>
-                    <!-- /.card-body -->
                 </div>
-                <!-- /.card -->
             </div>
             <div class="col-lg-9 col-md-8 col-sm-12">
-                <!-- Default box -->
                 <div class="row">
-
                     @foreach ($classrooms as $item)
                         <div class="col-lg-6 col-sm-12 col-md-12">
                             <div class="card bg-light card-primary card-outline">
@@ -53,14 +48,14 @@
                                 </div>
                                 <div class="card-body pt-0">
                                     <div class="row">
-                                        <div class="col-8">
+                                        <div class="col-9">
                                             <label class="lead">{{ $item->title }}</label>
                                             <p>
                                                 {{ substr($item->description, 0, 100) }} <br> <a
                                                     href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
                                             </p>
                                         </div>
-                                        <div class="col-4 text-center">
+                                        <div class="col-3 text-center">
                                             <img src="dist/img/user1-128x128.jpg" alt="user-avatar"
                                                 class="img-squre img-fluid" style="border-radius: 10px" />
                                             {{ App\Models\User::find($item->created_by)->name }}
@@ -83,11 +78,8 @@
                             </div>
                         </div>
                     @endforeach
-
                 </div>
-                <!-- /.card-footer -->
             </div>
-            <!-- /.card -->
         </div>
     </div>
 @endsection

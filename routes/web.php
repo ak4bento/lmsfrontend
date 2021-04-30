@@ -126,19 +126,19 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
 
     Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
     Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
+    
+    Route::resource('resources', App\Http\Controllers\ResourceController::class);
+    
+    Route::resource('assignments', App\Http\Controllers\AssignmentController::class);
+    
+    
+    Route::resource('quizAttempts', App\Http\Controllers\QuizAttemptController::class);
+    
+    Route::resource('teachableUsers', App\Http\Controllers\TeachableUserController::class);
+    
+    
+    Route::resource('grades', App\Http\Controllers\GradeController::class);
+    
+    Route::resource('modelHasRoles', App\Http\Controllers\ModelHasRoleController::class);
 });
 
-
-Route::resource('resources', App\Http\Controllers\ResourceController::class);
-
-Route::resource('assignments', App\Http\Controllers\AssignmentController::class);
-
-
-Route::resource('quizAttempts', App\Http\Controllers\QuizAttemptController::class);
-
-Route::resource('teachableUsers', App\Http\Controllers\TeachableUserController::class);
-
-
-Route::resource('grades', App\Http\Controllers\GradeController::class);
-
-Route::resource('modelHasRoles', App\Http\Controllers\ModelHasRoleController::class);

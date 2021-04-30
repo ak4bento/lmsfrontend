@@ -70,17 +70,17 @@ class ClassroomController extends Controller
     public function editClassroom($slug)
     {
         $classrooms = Classroom::where('slug',$slug)->where('deleted_at',null)->first();
-        // dd($classrooms);
         return view('frontend.owner.classroom.edit')->with('classrooms', $classrooms);
     }
 
     public function updateClassroom(Request $request, $id)
     {
+        $validated = $request->validate([
+            'title' => "required|unique:classrooms,title,$id",
+        ]);
+
         $input = $request->all();
-        // dd($input);
-        // $validated = $request->validate([
-        //     'title' => 'required|unique:classrooms,title',
-        // ]);
+
         $Classroom = Classroom::find($id);
 
         $input['created_by']=auth()->user()->id;
@@ -97,7 +97,6 @@ class ClassroomController extends Controller
 
     public function show($slug)
     {
-        // dd($slug);
         $classrooms = DB::table('classrooms')
                     ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
                     ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
@@ -105,7 +104,6 @@ class ClassroomController extends Controller
                     ->where('classrooms.slug',$slug)
                     ->where('classrooms.deleted_at',null)
                     ->first();
-        // dd($classrooms);
 
         $teachables = DB::table('teachables')
                     ->select('teachables.*')
@@ -117,12 +115,29 @@ class ClassroomController extends Controller
         $classroomUsers = DB::table('classroom_user')
                         ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
                         ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                        ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
                         ->select('classrooms.*','users.id as user_id','users.name as username','classroom_user.id as classroom_user_id')
                         ->where('classroom_user.classroom_id',$classrooms->id)
                         ->where('classroom_user.user_id',auth()->user()->id)
                         ->where('classroom_user.deleted_at',null)
                         ->get();
-        // dd($teachables);
+                        
+        $classroomTeacher = DB::table('classroom_user')
+                        ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                        ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                        ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
+                        ->select('classrooms.*','users.id as user_id','users.name as username','classroom_user.id as classroom_user_id')
+                        ->where('classroom_user.classroom_id',$classrooms->id)
+                        ->where('classroom_user.deleted_at',null)
+                        ->where('model_has_roles.role_id',3)
+                        ->get();
+
+        $studentTeacher = DB::table('users')
+                        ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                        ->orWhere('model_has_roles.role_id',3)
+                        ->orWhere('model_has_roles.role_id',2)
+                        ->select('users.*','model_has_roles.role_id')
+                        ->get();
 
         $subjects = Subject::all();
 
@@ -131,6 +146,8 @@ class ClassroomController extends Controller
                 ->with('classroomUsers', $classroomUsers)
                 ->with('classrooms', $classrooms)
                 ->with('subjects',$subjects)
+                ->with('classroomTeacher',$classroomTeacher)
+                ->with('studentTeacher',$studentTeacher)
                 ->with('teachables',$teachables);
     }
 
@@ -142,14 +159,12 @@ class ClassroomController extends Controller
      */
     public function discussions(Request $request, $slug, $id)
     {
-        // dd($request);
         $discuss = new Discussion;
 
         $discuss['discussable_type'] = $slug;
         $discuss['discussable_id'] = $id;
         $discuss['message'] = $request['comment'];
         $discuss['user_id'] = Auth::user()->id;
-        // dd($classrooms);
 
         $discuss->save();
 
@@ -164,8 +179,6 @@ class ClassroomController extends Controller
         $classWork = DB::table($slug)->where('id',$id)->first();
 
         $discussions = DB::table('discussions')->where('discussable_type',$slug)->where('discussable_id',$id)->get();
-
-        // dd($classWork);
 
         if($slug =='resources'){
             $teachable     = DB::table('teachables')
@@ -194,7 +207,10 @@ class ClassroomController extends Controller
                 }
             }
             $classrooms = Classroom::find($teachable->classroom_id);
-            return view('frontend.classWork.resources')->with('classWork',$classWork)->with('classrooms',$classrooms)->with('discussions',$discussions);
+            return view('frontend.classWork.resources')
+                    ->with('classWork',$classWork)
+                    ->with('classrooms',$classrooms)
+                    ->with('discussions',$discussions);
         }
 
         if($slug =='assignments'){
@@ -203,7 +219,7 @@ class ClassroomController extends Controller
                 ->where('media_id',$id)
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
-            // dd($complete);
+
             $teachable      = DB::table('teachables')
                             ->select('*')
                             ->where('teachable_type','assignment')
@@ -216,26 +232,34 @@ class ClassroomController extends Controller
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
+
             if (is_null($classroomUser)) {
                 Alert::warning('Anda tidak dapat mengakses halaman ini');
                 return redirect()->back();
             }
+
             $teachableUser  = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
                             ->first();
+
             if ($user->hasRole('student')) {
                 if (is_null($teachableUser)) {
                     Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
                     return redirect()->back();
                 }
             }
+
             $media  = Media::where('media_id', $classWork->id)->where('media_type', 'assigment')->where('deleted_at', null)->where('custom_properties', '{"user":'.auth()->user()->id.'}')->first();
             $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
-            // dd($grade);
 
-            return view('frontend.classWork.assignments')->with('grade',$grade)->with('classWork',$classWork)->with('complete',$complete)->with('classrooms',$classrooms)->with('discussions',$discussions);
+            return view('frontend.classWork.assignments')
+                    ->with('grade',$grade)
+                    ->with('classWork',$classWork)
+                    ->with('complete',$complete)
+                    ->with('classrooms',$classrooms)
+                    ->with('discussions',$discussions);
         }
 
 
@@ -250,10 +274,12 @@ class ClassroomController extends Controller
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
                             ->first();
+
             if (is_null($classroomUser)) {
                     Alert::warning('Anda tidak dapat mengakses halaman ini');
                     return redirect()->back();
             }
+            
             $teachableUser = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
@@ -278,8 +304,11 @@ class ClassroomController extends Controller
 
             $classrooms = Classroom::find($teachable->classroom_id);
 
-                            // dd($quiestion_quiz);
-            return view('frontend.classWork.quizzes')->with('classWork',$classWork)->with('quiz_attempts',$value)->with('teachable',$teachable)->with('classrooms',$classrooms);
+            return view('frontend.classWork.quizzes')
+                    ->with('classWork',$classWork)
+                    ->with('quiz_attempts',$value)
+                    ->with('teachable',$teachable)
+                    ->with('classrooms',$classrooms);
         }
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
     }
