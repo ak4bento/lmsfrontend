@@ -121,10 +121,9 @@ class UserController extends AppBaseController
 
     public function updateProfile(Request $request, $id)
     {
-        $validated = $request->validate([
-            'full_name' => 'required',
-            'phone_number' => "required|unique:profiles,phone_number,$id",
-            'address' => 'required',
+        $validated = $request->validate([ 
+            'email' => "required|unique:users,email,$id",
+            'name' => "required|unique:users,name,$id",
         ]);
 
         $data = $request->all();
@@ -133,14 +132,12 @@ class UserController extends AppBaseController
 
         $profile = $this->profileRepository->allQuery(['user_id'=> $id])->first(); 
 
-        // dd($profile);
         if($data['password'] == null){
             $data['password'] = $userStudent['password'];
         }
         else{
             $data['password'] = Hash::make($data['password']);
         }
-        // dd($data);
 
         if (empty($userStudent)) {
             Flash::error('User Student not found');
@@ -149,8 +146,18 @@ class UserController extends AppBaseController
         }
 
         if(is_null($profile)){
+            $validated = $request->validate([
+                'full_name' => 'required',
+                'phone_number' => "required|unique:profiles,phone_number|regex:/^([0-9\s\-\+\(\)]*)$/|min:10",
+                'address' => 'required', 
+            ]);
             Profile::create($data);
         }else{
+            $validated = $request->validate([
+                'full_name' => 'required',
+                'phone_number' => "required|unique:profiles,phone_number,$profile->id|regex:/^([0-9\s\-\+\(\)]*)$/|min:10",
+                'address' => 'required', 
+            ]);
             $profile = $this->profileRepository->update($data, $profile['id']);
         }
 

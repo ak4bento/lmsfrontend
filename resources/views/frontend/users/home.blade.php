@@ -40,25 +40,24 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <strong><i class="fas fa-user mr-1"></i> Nama lengkap</strong>
-
-                        <p class="text-muted">
-                            {{ $profile->full_name ?? '' }}
-                        </p>
-
-                        <hr>
-
-                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
-
-                        <p class="text-muted">{{ $profile->address ?? '' }}</p>
-
-                        <hr>
-
-                        <strong><i class="fas fa-mobile mr-1"></i> Telepon</strong>
-
-                        <p class="text-muted">
-                        <p>{{ $profile->phone_number ?? '' }}</p>
-                        </p>
+                        <div class="card">
+                            <div class="card-body">
+                                <strong><i class="fas fa-user mr-1"></i> Nama lengkap :
+                                    {{ $profile->full_name ?? '' }}</strong>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat :
+                                    {{ $profile->address ?? '' }}</strong>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <strong><i class="fas fa-mobile mr-1"></i> Telepon :
+                                    {{ $profile->phone_number ?? '' }}</strong>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -72,8 +71,15 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         @forelse (DB::table('classroom_user')->where('user_id', Auth::user()->id)->where('deleted_at', null)->get() as $class)
-                            <i class="far fa-circle">
-                                {{ App\Models\Classroom::find($class->classroom_id)->title }}</i><br>
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="far fa-circle"></i>
+                                    <strong>
+                                        <a
+                                            href="{{ route('classroom.detail', App\Models\Classroom::find($class->classroom_id)->slug) }}">{{ App\Models\Classroom::find($class->classroom_id)->title }}</a>
+                                    </strong>
+                                </div>
+                            </div>
                         @empty
                             Data kelas anda kosong
                         @endforelse
@@ -94,7 +100,12 @@
 
                             <div class="card">
                                 <div class="card-header">
-                                    {{ App\Models\Classroom::find($class->classroom_id)->title }}
+                                    <strong>
+                                        <a
+                                            href="{{ route('classroom.detail', App\Models\Classroom::find($class->classroom_id)->slug) }}">
+                                            {{ App\Models\Classroom::find($class->classroom_id)->title }}
+                                        </a>
+                                    </strong>
                                 </div>
                                 <div class="card-body">
 
