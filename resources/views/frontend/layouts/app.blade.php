@@ -40,9 +40,9 @@
                         <li class="nav-item">
                             <a href="/classes" class="nav-link">Classrooms</a>
                         </li>
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="backpack.html" class="nav-link">Backpack</a>
-                        </li> --}}
+                        </li>
                         {{-- <li class="nav-item">
                             <a href="schedule.html" class="nav-link">Schedule</a>
                         </li> --}}
@@ -53,7 +53,7 @@
 
                     </ul>
 
-                    <!-- SEARCH FORM -->
+                    {{-- <!-- SEARCH FORM -->
                     <form class="form-inline ml-0 ml-md-3">
                         <div class="input-group input-group-sm">
                             <input class="form-control form-control-navbar" type="search" placeholder="Search"
@@ -64,11 +64,11 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
                 </div>
                 <!-- Right navbar links -->
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                     
+
                     @if (Route::has('login'))
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -76,7 +76,10 @@
                                 {{ auth()->user()->email }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Ganti Password</a>
+                                {{-- <a type="button" class=" dropdown-item py-2" data-toggle="modal"
+                                    data-target="#exampleModalCenter">
+                                    Ganti Password
+                                </a> --}}
                                 @auth
                                     <a href="#" class="nav-link"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

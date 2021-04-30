@@ -20,7 +20,7 @@ use App\Repositories\QuizAttemptRepository;
 use App\Models\QuizAttempt;
 use Alert;
 
-class QuizController extends Controller
+class TempQuizController extends Controller
 {
         /** @var  QuizzesRepository */
     private $quizzesRepository;

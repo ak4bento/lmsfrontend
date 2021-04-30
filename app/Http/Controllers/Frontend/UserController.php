@@ -12,6 +12,9 @@ use Alert;
 use App\Repositories\ClassroomRepository;
 use App\Repositories\ClassroomUserRepository;
 use App\Models\ClassroomUser;
+use App\Models\Profile;
+use App\Repositories\UserStudentRepository;
+use App\Repositories\ProfileRepository;
 
 class UserController extends AppBaseController
 {   
@@ -20,11 +23,17 @@ class UserController extends AppBaseController
     /** @var  ClassroomUserRepository */
     private $classroomUserRepository;
 
-    public function __construct(ClassroomRepository $classroomRepo,ClassroomUserRepository $classroomUserRepo)
+    public function __construct(
+        UserStudentRepository $userStudentRepo,
+        ClassroomUserRepository $classroomUserRepo, 
+        ProfileRepository $profileRepo,
+        ClassroomRepository $classroomRepo
+        )
     {
         $this->classroomRepository = $classroomRepo;
         $this->classroomUserRepository = $classroomUserRepo;
-
+        $this->profileRepository = $profileRepo;
+        $this->userStudentRepository = $userStudentRepo;
         $this->middleware('auth');
     }
 
@@ -108,5 +117,45 @@ class UserController extends AppBaseController
 
         return redirect()->route('classroom.detail', $slug); 
 
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'full_name' => 'required',
+            'phone_number' => "required|unique:profiles,phone_number,$id",
+            'address' => 'required',
+        ]);
+
+        $data = $request->all();
+        $data['user_id'] = $id; 
+        $userStudent = $this->userStudentRepository->find($id); 
+
+        $profile = $this->profileRepository->allQuery(['user_id'=> $id])->first(); 
+
+        // dd($profile);
+        if($data['password'] == null){
+            $data['password'] = $userStudent['password'];
+        }
+        else{
+            $data['password'] = Hash::make($data['password']);
+        }
+        // dd($data);
+
+        if (empty($userStudent)) {
+            Flash::error('User Student not found');
+
+            return redirect(route('userStudents.index'));
+        }
+
+        if(is_null($profile)){
+            Profile::create($data);
+        }else{
+            $profile = $this->profileRepository->update($data, $profile['id']);
+        }
+
+        $userStudent = $this->userStudentRepository->update($data, $id);
+        Alert::success('User Student updated successfully.');
+        return back();
     }
 }

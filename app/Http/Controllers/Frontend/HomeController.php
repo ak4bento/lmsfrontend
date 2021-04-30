@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\ProfileRepository;
 use Auth;
+use App\Models\User;
+use App\Models\Profile;
 
 class HomeController extends Controller
 {
@@ -30,8 +32,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $profile = $this->profileRepository->find(Auth::user()->id);
-
-        return view('frontend.users.home')->with('profile', $profile);
+        $profile = Profile::where('user_id',Auth::user()->id)->first();
+        $user = User::find(Auth::user()->id);
+// dd($profile);
+        return view('frontend.users.home')->with('profile', $profile)->with('user',$user);
     }
 }

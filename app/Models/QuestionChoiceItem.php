@@ -37,11 +37,6 @@ class QuestionChoiceItem extends Model
         'is_correct'
     ];
 
-    public function question()
-    {
-        return $this->belongsTo('App\Models\Question','question_id','id');
-    } 
-
     /**
      * The attributes that should be casted to native types.
      *
@@ -67,4 +62,9 @@ class QuestionChoiceItem extends Model
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
+
+    public function question()
+    {
+        return $this->belongsTo('App\Models\Question');
+    } 
 }
