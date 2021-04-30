@@ -35,13 +35,13 @@
                     <!-- Left navbar links -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="{{ url('home') }}" class="nav-link">Home</a>
+                            <a href="{{ route('home') }}" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/classes" class="nav-link">Classrooms</a>
+                            <a href="{{ route('classes') }}" class="nav-link">Classrooms</a>
                         </li>
                         <li class="nav-item">
-                            <a href="backpack.html" class="nav-link">Backpack</a>
+                            <a href="{{ route('backpack') }}" class="nav-link">Backpack</a>
                         </li>
                         {{-- <li class="nav-item">
                             <a href="schedule.html" class="nav-link">Schedule</a>

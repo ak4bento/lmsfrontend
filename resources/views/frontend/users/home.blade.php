@@ -42,8 +42,11 @@
                     <div class="card-body">
                         <div class="card">
                             <div class="card-body">
-                                <strong><i class="fas fa-user mr-1"></i> Nama lengkap :
-                                    {{ $profile->full_name ?? '' }}</strong>
+                                <strong>
+                                    <i class="fas fa-user mr-1"></i>
+                                    Nama lengkap :
+                                    {{ $profile->full_name ?? '' }}
+                                </strong>
                             </div>
                         </div>
                         <div class="card">

@@ -84,6 +84,9 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('/get-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuiz'])->name('getQuiz');
     Route::get('/submited-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'submitedQuiz'])->name('submitedQuiz');
     Route::get('/join-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'joinClassroom'])->name('joinClassroom');
+
+    Route::get('backpack', [App\Http\Controllers\Frontend\BackpackController::class, 'index'])->name('backpack');
+
 });
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {

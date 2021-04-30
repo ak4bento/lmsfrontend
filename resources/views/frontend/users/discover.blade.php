@@ -51,7 +51,7 @@
                                         <div class="col-9">
                                             <label class="lead">{{ $item->title }}</label>
                                             <p>
-                                                {{ substr($item->description, 0, 100) }} <br> <a
+                                                {{ substr($item->description, 0, 70) }} <br> <a
                                                     href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
                                             </p>
                                         </div>

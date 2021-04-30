@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-lg-3 col-md-12 col-sm-12">
                 <!-- About Me Box -->
                 <div class="fixme">
                     @hasanyrole('owner')
@@ -51,24 +51,24 @@
                 </div>
                 <!-- /.card -->
             </div>
-            <div class="col-md-9">
+            <div class="col-lg-9 col-md-12 col-sm-12">
                 <div class="row">
                     @forelse ($classrooms as $item)
-                        <div class="col-12 col-sm-6 col-md-6 d-flex align-items-stretch">
+                        <div class="col-lg-6 col-sm-12 col-md-12">
                             <div class="card bg-light card-primary card-outline">
                                 <div class="card-header text-muted border-bottom-0">
                                     {{ $item->subject }}
                                 </div>
                                 <div class="card-body pt-0">
                                     <div class="row">
-                                        <div class="col-7">
+                                        <div class="col-9">
                                             <label class="lead">{{ $item->title }}</label>
-
-                                            {{ substr($item->description, 0, 100) }} <a
-                                                href="{{ url('class-detail/') }}/{{ $item->slug }}">read
-                                                more</a>...
+                                            <p>
+                                                {{ substr($item->description, 0, 70) }} <br> <a
+                                                    href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
+                                            </p>
                                         </div>
-                                        <div class="col-5 text-center">
+                                        <div class="col-3 text-center">
                                             <img src="dist/img/user1-128x128.jpg" alt="user-avatar"
                                                 class="img-circle img-fluid" />
                                             {{ App\Models\User::find($item->created_by)->name }}
