@@ -69,15 +69,14 @@
                                             <p>
                                                 {!! $classWork->description !!}
                                             </p>
-                                            @if ($classWork->type == 'audio' || $classWork->type == 'documents')
+                                            @if ($classWork->type == 'audio')
                                                 <a target="_blank"
-                                                    href="{{ asset(
-    'files/' .
-        App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->file_name,
-) }}">
+                                                    href="{{ asset('files/' . App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->file_name,) }}">
                                                     {{ App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->name }}
                                                 </a>
-
+                                            @endif
+                                            @if ($classWork->type == 'documents')
+                                                <iframe src="{{ asset('files/' . App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->file_name,) }}" frameborder="0" style="width: 100%;height: 512px;"></iframe>
                                             @endif
                                         </div>
                                         <!-- /.card-body -->
@@ -104,11 +103,12 @@
                                         <!-- /.card-footer -->
                                         <div class="card-footer">
                                             <form action="#" method="post">
+                                                @csrf
                                                 <img class="img-fluid img-circle img-sm"
                                                     src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="Alt Text">
                                                 <!-- .img-push is used to add margin to elements next to floating images -->
                                                 <div class="img-push">
-                                                    <textarea type="text" class="form-control form-control-sm"
+                                                    <textarea type="text" class="form-control form-control-sm" name="comment"
                                                         placeholder="Press enter to post comment"></textarea>
                                                     <input type="submit" class="btn btn-primary btn-sm float-right"
                                                         value="kirim" style="margin-top:5px">

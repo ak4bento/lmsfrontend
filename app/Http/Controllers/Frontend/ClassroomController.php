@@ -279,7 +279,7 @@ class ClassroomController extends Controller
                     Alert::warning('Anda tidak dapat mengakses halaman ini');
                     return redirect()->back();
             }
-            
+
             $teachableUser = DB::table('teachable_users')
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
