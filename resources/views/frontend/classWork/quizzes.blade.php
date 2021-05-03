@@ -41,16 +41,8 @@
                                         <div class="col-md-12">
                                             <div class="card card-widget">
                                                 <div class="card-header">
-                                                    <div class="user-block">
-                                                        <img class="img-circle"
-                                                            src="https://img.icons8.com/carbon-copy/2x/file.png"
-                                                            alt="User Image">
-                                                        <span class="username"><a
-                                                                href="#">{{ $classWork->title }}</a></span>
-                                                        <span class="description">Diposting -
-                                                            {{ $classWork->created_at }}
-                                                        </span>
-                                                    </div>
+                                                    Diposting
+                                                    {{ $classWork->created_at }}
                                                     <div class="card-tools">
                                                         <button type="button" class="btn btn-tool"
                                                             data-card-widget="collapse">

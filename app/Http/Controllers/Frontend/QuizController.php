@@ -19,6 +19,7 @@ use App\Models\ClassroomUser;
 use App\Repositories\QuizAttemptRepository;
 use App\Models\QuizAttempt;
 use Alert;
+use Illuminate\Support\Facades\Storage;
 
 class QuizController extends Controller
 {
@@ -86,6 +87,34 @@ class QuizController extends Controller
                     ->where('teachable_id',$id)
                     ->first();
         // dd($quiz);
+
+         try {
+            // my data storage location is project_root/storage/app/data.json file.
+            $json_file_name = 'quiz_id-'.$id.'-user_id-'.auth()->user()->id.'.json';
+            $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) : [];
+            
+            if(count($dataQuiz)==0){
+
+                $inputData['quiz_id'] = $id;
+                $inputData['user_id'] = auth()->user()->id;
+                $inputData['timerStartQuiz'] = date('d-m-Y H:i:s',strtotime(session()->get('timerStartQuiz')));
+                $inputData['timerEndQuiz'] =  date('d-m-Y H:i:s',strtotime(session()->get('timerEndQuiz')));
+                $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
+                array_push($dataQuiz,$inputData);
+            }
+            
+            // array_replace($dataQuiz,$inputData);
+            
+            // $dataQuiz->datetime_submitted = date('Y-m-d H:i:s');
+            Storage::disk('local')->put($json_file_name, json_encode($dataQuiz));
+  
+ 
+        } catch(Exception $e) {
+ 
+            return ['error' => true, 'message' => $e->getMessage()];
+ 
+        }
+
         return view('frontend.users.quiz')
                 ->with('quizzes',$quizzes)
                 ->with('question',$question)

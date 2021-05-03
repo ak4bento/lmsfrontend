@@ -110,34 +110,62 @@
 @endsection
 @push('page_scripts')
     <script>
-        // $(document).ready(function() {
-        //     var date = "{{ session()->get('timerStartQuiz') }}";
+        $(document).ready(function() {
+            var id = {{ $quizzes->id }};
 
-        //     var countDownDate = new Date(date).getTime();
-        //     console.log("date : ", date);
-        //     var myfunc = setInterval(function() {
+            var rute = "{{ url('get-time-quiz') }}/" + id;
 
-        //         var now = new Date().getTime();
-        //         console.log("now : ", now);
-        //         var timeleft = countDownDate - now;
+            $.ajax({
+                url: rute,
+                type: 'get',
+                success: function(response) {
+                    console.log("now : ", response[0].timerEndQuiz);
 
-        //         // Calculating the days, hours, minutes and seconds left
-        //         var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
-        //         var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        //         var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
-        //         var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+                    var countDownDate = new Date(response[0].timerEndQuiz);
+                    console.log('ini response 1 : ', countDownDate);
+                    console.log('ini response 2 : ', new Date());
+                    var myfunc = setInterval(function() {
 
-        //         // Result is output to the specific element
-        //         document.getElementById("time").innerHTML = days + "d " + hours + "h " + minutes + "m " +
-        //             seconds + "s ";
+                        var now = new Date().getTime();
+                        var timeleft = countDownDate - now;
+                        // Calculating the days, hours, minutes and seconds left
+                        var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 *
+                            60));
+                        var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+                        // Result is output to the specific element
+                        if (minutes == 0) {
+                            getElementById("time").innerHTML =
+                                seconds + "S ";
+                        } else if (hours == 0) {
+                            document.getElementById("time").innerHTML =
+                                minutes + "M " +
+                                seconds + "S ";
+                        }
+                        // Display the message when countdown is over
+                        if (timeleft < 0) {
+                            clearInterval(myfunc);
+                            document.getElementById("time").innerHTML = "TIME UP!!";
+                        }
+                    }, 1000);
+                }
+            });
+        });
 
-        //         // Display the message when countdown is over
-        //         if (timeleft < 0) {
-        //             clearInterval(myfunc);
-        //             document.getElementById("time").innerHTML = "TIME UP!!";
-        //         }
-        //     }, 1000);
-        // });
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('/');
+        }
 
     </script>
     <script>
@@ -194,7 +222,7 @@
                         success: function(data) {
                             console.log(data);
                             url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
-                            window.location.href = url;
+                            // window.location.href = url;
                         }
                     });
                 }
@@ -212,7 +240,7 @@
             console.log('ini yang ter cek', question_id);
             $("#btn_question_" + question_id).removeClass("btn btn-default");
             $("#btn_question_" + question_id).addClass("btn btn-primary");
-            sessionStorage.setItem('btn_question_' + question_id, 'btn btn-primary');
+            sessionStorage.setItem('btn_question_' + question_id, '"btn btn-primary"');
         }
 
         // button number ready
@@ -234,7 +262,7 @@
                         console.log("ini checkedBtn : ", checkedBtn);
 
                         checking = 'btn btn-default';
-                        if (checkedBtn == 'btn btn-primary')
+                        if (checkedBtn == '"btn btn-primary"')
                             checking = "btn btn-primary";
                         var btn_question_number =
                             '<button style="margin-bottom:2px;width:23%;margin-left:2px;margin-right:2px;" id="btn_question_' +

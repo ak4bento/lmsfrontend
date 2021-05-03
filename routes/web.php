@@ -85,6 +85,8 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('/submited-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'submitedQuiz'])->name('submitedQuiz');
     Route::get('/join-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'joinClassroom'])->name('joinClassroom');
 
+    Route::get('/get-time-quiz/{id}', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getTimeQuiz'])->name('getTimeQuiz');
+
     Route::get('backpack', [App\Http\Controllers\Frontend\BackpackController::class, 'index'])->name('backpack');
 
 });
