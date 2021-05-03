@@ -119,9 +119,9 @@
                 url: rute,
                 type: 'get',
                 success: function(response) {
-                    console.log("now : ", response[0].timerEndQuiz);
+                    // console.log("now : ", response[0].data);
 
-                    var countDownDate = new Date(response[0].timerEndQuiz);
+                    var countDownDate = new Date(response[0].data.timerEndQuiz);
                     console.log('ini response 1 : ', countDownDate);
                     console.log('ini response 2 : ', new Date());
                     var myfunc = setInterval(function() {
@@ -136,36 +136,28 @@
                         var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
                         // Result is output to the specific element
                         if (minutes == 0) {
-                            getElementById("time").innerHTML =
-                                seconds + "S ";
+                            document.getElementById("time").innerHTML =
+                                seconds + " ";
                         } else if (hours == 0) {
                             document.getElementById("time").innerHTML =
-                                minutes + "M " +
-                                seconds + "S ";
+                                minutes + ":" +
+                                seconds + " ";
+                        } else {
+                            document.getElementById("time").innerHTML =
+                                hours + ":" +
+                                minutes + ":" +
+                                seconds + " ";
                         }
                         // Display the message when countdown is over
                         if (timeleft < 0) {
                             clearInterval(myfunc);
                             document.getElementById("time").innerHTML = "TIME UP!!";
+
                         }
                     }, 1000);
                 }
             });
         });
-
-        function formatDate(date) {
-            var d = new Date(date),
-                month = '' + (d.getMonth() + 1),
-                day = '' + d.getDate(),
-                year = d.getFullYear();
-
-            if (month.length < 2)
-                month = '0' + month;
-            if (day.length < 2)
-                day = '0' + day;
-
-            return [year, month, day].join('/');
-        }
 
     </script>
     <script>
@@ -236,11 +228,27 @@
             sessionStorage.setItem(question_id, checkedItem);
             allData = '{"question_id":"' + question_id + '","checkedItem_id":"' + checkedItem + '"}';
             sessionStorage.setItem('data_' + question_id, allData);
-            console.log(Object.keys(sessionStorage));
-            console.log('ini yang ter cek', question_id);
+            // console.log(Object.keys(sessionStorage));
+            // console.log('ini yang ter cek', question_id);
             $("#btn_question_" + question_id).removeClass("btn btn-default");
             $("#btn_question_" + question_id).addClass("btn btn-primary");
             sessionStorage.setItem('btn_question_' + question_id, '"btn btn-primary"');
+            var rute = "{{ url('set-choice-item') }}";
+            let _token = $('meta[name="csrf-token"]').attr('content');
+            var quiz_id = sessionStorage.getItem('quizzes_id');
+            $.ajax({
+                type: 'post',
+                url: rute,
+                data: {
+                    "quiz_id": quiz_id,
+                    "checked_item": allData,
+                    "_token": _token
+                },
+                success: function(response) {
+                    console.log('ini data : ', response);
+
+                }
+            });
         }
 
         // button number ready
