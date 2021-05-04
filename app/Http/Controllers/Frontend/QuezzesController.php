@@ -13,6 +13,8 @@ use Alert;
 use App\Repositories\TeachableRepository;
 use App\Models\TeachableUser;
 use App\Models\ClassroomUser;   
+use Auth;
+use Illuminate\Support\Facades\Storage;
 
 class QuezzesController extends AppBaseController
 {
@@ -31,6 +33,44 @@ class QuezzesController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function index($slug, $id)
+    {
+        $quizzes = DB::table('quizzes')->where('id',$id)->where('deleted_at',null)->select('*')->first();
+
+        $classroom = DB::table('classrooms')
+                    ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+                    ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+                    ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+                    ->where('classrooms.slug',$slug)
+                    ->first();
+        
+        // $teachable = DB::table('teachables') 
+        //             ->select('*')
+        //             ->where('teachable_type','quiz')  
+        //             ->where('teachable_id',$id)
+        //             ->first();
+        
+        // $classroom_user =  DB::table('classroom_user') 
+        //                 ->where('classroom_id',$teachable->classroom_id)
+        //                 ->where('user_id',Auth::user()->id)
+        //                 ->select('*')
+        //                 ->first();
+        
+        // $teachableUser =  DB::table('teachable_users')   
+        //                 ->select('*')
+        //                 ->where('teachable_id',$teachable->id)  
+        //                 ->where('classroom_user_id',$classroom_user->id)
+        //                 ->first();
+                    
+        $quiz_attempts =  DB::table('quiz_attempts')   
+                        ->select('*')
+                        ->where('questions',$id)  
+                        ->get();   
+
+        return view('frontend.teacher.quezzes.index')->with('classroom',$classroom)->with('quizzes',$quizzes)->with('quiz_attempts',$quiz_attempts);
+    }
+
     public function create($slug)
     { 
         $classroom = DB::table('classrooms')

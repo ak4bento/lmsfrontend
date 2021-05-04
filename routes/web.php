@@ -20,6 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
+Route::get('all-quiz/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'index'])->name('allquiz');
 
 
 // teacher assignment

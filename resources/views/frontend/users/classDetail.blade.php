@@ -280,6 +280,8 @@
 
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                             @if ($teachable->teachable_type == 'quiz')
+                                                                <a href="{{ route('allquiz', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
+                                                                    class="dropdown-item">Lihat Daftar Pengumpulan </a>
                                                                 <a href="{{ route('showAllQuestion', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                     class="dropdown-item">Lihat Soal </a>
                                                                 <a href="{{ route('editQuezzes', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
