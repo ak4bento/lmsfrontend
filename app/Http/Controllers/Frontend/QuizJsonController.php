@@ -78,10 +78,7 @@ class QuizJsonController extends Controller
                     
                     $dataQuiz[0]->answer[$i]->checkedItem_id = $data['checkedItem_id'];
     
-                }
-                // else{
-                //     array_push($dataQuiz[0]->answer,$data);
-                // }
+                } 
 
                 Storage::disk('local')->put($json_file_name, json_encode($dataQuiz));
             }
