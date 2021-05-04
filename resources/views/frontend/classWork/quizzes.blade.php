@@ -56,53 +56,38 @@
                                                     </p>
                                                 </div>
                                                 <div class="card-footer card-comments">
-                                                    <div class="card-comment">
-                                                        <!-- User image -->
-                                                        <img class="img-circle img-sm"
-                                                            src="{{ asset('dist/img/user3-128x128.jpg') }}"
-                                                            alt="User Image">
+                                                    @foreach ($discussions as $key)
+                                                        <div class="card-comment">
+                                                            <!-- User image -->
+                                                            <img class="img-circle img-sm"
+                                                                src="{{ asset('dist/img/user3-128x128.jpg') }}" alt="User Image">
 
-                                                        <div class="comment-text">
-                                                            <span class="username">
-                                                                Maria Gonzales
-                                                                <span class="text-muted float-right">8:03 PM Today</span>
-                                                            </span><!-- /.username -->
-                                                            It is a long established fact that a reader will be distracted
-                                                            by the readable content of a page when looking at its layout.
+                                                            <div class="comment-text">
+                                                                <span class="username">
+                                                                    {{ DB::table('users')->where('id', $key->user_id)->first()->name }}
+                                                                    <span
+                                                                        class="text-muted float-right">{{ $key->created_at }}</span>
+                                                                </span><!-- /.username -->
+                                                                {{ $key->message }}
+                                                            </div>
+                                                            <!-- /.comment-text -->
                                                         </div>
-                                                        <!-- /.comment-text -->
-                                                    </div>
-                                                    <!-- /.card-comment -->
-                                                    <div class="card-comment">
-                                                        <!-- User image -->
-                                                        <img class="img-circle img-sm"
-                                                            src="{{ asset('dist/img/user5-128x128.jpg') }}"
-                                                            alt="User Image">
-
-                                                        <div class="comment-text">
-                                                            <span class="username">
-                                                                Nora Havisham
-                                                                <span class="text-muted float-right">8:03 PM Today</span>
-                                                            </span><!-- /.username -->
-                                                            The point of using Lorem Ipsum is that it hrs a morer-less
-                                                            normal distribution of letters, as opposed to using
-                                                            'Content here, content here', making it look like readable
-                                                            English.
-                                                        </div>
-                                                    </div>
+                                                        <!-- /.card-comment -->
+                                                    @endforeach
                                                 </div>
                                                 <div class="card-footer">
                                                     <form action="#" method="post">
+                                                        @csrf
                                                         <img class="img-fluid img-circle img-sm"
-                                                            src="{{ asset('dist/img/user4-128x128.jpg') }}"
-                                                            alt="Alt Text">
+                                                            src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="Alt Text">
+                                                        <!-- .img-push is used to add margin to elements next to floating images -->
                                                         <div class="img-push">
-                                                            <textarea type="text" class="form-control form-control-sm"
+                                                            <textarea type="text" class="form-control form-control-sm" name="comment"
                                                                 placeholder="Press enter to post comment"></textarea>
                                                             <input type="submit" class="btn btn-primary btn-sm float-right"
                                                                 value="kirim" style="margin-top:5px">
                                                         </div>
-                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>
