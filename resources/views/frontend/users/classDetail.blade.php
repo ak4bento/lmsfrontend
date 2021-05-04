@@ -232,18 +232,33 @@
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
+
+                                                            @if (App\Models\Progress::where('progress_type', 'quizzes')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->count() > 0)
+                                                            <i class="fas fa-check-circle text-success"></i>
+                                                            @endif
+
                                                             {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                         </a>
                                                     @elseif ($teachable->teachable_type == 'resource')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Materi"
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
+
+                                                            @if (App\Models\Progress::where('progress_type', 'resources')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->count() > 0)
+                                                            <i class="fas fa-check-circle text-success"></i>
+                                                            @endif
+
                                                             {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                         </a>
                                                     @elseif ($teachable->teachable_type == 'assignment')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
+
+                                                            @if (App\Models\Progress::where('progress_type', 'assignments')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->count() > 0)
+                                                            <i class="fas fa-check-circle text-success"></i>
+                                                            @endif
+
                                                             {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                         </a>
                                                     @endif

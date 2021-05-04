@@ -34,6 +34,7 @@ class HomeController extends Controller
     {
         $profile = Profile::where('user_id',Auth::user()->id)->first();
         $user = User::find(Auth::user()->id);
+
 // dd($profile);
         return view('frontend.users.home')->with('profile', $profile)->with('user',$user);
     }

@@ -104,17 +104,26 @@
                             <div class="card">
                                 <div class="card-header">
                                     <strong>
-                                        <a
-                                            href="{{ route('classroom.detail', App\Models\Classroom::find($class->classroom_id)->slug) }}">
+                                        <a href="{{ route('classroom.detail', App\Models\Classroom::find($class->classroom_id)->slug) }}">
                                             {{ App\Models\Classroom::find($class->classroom_id)->title }}
                                         </a>
                                     </strong>
                                 </div>
                                 <div class="card-body">
-
+                                    @php
+                                        $teachables = DB::table('teachables')
+                                            ->select('teachables.*')
+                                            ->where('teachables.classroom_id',$class->classroom_id)
+                                            ->where('teachables.deleted_at',null)
+                                            ->orderBy('teachables.created_at','DESC')
+                                            ->count();
+                                        $progress = DB::table('progress')
+                                            ->where('class_id',$class->classroom_id)
+                                            ->count();
+                                    @endphp
                                     <div class="progress">
-                                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%"
-                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">30%
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{ $progress / $teachables * 100 }}%"
+                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ $progress / $teachables * 100 }} %
                                         </div>
                                     </div>
                                 </div>

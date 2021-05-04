@@ -14,6 +14,7 @@ use App\Models\Grade;
 use App\Models\Media;
 use Redirect;
 use App\Models\Classroom;
+use App\Models\Progress;
 use App\Models\ClassroomUser;
 use Alert;
 use Illuminate\Support\Str;
@@ -121,7 +122,7 @@ class ClassroomController extends Controller
                         ->where('classroom_user.user_id',auth()->user()->id)
                         ->where('classroom_user.deleted_at',null)
                         ->get();
-                        
+
         $classroomTeacher = DB::table('classroom_user')
                         ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
                         ->join('users', 'users.id', '=', 'classroom_user.user_id')
@@ -206,6 +207,9 @@ class ClassroomController extends Controller
                     return redirect()->back();
                 }
             }
+
+            $this->progress($slug, $id, $teachable->classroom_id);
+
             $classrooms = Classroom::find($teachable->classroom_id);
             return view('frontend.classWork.resources')
                     ->with('classWork',$classWork)
@@ -253,6 +257,7 @@ class ClassroomController extends Controller
                 $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
             }
 
+            $this->progress($slug, $id, $teachable->classroom_id);
 
             return view('frontend.classWork.assignments')
                     ->with('grade',$grade)
@@ -302,13 +307,16 @@ class ClassroomController extends Controller
             }
 
 
+            $this->progress($slug, $id, $teachable->classroom_id);
+
             $classrooms = Classroom::find($teachable->classroom_id);
 
             return view('frontend.classWork.quizzes')
                     ->with('classWork',$classWork)
                     ->with('quiz_attempts',$value)
                     ->with('teachable',$teachable)
-                    ->with('classrooms',$classrooms);
+                    ->with('classrooms',$classrooms)
+                    ->with('discussions',$discussions);
         }
         return view('frontend.classWork.'.$slug)->with('classWork',$classWork)->with('discussions',$discussions);
     }
@@ -339,5 +347,18 @@ class ClassroomController extends Controller
         Alert::success('Berhasil', 'Data Berhasil dihapus');
         return redirect()->route('classes');
 
+    }
+
+    public function progress($slug, $id, $class)
+    {
+        $progress = new Progress;
+
+        $progress['progress_type'] = $slug;
+        $progress['progress_id'] = $id;
+        $progress['class_id'] = $class;
+        $progress['count'] = 1;
+        $progress['user_id'] = Auth::user()->id;
+
+        $progress->save();
     }
 }
