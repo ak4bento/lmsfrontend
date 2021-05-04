@@ -101,11 +101,13 @@ class QuizController extends Controller
                          'timerStartQuiz' => date('d-m-Y H:i:s',strtotime(session()->get('timerStartQuiz'))),
                          'timerEndQuiz' =>  date('d-m-Y H:i:s',strtotime(session()->get('timerEndQuiz'))),
                          'datetime_submitted' => date('Y-m-d H:i:s'),
-                     )
+                     ),
+                     'answer' => array(),
                 );
                 array_push($dataQuiz,$data);
             }
             
+
             // array_replace($dataQuiz,$inputData);
             
             // $dataQuiz->datetime_submitted = date('Y-m-d H:i:s');

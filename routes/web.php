@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
 
+
 // teacher assignment
 Route::get('create-assignment/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'create'])->name('createAssignment');
 Route::post('store-assignment', [App\Http\Controllers\Frontend\AssignmentController::class, 'store'])->name('storeAssignment');

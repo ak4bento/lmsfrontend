@@ -52,39 +52,41 @@ class QuizJsonController extends Controller
 
     public function getChoiceItem(Request $request)
     {
-        $data = $request->only(['checked_item','quiz_id']);
-        $data = json_decode($data['checked_item']);
-        $json_file_name = 'quiz_id-'.$request->quiz_id.'-user_id-'.auth()->user()->id.'.json';
+        // ini_set('memory_limit', '-1');
+        $data = $request->all();
+        // $data = json_decode($data['checked_item']);
+        $json_file_name = 'quiz_id-'.$request->quiz_id.'-user_id-2.json';
          
         $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) :  [];
-        try {
         
-            $value = array(
-                        'answer' => array(
-                            'question_id' => $data->question_id,
-                            'checkedItem_id' => $data->checkedItem_id,
-                        )
-                    );
-            for ($i=0; $i <= count($dataQuiz); $i++) { 
-             
-                if(isset($dataQuiz[$i]->answer->question_id)){
-                    if($dataQuiz[$i]->answer->question_id == $data->question_id) 
-                        $dataQuiz[$i]->answer->question_id = $data->checkedItem_id;
-                }
-                else{
+        $data = array(
+                'question_id' => $data['question_id'],
+                'checkedItem_id' =>  $data['checkedItem_id']
+        ); 
 
-                    array_push($dataQuiz,$value);
-                }
+        if(count($dataQuiz[0]->answer) == 0){
 
-            } 
-
+            array_push($dataQuiz[0]->answer,$data);
             Storage::disk('local')->put($json_file_name, json_encode($dataQuiz));
-        } catch(Exception $e) {
             
-            return ['error' => true, 'message' => $e->getMessage()];
-        
+        }else{
+            for ($i=0; $i < count($dataQuiz[0]->answer) ; $i++) { 
+                if(!isset($dataQuiz[0]->answer[$i]->question_id)){
+                    array_push($dataQuiz[0]->answer,$data);
+                }
+                else if($dataQuiz[0]->answer[$i]->question_id == $data['question_id']){
+                    
+                    $dataQuiz[0]->answer[$i]->checkedItem_id = $data['checkedItem_id'];
+    
+                }
+                // else{
+                //     array_push($dataQuiz[0]->answer,$data);
+                // }
+
+                Storage::disk('local')->put($json_file_name, json_encode($dataQuiz));
+            }
         }
-        
-        return Response::json($data);
+
+        return Response::json($dataQuiz[0]->answer);
     }
 }

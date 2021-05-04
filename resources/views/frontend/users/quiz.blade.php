@@ -25,6 +25,7 @@
                 </div>
             </div>
         </section>
+
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12">
                 <div class="row">
@@ -241,7 +242,8 @@
                 url: rute,
                 data: {
                     "quiz_id": quiz_id,
-                    "checked_item": allData,
+                    "question_id": question_id,
+                    "checkedItem_id": checkedItem,
                     "_token": _token
                 },
                 success: function(response) {
