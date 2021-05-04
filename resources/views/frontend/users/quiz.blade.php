@@ -153,7 +153,22 @@
                         if (timeleft < 0) {
                             clearInterval(myfunc);
                             document.getElementById("time").innerHTML = "TIME UP!!";
-
+                            let _token = $('meta[name="csrf-token"]').attr('content');
+                            let rute = "{{ url('submit-quiz') }}";
+                            let quizzes_id = sessionStorage.getItem('quizzes_id');
+                            $.ajax({
+                                type: 'post',
+                                url: rute,
+                                data: {
+                                    quizzes_id: quizzes_id,
+                                    _token: _token
+                                },
+                                success: function(data) {
+                                    console.log(data);
+                                    url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
+                                    window.location.href = url;
+                                }
+                            });
                         }
                     }, 1000);
                 }
@@ -209,13 +224,13 @@
                         type: 'post',
                         url: rute,
                         data: {
-                            allData: data,
+                            quizzes_id: quizzes_id,
                             _token: _token
                         },
                         success: function(data) {
                             console.log(data);
                             url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
-                            // window.location.href = url;
+                            window.location.href = url;
                         }
                     });
                 }

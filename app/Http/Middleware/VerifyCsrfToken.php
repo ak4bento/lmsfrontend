@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'http://localhost:8000/submit-quiz',
         'http://localhost:8000/set-choice-item',
+        'http://localhost:8000/submit-quiz',
     ];
 }

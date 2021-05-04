@@ -86,7 +86,27 @@ class QuizController extends Controller
                     ->where('teachable_type','quiz')  
                     ->where('teachable_id',$id)
                     ->first();
-        // dd($quiz);
+        
+        $classroom_user =  DB::table('classroom_user') 
+                        ->where('classroom_id',$teachable->classroom_id)
+                        ->where('user_id',Auth::user()->id)
+                        ->select('*')
+                        ->first();
+        
+        $teachableUser =  DB::table('teachable_users')   
+                        ->select('*')
+                        ->where('teachable_id',$teachable->id)  
+                        ->where('classroom_user_id',$classroom_user->id)
+                        ->first();
+                    
+        $quiz_attempts =  DB::table('quiz_attempts')   
+                        ->select('*')
+                        ->where('teachable_user_id',$teachableUser->id)  
+                        ->first();       
+        if(!is_null($quiz_attempts)){
+            Alert::error('Anda tidak dapat mengakses halaman ini');
+            return back();
+        }
 
          try {
             // my data storage location is project_root/storage/app/data.json file.
@@ -159,12 +179,13 @@ class QuizController extends Controller
 
     public function submitQuiz(Request $request)
     {
-        $data = $request->all(); 
-        $value = json_decode($data['allData']); 
+      
+        $data = $request->all();  
+
         $teachable     = DB::table('teachables') 
                         ->select('*')
                         ->where('teachable_type','quiz')  
-                        ->where('teachable_id',$value->quizzes_id)
+                        ->where('teachable_id',$data['quizzes_id'])
                         ->first();
         $classroomUser = DB::table('classroom_user') 
                         ->select('*')
@@ -188,9 +209,13 @@ class QuizController extends Controller
 
         date_default_timezone_set("Asia/Makassar");
 
+        $json_file_name = 'quiz_id-'.$data['quizzes_id'].'-user_id-'.Auth::user()->id.'.json';
+
+        $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) :  [];
+        // dd($dataQuiz);
         $model['teachable_user_id'] = $teachableUser->id;
-        $model['questions'] = $value->quizzes_id;
-        $model['answers'] = json_encode($value->data);
+        $model['questions'] =   $data['quizzes_id'];
+        $model['answers'] = json_encode($dataQuiz);
         $model['completed_at'] = date("Y/m/d h:i:sa");
         $model['grading_method'] = "standard";
         $save = $model->save(); 

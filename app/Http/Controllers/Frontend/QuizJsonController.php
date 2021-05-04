@@ -55,7 +55,7 @@ class QuizJsonController extends Controller
         // ini_set('memory_limit', '-1');
         $data = $request->all();
         // $data = json_decode($data['checked_item']);
-        $json_file_name = 'quiz_id-'.$request->quiz_id.'-user_id-2.json';
+        $json_file_name = 'quiz_id-'.$request->quiz_id.'-user_id-'.auth()->user()->id.'.json';
 
         $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) :  [];
 
