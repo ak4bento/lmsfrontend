@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
 
+
 // teacher assignment
 Route::get('create-assignment/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'create'])->name('createAssignment');
 Route::post('store-assignment', [App\Http\Controllers\Frontend\AssignmentController::class, 'store'])->name('storeAssignment');
@@ -86,10 +87,11 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('/join-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'joinClassroom'])->name('joinClassroom');
 
     Route::get('/get-time-quiz/{id}', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getTimeQuiz'])->name('getTimeQuiz');
-
+    
     Route::get('backpack', [App\Http\Controllers\Frontend\BackpackController::class, 'index'])->name('backpack');
-
+    
 });
+Route::post('set-choice-item', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getChoiceItem'])->name('getChoiceItem');
 
 Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () {
     //

@@ -94,15 +94,20 @@ class QuizController extends Controller
             $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) : [];
             
             if(count($dataQuiz)==0){
-
-                $inputData['quiz_id'] = $id;
-                $inputData['user_id'] = auth()->user()->id;
-                $inputData['timerStartQuiz'] = date('d-m-Y H:i:s',strtotime(session()->get('timerStartQuiz')));
-                $inputData['timerEndQuiz'] =  date('d-m-Y H:i:s',strtotime(session()->get('timerEndQuiz')));
-                $inputData['datetime_submitted'] = date('Y-m-d H:i:s');
-                array_push($dataQuiz,$inputData);
+                $data = array(
+                     'data' => array(
+                         'quiz_id' => $id,
+                         'user_id' => auth()->user()->id,
+                         'timerStartQuiz' => date('d-m-Y H:i:s',strtotime(session()->get('timerStartQuiz'))),
+                         'timerEndQuiz' =>  date('d-m-Y H:i:s',strtotime(session()->get('timerEndQuiz'))),
+                         'datetime_submitted' => date('Y-m-d H:i:s'),
+                     ),
+                     'answer' => array(),
+                );
+                array_push($dataQuiz,$data);
             }
             
+
             // array_replace($dataQuiz,$inputData);
             
             // $dataQuiz->datetime_submitted = date('Y-m-d H:i:s');
