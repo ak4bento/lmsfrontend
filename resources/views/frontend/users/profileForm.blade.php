@@ -1,3 +1,6 @@
+@push('page_css')
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+@endpush
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -68,7 +71,48 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="container-fluid">
+                    <span style="font-size: 20px" id="exampleModalLongTitle">
+                        Tambahkan Foto
+                    </span>
+                </div>
+            </div>
+            <form action="{{ route('updateProfile', Auth::user()->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- Name Field -->
+                            <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                    <input type="file" name="file" id="file">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+            </form>
+        </div>
+    </div>
+</div>
 @push('page_scripts')
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script>
+        const inputElement = document.querySelector('input[id="file"]');
+        const pond = FilePond.create( inputElement );
+        FilePond.setOptions({
+            server: {
+                url : 'avatar-upload/',
+                headers :{
+                   'X-CSRF-TOKEN':'{{ csrf_token() }}'
+                }
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('[data-togglebtn="tooltip"]').tooltip();

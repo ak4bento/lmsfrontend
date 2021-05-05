@@ -11,6 +11,7 @@ use \stdClass;
 use Alert;
 use App\Repositories\ClassroomRepository;
 use App\Repositories\ClassroomUserRepository;
+use App\Models\Media;
 use App\Models\ClassroomUser;
 use App\Models\Profile;
 use App\Repositories\UserStudentRepository;
@@ -34,7 +35,7 @@ class UserController extends AppBaseController
         $this->classroomUserRepository = $classroomUserRepo;
         $this->profileRepository = $profileRepo;
         $this->userStudentRepository = $userStudentRepo;
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -64,6 +65,37 @@ class UserController extends AppBaseController
                 ->with('classroomUser', $classroomUser);
     }
     
+    public function avatar_upload(Request $request)
+    {
+        $input = $request->all();
+        $user_id = 2;
+        $files = $request->file('file');
+
+        $collection_name = $request->file('file')->extension();
+
+        $input['type']   = 'image';
+
+        $fileName = $files->getClientOriginalName();
+        $name = pathinfo($fileName, PATHINFO_FILENAME);
+
+        $data['name'] = $name;
+        $data['file_name'] = $fileName;
+        $data['disk'] = 'public';
+        $data['collection_name'] = $collection_name;
+        $data['order_column'] = '1';
+        $data['media_type'] = 'user';
+        $data['size'] = $files->getSize();
+
+        $data['media_id'] =auth()->user()->id;
+        $data['custom_properties'] = json_encode(array('user' => auth()->user()->id));
+
+        Media::create($data);
+        $files->move('files',$files->getClientOriginalName());
+
+        return Response::json($data);
+
+    }
+
     public function store(Request $request, $slug)
     {
         date_default_timezone_set("Asia/Makassar");
