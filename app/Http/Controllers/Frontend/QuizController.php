@@ -12,12 +12,14 @@ use App\Models\Subject;
 use App\Repositories\QuizzesRepository;
 use App\Repositories\TeachableRepository;
 use App\Models\Question;
+use App\Models\Grade;
 use App\Models\QuestionChoiceItem;
 use Response;
 use App\Models\TeachableUser;
 use App\Models\ClassroomUser;
 use App\Repositories\QuizAttemptRepository;
 use App\Models\QuizAttempt;
+use App\Models\QuestionQuizzes;
 use Alert;
 use Illuminate\Support\Facades\Storage;
 
@@ -181,7 +183,7 @@ class QuizController extends Controller
     {
       
         $data = $request->all();  
-
+        $user_id = 2;
         $teachable     = DB::table('teachables') 
                         ->select('*')
                         ->where('teachable_type','quiz')  
@@ -189,7 +191,7 @@ class QuizController extends Controller
                         ->first();
         $classroomUser = DB::table('classroom_user') 
                         ->select('*')
-                        ->where('user_id',Auth::user()->id)  
+                        ->where('user_id',$user_id)  
                         ->where('classroom_id',$teachable->classroom_id)
                         ->first();
         $teachableUser = DB::table('teachable_users') 
@@ -209,16 +211,39 @@ class QuizController extends Controller
 
         date_default_timezone_set("Asia/Makassar");
 
-        $json_file_name = 'quiz_id-'.$data['quizzes_id'].'-user_id-'.Auth::user()->id.'.json';
+        $json_file_name = 'quiz_id-'.$data['quizzes_id'].'-user_id-'.$user_id.'.json';
 
         $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) :  [];
-        // dd($dataQuiz);
+        
+        $jumlah_benar = 0;
+        foreach ($dataQuiz[0]->answer as $key => $value) {
+            $QuestionChoiceItem = QuestionChoiceItem::where('question_id',$value->question_id)->first();
+            if($QuestionChoiceItem->is_correct){
+                $jumlah_benar++;
+            }
+        }
+
+        $QuestionQuizzes = QuestionQuizzes::where('quizzes_id',$data['quizzes_id'])->get();
+        $nilai = ($jumlah_benar / count($QuestionQuizzes)) * 100;
+        // dd($nilai);
+
+       
+
         $model['teachable_user_id'] = $teachableUser->id;
         $model['questions'] =   $data['quizzes_id'];
         $model['answers'] = json_encode($dataQuiz);
         $model['completed_at'] = date("Y/m/d h:i:sa");
         $model['grading_method'] = "standard";
         $save = $model->save(); 
+        // dd($model);
+        $input = new Grade;
+
+        $input['gradeable_id']  = $model['id'];
+        $input['comments']      = '-';
+        $input['gradeable_type']= 'quiz';
+        $input['graded_by']     = null;
+        $input['grade'] = $nilai;
+        $save = $input->save();
 
         return Response::json($save); 
     }

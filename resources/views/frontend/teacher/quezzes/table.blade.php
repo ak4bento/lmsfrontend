@@ -3,8 +3,9 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Tipe Soal</th>  
-                <th>Aksi</th>
+                <th>Nama</th>  
+                <th>Tanggal</th>
+                <th>Nilai</th>
             </tr>
         </thead>
         <tbody>
@@ -14,18 +15,16 @@
             @foreach ($quiz_attempts as $quiz_attempt)
                 <tr>
                     <td>{{ $no++ }}</td>
-                    <td>{{ $quiz_attempt->questions }}</td>  
-                    <td width="120">
-
-                        <a href="{{ route('editQuestion', ['slugClass' => $classroom->slug, 'slugQuiz' => $quizzes->id, 'id' => $quiz_attempt->id]) }}"
-                            class='btn btn-primary btn-sm'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $quiz_attempt->id }}"
-                            data-url="{{ route('destroyQuestion', ['slug' => $classroom->slug, 'quiz_id' => $quizzes->id, 'id' => $quiz_attempt->id]) }}">
-                            <i class="far fa-trash-alt"></i>
-                        </button>
-
+                    <td>
+                        @foreach (json_decode($quiz_attempt->answers) as $item)
+                            {{ App\Models\User::find($item->data->user_id)->name }}
+                        @endforeach
+                    </td>  
+                    <td >
+                        {{ $quiz_attempt->created_at }}
+                    </td>
+                    <td>
+                        {{ App\Models\Grade::where('gradeable_id', $quiz_attempt->id)->where('gradeable_type', 'quiz')->first()->grade }}
                     </td>
                 </tr>
             @endforeach

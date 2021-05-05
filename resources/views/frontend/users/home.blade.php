@@ -42,7 +42,7 @@
                     <div class="card-body">
                         <div class="card">
                             <div class="card-body">
-                                <strong>
+                                <strong style="font-size:13px">
                                     <i class="fas fa-user mr-1"></i>
                                     Nama lengkap :
                                     {{ $profile->full_name ?? '' }}
@@ -51,13 +51,13 @@
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat :
+                                <strong style="font-size:13px"><i class="fas fa-map-marker-alt mr-1"></i> Alamat :
                                     {{ $profile->address ?? '' }}</strong>
                             </div>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <strong><i class="fas fa-mobile mr-1"></i> Telepon :
+                                <strong style="font-size:13px"><i class="fas fa-mobile mr-1"></i> Telepon :
                                     {{ $profile->phone_number ?? '' }}</strong>
                             </div>
                         </div>
@@ -76,9 +76,9 @@
                         @forelse (DB::table('classroom_user')->where('user_id', Auth::user()->id)->where('deleted_at', null)->get() as $class)
                             <div class="card">
                                 <div class="card-body">
-                                    <i class="far fa-circle"></i>
+                                    <i class="far fa-circle" style="font-size:13px"></i>
                                     <strong>
-                                        <a
+                                        <a style="font-size:13px"
                                             href="{{ route('classroom.detail', App\Models\Classroom::find($class->classroom_id)->slug) }}">{{ App\Models\Classroom::find($class->classroom_id)->title }}</a>
                                     </strong>
                                 </div>

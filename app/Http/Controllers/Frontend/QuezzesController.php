@@ -45,23 +45,21 @@ class QuezzesController extends AppBaseController
                     ->where('classrooms.slug',$slug)
                     ->first();
         
-        // $teachable = DB::table('teachables') 
-        //             ->select('*')
-        //             ->where('teachable_type','quiz')  
-        //             ->where('teachable_id',$id)
-        //             ->first();
+        $teachable = DB::table('teachables') 
+                    ->select('*')
+                    ->where('teachable_type','quiz')  
+                    ->where('teachable_id',$id)
+                    ->first();
         
-        // $classroom_user =  DB::table('classroom_user') 
-        //                 ->where('classroom_id',$teachable->classroom_id)
-        //                 ->where('user_id',Auth::user()->id)
-        //                 ->select('*')
-        //                 ->first();
+        $classroom_user =  DB::table('classroom_user') 
+                        ->where('classroom_id',$teachable->classroom_id)
+                        ->select('*')
+                        ->first();
         
-        // $teachableUser =  DB::table('teachable_users')   
-        //                 ->select('*')
-        //                 ->where('teachable_id',$teachable->id)  
-        //                 ->where('classroom_user_id',$classroom_user->id)
-        //                 ->first();
+        $teachableUser =  DB::table('teachable_users')   
+                        ->select('*')
+                        ->where('teachable_id',$teachable->id)  
+                        ->get();
                     
         $quiz_attempts =  DB::table('quiz_attempts')   
                         ->select('*')

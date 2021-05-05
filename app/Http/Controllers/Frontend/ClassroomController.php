@@ -16,6 +16,7 @@ use Redirect;
 use App\Models\Classroom;
 use App\Models\Progress;
 use App\Models\ClassroomUser;
+use App\Models\QuizAttempt;
 use Alert;
 use Illuminate\Support\Str;
 use App\Repositories\ClassroomUserRepository;
@@ -306,6 +307,15 @@ class ClassroomController extends Controller
                 $value = $quiz_attempts->count();
             }
 
+            $grade = null;
+            if ($user->hasRole('student')) {
+                if (is_null($teachableUser)) {
+                    Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
+                    return redirect()->back();
+                }
+                $QuizAttempt  = QuizAttempt::where('teachable_user_id', $teachableUser->id)->where('deleted_at', null)->first();
+                $grade  = Grade::where('gradeable_id', $QuizAttempt->id)->where('gradeable_type', 'quiz')->select('*')->first();
+            }
 
             $this->progress($slug, $id, $teachable->classroom_id);
 
@@ -314,6 +324,7 @@ class ClassroomController extends Controller
             return view('frontend.classWork.quizzes')
                     ->with('classWork',$classWork)
                     ->with('quiz_attempts',$value)
+                    ->with('grade',$grade)
                     ->with('teachable',$teachable)
                     ->with('classrooms',$classrooms)
                     ->with('discussions',$discussions);

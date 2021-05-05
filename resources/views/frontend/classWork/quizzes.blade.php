@@ -97,9 +97,12 @@
                                 <div class="col-md-3">
                                     <div class="card card-primary card-outline">
                                         <div class="card-body box-profile">
-                                            <h3 class="profile-username">Status Penyelesaian Kuis</h3>
+                                            <h3  style="text-align:center" class="profile-username">Nilai</h3>
                                             @if ($quiz_attempts >= $teachable->max_attempts_count)
-                                                <p class="text-success"><i class="fas fa-check-circle"></i>
+                                            <h1 style="text-align:center">
+                                                {{ $grade->grade }}
+                                            </h1>
+                                                <p  style="text-align:center" class="text-success"><i class="fas fa-check-circle"></i>
                                                     Selesai</p>
                                             @else
                                                 <p class="text-danger"><i class="fas fa-times-circle"></i>
