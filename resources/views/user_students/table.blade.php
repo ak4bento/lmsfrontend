@@ -26,7 +26,7 @@
                     {{ App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number ?? 'Belum Diinput' }}
                 </td>
                 <td>
-                    {{ App\Models\Role::find(App\Models\ModelHasRole::where('model_id', $userStudent->id)->first()->role_id)->name ?? 'Belum Diinput' }}
+                    {{ App\Models\Role::find(App\Models\ModelHasRole::where('model_id', $userStudent->id)->first()->role_id ?? '')->name ?? 'Belum Diinput' }}
                 </td>
                 <td width="120">
                     <!-- <div class='btn-group'> -->

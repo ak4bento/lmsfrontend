@@ -175,6 +175,7 @@ class ResourcesController extends AppBaseController
         $files = $request->file('file');
         $input = $request->all();
         $input['type']='video';
+        $input['data']='video';
 
         if ($files != null) {
             $collection_name = $request->file('file')->extension();
@@ -201,6 +202,8 @@ class ResourcesController extends AppBaseController
             $data['collection_name'] = $collection_name;
             $data['size'] = $files->getSize();
             $files->move('files',$files->getClientOriginalName());
+            $input['data']= $request->getHttpHost().'/files/'.$fileName;
+
         }
 
         $data['disk'] = 'public';
@@ -212,7 +215,6 @@ class ResourcesController extends AppBaseController
         $input['order'] = 1;
         $input['max_attempts_count']=1;
         $input['pass_threshold']=1;
-        $input['data']='video';
 
         $resource = $this->resourceRepository->update($input, $id);
         $input['teachable_type'] = "resource";

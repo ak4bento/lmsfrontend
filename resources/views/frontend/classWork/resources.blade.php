@@ -34,6 +34,7 @@
                         @if ($classWork->type == 'video')
                             <div class="col-md-12">
                                 <div class="card">
+                                    {{-- <iframe style="height: 66vh;" src="https://www.youtube.com/embed/Pfj7HH0qQao" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> --}}
                                     <video id="player" playsinline controls data-poster="{{ $classWork->data }}">
                                         <source src="{{ $classWork->data }}" type="video/mp4" size="576"> />
                                         <source src="{{ $classWork->data }}" type="video/mp4" size="876"> />
