@@ -35,12 +35,8 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     {{-- <iframe style="height: 66vh;" src="https://www.youtube.com/embed/Pfj7HH0qQao" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> --}}
-                                    <video id="player" playsinline controls data-poster="{{ $classWork->data }}">
-                                        <source src="{{ $classWork->data }}" type="video/mp4" size="576"> />
-                                        <source src="{{ $classWork->data }}" type="video/mp4" size="876"> />
-                                        <!-- Captions are optional -->
-                                        <track kind="captions" label="English captions" src="/path/to/captions.vtt"
-                                            srclang="en" default />
+                                    <video id="player" playsinline controls >
+                                        <source src="http://{{ $classWork->data }}" type="video/mp4" size="576"> />
                                     </video>
 
                                 </div>
