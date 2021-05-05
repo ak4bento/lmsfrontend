@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1>Buat Wewenang</h1>
+                    <h1>Create Role</h1>
                 </div>
             </div>
         </div>
@@ -17,19 +17,19 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'modelHasRoles.store']) !!}
+            {!! Form::open(['route' => 'roles.store']) !!}
 
             <div class="card-body">
 
                 <div class="row">
-                    @include('model_has_roles.fields')
+                    @include('roles.fields')
                 </div>
 
             </div>
 
             <div class="card-footer">
                 {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-                <a href="{{ route('modelHasRoles.index') }}" class="btn btn-default">Cancel</a>
+                <a href="{{ route('roles.index') }}" class="btn btn-default">Cancel</a>
             </div>
 
             {!! Form::close() !!}

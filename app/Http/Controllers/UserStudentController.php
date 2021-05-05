@@ -43,6 +43,7 @@ class UserStudentController extends AppBaseController
     public function index(Request $request)
     {
         $userStudents = $this->userStudentRepository->all();
+        
         return view('user_students.index')
             ->with('userStudents', $userStudents);
     }

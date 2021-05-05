@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Manajement Pengguna</h1>
+                    <h1>Role Details</h1>
                 </div>
                 <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('modelHasRoles.create') }}">
-                        Tambah Baru
+                    <a class="btn btn-default float-right"
+                       href="{{ route('roles.index') }}">
+                        Back
                     </a>
                 </div>
             </div>
@@ -18,19 +18,14 @@
     </section>
 
     <div class="content px-3">
-
-        @include('flash::message')
-
-        <div class="clearfix"></div>
-
         <div class="card">
-            <div class="card-body ">
-                @include('model_has_roles.table')
- 
+
+            <div class="card-body">
+                <div class="row">
+                    @include('roles.show_fields')
+                </div>
             </div>
 
         </div>
     </div>
-
 @endsection
-

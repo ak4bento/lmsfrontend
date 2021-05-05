@@ -55,7 +55,7 @@
                 <div class="row">
                     @forelse ($classrooms as $item)
                         <div class="col-lg-6 col-sm-12 col-md-12">
-                            <div class="card bg-light card-primary card-outline">
+                            <div class="card card-primary card-outline">
                                 <div class="card-header text-muted border-bottom-0">
                                     {{ $item->subject }}
                                 </div>
@@ -75,7 +75,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer">
+                                <div class="card-footer" style="border-radius: 10px; background-color: #ffff">
                                     <div class="text-right">
                                         <a href="#" class="btn btn-sm bg-teal">
                                             <strong>
@@ -92,7 +92,7 @@
                         </div>
                     @empty
                         <div class="col-12 col-sm-6 col-md-6 d-flex align-items-stretch">
-                            <div class="card bg-light card-primary card-outline">
+                            <div class="card card-primary card-outline" style="background-color: #ffff">
                                 <div class="card-header text-muted border-bottom-0">
                                     Anda Belum mengikuti kelas.
                                 </div>

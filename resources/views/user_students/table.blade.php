@@ -7,6 +7,7 @@
                 <th>Nama Lengkap</th>
                 <th>Alamat</th>
                 <th>Nomor Hp</th>
+                <th>Wewenang</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -15,11 +16,17 @@
             <tr>
                 <td>{{ $userStudent->name }}</td>
                 <td>{{ $userStudent->email }}</td>
-                <td>{{ isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name : 'Belum Diinput' }}
+                <td>
+                    {{ App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name ?? 'Belum Diinput' }}
                 </td>
-                <td>{{ isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->address) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->address : 'Belum Diinput' }}
+                <td>
+                    {{ App\Models\Profile::where('user_id', $userStudent->id)->first()->address ?? 'Belum Diinput' }}
                 </td>
-                <td>{{ isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number : 'Belum Diinput' }}
+                <td>
+                    {{ App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number ?? 'Belum Diinput' }}
+                </td>
+                <td>
+                    {{ App\Models\Role::find(App\Models\ModelHasRole::where('model_id', $userStudent->id)->first()->role_id)->name ?? 'Belum Diinput' }}
                 </td>
                 <td width="120">
                     <!-- <div class='btn-group'> -->

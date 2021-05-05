@@ -94,11 +94,13 @@
             <!-- /.col -->
             <div class="col-lg-9 col-md-9 col-sm-12">
                 <!-- Default box -->
+                @hasanyrole('student')
                 <div class="card card-outline card-primary">
                     <div class="card-header">
                         Bagaimana proses belajar anda?
                     </div>
                     <div class="card-body">
+
                         @forelse (DB::table('classroom_user')->where('user_id', Auth::user()->id)->where('deleted_at', null)->get() as $class)
 
                             <div class="card">
@@ -134,6 +136,7 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
+                @endhasanyrole
                 <!-- /.card -->
             </div>
             <!-- /.col -->

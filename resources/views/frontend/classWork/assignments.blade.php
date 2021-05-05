@@ -61,7 +61,7 @@
                                 <span style="font-size: 30px">Nilai</span><br>
                                 <span style="font-size: 70px">
 
-                                    {{ $grade->grade }}
+                                    {{ $grade->grade ?? ' ' }}
                                 </span>
                             </div>
                         </div>

@@ -55,6 +55,10 @@ class ModelHasRoleController extends AppBaseController
      */
     public function store(CreateModelHasRoleRequest $request)
     {
+        $validated = $request->validate([ 
+            'model_id' => "required|unique:model_has_roles,model_id",
+        ]);
+
         $input = $request->all();
         $input['model_type'] = 'App\Models\User';
         // dd($input);

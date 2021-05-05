@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Manajement Pengguna</h1>
+                    <h1>Roles</h1>
                 </div>
                 <div class="col-sm-6">
                     <a class="btn btn-primary float-right"
-                       href="{{ route('modelHasRoles.create') }}">
-                        Tambah Baru
+                       href="{{ route('roles.create') }}">
+                        Add New
                     </a>
                 </div>
             </div>
@@ -24,9 +24,14 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            <div class="card-body ">
-                @include('model_has_roles.table')
- 
+            <div class="card-body p-0">
+                @include('roles.table')
+
+                <div class="card-footer clearfix float-right">
+                    <div class="float-right">
+                        
+                    </div>
+                </div>
             </div>
 
         </div>

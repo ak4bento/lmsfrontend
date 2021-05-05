@@ -14,6 +14,13 @@
     </a>
 </li>
 
+<li class="nav-item">
+    <a href="{{ route('modelHasRoles.index') }}"
+       class="nav-link {{ Request::is('modelHasRoles*') ? 'active' : '' }}">
+       <i class="nav-icon fas fa-users"></i>
+        <p>Manajement Pengguna</p>
+    </a>
+</li>
 
 <li class="nav-item">
     <a href="{{ route('userTeachers.index') }}" class="nav-link {{ Request::is('userTeachers*') ? 'active' : '' }}">
@@ -21,7 +28,6 @@
         <p style="font-size: 18px;">Daftar Dosen</p>
     </a>
 </li>
-
 
 <li class="nav-item">
     <a href="{{ route('subjects.index') }}" class="nav-link {{ Request::is('subjects*') ? 'active' : '' }}">
@@ -133,7 +139,7 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
         <p>Teachable Users</p>
     </a>
 </li> --}}
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('grades.index') }}"
        class="nav-link {{ Request::is('grades*') ? 'active' : '' }}">
         <p>Grades</p>
@@ -146,6 +152,14 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
        class="nav-link {{ Request::is('modelHasRoles*') ? 'active' : '' }}">
         <p>Model Has Roles</p>
     </a>
-</li>
+</li> --}}
+
+
+{{-- <li class="nav-item">
+    <a href="{{ route('roles.index') }}"
+       class="nav-link {{ Request::is('roles*') ? 'active' : '' }}">
+        <p>Roles</p>
+    </a>
+</li> --}}
 
 

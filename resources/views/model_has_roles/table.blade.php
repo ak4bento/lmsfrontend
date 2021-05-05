@@ -1,21 +1,19 @@
 <div class="table-responsive">
-    <table class="table" id="modelHasRoles-table">
+    <table id="example2" class="table table-bordered">
         <thead>
             <tr>
-                <th>Model Type</th>
-                <th>Model Id</th>
-                <th>Role Id</th>
+                <th>Wewenang</th>
+                <th>Pengguna</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($modelHasRoles as $modelHasRole)
-                <tr>
-                    <td>{{ $modelHasRole->model_type }}</td>
-                    <td>{{ $modelHasRole->model_id }}</td>
-                    <td>{{ $modelHasRole->role_id }}</td>
+            <tr>
+                <td>{{ App\Models\Role::find($modelHasRole->role_id)->name }}</td>
+                <td>{{ App\Models\User::find($modelHasRole->model_id)->name }}</td>
 
-                </tr>
+            </tr>
             @endforeach
         </tbody>
     </table>
-</div>
+</>
