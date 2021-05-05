@@ -18,13 +18,13 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::post('avatar-upload', [App\Http\Controllers\Frontend\UserController::class, 'avatar_upload'])->name('avatar_upload');
 
 
 Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
     Route::get('all-quiz/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'index'])->name('allquiz');
     
+    Route::post('avatar-upload', [App\Http\Controllers\Frontend\UserController::class, 'avatar_upload'])->name('avatar_upload');
 
 
     // teacher assignment

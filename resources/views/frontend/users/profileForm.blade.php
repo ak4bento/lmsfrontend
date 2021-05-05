@@ -89,7 +89,7 @@
                         <div class="row">
                             <!-- Name Field -->
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                    <input type="file" name="file" id="file">
+                                <input type="file" name="file" id="file" accept="image/*">
                             </div>
                         </div>
                     </div>
@@ -100,10 +100,21 @@
     </div>
 </div>
 @push('page_scripts')
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
         const inputElement = document.querySelector('input[id="file"]');
-        const pond = FilePond.create( inputElement );
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        const pond = FilePond.create( 
+            inputElement,
+            { 
+                acceptedFileTypes: ['image/png'],
+                fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+                    resolve(type);
+                })
+            } 
+        );
+        
         FilePond.setOptions({
             server: {
                 url : 'avatar-upload/',

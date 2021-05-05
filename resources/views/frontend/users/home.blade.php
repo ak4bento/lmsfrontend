@@ -8,7 +8,7 @@
             <div class="col-sm-3 col-md-3 col-lg-3">
 
                 <!-- Profile Image -->
-                <div class="card card-primary card-outline">
+                <div class="card card-primary card-outline fixme">
                     <div class="card-body box-profile">
                         <div class="text-center">
                             <a href=""  data-toggle="modal"
