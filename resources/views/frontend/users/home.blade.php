@@ -1,5 +1,21 @@
 @extends('frontend.layouts.app')
 
+@push('page_css')
+    <style>
+        .size-img{
+            height: 150px;
+           
+        }
+        .hover-img:hover {
+            /* background-color: ; */
+            border: 2px solid #87c7fc;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+
+        }
+
+    </style>
+@endpush
 @section('content')
     <div class="container">
         @include('adminlte-templates::common.errors')
@@ -11,12 +27,11 @@
                 <div class="card card-primary card-outline fixme">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                            <a href=""  data-toggle="modal"
-                            data-togglebtn="tooltip" data-placement="top" title="Ubah Foto Profil"
-                            data-target="#exampleModalCenter2">
-                                <img class="profile-user-img img-fluid img-circle"
+                                <img class="img-fluid img-circle hover-img size-img"
+                                    data-toggle="modal"
+                                    data-togglebtn="tooltip" data-placement="top" title="Ubah Foto Profil"
+                                    data-target="#exampleModalCenter2"
                                     src="{{ asset('files/') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at') ->first()->file_name}}" alt="User profile picture">
-                            </a>
                         </div>
 
                         <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>

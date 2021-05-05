@@ -56,7 +56,7 @@
                                             </p>
                                         </div>
                                         <div class="col-3 text-center">
-                                            <img src="dist/img/user1-128x128.jpg" alt="user-avatar"
+                                            <img src="{{ asset('files/') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', $item->created_by)->latest('created_at') ->first()->file_name ?? 'avatar.png'}}" alt=""
                                                 class="img-squre img-fluid" style="border-radius: 10px" />
                                             {{ App\Models\User::find($item->created_by)->name }}
                                         </div>
