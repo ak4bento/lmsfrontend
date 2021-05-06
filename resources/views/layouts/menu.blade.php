@@ -163,3 +163,11 @@ class="nav-link {{ Request::is('resources*') ? 'active' : '' }}">
 </li> --}}
 
 
+<li class="nav-item">
+    <a href="{{ route('bookmarks.index') }}"
+       class="nav-link {{ Request::is('bookmarks*') ? 'active' : '' }}">
+        <p>Bookmarks</p>
+    </a>
+</li>
+
+

@@ -20,6 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 
+    // bookmark
+    Route::post('add-boomark', [App\Http\Controllers\Frontend\BookmarkController::class, 'store'])->name('add_boomark');
+    Route::post('remove-boomark', [App\Http\Controllers\Frontend\BookmarkController::class, 'destroy'])->name('remove_boomark');
+
 Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
     Route::get('all-quiz/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'index'])->name('allquiz');
@@ -156,3 +160,6 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
 });
 
 
+
+
+Route::resource('bookmarks', App\Http\Controllers\BookmarkController::class);

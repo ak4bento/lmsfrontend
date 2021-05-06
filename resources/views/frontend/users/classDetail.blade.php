@@ -19,6 +19,19 @@
                 box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
             }
 
+            .bookmark-active{
+                color:#174ea6;
+                font-size:22px;
+            }
+
+            .bookmark-default{
+                color:rgb(190, 190, 190);
+                font-size:22px;
+            }
+            .bookmark-clik:hover{
+                cursor: pointer;
+            }
+
         </style>
     @endpush
     <div class="container">
@@ -309,7 +322,25 @@
                                                 @endif
                                                 @endhasanyrole
                                                 @hasanyrole('student')
-                                                <i class="fa fa-bookmark float-right bookmark-clik" style="color:green;" aria-hidden="true"></i>
+                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->first() ))
+                                                    <i 
+                                                        data-slug="{{$classrooms->slug}}"
+                                                        data-teachable_id="{{$teachable->teachable_id}}"
+                                                        data-toggle="tooltip" 
+                                                        data-placement="left"  
+                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
+                                                        aria-hidden="true">
+                                                    </i>
+                                                @else
+                                                    <i 
+                                                        data-slug="{{$classrooms->slug}}"
+                                                        data-teachable_id="{{$teachable->teachable_id}}"
+                                                        data-toggle="tooltip" 
+                                                        data-placement="left"  
+                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
+                                                        aria-hidden="true">
+                                                    </i>
+                                                @endif
                                                 @endhasanyrole
                                             </div>
                                         </div>
@@ -345,8 +376,63 @@
                 }
             })
         });
+ 
+        $(".add").click(function(e) {
+            e.preventDefault();
+            let slug = $(this).data('slug');
+            let teachable_id = $(this).data('teachable_id');
+            let url = '{{ route("add_boomark") }}';
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: { 
+                    teachable_id: teachable_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('add bookmark : ',response);
+                    if(response.status == 200){ 
+                        $('.onClick').click(removeToAdd); 
+                        window.location.href = '';
+
+                    }
+                }
+            });
+        });
+ 
+        $(".remove").click(function(e) {
+            e.preventDefault();
+            let slug = $(this).data('slug');
+            let teachable_id = $(this).data('teachable_id');
+            let url = '{{ route("remove_boomark") }}';
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: { 
+                    teachable_id: teachable_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('remove bookmark : ',response);
+                    if(response == 200){
+                        $('.onClick').click(removeToAdd); 
+                        window.location.href = '';
+
+                    }
+                }
+            });
+        });
+
+        function removeToAdd() {
+            $('.onClick').attr('class', 'onClick fa fa-bookmark float-right bookmark-clik bookmark-default add');
+        }
+
+        function addToRemove() {
+            $('.onClick').attr('class', 'onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove');
+        }
 
     </script>
+
 
     <script>
         $(".delete").click(function(e) {
