@@ -60,7 +60,7 @@
                                 <div class="card-body">
                                     <strong style="font-size:13px">
                                         <i class="fas fa-user mr-1"></i>
-                                        Nama lengkap :
+                                        Nama :
                                         {{ $profile->full_name ?? '' }}
                                     </strong>
                                 </div>

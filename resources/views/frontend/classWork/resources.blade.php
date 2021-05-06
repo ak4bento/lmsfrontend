@@ -73,7 +73,7 @@
                                                 </a>
                                             @endif
                                             @if ($classWork->type == 'documents')
-                                                <iframe src="{{ asset('files/' . App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->file_name,) }}" frameborder="0" style="width: 100%;height: 512px;"></iframe>
+                                                <iframe src="{{ asset('files/' . App\Models\Media::where('media_type', 'resource')->where('media_id', $classWork->id)->first()->file_name,) }}" frameborder="0" style="width: 100%;height: 50vh;"></iframe>
                                             @endif
                                         </div>
                                         <!-- /.card-body -->
