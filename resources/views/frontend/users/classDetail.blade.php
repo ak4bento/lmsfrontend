@@ -268,9 +268,9 @@
                                                         {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}</span>
                                                 </div>
                                             </div>
-                                            @hasanyrole('teacher')
-                                            @if ($classroomUsersCount > 0)
-                                                <div class="col col-lg-2 col-md-2 col-sm-2">
+                                            <div class="col col-lg-2 col-md-2 col-sm-2">
+                                                @hasanyrole('teacher')
+                                                @if ($classroomUsersCount > 0)
                                                     <div class="dropdown">
                                                         <a class="btn float-right" href="#" role="button"
                                                             id="dropdownMenuLink" data-toggle="dropdown"
@@ -306,9 +306,12 @@
                                                             @endif
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @endif
-                                            @endhasanyrole
+                                                @endif
+                                                @endhasanyrole
+                                                @hasanyrole('student')
+                                                <i class="fa fa-bookmark float-right bookmark-clik" style="color:green;" aria-hidden="true"></i>
+                                                @endhasanyrole
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
