@@ -364,7 +364,7 @@ class ClassroomController extends Controller
     {
         $progress = new Progress;
 
-        $progress['progress_type'] = $slug.$id;
+        $progress['progress_type'] = $slug;
         $progress['progress_id'] = $id;
         $progress['class_id'] = $class;
         $progress['count'] = 1;

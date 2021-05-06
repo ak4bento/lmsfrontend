@@ -1,4 +1,5 @@
 @push('page_css')
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
 @endpush
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -101,23 +102,64 @@
 </div>
 @push('page_scripts')
     <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script> 
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
         const inputElement = document.querySelector('input[id="file"]');
         FilePond.registerPlugin(FilePondPluginFileValidateType);
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginImageCrop);
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        FilePond.registerPlugin(FilePondPluginImageTransform);
         const pond = FilePond.create( 
             inputElement,
             { 
+                
+                allowFileSizeValidation:true,
+                maxFileSize:2048000,
+                allowImageCrop:true,
+                imageCropAspectRatio:'1:1',
+                allowImagePreview:true,
+                labelFileSizeNotAvailable:'',
+                labelIdle:'Drag & Drop your file or <span class="filepond--label-action"> Browse </span>',
                 acceptedFileTypes: ['image/png'],
                 fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
                     resolve(type);
                 })
+            },
+            {
+                imageResizeTargetWidth: 600,
+                imageCropAspectRatio: 1,
+                imageTransformVariants: {
+                    thumb_medium_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 384,
+                        height: 384,
+                        },
+                    };
+                    return transforms;
+                    },
+                    thumb_small_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 128,
+                        height: 128,
+                        },
+                    };
+                    return transforms;
+                    },
+                },
             } 
         );
         
         FilePond.setOptions({
             server: {
                 url : 'avatar-upload/',
+                method: 'POST',
                 headers :{
                    'X-CSRF-TOKEN':'{{ csrf_token() }}'
                 }

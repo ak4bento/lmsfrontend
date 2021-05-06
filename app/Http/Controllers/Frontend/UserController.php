@@ -66,7 +66,8 @@ class UserController extends AppBaseController
     }
     
     public function avatar_upload(Request $request)
-    {
+    { 
+
         $input = $request->all();
         $user_id = 2;
         $files = $request->file('file');
