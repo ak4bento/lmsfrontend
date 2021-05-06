@@ -233,7 +233,7 @@
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
 
-                                                            @if (App\Models\Progress::where('progress_type', 'quizzes')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->count() > 0)
+                                                            @if (App\Models\Progress::where('progress_type', 'quizzes')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->where('user_id', Auth::user()->id)->count() > 0)
                                                             <i class="fas fa-check-circle text-success"></i>
                                                             @endif
 
@@ -244,7 +244,7 @@
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
 
-                                                            @if (App\Models\Progress::where('progress_type', 'resources')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->count() > 0)
+                                                            @if (App\Models\Progress::where('progress_type', 'resources')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->where('user_id', Auth::user()->id)->count() > 0)
                                                             <i class="fas fa-check-circle text-success"></i>
                                                             @endif
 
@@ -255,7 +255,7 @@
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
 
-                                                            @if (App\Models\Progress::where('progress_type', 'assignments')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->count() > 0)
+                                                            @if (App\Models\Progress::where('progress_type', 'assignments')->where('progress_id', $teachable->teachable_id)->where('class_id', $classrooms->id)->where('user_id', Auth::user()->id)->count() > 0)
                                                             <i class="fas fa-check-circle text-success"></i>
                                                             @endif
 
