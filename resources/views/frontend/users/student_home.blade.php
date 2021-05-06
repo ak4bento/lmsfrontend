@@ -23,6 +23,10 @@
                             ->where('teachables.deleted_at',null)
                             ->orderBy('teachables.created_at','DESC')
                             ->count();
+                        
+                        if(is_null($teachables))
+                            $teachables = 1;
+                            
                         $progress = DB::table('progress')
                             ->select('*')
                             ->where('class_id',$class->classroom_id)
