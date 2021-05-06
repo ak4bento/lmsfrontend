@@ -106,7 +106,7 @@ class ClassroomController extends Controller
                     ->where('classrooms.slug',$slug)
                     ->where('classrooms.deleted_at',null)
                     ->first();
- 
+
         $teachables = DB::table('teachables')
                     ->select('teachables.*')
                     ->where('teachables.classroom_id',$classrooms->id)
@@ -209,7 +209,9 @@ class ClassroomController extends Controller
                 }
             }
 
-            $this->progress($slug, $id, $teachable->classroom_id);
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+                $this->progress($slug, $id, $teachable->classroom_id);
+            }
 
             $classrooms = Classroom::find($teachable->classroom_id);
             return view('frontend.classWork.resources')
@@ -258,7 +260,9 @@ class ClassroomController extends Controller
                 $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
             }
 
-            $this->progress($slug, $id, $teachable->classroom_id);
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+                $this->progress($slug, $id, $teachable->classroom_id);
+            }
 
             return view('frontend.classWork.assignments')
                     ->with('grade',$grade)
@@ -317,7 +321,9 @@ class ClassroomController extends Controller
                 $grade  = Grade::where('gradeable_id', $QuizAttempt->id)->where('gradeable_type', 'quiz')->select('*')->first();
             }
 
-            $this->progress($slug, $id, $teachable->classroom_id);
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+                $this->progress($slug, $id, $teachable->classroom_id);
+            }
 
             $classrooms = Classroom::find($teachable->classroom_id);
 
