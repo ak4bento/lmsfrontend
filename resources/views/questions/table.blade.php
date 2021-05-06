@@ -4,7 +4,6 @@
             <tr>
                 <th>No</th>
                 <th>Tipe Soal</th>
-                <th>Jawaban</th>
                 <th>Pertanyaan</th>
                 <th>Dibuat Oleh</th>
                 <th>Aksi</th>
@@ -18,7 +17,6 @@
             <tr>
                 <td>{{ $no++ }}</td>
                 <td>{{ $question->question_type }}</td>
-                <td>{{ $question->answers }}</td>
                 <td>{!! $question->content !!}</td>
                 <td>{{ App\Models\User::find($question->created_by)->name }} </td>
                 <td width="120">

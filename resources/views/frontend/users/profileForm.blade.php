@@ -1,6 +1,6 @@
 @push('page_css')
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
-    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet" />
+    <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
+    <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
 @endpush
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -106,7 +106,8 @@
     <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script> 
     <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
+
     <script>
         const inputElement = document.querySelector('input[id="file"]');
         FilePond.registerPlugin(FilePondPluginFileValidateType);

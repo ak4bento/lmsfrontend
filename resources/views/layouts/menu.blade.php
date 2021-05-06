@@ -10,7 +10,7 @@
 <li class="nav-item">
     <a href="{{ route('userStudents.index') }}" class="nav-link {{ Request::is('userStudents*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-users"></i>
-        <p style="font-size: 18px;">Daftar Mahasiswa</p>
+        <p style="font-size: 18px;">Daftar Pengguna</p>
     </a>
 </li>
 
@@ -22,12 +22,12 @@
     </a>
 </li>
 
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('userTeachers.index') }}" class="nav-link {{ Request::is('userTeachers*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-graduation-cap"></i>
         <p style="font-size: 18px;">Daftar Dosen</p>
     </a>
-</li>
+</li> --}}
 
 <li class="nav-item">
     <a href="{{ route('subjects.index') }}" class="nav-link {{ Request::is('subjects*') ? 'active' : '' }}">

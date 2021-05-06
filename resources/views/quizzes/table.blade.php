@@ -18,7 +18,7 @@
             <tr>
                 <td>{{ $no++ }}</td>
                 <td>{{ $quizzes->title }}</td>
-                <td>{{ $quizzes->description }}</td>
+                <td>{!! $quizzes->description !!}</td>
                 <td>{{ App\Models\QuestionQuizzes::where('quizzes_id', $quizzes->id)->where('deleted_at', null)->count() }}
                 </td>
                 <td>{{ App\Models\User::find($quizzes->created_by)->name }}</td>
