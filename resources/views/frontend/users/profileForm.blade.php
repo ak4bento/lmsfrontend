@@ -81,6 +81,9 @@
                     <span style="font-size: 20px" id="exampleModalLongTitle">
                         Tambahkan Foto
                     </span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
             </div>
             <form action="{{ route('updateProfile', Auth::user()->id) }}" method="POST">
@@ -125,7 +128,7 @@
                 imageCropAspectRatio:'1:1',
                 allowImagePreview:true,
                 labelFileSizeNotAvailable:'',
-                labelIdle:'Drag & Drop your file or <span class="filepond--label-action"> Browse </span>',
+                labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
                 acceptedFileTypes: ['image/png'],
                 fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
                     resolve(type);

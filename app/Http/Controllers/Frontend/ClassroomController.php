@@ -106,7 +106,7 @@ class ClassroomController extends Controller
                     ->where('classrooms.slug',$slug)
                     ->where('classrooms.deleted_at',null)
                     ->first();
-
+ 
         $teachables = DB::table('teachables')
                     ->select('teachables.*')
                     ->where('teachables.classroom_id',$classrooms->id)
@@ -137,7 +137,7 @@ class ClassroomController extends Controller
         $studentTeacher = DB::table('users')
                         ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
                         ->orWhere('model_has_roles.role_id',3)
-                        ->orWhere('model_has_roles.role_id',2)
+                        ->orWhere('model_has_roles.role_id',4)
                         ->select('users.*','model_has_roles.role_id')
                         ->get();
 
