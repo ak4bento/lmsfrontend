@@ -159,7 +159,7 @@
         
         FilePond.setOptions({
             server: {
-                url : 'avatar-upload/',
+                url : "{{ route('avatar_upload') }}",
                 method: 'POST',
                 headers :{
                    'X-CSRF-TOKEN':'{{ csrf_token() }}'
