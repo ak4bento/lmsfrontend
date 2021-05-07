@@ -14,7 +14,6 @@
             }
 
             #card:hover {
-                /* transform: scale(1.05); */
                 background: #f4f7fc;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
             }
@@ -29,7 +28,9 @@
                 font-size:22px;
             }
             .bookmark-clik:hover{
+                transform: scale(1.20);
                 cursor: pointer;
+                color:#3b72ca;
             }
 
         </style>
@@ -322,7 +323,7 @@
                                                 @endif
                                                 @endhasanyrole
                                                 @hasanyrole('student')
-                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->first() ))
+                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->where('user_id',auth()->user()->id)->first() ))
                                                     <i 
                                                         data-slug="{{$classrooms->slug}}"
                                                         data-teachable_id="{{$teachable->teachable_id}}"

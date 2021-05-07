@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use App\Models\Bookmark;
 use DB;
+use Auth;
 
 class BookmarkController extends AppBaseController
 {
@@ -29,12 +30,17 @@ class BookmarkController extends AppBaseController
      *
      * @return Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $bookmarks = $this->bookmarkRepository->all();
-
-        return view('bookmarks.index')
-            ->with('bookmarks', $bookmarks);
+        $teachables = DB::table('bookmarks')
+                    ->join('teachables', 'teachables.teachable_id', '=', 'bookmarks.teachable_id')
+                    ->select('teachables.*')
+                    ->where('teachables.deleted_at',null) 
+                    ->where('bookmarks.user_id',Auth::user()->id) 
+                    ->get();  
+        // dd($teachables);
+        return view('frontend.users.backpack')->with('teachables',$teachables); 
+        
     }
 
     /**
@@ -57,7 +63,7 @@ class BookmarkController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $input['user_id'] = 6;
+        $input['user_id'] = Auth::user()->id;
         $bookmark = $this->bookmarkRepository->create($input);
          
         $data = array(

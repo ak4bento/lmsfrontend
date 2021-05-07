@@ -95,7 +95,7 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
 
     Route::get('/get-time-quiz/{id}', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getTimeQuiz'])->name('getTimeQuiz');
     
-    Route::get('backpack', [App\Http\Controllers\Frontend\BackpackController::class, 'index'])->name('backpack');
+    Route::get('backpack', [App\Http\Controllers\Frontend\BookmarkController::class, 'index'])->name('backpack');
     
 });
 
