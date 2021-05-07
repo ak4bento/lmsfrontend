@@ -24,11 +24,11 @@
                     <div class="card card-primary card-outline ">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                    <img class="img-fluid img-circle hover-img size-img"
-                                        data-toggle="modal"
-                                        data-togglebtn="tooltip" data-placement="top" title="Ubah Foto Profil"
-                                        data-target="#exampleModalCenter2"
-                                        src="{{ asset('files/') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at') ->first()->file_name ?? 'avatar.png'}}" alt="User profile picture">
+                                <img class="img-fluid img-circle hover-img size-img"
+                                    data-toggle="modal"
+                                    data-togglebtn="tooltip" data-placement="top" title="Ubah Foto Profil"
+                                    data-target="#exampleModalCenter2"
+                                    src="{{ asset('files/') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at') ->first()->file_name ?? 'avatar.png'}}" alt="User profile picture">
                             </div>
     
                             <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>

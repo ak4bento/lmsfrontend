@@ -14,21 +14,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
 
 
+Route::group(['middleware' => ['role:student|teacher|owner']], function () {
+
     // bookmark
     Route::post('add-boomark', [App\Http\Controllers\Frontend\BookmarkController::class, 'store'])->name('add_boomark');
     Route::post('remove-boomark', [App\Http\Controllers\Frontend\BookmarkController::class, 'destroy'])->name('remove_boomark');
 
-Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
     Route::get('all-quiz/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'index'])->name('allquiz');
     
+    // upload avatar
     Route::post('avatar-upload', [App\Http\Controllers\Frontend\UserController::class, 'avatar_upload'])->name('avatar_upload');
+    // update profile
+    Route::post('update-profile/{id}', [App\Http\Controllers\Frontend\UserController::class,'updateProfile'])->name('updateProfile');
 
     // teacher assignment
     Route::get('create-assignment/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'create'])->name('createAssignment');
@@ -37,6 +41,7 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::post('update-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'update'])->name('updateAssignment');
     Route::get('destroy-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'destroy'])->name('destroyAssignment');
     
+    //assignment teacher
     Route::get('all-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'index'])->name('allAssignment');
     Route::post('store-grade/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'gradeStore'])->name('gradeStore');
     
@@ -75,7 +80,6 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::post('store-teacher/{slug}', [App\Http\Controllers\Frontend\UserController::class,'store'])->name('storeTeacher');
     Route::get('delete-teacher/{slug}/{id}', [App\Http\Controllers\Frontend\UserController::class,'destroy'])->name('destroyTeacher');
     
-    Route::post('update-profile/{id}', [App\Http\Controllers\Frontend\UserController::class,'updateProfile'])->name('updateProfile');
 
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
@@ -157,9 +161,9 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
     Route::resource('modelHasRoles', App\Http\Controllers\ModelHasRoleController::class);
     
     Route::resource('roles', App\Http\Controllers\RoleController::class);
+    
+    Route::resource('bookmarks', App\Http\Controllers\BookmarkController::class);
 });
 
 
 
-
-Route::resource('bookmarks', App\Http\Controllers\BookmarkController::class);
