@@ -17,10 +17,15 @@
         data-style="btn-default" data-live-search="true" id="user_id">
         @if (isset($teachableUser) && $teachableUser->count() != 0)
             @foreach ($user as $data)
-                @foreach ($teachableUser as $item)
-                    <option value="{{ $data->user_id }}" {{ $data->user_id == $item->user_id ? 'selected' : '' }}>
-                        {{ $data->name }}</option>
-                @endforeach
+                 
+                @if(App\Models\TeachableUser::where('classroom_user_id',$data->classroom_user_id)->where('teachable_id',$teachable->id)->first())
+                
+                <option value="{{ $data->user_id }}" {{ $data->user_id  ? 'selected' : '' }}>
+                    {{ $data->name }}</option>
+                @else
+                <option value="{{ $data->user_id }}" >
+                    {{ $data->name }}</option>
+                @endif
             @endforeach
         @else
             @foreach ($user as $data)

@@ -77,6 +77,9 @@ class QuezzesController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
+        
+        
+
         $user = DB::table('classroom_user')
                     ->join('users', 'users.id', '=', 'classroom_user.user_id')
                     ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
@@ -85,7 +88,10 @@ class QuezzesController extends AppBaseController
                     ->where('classrooms.slug',$slug)
                     ->where('classroom_user.deleted_at',null)
                     ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',1) 
+                    ->where('model_has_roles.role_id','!=',2) 
                     ->get();
+                    
         return view('frontend.teacher.quezzes.create')->with('classroom',$classroom)->with('user',$user);
     }
 
@@ -110,9 +116,15 @@ class QuezzesController extends AppBaseController
                     $value['teachable_id'] = $teachable['id'];
                     $deleted_at['deleted_at'] = date('d/m/Y H:i:s');
                     $TeachableUser = TeachableUser::where('teachable_id',$value['teachable_id'])->delete();
-                    TeachableUser::create($value);
                 }
             } 
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                $value['classroom_user_id'] = $ClassroomUser['id'];
+                $value['teachable_id'] = $teachable['id'];
+                TeachableUser::create($value);
+
+            }
         }
         return redirect(route('showAllQuestion',['slug'=>$input['slug'],'id'=>$quizzes->id]));
 
@@ -128,16 +140,8 @@ class QuezzesController extends AppBaseController
                     ->first();
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','quiz')->where('deleted_at',null)->select('teachables.*')->first();
         $quizzes = DB::table('quizzes')->where('id',$id)->where('deleted_at',null)->select('*')->first();
-        $user = DB::table('classroom_user')
-                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
-                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
-                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
-                    ->select('classrooms.*','users.id as user_id','users.name')
-                    ->where('classrooms.slug',$slug)
-                    ->where('classroom_user.deleted_at',null)
-                    ->where('model_has_roles.role_id','!=',3) 
-                    ->get();
-        // dd($user);
+        
+        // dd($teachable);
         $teachableUser = DB::table('teachable_users')
                     ->join('classroom_user', 'classroom_user.id', '=', 'teachable_users.classroom_user_id')
                     ->join('teachables', 'teachables.id', '=', 'teachable_users.teachable_id')
@@ -147,7 +151,21 @@ class QuezzesController extends AppBaseController
                     ->where('teachable_users.deleted_at',null)
                     ->where('model_has_roles.role_id','!=',3) 
                     ->get();
-        return view('frontend.teacher.quezzes.edit')
+
+        $user = DB::table('classroom_user')
+                    ->join('users', 'users.id', '=', 'classroom_user.user_id')
+                    ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
+                    ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
+                    ->select('classrooms.*','users.id as user_id','users.name','classroom_user.id as classroom_user_id')
+                    ->where('classrooms.slug',$slug)
+                    ->where('classroom_user.deleted_at',null)
+                    ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',1) 
+                    ->where('model_has_roles.role_id','!=',2) 
+                    ->get();
+                    
+
+            return view('frontend.teacher.quezzes.edit')
                 ->with('slug',$slug)
                 ->with('classroom',$classroom)
                 ->with('teachable',$teachable)
