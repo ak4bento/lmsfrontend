@@ -495,7 +495,25 @@
 
 
     <script>
-        
+         $(".delete").click(function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+            console.log('url', url);
+            Swal.fire({
+                title: 'Anda Yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#174ea6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = url;
+                }
+            })
+        });
         $(".not_allowed").click(function(e) {
             e.preventDefault();
             Swal.fire({
