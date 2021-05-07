@@ -123,7 +123,6 @@ class QuezzesController extends AppBaseController
                 $value['classroom_user_id'] = $ClassroomUser['id'];
                 $value['teachable_id'] = $teachable['id'];
                 TeachableUser::create($value);
-
             }
         }
         return redirect(route('showAllQuestion',['slug'=>$input['slug'],'id'=>$quizzes->id]));
@@ -204,6 +203,12 @@ class QuezzesController extends AppBaseController
                     $TeachableUser = TeachableUser::where('teachable_id',$value['teachable_id'])->delete();
                     TeachableUser::create($value);
                 }
+            }
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                $value['classroom_user_id'] = $ClassroomUser['id'];
+                $value['teachable_id'] = $teachable['id'];
+                TeachableUser::create($value);
             } 
         }else{
             // dd($input);

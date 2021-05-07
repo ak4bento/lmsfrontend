@@ -48,6 +48,8 @@ class ResourcesController extends AppBaseController
                     ->select('classrooms.*','users.id as user_id','users.name','model_has_roles.role_id')
                     ->where('classrooms.slug',$slug)
                     ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',1) 
+                    ->where('model_has_roles.role_id','!=',2) 
                     ->where('classroom_user.deleted_at',null)
                     ->get();
                     // dd($user);
@@ -145,9 +147,12 @@ class ResourcesController extends AppBaseController
                     ->join('users', 'users.id', '=', 'classroom_user.user_id')
                     ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
                     ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
-                    ->select('classrooms.*','users.id as user_id','users.name')
-                    ->where('model_has_roles.role_id','!=',3) 
+                    ->select('classrooms.*','users.id as user_id','users.name','classroom_user.id as classroom_user_id')
                     ->where('classrooms.slug',$slug)
+                    ->where('classroom_user.deleted_at',null)
+                    ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',1) 
+                    ->where('model_has_roles.role_id','!=',2) 
                     ->get();
         // dd($user);
         $teachableUser = DB::table('teachable_users')
@@ -238,6 +243,12 @@ class ResourcesController extends AppBaseController
                     TeachableUser::create($value);
                 }
             }
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                $value['classroom_user_id'] = $ClassroomUser['id'];
+                $value['teachable_id'] = $teachable['id'];
+                TeachableUser::create($value);
+            } 
         }else{
             $TeachableUser = TeachableUser::where('teachable_id',$teachable['id'])->delete();
         }
