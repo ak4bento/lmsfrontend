@@ -106,9 +106,9 @@
                                                 </div>
                                             </div>
                                             <div class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->first() ))
+                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->first() ))
                                                     <i 
-                                                        data-teachable_id="{{$teachable->teachable_id}}"
+                                                        data-teachable_id="{{$teachable->id}}"
                                                         data-toggle="tooltip" 
                                                         data-placement="left"  
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
@@ -116,7 +116,7 @@
                                                     </i>
                                                 @else
                                                     <i 
-                                                        data-teachable_id="{{$teachable->teachable_id}}"
+                                                        data-teachable_id="{{$teachable->id}}"
                                                         data-toggle="tooltip" 
                                                         data-placement="left"  
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 

@@ -297,14 +297,14 @@
                                                         </a>
 
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                            @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->where('user_id',auth()->user()->id)->first() ))
+                                                            @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->where('user_id',auth()->user()->id)->first() ))
                                                                 <a
-                                                                    data-teachable_id="{{$teachable->teachable_id}}"
+                                                                    data-teachable_id="{{$teachable->id}}"
                                                                     class="dropdown-item dropdown-add  dropdown-hover">Tambahkan ke Backpack
                                                                 </a>
                                                             @else
                                                                 <a
-                                                                    data-teachable_id="{{$teachable->teachable_id}}"
+                                                                    data-teachable_id="{{$teachable->id}}"
                                                                     class="dropdown-item dropdown-remove  dropdown-hover">Hapus dari Backpack
                                                                 </a>
                                                             @endif
@@ -339,17 +339,17 @@
                                                 @endif
                                                 @endhasanyrole
                                                 @hasanyrole('student|owner')
-                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->where('user_id',auth()->user()->id)->first() ))
+                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->where('user_id',auth()->user()->id)->first() ))
                                                     <i 
                                                         data-slug="{{$classrooms->slug}}"
-                                                        data-teachable_id="{{$teachable->teachable_id}}" 
+                                                        data-teachable_id="{{$teachable->id}}" 
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
                                                         aria-hidden="true">
                                                     </i>
                                                 @else
                                                     <i 
                                                         data-slug="{{$classrooms->slug}}"
-                                                        data-teachable_id="{{$teachable->teachable_id}}"  
+                                                        data-teachable_id="{{$teachable->id}}"  
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
                                                         aria-hidden="true">
                                                     </i>

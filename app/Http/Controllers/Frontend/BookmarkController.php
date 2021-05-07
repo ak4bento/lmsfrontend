@@ -33,7 +33,7 @@ class BookmarkController extends AppBaseController
     public function index()
     {
         $teachables = DB::table('bookmarks')
-                    ->join('teachables', 'teachables.teachable_id', '=', 'bookmarks.teachable_id')
+                    ->join('teachables', 'teachables.id', '=', 'bookmarks.teachable_id')
                     ->select('teachables.*')
                     ->where('teachables.deleted_at',null) 
                     ->where('bookmarks.user_id',Auth::user()->id) 
