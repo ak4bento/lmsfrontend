@@ -141,7 +141,7 @@
                 text: "Setelah menekan Mulai, waktu kuis akan berjalan!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Batal',
                 confirmButtonText: 'Mulai'

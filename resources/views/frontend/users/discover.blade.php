@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1b5cb8;border-radius: 10px ;">
             <div class="container">
                 <h1 class="display-4"><strong>Discover</strong> </h1>
                 <p class="lead">Temukan kelas terbaik untuk anda.</p>
@@ -20,6 +20,7 @@
                                     placeholder="Cari Kelas" />
                             </div>
                             <ul class="list-group list-group-unbordered mb-3">
+
                                 @foreach ($subjects as $subject)
                                     <div class="form-group clearfix">
                                         <div class="icheck-primary d-inline">
@@ -38,6 +39,7 @@
             </div>
             <div class="col-lg-9 col-md-8 col-sm-12">
                 <div class="row">
+                        
                     @foreach ($classrooms as $item)
                         <div class="col-lg-6 col-sm-12 col-md-12">
                             <div class="card card-primary card-outline" >

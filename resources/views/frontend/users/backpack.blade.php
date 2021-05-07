@@ -19,7 +19,7 @@
             }
 
             .bookmark-active{
-                color:#174ea6;
+                color:#1b5cb8;
                 font-size:22px;
             }
 
@@ -36,7 +36,7 @@
         </style>
     @endpush
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1b5cb8;border-radius: 10px ;">
             <div class="container">
                 <h1 class="display-4"><strong>Backpack</strong> </h1>
                 <p class="lead">Temukan materi yang ada telah markah</p>
@@ -202,7 +202,7 @@
                 title: 'Tidak di Izinkan',
                 text: "Anda tidak terdaftar atau  tidak diizankan membuka materi ini!",
                 icon: 'warning',
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Batal',
                 confirmButtonText: 'Tutup'

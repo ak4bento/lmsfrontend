@@ -43,7 +43,7 @@
 }
 
 .bs-stepper .step-trigger:focus {
-  color: #174ea6;
+  color: #1b5cb8;
   outline: none;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .active .bs-stepper-circle {
-  background-color: #174ea6;
+  background-color: #1b5cb8;
 }
 
 .bs-stepper-content {

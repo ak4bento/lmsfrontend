@@ -214,7 +214,7 @@
                 text: "Anda tidak dapat mengulanginya kembali!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes'
             }).then((result) => {

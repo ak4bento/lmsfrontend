@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1b5cb8;border-radius: 10px ;">
             <div class="container">
                 <h1 class="display-4">Kelas</h1>
                 <p class="lead">Temukan kelas yang anda ikuti.</p>

@@ -17,7 +17,7 @@
     <div class="wrapper">
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white ">
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white fixed-top">
             <div class="container">
                 <a href="{{ url('home') }}" class="navbar-brand py-4">
                     <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat"
@@ -101,17 +101,17 @@
         <!-- /.navbar -->
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" >
             <!-- Content Header (Page header) -->
-            <section class="content">
-                <div class="container-fluid">
+            <section class="content" style="margin-top: 90px" >
+                <div class="container-fluid" >
                     <div class="row mb-2">
                     </div>
                 </div><!-- /.container-fluid -->
             </section>
 
             <!-- Main content -->
-            <section class="content">
+            <section class="content" style="margin-top: 20px">
                 @yield('content')
             </section>
             <!-- /.content -->

@@ -102,7 +102,7 @@
             text: "Anda tidak akan dapat mengembalikan ini!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#174ea6',
+            confirmButtonColor: '#1b5cb8',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus',
             cancelButtonText: 'Batal'
@@ -118,7 +118,7 @@
         if (currentScroll >= fixmeTop) {
             $('.fixme').css({
                 position: 'sticky',
-                top: '10px',
+                top: '100px',
             });
         } else {
             $('.fixme').css({
