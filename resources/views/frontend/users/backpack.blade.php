@@ -106,7 +106,6 @@
                                                 </div>
                                             </div>
                                             <div class="col col-lg-2 col-md-2 col-sm-2">
-                                                @hasanyrole('student')
                                                 @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->first() ))
                                                     <i 
                                                         data-teachable_id="{{$teachable->teachable_id}}"
@@ -124,7 +123,6 @@
                                                         aria-hidden="true">
                                                     </i>
                                                 @endif
-                                                @endhasanyrole
                                             </div>
                                         </div>
                                     </div>

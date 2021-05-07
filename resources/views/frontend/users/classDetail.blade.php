@@ -33,6 +33,10 @@
                 color:#3b72ca;
             }
 
+            .dropdown-hover{
+                cursor: pointer;
+            }
+
         </style>
     @endpush
     <div class="container">
@@ -293,6 +297,18 @@
                                                         </a>
 
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                            @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->where('user_id',auth()->user()->id)->first() ))
+                                                                <a
+                                                                    data-teachable_id="{{$teachable->teachable_id}}"
+                                                                    class="dropdown-item dropdown-add  dropdown-hover">Tambah Bookmark
+                                                                </a>
+                                                            @else
+                                                                <a
+                                                                    data-teachable_id="{{$teachable->teachable_id}}"
+                                                                    class="dropdown-item dropdown-remove  dropdown-hover">Hapus Bookmark
+                                                                </a>
+                                                            @endif
+                                                            
                                                             @if ($teachable->teachable_type == 'quiz')
                                                                 <a href="{{ route('allquiz', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                     class="dropdown-item">Lihat Daftar Pengumpulan </a>
@@ -322,22 +338,18 @@
                                                     </div>
                                                 @endif
                                                 @endhasanyrole
-                                                @hasanyrole('student')
+                                                @hasanyrole('student|owner')
                                                 @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->where('user_id',auth()->user()->id)->first() ))
                                                     <i 
                                                         data-slug="{{$classrooms->slug}}"
-                                                        data-teachable_id="{{$teachable->teachable_id}}"
-                                                        data-toggle="tooltip" 
-                                                        data-placement="left"  
+                                                        data-teachable_id="{{$teachable->teachable_id}}" 
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
                                                         aria-hidden="true">
                                                     </i>
                                                 @else
                                                     <i 
                                                         data-slug="{{$classrooms->slug}}"
-                                                        data-teachable_id="{{$teachable->teachable_id}}"
-                                                        data-toggle="tooltip" 
-                                                        data-placement="left"  
+                                                        data-teachable_id="{{$teachable->teachable_id}}"  
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
                                                         aria-hidden="true">
                                                     </i>
@@ -356,6 +368,53 @@
     </div>
 @endsection
 @push('page_scripts')
+    <script>
+        $(".dropdown-add").click(function(e) {
+            e.preventDefault();
+            let slug = $(this).data('slug');
+            let teachable_id = $(this).data('teachable_id');
+            let url = '{{ route("add_boomark") }}';
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: { 
+                    teachable_id: teachable_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('add bookmark : ',response);
+                    if(response.status == 200){ 
+                        $('.onClick').click(removeToAdd); 
+                        window.location.href = '';
+
+                    }
+                }
+            });
+        });
+ 
+        $(".dropdown-remove").click(function(e) {
+            e.preventDefault();
+            let slug = $(this).data('slug');
+            let teachable_id = $(this).data('teachable_id');
+            let url = '{{ route("remove_boomark") }}';
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: { 
+                    teachable_id: teachable_id,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('remove bookmark : ',response);
+                    if(response == 200){
+                        $('.onClick').click(removeToAdd); 
+                        window.location.href = '';
+
+                    }
+                }
+            });
+        });
+    </script>
     <script>
         $(".join-class").click(function(e) {
             e.preventDefault();
@@ -436,26 +495,7 @@
 
 
     <script>
-        $(".delete").click(function(e) {
-            e.preventDefault();
-            let url = $(this).data('url');
-
-            console.log('url', url);
-            Swal.fire({
-                title: 'Anda Yakin?',
-                text: "Anda tidak akan dapat mengembalikan ini!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#174ea6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.value) {
-                    window.location.href = url;
-                }
-            })
-        });
+        
         $(".not_allowed").click(function(e) {
             e.preventDefault();
             Swal.fire({
