@@ -300,12 +300,12 @@
                                                             @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->where('user_id',auth()->user()->id)->first() ))
                                                                 <a
                                                                     data-teachable_id="{{$teachable->teachable_id}}"
-                                                                    class="dropdown-item dropdown-add  dropdown-hover">Tambah Bookmark
+                                                                    class="dropdown-item dropdown-add  dropdown-hover">Tambahkan ke Backpack
                                                                 </a>
                                                             @else
                                                                 <a
                                                                     data-teachable_id="{{$teachable->teachable_id}}"
-                                                                    class="dropdown-item dropdown-remove  dropdown-hover">Hapus Bookmark
+                                                                    class="dropdown-item dropdown-remove  dropdown-hover">Hapus dari Backpack
                                                                 </a>
                                                             @endif
                                                             

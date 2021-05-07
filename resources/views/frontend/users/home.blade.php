@@ -17,7 +17,7 @@
 @section('content')
     <div class="container">
         @include('adminlte-templates::common.errors')
-        <div class="row" style="height: 100vh">
+        <div class="row">
 
             <div class="col-sm-3 col-md-3 col-lg-3">
                 {{-- <div class="fixme"> --}}

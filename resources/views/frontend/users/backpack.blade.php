@@ -59,7 +59,7 @@
                                                 <img src="{{ asset('study.png') }}" style="max-width: 50px"
                                                     class="img-fluid">
                                             </div> --}}
-                                            <div class="col col-lg-10 col-md-10 col-sm-10">
+                                            <div class="col col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                                 <div class="row">
                                                     @if ($teachable->teachable_type == 'quiz')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
@@ -105,7 +105,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="col col-lg-2 col-md-2 col-sm-2">
+                                            <div class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                                 @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->teachable_id)->first() ))
                                                     <i 
                                                         data-teachable_id="{{$teachable->teachable_id}}"
