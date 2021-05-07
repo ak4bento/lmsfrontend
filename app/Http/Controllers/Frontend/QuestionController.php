@@ -224,6 +224,10 @@ class QuestionController extends AppBaseController
     {
         // dd($id);
         $question = $this->questionRepository->find($id); 
+        $questions = DB::table('question_quizzes')
+                        ->where('quizzes_id',$quiz_id)
+                        ->where('question_id',$id)
+                        ->update(['deleted_at' => date("Y/m/d h:i:s")]);
         if (empty($question)) {
             Flash::error('Question not found');
             return redirect(route('showAllQuestion',['slug'=>$slug,'id'=>$quiz_id]));

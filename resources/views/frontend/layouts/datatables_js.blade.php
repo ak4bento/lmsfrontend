@@ -112,6 +112,7 @@
             }
         })
     });
+
     var fixmeTop = $('.fixme').offset().top;
     $(window).scroll(function() {
         var currentScroll = $(window).scrollTop();

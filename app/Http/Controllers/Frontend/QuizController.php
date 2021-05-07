@@ -215,15 +215,16 @@ class QuizController extends Controller
 
         $dataQuiz = Storage::disk('local')->exists($json_file_name) ? json_decode(Storage::disk('local')->get($json_file_name)) :  [];
         
+
         $jumlah_benar = 0;
         foreach ($dataQuiz[0]->answer as $key => $value) {
-            $QuestionChoiceItem = QuestionChoiceItem::where('question_id',$value->question_id)->first();
+            $QuestionChoiceItem = QuestionChoiceItem::find($value->checkedItem_id);
             if($QuestionChoiceItem->is_correct){
                 $jumlah_benar++;
             }
         }
 
-        $QuestionQuizzes = QuestionQuizzes::where('quizzes_id',$data['quizzes_id'])->get();
+        $QuestionQuizzes = QuestionQuizzes::where('quizzes_id',$data['quizzes_id'])->where('deleted_at',null)->get();
         $nilai = ($jumlah_benar / count($QuestionQuizzes)) * 100;
         // dd($nilai);
 
