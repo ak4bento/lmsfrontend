@@ -51,7 +51,7 @@ class ClassroomController extends Controller
     {
         $input = $request->all();
         $validated = $request->validate([
-            'title' => 'required|unique:classrooms,title',
+            'title' => 'required|unique:classrooms,title|max:250',
             'code' => 'max:50',
         ]);
         $input['created_by']=auth()->user()->id;

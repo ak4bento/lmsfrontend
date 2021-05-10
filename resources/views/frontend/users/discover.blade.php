@@ -62,6 +62,9 @@
 @endsection
 @push('page_scripts')
     <script>
+        $(document.body).on('touchmove', onScroll);
+        $(window).on('scroll', onScroll);
+
         function loadMoreData(page){
             $.ajax({
                 url:'?page='+page,
@@ -82,15 +85,14 @@
                 alert("server not res");
             });
         }
-        var page = 1;
-        $(window).scroll(function(){
+        var page = 1; 
+        function onScroll(){ 
             if($(window).scrollTop() >= ($(document).height() - $(window).height())) {
                 console.log('jalan 1')
                 page++;
                 loadMoreData(page);
             }
-
-        });
+        }
 
         $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();

@@ -139,3 +139,10 @@
         </div>
     </div>
 @endsection
+@push('page_scripts')
+<script>
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+@endpush

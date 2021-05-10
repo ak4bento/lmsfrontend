@@ -60,7 +60,8 @@ class ResourcesController extends AppBaseController
     {
         $validated = $request->validate([
             'title' => 'required|unique:resources,title',
-            'file' => 'required|mimes:doc,docx,pdf,mp4,mp3'
+            'file' => 'required|mimes:doc,docx,pdf,mp4,mp3',
+            'description' => 'required'
         ]);
         $input = $request->all();
         $input['type']='video';

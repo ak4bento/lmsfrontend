@@ -105,7 +105,9 @@ class AssignmentController extends AppBaseController
     { 
         $validated = $request->validate([
             'title' => 'required|unique:assignments,title',
+            'description' => 'required'
         ]);
+
         $input = $request->all(); 
         $input['created_by'] = auth()->user()->id;
         $input['final_grade_weight'] = 0;
