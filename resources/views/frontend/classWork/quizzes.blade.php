@@ -32,7 +32,7 @@
 
                             <div class="col-md-9">
                                 @endhasanyrole
-                                @hasanyrole('teacher')
+                                @hasanyrole('teacher|owner')
 
                                 <div class="col-md-12">
                                     @endhasanyrole

@@ -1,12 +1,15 @@
 @extends('frontend.layouts.app') @section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1b5cb8;border-radius: 10px ;">
-            <div class="container">
-                <h1 class="display-4"><strong>Discover</strong> </h1>
-                <p class="lead">Temukan kelas terbaik untuk anda.</p>
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">
+            <div class="container ">
+                <div class="row">
+                    <a style="font-size: 2.5em">Discover</a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">Temukan kelas terbaik untuk anda.</a>
+                </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-4 col-lg-3 col-sm-12">
                 <div class="card fixme">
@@ -53,7 +56,7 @@
                                         <div class="col-9">
                                             <label class="lead">{{ $item->title }}</label>
                                             <p>
-                                                {{ substr($item->description, 0, 70) }} <br> <a
+                                                {{ substr($item->description, 0, 70) }} <br> <a style="font-size: 13px"
                                                     href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
                                             </p>
                                         </div>
@@ -70,16 +73,25 @@
                                     </div>
                                 </div>
                                 <div class="card-footer" style="border-radius: 10px; background-color: #ffff">
-                                    <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
-                                            <strong>
-                                                {{ App\Models\ClassroomUser::where('classroom_id', $item->id)->count() }}
-                                            </strong>&nbsp;Bergabung
-                                        </a>
-                                        <a href="{{ url('class-detail/') }}/{{ $item->slug }}"
-                                            class="btn btn-sm btn-primary">
-                                            Lihat Kelas
-                                        </a>
+                                    <div class="row">
+                                        <div class="col-4">
+                                           <div class="text-left">
+                                                <a style="font-size: 13px">
+                                                    {{ App\Models\TeachingPeriod::find($item->teaching_period_id)->first()->name }}
+                                                </a>
+                                           </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <a href="{{ url('class-detail/') }}/{{ $item->slug }}"
+                                                class="btn btn-sm btn-primary float-right" >
+                                                Lihat Kelas
+                                            </a>
+                                            <a class="btn btn-sm bg-teal float-right" style="margin-right: 3px">
+                                                <strong>
+                                                    {{ App\Models\ClassroomUser::where('classroom_id', $item->id)->count() }}
+                                                </strong>&nbsp;Bergabung
+                                            </a>
+                                       </div>
                                     </div>
                                 </div>
                             </div>

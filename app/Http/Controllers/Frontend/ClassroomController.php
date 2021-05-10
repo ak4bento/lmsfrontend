@@ -209,7 +209,7 @@ class ClassroomController extends Controller
                 }
             }
 
-            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('user_id',auth()->id())->where('class_id',$teachable->classroom_id)->first())) {
                 $this->progress($slug, $id, $teachable->classroom_id);
             }
 
@@ -256,11 +256,14 @@ class ClassroomController extends Controller
                     Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
                     return redirect()->back();
                 }
+
                 $media  = Media::where('media_id', $classWork->id)->where('media_type', 'assigment')->where('deleted_at', null)->where('custom_properties', '{"user":'.auth()->user()->id.'}')->first();
-                $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
+                if(!is_null($media)){
+                    $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
+                }
             }
 
-            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('user_id',auth()->id())->where('class_id',$teachable->classroom_id)->first())) {
                 $this->progress($slug, $id, $teachable->classroom_id);
             }
 
@@ -321,7 +324,7 @@ class ClassroomController extends Controller
                     $grade  = Grade::where('gradeable_id', $QuizAttempt->id)->where('gradeable_type', 'quiz')->select('*')->first();
             }
 
-            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('user_id',auth()->id())->where('class_id',$teachable->classroom_id)->first())) {
                 $this->progress($slug, $id, $teachable->classroom_id);
             }
 

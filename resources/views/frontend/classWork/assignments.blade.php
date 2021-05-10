@@ -31,7 +31,7 @@
 
                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
                     @endhasanyrole
-                    @hasanyrole('teacher')
+                    @hasanyrole('teacher|owner')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                         @endhasanyrole
@@ -57,12 +57,15 @@
                     @hasanyrole('student')
                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
                         <div class="card">
-                            <div class="card-body" style="text-align: center">
+                            <div class="card-body" style="min-height: 115px; text-align: center">
+                                @if (is_null($grade))
+                                    Tugas Belum Dikumpul
+                                @else
                                 <span style="font-size: 30px">Nilai</span><br>
                                 <span style="font-size: 70px">
-
-                                    {{ $grade->grade ?? ' ' }}
+                                    {{ $grade->grade}}
                                 </span>
+                                @endif
                             </div>
                         </div>
                     </div>

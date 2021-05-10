@@ -223,13 +223,12 @@ class QuizController extends Controller
                 $jumlah_benar++;
             }
         }
+        // return Response::json($dataQuiz[0]->answer); 
 
-        $QuestionQuizzes = QuestionQuizzes::where('quizzes_id',$data['quizzes_id'])->where('deleted_at',null)->get();
-        $nilai = ($jumlah_benar / count($QuestionQuizzes)) * 100;
-        // dd($nilai);
-
-       
-
+        $QuestionQuizzes = QuestionQuizzes::where('quizzes_id',$data['quizzes_id'])->where('deleted_at',null)->count();
+        $nilai = ($jumlah_benar / $QuestionQuizzes) * 100;
+        // return Response::json($nilai); 
+ 
         $model['teachable_user_id'] = $teachableUser->id;
         $model['questions'] =   $data['quizzes_id'];
         $model['answers'] = json_encode($dataQuiz);

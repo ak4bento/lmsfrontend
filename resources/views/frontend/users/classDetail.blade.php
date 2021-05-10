@@ -40,10 +40,14 @@
         </style>
     @endpush
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1b5cb8;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">
             <div class="container">
-                <h1 class="display-4"><strong>{{ $classrooms->title }}</strong> </h1>
-                <p class="lead">{{ $classrooms->subject }}</p>
+                <div class="row">
+                    <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
+                </div>
             </div>
         </div>
 

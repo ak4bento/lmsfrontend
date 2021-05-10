@@ -115,7 +115,7 @@
                 @hasanyrole('student')
                 @include('frontend.users.student_home')
                 @endhasanyrole
-                @hasanyrole('teacher')
+                @hasanyrole('teacher|owner')
                 @include('frontend.users.teacher_home')
                 @endhasanyrole
                 <!-- /.card -->

@@ -36,13 +36,16 @@
         </style>
     @endpush
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #1b5cb8;border-radius: 10px ;">
-            <div class="container">
-                <h1 class="display-4"><strong>Backpack</strong> </h1>
-                <p class="lead">Temukan materi yang ada telah markah</p>
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">
+            <div class="container ">
+                <div class="row">
+                    <a style="font-size: 2.5em">Backpack</a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">Temukan materi yang ada telah markah</a>
+                </div>
             </div>
         </div>
-
         <!-- Main content -->
         <section class="content">
             <div class="row">
