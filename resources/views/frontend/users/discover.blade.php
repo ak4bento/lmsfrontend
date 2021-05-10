@@ -62,8 +62,8 @@
                 }
             })
             .done(function(data){
-                if(data.html == " "){
-                    $('.ajax-load').html("No More data");
+                if(data.html == ""){
+                    $('.ajax-load').html("");
                     return;
                 }
                 $('.ajax-load').hide();
