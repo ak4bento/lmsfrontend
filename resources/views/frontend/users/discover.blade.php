@@ -1,4 +1,13 @@
-@extends('frontend.layouts.app') @section('content')
+@extends('frontend.layouts.app') 
+@push('name')
+    <style>
+        .title-hover:hover{
+            cursor: pointer;
+            color:#3b72ca;
+        }
+    </style>
+@endpush
+@section('content')
     <div class="container">
         <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">
             <div class="container ">
@@ -42,7 +51,7 @@
             </div>
             <div class="col-lg-9 col-md-8 col-sm-12">
                 <div class="row" id="post-data">
-                    @include('frontend.users.card_classroom')
+                    @include('frontend.users.card_classroom_discover')
                 </div>
                 <div class="ajax-load text-center" style="display: none">
                     <img src="{{ asset('preview.gif') }}" width="100px">
@@ -75,12 +84,16 @@
         }
         var page = 1;
         $(window).scroll(function(){
-            if($(window).scrollTop() >= ($(document).height() - $(window).height() - 10)) {
+            if($(window).scrollTop() >= ($(document).height() - $(window).height())) {
                 console.log('jalan 1')
                 page++;
                 loadMoreData(page);
             }
 
+        });
+
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 @endpush

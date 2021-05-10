@@ -42,12 +42,11 @@ class DiscoverController extends Controller
             }
         }
         $subjects = Subject::all();
-        $classrooms = $classrooms->paginate(20);
+        $classrooms = $classrooms->paginate(10);
         if($request->ajax()){
-            $view = view('frontend.users.card_classroom',compact('subjects','classrooms'))->render();
+            $view = view('frontend.users.card_classroom_discover',compact('subjects','classrooms'))->render();
             return response()->json(['html'=>$view]);
         }
-
 
         return view('frontend.users.discover')->with('classrooms', $classrooms)->with('subjects',$subjects);
     }
