@@ -1,27 +1,38 @@
+@push('page_css')
+    <style>
+        .title-hover{
+            color:black;
+            font-size: 18px; 
+            font-weight: bold;
+        }
+        .title-hover:hover{
+            cursor: pointer;
+            color:#3b72ca;
+            border-bottom: 1px solid #3b72ca;
+        }
+    </style>
+@endpush
+
 @foreach ($classrooms as $item)
     <div class="col-lg-6 col-sm-12 col-md-12">
-        <div class="card card-primary card-outline" style="min-height: 270px" >
+        <div class="card card-primary card-outline" style="min-height: 230px" >
             <div class="card-header text-muted border-bottom-0">
                 <div class="row">
-                        {{ $item->subject }}
+                    {{ $item->subject }}
                 </div>
             </div>
             <div class="card-body pt-0">
                 <div class="row">
                     <div class="col-9">
                         <div class="row">
-                            <a  href="#"
-                                class="text-dark title-hover"
-                                data-html="true"
-                                data-toggle="tooltip" data-placement="top" title="<p>{{$item->title}}</p>"
-                                style="font-size: 18px">
-                                <strong>{{ substr($item->title, 0, 70) }}...</strong>
+                            <a  href="{{route('classroom.detail',$item->slug)}}"
+                                target="_blank"
+                                class="title-hover">
+                                {{ $item->title }}
                             </a>
                         </div>
                         <div class="row align-items-center">
-
-                            {{ substr($item->description, 0, 100) }} <br> <a style="font-size: 13px"
-                                href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
+                            {{ substr($item->description, 0, 120) }}
                         </div>
                     </div>
                     <div class="col-3 text-center">
@@ -61,3 +72,10 @@
         </div>
     </div>
 @endforeach
+@push('page_scripts')
+    <script>
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+@endpush

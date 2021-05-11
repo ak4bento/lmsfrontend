@@ -58,8 +58,11 @@ class ClassroomController extends AppBaseController
     public function store(CreateClassroomRequest $request)
     {
         $validated = $request->validate([
-            'title' => 'required|unique:classrooms,title',
+            'title' => 'required|unique:classrooms,title|max:35',
+            'code' => 'max:10|unique:classrooms,code',
+            'description' => 'max:120',
         ]);
+            
         $input = $request->all();
         $input['created_by']=auth()->user()->id; 
         $input['slug'] = Str::slug($request->title); 
@@ -127,8 +130,11 @@ class ClassroomController extends AppBaseController
         $input['slug'] = Str::slug($request->title); 
  
         $validated = $request->validate([
-            'title' => 'required|unique:classrooms',
+            'title' => "required|unique:classrooms,title,$id|max:35",
+            'code' => 'max:10|unique:classrooms,code',
+            'description' => 'max:120',
         ]);
+        
         if (empty($classroom)) {
             Flash::error('Classroom not found');
 

@@ -51,8 +51,9 @@ class ClassroomController extends Controller
     {
         $input = $request->all();
         $validated = $request->validate([
-            'title' => 'required|unique:classrooms,title|max:250',
-            'code' => 'max:50',
+            'title' => 'required|unique:classrooms,title|max:35',
+            'code' => 'max:10|unique:classrooms,code',
+            'description' => 'max:120',
         ]);
         $input['created_by']=auth()->user()->id;
         $input['slug'] = Str::slug($request->title);
@@ -79,7 +80,9 @@ class ClassroomController extends Controller
     public function updateClassroom(Request $request, $id)
     {
         $validated = $request->validate([
-            'title' => "required|unique:classrooms,title,$id",
+            'title' => "required|unique:classrooms,title,$id|max:35",
+            'code' => 'max:10|unique:classrooms,code',
+            'description' => 'max:120',
         ]);
 
         $input = $request->all();

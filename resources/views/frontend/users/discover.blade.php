@@ -1,6 +1,11 @@
 @extends('frontend.layouts.app') 
 @push('name')
     <style>
+        .title-hover{
+            color:black;
+            font-size: 18px; 
+            font-weight: bold;
+        }
         .title-hover:hover{
             cursor: pointer;
             color:#3b72ca;
