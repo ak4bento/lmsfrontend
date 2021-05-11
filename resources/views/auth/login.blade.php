@@ -24,12 +24,12 @@
                         @enderror
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
-                            <input type="password" placeholder="Password" name="password"  class="@error('password') is-invalid @enderror"/>
+                            <input type="password" placeholder="Kata Sandi" name="password"  class="@error('password') is-invalid @enderror"/>
                         </div>
                         @error('password')
                             <span class="error invalid-feedback">{{ $message }}</span>
                         @enderror
-                        <input type="submit" value="Login" class="btn solid" />
+                        <input type="submit" value="Masuk" class="btn solid" />
                          
                     </form>
                     <form  method="post" action="{{ route('register') }}" class="sign-up-form">
@@ -37,7 +37,7 @@
                         <div class="input-field">
                             <i class="fas fa-user"></i>
                             <input type="text" name="name" class="@error('name') is-invalid @enderror"
-                            value="{{ old('name') }}" placeholder="Full name">
+                            value="{{ old('name') }}" placeholder="Nama Pengguna">
                         </div>
                         @error('name')
                             <span class="error invalid-feedback">{{ $message }}</span>
@@ -53,7 +53,7 @@
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
                             <input type="password" name="password"
-                            class="@error('password') is-invalid @enderror" placeholder="Password">
+                            class="@error('password') is-invalid @enderror" placeholder="Kata Sandi">
                         </div>
                         @error('password')
                             <span class="error invalid-feedback">{{ $message }}</span>
@@ -61,9 +61,9 @@
                         <div class="input-field">
                             <i class="fas fa-lock"></i>
                             <input type="password" name="password_confirmation" class="form-control"
-                            placeholder="Retype password">
+                            placeholder="Ketik Ulang Kata Sandi">
                         </div>
-                        <input type="submit" class="btn" value="Sign up" />
+                        <input type="submit" class="btn" value="Daftar" />
                     </form>
                 </div>
             </div>
@@ -71,24 +71,24 @@
             <div class="panels-container">
                 <div class="panel left-panel">
                     <div class="content">
-                        <h3>New here ?</h3>
+                        <h3>Baru disini ?</h3>
                         <p>
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis, ex ratione. Aliquid!
+                            Bergabung dengan Sejawat Indonesia untuk pembelajaran medis yang berkualitas.
                         </p>
                         <button class="btn transparent" id="sign-up-btn">
-                            Sign up
+                            Daftar
                         </button>
                     </div>
                     <img src="template-login/img/log.svg" class="image" alt="" />
                 </div>
                 <div class="panel right-panel">
                     <div class="content">
-                        <h3>One of us ?</h3>
+                        <h3>Salah satu dari kami ?</h3>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum laboriosam ad deleniti.
+                            Masuk menggunakan akun anda.
                         </p>
                         <button class="btn transparent" id="sign-in-btn">
-                            Sign in
+                            Masuk
                         </button>
                     </div>
                     <img src="template-login/img/register.svg" class="image" alt="" />
