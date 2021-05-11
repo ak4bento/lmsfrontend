@@ -80,7 +80,8 @@
         }
         var page = 1; 
         function onScroll(){ 
-            if($(window).scrollTop() >= ($(document).height() - $(window).height())) {
+            // if($(window).scrollTop() >= ($(document).height() - $(window).height())) {
+            if( $(window).scrollTop() + window.innerHeight >= document.body.scrollHeight ){
                 console.log('jalan 1')
                 page++;
                 loadMoreData(page);
