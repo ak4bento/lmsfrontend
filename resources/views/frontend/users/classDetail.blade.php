@@ -248,7 +248,7 @@
                                                 <img src="{{ asset('study.png') }}" style="max-width: 50px"
                                                     class="img-fluid">
                                             </div> --}}
-                                            <div class="col col-lg-10 col-md-10 col-sm-10">
+                                            <div class="col-10 col-lg-10 col-md-10 col-sm-10">
                                                 <div class="row">
                                                     @if ($teachable->teachable_type == 'quiz')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
@@ -290,7 +290,7 @@
                                                         {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}</span>
                                                 </div>
                                             </div>
-                                            <div class="col col-lg-2 col-md-2 col-sm-2">
+                                            <div class="col-2 col-lg-2 col-md-2 col-sm-2">
                                                 @hasanyrole('teacher')
                                                 @if ($classroomUsersCount > 0)
                                                     <div class="dropdown">
