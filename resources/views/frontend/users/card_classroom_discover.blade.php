@@ -73,8 +73,12 @@
                             <strong class="tooltipstext">{{ $item->title }}</strong>
                         </a>
                     </div>
-                    <div class="row align-items-center">
-                        {{ substr($item->description, 0, 120) }}
+                    <div class="row align-items-center" style="text-align:justify ">
+                        @if (strlen($item->description) < 100)
+                            {{ $item->description }}
+                        @else
+                            {{ substr($item->description,0,100) }}...
+                        @endif
                     </div>
                 </div>
                 <div class="col-3 text-center">
