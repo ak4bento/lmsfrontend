@@ -16,6 +16,7 @@ use App\Models\ClassroomUser;
 use App\Repositories\GradeRepository;
 use Auth;
 use App\Models\Grade;
+use Validator;
 
 class AssignmentController extends AppBaseController
 {
@@ -102,11 +103,33 @@ class AssignmentController extends AppBaseController
     }
 
     public function store(Request $request)
-    { 
-        $validated = $request->validate([
+    {  
+        $rules = [
             'title' => 'required|unique:assignments,title',
-            'description' => 'required'
-        ]);
+            'description' => 'required',
+            'max_attempts_count' => 'required',
+            'pass_threshold' => 'required',
+            'available_at' => 'required',
+            'expires_at' => 'required', 
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'max_attempts_count.required' => 'Deskripsi tidak boleh kosong.',
+            'pass_threshold.required' => 'Nilai Batas Minimum tidak boleh kosong.',
+            'expires_at.required' => 'Selesai tidak boleh kosong.',
+            'available_at.required'=> 'Mulai tidak boleh kosong.', 
+            'max_attempts_count.numeric'=> 'Jumlah maksimal mencoba harus berupa angka.', 
+            'max_attempts_count.min'=> 'Jumlah maksimal mencoba minimal 1.', 
+            'max_attempts_count.max'=> 'Jumlah maksimal mencoba minimal 5.', 
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
 
         $input = $request->all(); 
         $input['created_by'] = auth()->user()->id;
@@ -175,9 +198,34 @@ class AssignmentController extends AppBaseController
     public function update($id, Request $request)
     {
         $input = $request->all();
-        $validated = $request->validate([
-            'title' => 'required',
-        ]);
+        $rules = [
+            'title' => "required|unique:assignments,title,$id",
+            'description' => 'required',
+            'max_attempts_count' => 'required|numeric|min:1|max:5',
+            'pass_threshold' => 'required',
+            'available_at' => 'required',
+            'expires_at' => 'required',
+            'description' => 'required',
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'max_attempts_count.required' => 'Deskripsi tidak boleh kosong.',
+            'pass_threshold.required' => 'Nilai Batas Minimum tidak boleh kosong.',
+            'expires_at.required' => 'Selesai tidak boleh kosong.',
+            'available_at.required'=> 'Mulai tidak boleh kosong.', 
+            'max_attempts_count.numeric'=> 'Jumlah maksimal mencoba harus berupa angka.', 
+            'max_attempts_count.min'=> 'Jumlah maksimal mencoba minimal 1.', 
+            'max_attempts_count.max'=> 'Jumlah maksimal mencoba minimal 5.', 
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('*')->first();
         $input = $request->all();
         $input['created_by'] = auth()->user()->id;

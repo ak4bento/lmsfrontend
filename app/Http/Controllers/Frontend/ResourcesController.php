@@ -14,6 +14,7 @@ use Auth;
 use App\Models\Media;
 use App\Models\ClassroomUser;
 use App\Models\TeachableUser;
+use Validator;
 
 class ResourcesController extends AppBaseController
 {
@@ -57,12 +58,25 @@ class ResourcesController extends AppBaseController
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
+    { 
+        $rules = [
             'title' => 'required|unique:resources,title',
             'file' => 'required|mimes:doc,docx,pdf,mp4,mp3',
             'description' => 'required'
-        ]);
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'file.required'=> 'File tidak boleh kosong.',
+            'file.mimes'=> 'Format file yang diperbolehkan : doc, docx, pdf, mp4, mp3 .',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
         $input = $request->all();
         $input['type']='video';
 
@@ -176,6 +190,25 @@ class ResourcesController extends AppBaseController
 
     public function update($id, Request $request)
     {
+        $rules = [
+            'title' => "required|unique:resources,title,$id",
+            'file' => 'required|mimes:doc,docx,pdf,mp4,mp3',
+            'description' => 'required'
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'file.required'=> 'File tidak boleh kosong.',
+            'file.mimes'=> 'Format file yang diperbolehkan : doc, docx, pdf, mp4, mp3 .',
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','resource')->where('deleted_at',null)->select('*')->first();
         $model = Media::where('media_type', 'resource')->where('media_id',$id)->first();
         $files = $request->file('file');

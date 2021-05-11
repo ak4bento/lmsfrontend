@@ -71,18 +71,17 @@
 
                                                 <a class="dropdown-item py-2"
                                                     href="{{ route('createAssignment', $classrooms->slug) }}">
-                                                    <ion-icon name="document-text-outline" class="ion-medium"></ion-icon>
-                                                    &nbsp;
+                                                    <i class="fa fa-book"></i> &nbsp;
                                                     Tugas
                                                 </a>
                                                 <a class="dropdown-item py-2"
                                                     href="{{ route('createResources', $classrooms->slug) }}">
-                                                    <ion-icon name="book-outline" class="ion-medium"></ion-icon> &nbsp;
+                                                    <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
                                                     Materi
                                                 </a>
                                                 <a class="dropdown-item py-2"
                                                     href="{{ route('createQuezzes', $classrooms->slug) }}">
-                                                    <ion-icon name="bookmarks-outline" class="ion-medium"></ion-icon>&nbsp;
+                                                    <i class="fa fa-question-circle-o" aria-hidden="true"></i>&nbsp;
                                                     Kuis
                                                 </a>
                                             </div>
@@ -104,7 +103,8 @@
                                             <div class="dropdown-menu">
                                                 <a type="button" class=" dropdown-item py-2" data-toggle="modal"
                                                     data-target="#exampleModalCenter">
-                                                    <ion-icon name="person" class="ion-medium"></ion-icon>
+                                                    <i class="far fa-user"></i>
+
                                                     &nbsp;Pengguna Kelas
                                                 </a>
                                                 <a class="dropdown-item py-2"
