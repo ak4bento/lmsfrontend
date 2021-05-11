@@ -1,17 +1,5 @@
 @extends('frontend.layouts.app') 
-@push('name')
-    <style>
-        .title-hover{
-            color:black;
-            font-size: 18px; 
-            font-weight: bold;
-        }
-        .title-hover:hover{
-            cursor: pointer;
-            color:#3b72ca;
-        }
-    </style>
-@endpush
+
 @section('content')
     <div class="container">
         <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">

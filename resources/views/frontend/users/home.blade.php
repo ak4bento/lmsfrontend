@@ -12,6 +12,9 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
         }
 
+        .fixme{
+            margin-bottom: 17px;
+        }
     </style>
 @endpush
 @section('content')
@@ -19,8 +22,8 @@
         @include('adminlte-templates::common.errors')
         <div class="row">
 
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                {{-- <div class="fixme"> --}}
+            <div class="col-sm-3 col-md-3 col-lg-3 ">
+                <div class="fixme">
                     <div class="card card-primary card-outline ">
                         <div class="card-body box-profile">
                             <div class="text-center">
@@ -83,7 +86,7 @@
                     <!-- /.card -->
     
                     <!-- About Me Box -->
-                    <div class="card card-primary">
+                    {{-- <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Kelas Saya</h3>
                         </div>
@@ -105,9 +108,9 @@
                             @endforelse
                         </div>
                         <!-- /.card-body -->
-                    </div>
+                    </div> --}}
                     <!-- /.card -->
-                {{-- </div> --}}
+                </div>
             </div>
             <!-- /.col -->
             <div class="col-lg-9 col-md-9 col-sm-12">

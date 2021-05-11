@@ -11,6 +11,45 @@
             color:#3b72ca;
             border-bottom: 1px solid #3b72ca;
         }
+
+        .tooltips {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltips .tooltipstext {
+            font-size: 12px;
+            visibility: hidden;
+            width: auto;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 4px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltips .tooltipstext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgb(27, 27, 27) transparent transparent transparent;
+        }
+
+        .tooltips:hover .tooltipstext {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 @endpush
 @section('content')
@@ -82,10 +121,15 @@
                                 <div class="row">
                                     <div class="col-9">
                                         <div class="row">
-                                            <a  href="{{route('classroom.detail',$item->slug)}}"
-                                                target="_blank"
-                                                class="title-hover">
-                                                {{ $item->title }}
+                                            <a href="{{route('classroom.detail',$item->slug)}}"
+                                                target="_blank" 
+                                                class="title-hover tooltips">
+                                                @if (strlen($item->title) < 30)
+                                                    {{ $item->title }}
+                                                @else
+                                                    {{ substr($item->title,0,30) }}...
+                                                @endif
+                                                <strong class="tooltipstext">{{ $item->title }}</strong>
                                             </a>
                                         </div>
                                         <div class="row align-items-center">
@@ -114,7 +158,7 @@
                                         </div>
                                     </div>
                                     <div class="col-8">
-                                        <a href="{{ url('class-detail/') }}/{{ $item->slug }}"
+                                        <a href="{{route('classroom.detail',$item->slug)}}"
                                             class="btn btn-sm btn-primary float-right" >
                                             Lihat Kelas
                                         </a>
