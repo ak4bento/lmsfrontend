@@ -37,9 +37,38 @@
                 cursor: pointer;
             }
 
+            .bg-overlay {
+                background: linear-gradient(rgba(0, 0, 0, 0.219), rgba(0, 0, 0, 0.363)), url("{{asset('tesbanner.png')}}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                color: #fff;
+                height:100vh;
+                padding-top: 50px;
+            }
+            .hover-latar:hover{
+                cursor: pointer;
+            }
         </style>
     @endpush
     <div class="container">
+        {{-- <div
+            @hasanyrole('owner')
+            data-toggle="tooltip" data-placement="bottom" title="Ganti Latar" 
+            @endhasanyrole
+
+            class="content-header  bg-overlay  @hasanyrole('owner')hover-latar @endhasanyrole" 
+            style="margin-bottom: 10px; height: 25vh;background-color: #1b5cb8;border-radius:10px;">
+            <div class="container p-3">
+                <div class="row">
+                    <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
+                </div>
+            </div>
+        </div> --}}
+        
         <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">
             <div class="container">
                 <div class="row">

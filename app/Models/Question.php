@@ -62,7 +62,7 @@ class Question extends Model
      */
     public static $rules = [
         'question_type' => 'required|string|max:191',
-        'answers' => 'required|string',
+        // 'answers' => 'required|string',
         'content' => 'required|string',
         // 'scoring_method' => 'required|string|max:191',
         // 'created_by' => 'required|integer',

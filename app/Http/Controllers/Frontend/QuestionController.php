@@ -82,6 +82,7 @@ class QuestionController extends AppBaseController
         $input = $request->all();
         $input['scoring_method'] = "default";
         $input['created_by'] = auth()->user()->id;
+        $input['answers'] = json_encode(array());
 
         $question = $this->questionRepository->create($input);
         $data;
