@@ -19,9 +19,18 @@
 @endpush
 @section('content')
     <div class="container">
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
+            <div class="container ">
+                <div class="row">
+                    <a style="font-size: 2.5em">Profil</a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">Lorem ipsum dolor sit amet.</a>
+                </div>
+            </div>
+        </div>
         @include('adminlte-templates::common.errors')
         <div class="row">
-
             <div class="col-sm-3 col-md-3 col-lg-3 ">
                 <div class="fixme">
                     <div class="card card-primary card-outline ">

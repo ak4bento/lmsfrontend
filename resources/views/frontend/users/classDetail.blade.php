@@ -48,17 +48,26 @@
             }
             .hover-latar:hover{
                 cursor: pointer;
+                background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('tesbanner.png')}}");
+                background-repeat: no-repeat;
+                background-position: center center;
+                color: #fff;
+                height:100vh;
+                padding-top: 50px;
             }
         </style>
     @endpush
     <div class="container">
         {{-- <div
             @hasanyrole('owner')
-            data-toggle="tooltip" data-placement="bottom" title="Ganti Latar" 
+                data-toggle="modal"
+                data-togglebtn="tooltip" 
+                data-placement="bottom" 
+                title="Ganti Latar" 
             @endhasanyrole
 
             class="content-header  bg-overlay  @hasanyrole('owner')hover-latar @endhasanyrole" 
-            style="margin-bottom: 10px; height: 25vh;background-color: #1b5cb8;border-radius:10px;">
+            style="margin-bottom: 10px; height: 25vh;border-radius:10px;">
             <div class="container p-3">
                 <div class="row">
                     <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
@@ -69,7 +78,7 @@
             </div>
         </div> --}}
         
-        <div class="jumbotron jumbotron-fluid text-white p-5" style="background-color: #1b5cb8;border-radius: 10px ;">
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
             <div class="container">
                 <div class="row">
                     <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
