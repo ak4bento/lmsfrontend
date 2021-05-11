@@ -6,6 +6,7 @@
         <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="{{asset('template-login/style.css')}}" />
         <title>Sign in & Sign up Form</title>
+        <link rel="shortcut icon" href="/sejawat-logo-mobile.png">
     </head>
     <body>
         <div class="container">
