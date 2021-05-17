@@ -43,7 +43,6 @@
            
         </style>
     @if(!is_null($media))
-
         <style>
              .bg-overlay {
                 background: linear-gradient(rgba(0, 0, 0, 0.137), rgba(0, 0, 0, 0.226)), url("{{asset('files')}}/{{$media->file_name}}");
@@ -56,6 +55,9 @@
                 /* height:25vh; */
                 padding-top: 50px;
             }
+        </style>
+        @if ($classroomUsersCount > 0)
+        <style> 
             .bg-overlay:hover{
                 cursor: pointer; 
                 background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('files')}}/{{$media->file_name}}");
@@ -65,6 +67,7 @@
                 color: #fff;
             }
         </style>
+        @endif
     @else
         <style>
             .bg-overlay {
@@ -78,6 +81,11 @@
                 height:25vh;
                 padding-top: 50px;
             }
+        </style>
+        @if ($classroomUsersCount > 0)
+
+        <style>
+
             .bg-overlay:hover{
                 cursor: pointer; 
                 background: linear-gradient(#1e5aad, #154588); 
@@ -87,16 +95,20 @@
                 color: #fff;
             }
         </style>
+        @endif
 
     @endif
     <div class="container">
         <div
             @hasanyrole('owner')
+            @if ($classroomUsersCount > 0)
+
                 data-toggle="modal"
                 data-togglebtn="tooltip" 
                 data-placement="bottom" 
                 title="Ganti Latar" 
                 data-target="#banner"
+            @endif
             @endhasanyrole
            
             class="content-header @hasanyrole('owner') hover-latar @endhasanyrole bg-overlay p-5">
@@ -110,6 +122,8 @@
             </div>
         </div>
         @hasanyrole('owner')
+        @if ($classroomUsersCount > 0)
+
         <div class="modal fade" id="banner" tabindex="-1" role="dialog" aria-labelledby="bannerTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -140,6 +154,8 @@
                 </div>
             </div>
         </div>
+        @endif
+
         @endhasanyrole
         
         {{-- @if(is_null($media))
