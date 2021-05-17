@@ -140,7 +140,10 @@ class ClassroomController extends Controller
                     ->where('classrooms.slug',$slug)
                     ->where('classrooms.deleted_at',null)
                     ->first();
-
+        
+        $media      = Media::where('media_type', 'banner')->where('media_id', $classrooms->id)->latest('created_at')->first();
+        // dd($media);
+        // if(is_null($media))
         $teachables = DB::table('teachables')
                     ->select('teachables.*')
                     ->where('teachables.classroom_id',$classrooms->id)
@@ -180,6 +183,7 @@ class ClassroomController extends Controller
         return view('frontend.users.classDetail')
                 ->with('classroomUsersCount', $classroomUsers->count())
                 ->with('classroomUsers', $classroomUsers)
+                ->with('media', $media)
                 ->with('classrooms', $classrooms)
                 ->with('subjects',$subjects)
                 ->with('classroomTeacher',$classroomTeacher)

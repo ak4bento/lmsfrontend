@@ -1,5 +1,8 @@
 @extends('frontend.layouts.app') @section('content')
-    @push('page_css')
+
+@push('page_css')
+    <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
+    <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
         <style>
             .ion-medium {
                 font-size: 16px;
@@ -37,37 +40,67 @@
                 cursor: pointer;
             }
 
-            .bg-overlay {
-                background: linear-gradient(rgba(0, 0, 0, 0.219), rgba(0, 0, 0, 0.363)), url("{{asset('tesbanner.png')}}");
+           
+        </style>
+    @if(!is_null($media))
+
+        <style>
+             .bg-overlay {
+                background: url("{{ asset('files') }}/{{$media->file_name}}"); 
+                margin-bottom:10px;
+                border-radius:10px;
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-position: center center;
                 color: #fff;
-                height:100vh;
+                height:25vh;
                 padding-top: 50px;
             }
-            .hover-latar:hover{
+            .bg-overlay:hover{
                 cursor: pointer;
-                background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('tesbanner.png')}}");
+                /* background: linear-gradient(rgba(0, 0, 0, 0.233), rgba(0, 0, 0, 0.616),url("{{ asset('files') }}/{{$media->file_name}}")); */
+                background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('files')}}/{{$media->file_name}}");
                 background-repeat: no-repeat;
+                background-size: cover;
                 background-position: center center;
                 color: #fff;
-                height:100vh;
-                padding-top: 50px;
             }
         </style>
-    @endpush
+    @else
+        <style>
+            .bg-overlay {
+                background: linear-gradient(#206dda, #1b5cb8); 
+                margin-bottom:10px;
+                border-radius:10px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                color: #fff;
+                height:25vh;
+                padding-top: 50px;
+            }
+            .bg-overlay:hover{
+                cursor: pointer; 
+                background: linear-gradient(#1e5aad, #154588); 
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                color: #fff;
+            }
+        </style>
+
+    @endif
     <div class="container">
-        {{-- <div
+        <div
             @hasanyrole('owner')
                 data-toggle="modal"
                 data-togglebtn="tooltip" 
                 data-placement="bottom" 
                 title="Ganti Latar" 
+                data-target="#banner"
             @endhasanyrole
-
-            class="content-header  bg-overlay  @hasanyrole('owner')hover-latar @endhasanyrole" 
-            style="margin-bottom: 10px; height: 25vh;border-radius:10px;">
+           
+            class="content-header @hasanyrole('owner') hover-latar @endhasanyrole bg-overlay p-5">
             <div class="container p-3">
                 <div class="row">
                     <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
@@ -76,19 +109,52 @@
                     <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
                 </div>
             </div>
-        </div> --}}
-        
-        <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
-            <div class="container">
-                <div class="row">
-                    <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
-                </div>
-                <div class="row">
-                    <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
+        </div>
+        @hasanyrole('owner')
+        <div class="modal fade" id="banner" tabindex="-1" role="dialog" aria-labelledby="bannerTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="container-fluid">
+                            <span style="font-size: 20px" id="exampleModalLongTitle">
+                                Ganti latar
+                            </span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <form method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- Name Field -->
+                                    <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                        <input type="file" name="file" id="file" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         
+                    </form>
                 </div>
             </div>
         </div>
-
+        @endhasanyrole
+        
+        {{-- @if(is_null($media))
+            <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
+                <div class="container">
+                    <div class="row">
+                        <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
+                    </div>
+                    <div class="row">
+                        <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
+                    </div>
+                </div>
+            </div>
+        @endif --}}
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -410,6 +476,75 @@
     </div>
 @endsection
 @push('page_scripts')
+<script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script> 
+    <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
+
+    <script>
+        let slug = "{{$classrooms->slug}}";
+        let rute = "{{ url('class-detail/banner') }}/"+slug;
+        // rute = rute + slug;
+        const inputElement = document.querySelector('input[id="file"]');
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginImageCrop);
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        FilePond.registerPlugin(FilePondPluginImageTransform);
+        const pond = FilePond.create( 
+            inputElement,
+            { 
+                
+                allowFileSizeValidation:true,
+                maxFileSize:2048000,
+                allowImageCrop:true,
+                imageCropAspectRatio:'5:1',
+                allowImagePreview:true,
+                labelFileSizeNotAvailable:'',
+                labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
+                acceptedFileTypes: ['image/png'],
+                fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+                    resolve(type);
+                })
+            },
+            {
+                imageResizeTargetWidth: 600,
+                imageCropAspectRatio: 1,
+                imageTransformVariants: {
+                    thumb_medium_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 1200,
+                        height: 245,
+                        },
+                    };
+                    return transforms;
+                    },
+                    thumb_small_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 1200,
+                        height: 245,
+                        },
+                    };
+                    return transforms;
+                    },
+                },
+            } 
+        );
+        
+        FilePond.setOptions({
+            server: {
+                url : rute,
+                method: 'POST',
+                headers :{
+                   'X-CSRF-TOKEN':'{{ csrf_token() }}'
+                }
+            }
+        });
+    </script>
     <script>
         $(".dropdown-add").click(function(e) {
             e.preventDefault();
