@@ -26,7 +26,7 @@
 
                         if(is_null($teachables) || $teachables==0)
                             $teachables = 1;
-                            
+
                         $progress = DB::table('progress')
                             ->select('*')
                             ->where('class_id',$class->classroom_id)
@@ -35,7 +35,7 @@
                     @endphp
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{ $progress / $teachables * 100 }}%"
-                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ $progress / $teachables * 100 }} % 
+                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ $progress / $teachables * 100 }} %
                         </div>
                     </div>
                 </div>
