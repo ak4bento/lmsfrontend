@@ -46,23 +46,22 @@
 
         <style>
              .bg-overlay {
-                background: url("{{ asset('files') }}/{{$media->file_name}}"); 
+                background: linear-gradient(rgba(0, 0, 0, 0.137), rgba(0, 0, 0, 0.226)), url("{{asset('files')}}/{{$media->file_name}}");
                 margin-bottom:10px;
                 border-radius:10px;
                 background-repeat: no-repeat;
                 background-size: cover;
-                background-position: center center;
+                background-position: right;
                 color: #fff;
-                height:25vh;
+                /* height:25vh; */
                 padding-top: 50px;
             }
             .bg-overlay:hover{
-                cursor: pointer;
-                /* background: linear-gradient(rgba(0, 0, 0, 0.233), rgba(0, 0, 0, 0.616),url("{{ asset('files') }}/{{$media->file_name}}")); */
+                cursor: pointer; 
                 background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('files')}}/{{$media->file_name}}");
                 background-repeat: no-repeat;
                 background-size: cover;
-                background-position: center center;
+                background-position: right;
                 color: #fff;
             }
         </style>
