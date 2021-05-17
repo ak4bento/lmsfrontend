@@ -18,6 +18,7 @@
             font-size: 12px;
             visibility: hidden;
             width: auto;
+            min-width: 100px;
             background-color: #555;
             color: #fff;
             text-align: center;

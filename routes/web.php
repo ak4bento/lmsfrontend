@@ -19,6 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/flash-card', function () {
+    return view('frontend.flash_card.index');
+});
 Route::post('/class-detail/banner/{slug}', [App\Http\Controllers\Frontend\UploadController::class, 'banner'])->name('classroom.detail.banner');
 
 Route::group(['middleware' => ['role:student|teacher|owner']], function () {
