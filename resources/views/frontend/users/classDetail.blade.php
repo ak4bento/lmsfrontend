@@ -1,5 +1,8 @@
 @extends('frontend.layouts.app') @section('content')
-    @push('page_css')
+
+@push('page_css')
+    <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
+    <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
         <style>
             .ion-medium {
                 font-size: 16px;
@@ -19,7 +22,7 @@
             }
 
             .bookmark-active{
-                color:#174ea6;
+                color:#1b5cb8;
                 font-size:22px;
             }
 
@@ -37,16 +40,120 @@
                 cursor: pointer;
             }
 
+           
         </style>
-    @endpush
+    @if(!is_null($media))
+
+        <style>
+             .bg-overlay {
+                background: linear-gradient(rgba(0, 0, 0, 0.137), rgba(0, 0, 0, 0.226)), url("{{asset('files')}}/{{$media->file_name}}");
+                margin-bottom:10px;
+                border-radius:10px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: right;
+                color: #fff;
+                /* height:25vh; */
+                padding-top: 50px;
+            }
+            .bg-overlay:hover{
+                cursor: pointer; 
+                background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('files')}}/{{$media->file_name}}");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: right;
+                color: #fff;
+            }
+        </style>
+    @else
+        <style>
+            .bg-overlay {
+                background: linear-gradient(#206dda, #1b5cb8); 
+                margin-bottom:10px;
+                border-radius:10px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                color: #fff;
+                height:25vh;
+                padding-top: 50px;
+            }
+            .bg-overlay:hover{
+                cursor: pointer; 
+                background: linear-gradient(#1e5aad, #154588); 
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center center;
+                color: #fff;
+            }
+        </style>
+
+    @endif
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
-            <div class="container">
-                <h1 class="display-4"><strong>{{ $classrooms->title }}</strong> </h1>
-                <p class="lead">{{ $classrooms->subject }}</p>
+        <div
+            @hasanyrole('owner')
+                data-toggle="modal"
+                data-togglebtn="tooltip" 
+                data-placement="bottom" 
+                title="Ganti Latar" 
+                data-target="#banner"
+            @endhasanyrole
+           
+            class="content-header @hasanyrole('owner') hover-latar @endhasanyrole bg-overlay p-5">
+            <div class="container p-3">
+                <div class="row">
+                    <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
+                </div>
             </div>
         </div>
-
+        @hasanyrole('owner')
+        <div class="modal fade" id="banner" tabindex="-1" role="dialog" aria-labelledby="bannerTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="container-fluid">
+                            <span style="font-size: 20px" id="exampleModalLongTitle">
+                                Ganti latar
+                            </span>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <form method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- Name Field -->
+                                    <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
+                                        <input type="file" name="file" id="file" accept="image/*">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                         
+                    </form>
+                </div>
+            </div>
+        </div>
+        @endhasanyrole
+        
+        {{-- @if(is_null($media))
+            <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
+                <div class="container">
+                    <div class="row">
+                        <a style="font-size: 2.5em">{{ $classrooms->title }} </a>
+                    </div>
+                    <div class="row">
+                        <a style="font-size: 1.5em">{{ $classrooms->subject }}</a>
+                    </div>
+                </div>
+            </div>
+        @endif --}}
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -67,18 +174,17 @@
 
                                                 <a class="dropdown-item py-2"
                                                     href="{{ route('createAssignment', $classrooms->slug) }}">
-                                                    <ion-icon name="document-text-outline" class="ion-medium"></ion-icon>
-                                                    &nbsp;
+                                                    <i class="fa fa-book"></i> &nbsp;
                                                     Tugas
                                                 </a>
                                                 <a class="dropdown-item py-2"
                                                     href="{{ route('createResources', $classrooms->slug) }}">
-                                                    <ion-icon name="book-outline" class="ion-medium"></ion-icon> &nbsp;
+                                                    <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
                                                     Materi
                                                 </a>
                                                 <a class="dropdown-item py-2"
                                                     href="{{ route('createQuezzes', $classrooms->slug) }}">
-                                                    <ion-icon name="bookmarks-outline" class="ion-medium"></ion-icon>&nbsp;
+                                                    <i class="fa fa-question-circle-o" aria-hidden="true"></i>&nbsp;
                                                     Kuis
                                                 </a>
                                             </div>
@@ -100,7 +206,8 @@
                                             <div class="dropdown-menu">
                                                 <a type="button" class=" dropdown-item py-2" data-toggle="modal"
                                                     data-target="#exampleModalCenter">
-                                                    <ion-icon name="person" class="ion-medium"></ion-icon>
+                                                    <i class="far fa-user"></i>
+
                                                     &nbsp;Pengguna Kelas
                                                 </a>
                                                 <a class="dropdown-item py-2"
@@ -244,7 +351,7 @@
                                                 <img src="{{ asset('study.png') }}" style="max-width: 50px"
                                                     class="img-fluid">
                                             </div> --}}
-                                            <div class="col col-lg-10 col-md-10 col-sm-10">
+                                            <div class="col-10 col-lg-10 col-md-10 col-sm-10">
                                                 <div class="row">
                                                     @if ($teachable->teachable_type == 'quiz')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
@@ -286,7 +393,7 @@
                                                         {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}</span>
                                                 </div>
                                             </div>
-                                            <div class="col col-lg-2 col-md-2 col-sm-2">
+                                            <div class="col-2 col-lg-2 col-md-2 col-sm-2">
                                                 @hasanyrole('teacher')
                                                 @if ($classroomUsersCount > 0)
                                                     <div class="dropdown">
@@ -368,6 +475,75 @@
     </div>
 @endsection
 @push('page_scripts')
+<script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script> 
+    <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
+
+    <script>
+        let slug = "{{$classrooms->slug}}";
+        let rute = "{{ url('class-detail/banner') }}/"+slug;
+        // rute = rute + slug;
+        const inputElement = document.querySelector('input[id="file"]');
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginImageCrop);
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        FilePond.registerPlugin(FilePondPluginImageTransform);
+        const pond = FilePond.create( 
+            inputElement,
+            { 
+                
+                allowFileSizeValidation:true,
+                maxFileSize:2048000,
+                allowImageCrop:true,
+                imageCropAspectRatio:'5:1',
+                allowImagePreview:true,
+                labelFileSizeNotAvailable:'',
+                labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
+                acceptedFileTypes: ['image/png'],
+                fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+                    resolve(type);
+                })
+            },
+            {
+                imageResizeTargetWidth: 600,
+                imageCropAspectRatio: 1,
+                imageTransformVariants: {
+                    thumb_medium_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 1200,
+                        height: 245,
+                        },
+                    };
+                    return transforms;
+                    },
+                    thumb_small_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 1200,
+                        height: 245,
+                        },
+                    };
+                    return transforms;
+                    },
+                },
+            } 
+        );
+        
+        FilePond.setOptions({
+            server: {
+                url : rute,
+                method: 'POST',
+                headers :{
+                   'X-CSRF-TOKEN':'{{ csrf_token() }}'
+                }
+            }
+        });
+    </script>
     <script>
         $(".dropdown-add").click(function(e) {
             e.preventDefault();
@@ -426,7 +602,7 @@
                 text: 'Tekan Tombol "Gabung" Jika Anda Ingin Bergabung Dikelas ini!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Gabung',
                 cancelButtonText: 'Batal'
@@ -495,14 +671,32 @@
 
 
     <script>
-        
+         $(".delete").click(function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+            console.log('url', url);
+            Swal.fire({
+                title: 'Anda Yakin?',
+                text: "Anda tidak akan dapat mengembalikan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#174ea6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = url;
+                }
+            })
+        });
         $(".not_allowed").click(function(e) {
             e.preventDefault();
             Swal.fire({
                 title: 'Tidak di Izinkan',
                 text: "Anda tidak terdaftar atau  tidak diizankan membuka materi ini!",
                 icon: 'warning',
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Batal',
                 confirmButtonText: 'Tutup'

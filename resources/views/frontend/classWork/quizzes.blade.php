@@ -32,7 +32,7 @@
 
                             <div class="col-md-9">
                                 @endhasanyrole
-                                @hasanyrole('teacher')
+                                @hasanyrole('teacher|owner')
 
                                 <div class="col-md-12">
                                     @endhasanyrole
@@ -97,8 +97,12 @@
                                 <div class="col-md-3">
                                     <div class="card card-primary card-outline">
                                         <div class="card-body box-profile">
-                                            <h3  style="text-align:center" class="profile-username">Nilai</h3>
-                                            @if ($quiz_attempts >= $teachable->max_attempts_count)
+                                            @if(is_null($grade))
+                                                <h3  style="text-align:center" class="profile-username">Status Penyelesaian Kuis</h3>
+                                            @else 
+                                                <h3  style="text-align:center" class="profile-username">Nilai</h3>
+                                            @endif
+                                            @if ($quiz_attempts >= 1)
                                             <h1 style="text-align:center">
                                                 {{ $grade->grade }}
                                             </h1>
@@ -141,7 +145,7 @@
                 text: "Setelah menekan Mulai, waktu kuis akan berjalan!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Batal',
                 confirmButtonText: 'Mulai'

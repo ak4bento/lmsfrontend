@@ -57,9 +57,26 @@ class ClassroomController extends AppBaseController
      */
     public function store(CreateClassroomRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|unique:classrooms,title',
-        ]);
+        $rules = [
+            'title' => "required|unique:classrooms,title|max:35",
+            'code' => "max:10|unique:classrooms,code",
+            'description' => 'max:120',
+        ];
+
+        $messages = [
+            'title.required' => 'Kelas tidak boleh kosong.',
+            'description.max' => 'Deskripsi maksimal 120 karakter.',
+            'code.max'=> 'Kode maksimal 10 karakter.',
+            'code.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.max'=> 'Kelas maksimal 35 karakter.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+            
         $input = $request->all();
         $input['created_by']=auth()->user()->id; 
         $input['slug'] = Str::slug($request->title); 
@@ -126,9 +143,28 @@ class ClassroomController extends AppBaseController
         $input['created_by']=auth()->user()->id;
         $input['slug'] = Str::slug($request->title); 
  
-        $validated = $request->validate([
-            'title' => 'required|unique:classrooms',
-        ]);
+        $rules = [
+            'title' => "required|unique:classrooms,title,$id|max:35",
+            'code' => "max:10|unique:classrooms,code,$id",
+            'description' => 'max:120|required',
+        ];
+        
+
+        $messages = [
+            'title.required' => 'Kelas tidak boleh kosong.',
+            'description.max' => 'Deskripsi maksimal 120 karakter.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'code.max'=> 'Kode maksimal 10 karakter.',
+            'code.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.max'=> 'Kelas maksimal 35 karakter.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+        
         if (empty($classroom)) {
             Flash::error('Classroom not found');
 

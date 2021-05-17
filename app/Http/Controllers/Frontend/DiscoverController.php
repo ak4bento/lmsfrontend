@@ -41,9 +41,12 @@ class DiscoverController extends Controller
                 $classrooms = $classrooms->where('subjects.title','like','%'.$value.'%');
             }
         }
-        $classrooms = $classrooms->get();
-
         $subjects = Subject::all();
+        $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->paginate(10);
+        if($request->ajax()){
+            $view = view('frontend.users.card_classroom_discover',compact('subjects','classrooms'))->render();
+            return response()->json(['html'=>$view]);
+        }
 
         return view('frontend.users.discover')->with('classrooms', $classrooms)->with('subjects',$subjects);
     }

@@ -104,11 +104,11 @@
     </div>
 </div>
 @push('page_scripts')
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script> 
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+    <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script> 
+    <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
 
     <script>

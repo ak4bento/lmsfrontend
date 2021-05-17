@@ -38,7 +38,7 @@ class ClassesController extends Controller
             }
         }
 
-        $classrooms = $classrooms->get();
+        $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->get();
         // dd($classrooms);
 
         $subjects = Subject::all();

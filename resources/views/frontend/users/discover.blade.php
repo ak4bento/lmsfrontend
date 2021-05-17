@@ -1,12 +1,17 @@
-@extends('frontend.layouts.app') @section('content')
+@extends('frontend.layouts.app') 
+
+@section('content')
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
-            <div class="container">
-                <h1 class="display-4"><strong>Discover</strong> </h1>
-                <p class="lead">Temukan kelas terbaik untuk anda.</p>
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
+            <div class="container ">
+                <div class="row">
+                    <a style="font-size: 2.5em">Discover</a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">Temukan kelas terbaik untuk anda.</a>
+                </div>
             </div>
         </div>
-
         <div class="row">
             <div class="col-md-4 col-lg-3 col-sm-12">
                 <div class="card fixme">
@@ -20,6 +25,7 @@
                                     placeholder="Cari Kelas" />
                             </div>
                             <ul class="list-group list-group-unbordered mb-3">
+
                                 @foreach ($subjects as $subject)
                                     <div class="form-group clearfix">
                                         <div class="icheck-primary d-inline">
@@ -37,54 +43,53 @@
                 </div>
             </div>
             <div class="col-lg-9 col-md-8 col-sm-12">
-                <div class="row">
-                    @foreach ($classrooms as $item)
-                        <div class="col-lg-6 col-sm-12 col-md-12">
-                            <div class="card card-primary card-outline" >
-                                <div class="card-header text-muted border-bottom-0">
-                                    <label>
-                                        {{ $item->subject }}
-                                    </label>
-                                </div>
-                                <div class="card-body pt-0">
-                                    <div class="row">
-                                        <div class="col-9">
-                                            <label class="lead">{{ $item->title }}</label>
-                                            <p>
-                                                {{ substr($item->description, 0, 70) }} <br> <a
-                                                    href="{{ url('class-detail/') }}/{{ $item->slug }}">Selengkapnya...</a>
-                                            </p>
-                                        </div>
-                                        <div class="col-3 text-center">
-                                            @if(is_null(App\Models\Media::where('media_type', 'user')->where('media_id', $item->created_by)->latest('created_at')->first()))
-                                            <img src="{{ asset('files/') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', $item->created_by)->latest('created_at') ->first()->file_name ?? 'avatar.png'}}"
-                                                class="img-circle img-fluid" />
-                                            @else
-                                                <img src="{{ asset('avatar.png') }}"
-                                                    class="img-circle img-fluid" />
-                                            @endif
-                                            {{ App\Models\User::find($item->created_by)->name }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer" style="border-radius: 10px; background-color: #ffff">
-                                    <div class="text-right">
-                                        <a href="#" class="btn btn-sm bg-teal">
-                                            <strong>
-                                                {{ App\Models\ClassroomUser::where('classroom_id', $item->id)->count() }}
-                                            </strong>&nbsp;Bergabung
-                                        </a>
-                                        <a href="{{ url('class-detail/') }}/{{ $item->slug }}"
-                                            class="btn btn-sm btn-primary">
-                                            Lihat Kelas
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <div class="row" id="post-data">
+                    @include('frontend.users.card_classroom_discover')
+                </div>
+                <div class="ajax-load text-center" style="display: none">
+                    <img src="{{ asset('preview.gif') }}" width="100px">
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@push('page_scripts')
+    <script>
+        $(document.body).on('touchmove', onScroll);
+        $(window).on('scroll', onScroll);
+
+        function loadMoreData(page){
+            $.ajax({
+                url:'?page='+page,
+                type:'get',
+                beforeSend:function(){
+                    $('.ajax-load').show();
+                }
+            })
+            .done(function(data){
+                if(data.html == ""){
+                    $('.ajax-load').html("");
+                    return;
+                }
+                $('.ajax-load').hide();
+                $("#post-data").append(data.html);
+            })
+            .fail(function(jqXHR,ajaxOptions,thrownError){
+                alert("server not res");
+            });
+        }
+        var page = 1; 
+        function onScroll(){ 
+            // if($(window).scrollTop() >= ($(document).height() - $(window).height())) {
+            if( $(window).scrollTop() + window.innerHeight >= document.body.scrollHeight ){
+                console.log('jalan 1')
+                page++;
+                loadMoreData(page);
+            }
+        }
+
+        $(document).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+@endpush

@@ -34,7 +34,7 @@
                             <div class="d-flex justify-content-between">
                                 <p class="card-title">{{ $quizzes->title }}</p>
 
-                                <a class="btn btn-primary btn-sm delete"
+                                <a class="btn btn-primary btn-sm"
                                     href="{{ route('createQuestion', ['slug' => $classroom->slug, 'id' => $quizzes->id]) }}">
                                     Tambah Soal</a>
                             </div>

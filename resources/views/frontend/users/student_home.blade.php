@@ -28,10 +28,9 @@
                             $teachables = 1;
 
                         $progress = DB::table('progress')
-                            ->select('progress.*')
-                            ->join('teachables', 'teachables.teachable_id', '=', 'progress.progress_id')
-                            ->where('progress.class_id',$class->classroom_id)
-                            ->where('teachables.deleted_at',null)
+                            ->select('*')
+                            ->where('class_id',$class->classroom_id)
+                            ->where('user_id',Auth::user()->id)
                             ->count();
                     @endphp
                     <div class="progress">

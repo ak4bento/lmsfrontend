@@ -180,16 +180,12 @@ class UserController extends AppBaseController
 
         if(is_null($profile)){
             $validated = $request->validate([
-                'full_name' => 'required',
-                'phone_number' => "required|unique:profiles,phone_number|regex:/^([0-9\s\-\+\(\)]*)$/|min:10",
-                'address' => 'required', 
+                'phone_number' => "unique:profiles,phone_number|regex:/^([0-9\s\-\+\(\)]*)$/|min:10",
             ]);
             Profile::create($data);
         }else{
             $validated = $request->validate([
-                'full_name' => 'required',
                 'phone_number' => "required|unique:profiles,phone_number,$profile->id|regex:/^([0-9\s\-\+\(\)]*)$/|min:10",
-                'address' => 'required', 
             ]);
             $profile = $this->profileRepository->update($data, $profile['id']);
         }

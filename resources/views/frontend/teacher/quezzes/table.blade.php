@@ -24,7 +24,7 @@
                         {{ $quiz_attempt->created_at }}
                     </td>
                     <td>
-                        {{ App\Models\Grade::where('gradeable_id', $quiz_attempt->id)->where('gradeable_type', 'quiz')->first()->grade }}
+                        {{ App\Models\Grade::where('gradeable_id', $quiz_attempt->id)->where('gradeable_type', 'quiz')->first()->grade ?? "" }}
                     </td>
                 </tr>
             @endforeach

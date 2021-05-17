@@ -19,7 +19,7 @@
             }
 
             .bookmark-active{
-                color:#174ea6;
+                color:#1b5cb8;
                 font-size:22px;
             }
 
@@ -36,13 +36,16 @@
         </style>
     @endpush
     <div class="container">
-        <div class="jumbotron jumbotron-fluid text-white" style="background-color: #174ea6;border-radius: 10px ;">
-            <div class="container">
-                <h1 class="display-4"><strong>Backpack</strong> </h1>
-                <p class="lead">Temukan materi yang ada telah markah</p>
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
+            <div class="container ">
+                <div class="row">
+                    <a style="font-size: 2.5em">Backpack</a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">Temukan materi yang ada telah markah</a>
+                </div>
             </div>
         </div>
-
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -51,83 +54,93 @@
                     <div class="row">
                         <!-- /.col -->
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            @foreach ($teachables as $teachable)
-                                <div class="card" id="card">
-                                    <div class="card-body">
-                                        <div class="row align-items-center">
-                                            {{-- <div class="col col-lg-1 col-md-1 col-sm-1">
-                                                <img src="{{ asset('study.png') }}" style="max-width: 50px"
-                                                    class="img-fluid">
-                                            </div> --}}
-                                            <div class="col col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                                <div class="row">
-                                                    @if ($teachable->teachable_type == 'quiz')
-                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
-                                                            style="font-weight: bold;"
-                                                            href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
+                            @forelse ($teachables as $teachable)
+                            <div class="card" id="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        {{-- <div class="col col-lg-1 col-md-1 col-sm-1">
+                                            <img src="{{ asset('study.png') }}" style="max-width: 50px"
+                                                class="img-fluid">
+                                        </div> --}}
+                                        <div class="col-10 col-lg-10 col-md-10 col-sm-10">
+                                            <div class="row">
+                                                @if ($teachable->teachable_type == 'quiz')
+                                                    <a data-toggle="tooltip" data-placement="top" title="Lihat Kuis"
+                                                        style="font-weight: bold;"
+                                                        href="{{ route('class.work.detail', ['quizzes', $teachable->teachable_id]) }}">
 
-                                                            @if (App\Models\Progress::where('progress_type', 'quizzes')->where('progress_id', $teachable->teachable_id)->where('class_id', $teachable->classroom_id)->where('user_id', Auth::user()->id)->count() > 0)
-                                                            <i class="fas fa-check-circle text-success"></i>
-                                                            @endif
+                                                        @if (App\Models\Progress::where('progress_type', 'quizzes')->where('progress_id', $teachable->teachable_id)->where('class_id', $teachable->classroom_id)->where('user_id', Auth::user()->id)->count() > 0)
+                                                        <i class="fas fa-check-circle text-success"></i>
+                                                        @endif
 
-                                                            {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                                        </a>
-                                                    @elseif ($teachable->teachable_type == 'resource')
-                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat Materi"
-                                                            style="font-weight: bold;"
-                                                            href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
+                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                    </a>
+                                                @elseif ($teachable->teachable_type == 'resource')
+                                                    <a data-toggle="tooltip" data-placement="top" title="Lihat Materi"
+                                                        style="font-weight: bold;"
+                                                        href="{{ route('class.work.detail', ['resources', $teachable->teachable_id]) }}">
 
-                                                            @if (App\Models\Progress::where('progress_type', 'resources')->where('progress_id', $teachable->teachable_id)->where('class_id', $teachable->classroom_id)->where('user_id', Auth::user()->id)->count() > 0)
-                                                            <i class="fas fa-check-circle text-success"></i>
-                                                            @endif
+                                                        @if (App\Models\Progress::where('progress_type', 'resources')->where('progress_id', $teachable->teachable_id)->where('class_id', $teachable->classroom_id)->where('user_id', Auth::user()->id)->count() > 0)
+                                                        <i class="fas fa-check-circle text-success"></i>
+                                                        @endif
 
-                                                            {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                                        </a>
-                                                    @elseif ($teachable->teachable_type == 'assignment')
-                                                        <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
-                                                            style="font-weight: bold;"
-                                                            href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
+                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                    </a>
+                                                @elseif ($teachable->teachable_type == 'assignment')
+                                                    <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
+                                                        style="font-weight: bold;"
+                                                        href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
 
-                                                            @if (App\Models\Progress::where('progress_type', 'assignments')->where('progress_id', $teachable->teachable_id)->where('class_id', $teachable->classroom_id)->where('user_id', Auth::user()->id)->count() > 0)
-                                                            <i class="fas fa-check-circle text-success"></i>
-                                                            @endif
+                                                        @if (App\Models\Progress::where('progress_type', 'assignments')->where('progress_id', $teachable->teachable_id)->where('class_id', $teachable->classroom_id)->where('user_id', Auth::user()->id)->count() > 0)
+                                                        <i class="fas fa-check-circle text-success"></i>
+                                                        @endif
 
-                                                            {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
-                                                        </a>
-                                                    @endif
-                                                </div>
-                                                <div class="row">
-                                                    <span style="color: grey;font-size:10px"> 
-                                                        Diposting
-                                                        {{App\Models\User::find($teachable->created_by)->name}}
-                                                        -
-                                                        {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->first() ))
-                                                    <i 
-                                                        data-teachable_id="{{$teachable->id}}"
-                                                        data-toggle="tooltip" 
-                                                        data-placement="left"  
-                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
-                                                        aria-hidden="true">
-                                                    </i>
-                                                @else
-                                                    <i 
-                                                        data-teachable_id="{{$teachable->id}}"
-                                                        data-toggle="tooltip" 
-                                                        data-placement="left"  
-                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
-                                                        aria-hidden="true">
-                                                    </i>
+                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                    </a>
                                                 @endif
                                             </div>
+                                            <div class="row">
+                                                <span style="color: grey;font-size:10px"> 
+                                                    Diposting
+                                                    {{App\Models\User::find($teachable->created_by)->name}}
+                                                    -
+                                                    {{ date('d-m-Y H:iA', strtotime($teachable->updated_at)) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 col-lg-2 col-md-2 col-sm-2">
+                                            @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->first() ))
+                                                <i 
+                                                    data-teachable_id="{{$teachable->id}}"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="left"  
+                                                    class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
+                                                    aria-hidden="true">
+                                                </i>
+                                            @else
+                                                <i 
+                                                    data-teachable_id="{{$teachable->id}}"
+                                                    data-toggle="tooltip" 
+                                                    data-placement="left"  
+                                                    class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
+                                                    aria-hidden="true">
+                                                </i>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
+                            @empty
+                            <div class="card" id="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            Belum ada meteri yang di markah 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforelse 
                         </div>
                     </div>
                 </div>
@@ -202,7 +215,7 @@
                 title: 'Tidak di Izinkan',
                 text: "Anda tidak terdaftar atau  tidak diizankan membuka materi ini!",
                 icon: 'warning',
-                confirmButtonColor: '#174ea6',
+                confirmButtonColor: '#1b5cb8',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Batal',
                 confirmButtonText: 'Tutup'

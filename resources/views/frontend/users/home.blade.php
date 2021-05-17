@@ -12,15 +12,27 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
         }
 
+        .fixme{
+            margin-bottom: 17px;
+        }
     </style>
 @endpush
 @section('content')
     <div class="container">
+        <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
+            <div class="container ">
+                <div class="row">
+                    <a style="font-size: 2.5em">Profil</a>
+                </div>
+                <div class="row">
+                    <a style="font-size: 1.5em">Lorem ipsum dolor sit amet.</a>
+                </div>
+            </div>
+        </div>
         @include('adminlte-templates::common.errors')
         <div class="row">
-
-            <div class="col-sm-3 col-md-3 col-lg-3">
-                {{-- <div class="fixme"> --}}
+            <div class="col-sm-3 col-md-3 col-lg-3 ">
+                <div class="fixme">
                     <div class="card card-primary card-outline ">
                         <div class="card-body box-profile">
                             <div class="text-center">
@@ -33,7 +45,7 @@
     
                             <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
     
-                            <p class="text-muted text-center">
+                            <p class="text-muted text-center"  style="text-transform: uppercase;">
                                 @foreach (Auth::user()->getRoleNames() as $roles)
                                     {{ $roles }}
                                 @endforeach
@@ -83,7 +95,7 @@
                     <!-- /.card -->
     
                     <!-- About Me Box -->
-                    <div class="card card-primary">
+                    {{-- <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Kelas Saya</h3>
                         </div>
@@ -105,9 +117,9 @@
                             @endforelse
                         </div>
                         <!-- /.card-body -->
-                    </div>
+                    </div> --}}
                     <!-- /.card -->
-                {{-- </div> --}}
+                </div>
             </div>
             <!-- /.col -->
             <div class="col-lg-9 col-md-9 col-sm-12">
@@ -115,7 +127,7 @@
                 @hasanyrole('student')
                 @include('frontend.users.student_home')
                 @endhasanyrole
-                @hasanyrole('teacher')
+                @hasanyrole('teacher|owner')
                 @include('frontend.users.teacher_home')
                 @endhasanyrole
                 <!-- /.card -->

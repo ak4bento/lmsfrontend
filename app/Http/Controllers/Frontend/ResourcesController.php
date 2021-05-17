@@ -14,6 +14,7 @@ use Auth;
 use App\Models\Media;
 use App\Models\ClassroomUser;
 use App\Models\TeachableUser;
+use Validator;
 
 class ResourcesController extends AppBaseController
 {
@@ -48,6 +49,8 @@ class ResourcesController extends AppBaseController
                     ->select('classrooms.*','users.id as user_id','users.name','model_has_roles.role_id')
                     ->where('classrooms.slug',$slug)
                     ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',1) 
+                    ->where('model_has_roles.role_id','!=',2) 
                     ->where('classroom_user.deleted_at',null)
                     ->get();
                     // dd($user);
@@ -55,11 +58,25 @@ class ResourcesController extends AppBaseController
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
+    { 
+        $rules = [
             'title' => 'required|unique:resources,title',
-            'file' => 'required|mimes:doc,docx,pdf,mp4,mp3'
-        ]);
+            'file' => 'required|mimes:doc,docx,pdf,mp4,mp3',
+            'description' => 'required'
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'file.required'=> 'File tidak boleh kosong.',
+            'file.mimes'=> 'Format file yang diperbolehkan : doc, docx, pdf, mp4, mp3 .',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
         $input = $request->all();
         $input['type']='video';
 
@@ -145,9 +162,12 @@ class ResourcesController extends AppBaseController
                     ->join('users', 'users.id', '=', 'classroom_user.user_id')
                     ->join('classrooms', 'classrooms.id', '=', 'classroom_user.classroom_id')
                     ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
-                    ->select('classrooms.*','users.id as user_id','users.name')
-                    ->where('model_has_roles.role_id','!=',3) 
+                    ->select('classrooms.*','users.id as user_id','users.name','classroom_user.id as classroom_user_id')
                     ->where('classrooms.slug',$slug)
+                    ->where('classroom_user.deleted_at',null)
+                    ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',1) 
+                    ->where('model_has_roles.role_id','!=',2) 
                     ->get();
         // dd($user);
         $teachableUser = DB::table('teachable_users')
@@ -170,6 +190,25 @@ class ResourcesController extends AppBaseController
 
     public function update($id, Request $request)
     {
+        $rules = [
+            'title' => "required|unique:resources,title,$id",
+            'file' => 'required|mimes:doc,docx,pdf,mp4,mp3',
+            'description' => 'required'
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'file.required'=> 'File tidak boleh kosong.',
+            'file.mimes'=> 'Format file yang diperbolehkan : doc, docx, pdf, mp4, mp3 .',
+        ];
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','resource')->where('deleted_at',null)->select('*')->first();
         $model = Media::where('media_type', 'resource')->where('media_id',$id)->first();
         $files = $request->file('file');
@@ -238,6 +277,12 @@ class ResourcesController extends AppBaseController
                     TeachableUser::create($value);
                 }
             }
+            foreach($input['user_id'] as $user_id){
+                $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
+                $value['classroom_user_id'] = $ClassroomUser['id'];
+                $value['teachable_id'] = $teachable['id'];
+                TeachableUser::create($value);
+            } 
         }else{
             $TeachableUser = TeachableUser::where('teachable_id',$teachable['id'])->delete();
         }

@@ -20,6 +20,7 @@ use App\Models\QuizAttempt;
 use Alert;
 use Illuminate\Support\Str;
 use App\Repositories\ClassroomUserRepository;
+use Validator;
 
 class ClassroomController extends Controller
 {
@@ -50,9 +51,26 @@ class ClassroomController extends Controller
     public function storeClassroom(Request $request)
     {
         $input = $request->all();
-        $validated = $request->validate([
-            'title' => 'required|unique:classrooms,title',
-        ]);
+        $rules = [
+            'title' => "required|unique:classrooms,title|max:35",
+            'code' => "max:10|unique:classrooms,code",
+            'description' => 'max:120|required',
+        ];
+
+        $messages = [
+            'title.required' => 'Kelas tidak boleh kosong.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'description.max' => 'Deskripsi maksimal 120 karakter.',
+            'code.max'=> 'Kode maksimal 10 karakter.',
+            'code.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.max'=> 'Kelas maksimal 35 karakter.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
         $input['created_by']=auth()->user()->id;
         $input['slug'] = Str::slug($request->title);
 
@@ -77,10 +95,26 @@ class ClassroomController extends Controller
 
     public function updateClassroom(Request $request, $id)
     {
-        $validated = $request->validate([
-            'title' => "required|unique:classrooms,title,$id",
-        ]);
+        $rules = [
+            'title' => "required|unique:classrooms,title,$id|max:35",
+            'code' => "max:10|unique:classrooms,code,$id",
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+        ];
 
+        $messages = [
+            'title.required' => 'Kelas tidak boleh kosong.',
+            'description.max' => 'Deskripsi maksimal 120 karakter.',
+            'description.required' => 'Deskripsi tidak boleh kosong.',
+            'code.max'=> 'Kode maksimal 10 karakter.',
+            'code.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.unique'=> 'Kode harus unik atau tidak boleh sama.',
+            'title.max'=> 'Kelas maksimal 35 karakter.'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
         $input = $request->all();
 
         $Classroom = Classroom::find($id);
@@ -106,7 +140,10 @@ class ClassroomController extends Controller
                     ->where('classrooms.slug',$slug)
                     ->where('classrooms.deleted_at',null)
                     ->first();
-
+        
+        $media      = Media::where('media_type', 'banner')->where('media_id', $classrooms->id)->latest('created_at')->first();
+        // dd($media);
+        // if(is_null($media))
         $teachables = DB::table('teachables')
                     ->select('teachables.*')
                     ->where('teachables.classroom_id',$classrooms->id)
@@ -146,6 +183,7 @@ class ClassroomController extends Controller
         return view('frontend.users.classDetail')
                 ->with('classroomUsersCount', $classroomUsers->count())
                 ->with('classroomUsers', $classroomUsers)
+                ->with('media', $media)
                 ->with('classrooms', $classrooms)
                 ->with('subjects',$subjects)
                 ->with('classroomTeacher',$classroomTeacher)
@@ -209,7 +247,7 @@ class ClassroomController extends Controller
                 }
             }
 
-            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('user_id',auth()->id())->where('class_id',$teachable->classroom_id)->first())) {
                 $this->progress($slug, $id, $teachable->classroom_id);
             }
 
@@ -256,11 +294,14 @@ class ClassroomController extends Controller
                     Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
                     return redirect()->back();
                 }
+
                 $media  = Media::where('media_id', $classWork->id)->where('media_type', 'assigment')->where('deleted_at', null)->where('custom_properties', '{"user":'.auth()->user()->id.'}')->first();
-                $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
+                if(!is_null($media)){
+                    $grade  = Grade::where('gradeable_id', $media->id)->where('gradeable_type', 'media')->select('*')->first();
+                }
             }
 
-            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('user_id',auth()->id())->where('class_id',$teachable->classroom_id)->first())) {
                 $this->progress($slug, $id, $teachable->classroom_id);
             }
 
@@ -317,11 +358,11 @@ class ClassroomController extends Controller
                     Alert::warning('Anda tidak dapat mengakses halaman ini, silahkan hubungi pengajar');
                     return redirect()->back();
                 }
-                $QuizAttempt  = QuizAttempt::where('teachable_user_id', $teachableUser->id)->where('deleted_at', null)->first();
-                $grade  = Grade::where('gradeable_id', $QuizAttempt->id)->where('gradeable_type', 'quiz')->select('*')->first();
+                if(!is_null($QuizAttempt  = QuizAttempt::where('teachable_user_id', $teachableUser->id)->where('deleted_at', null)->first()))
+                    $grade  = Grade::where('gradeable_id', $QuizAttempt->id)->where('gradeable_type', 'quiz')->select('*')->first();
             }
 
-            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('class_id',$teachable->classroom_id)->first())) {
+            if (is_null(Progress::where('progress_type',$slug)->where('progress_id',$id)->where('user_id',auth()->id())->where('class_id',$teachable->classroom_id)->first())) {
                 $this->progress($slug, $id, $teachable->classroom_id);
             }
 

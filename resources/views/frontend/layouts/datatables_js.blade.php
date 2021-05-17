@@ -45,10 +45,14 @@
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
+<script src="https://use.fontawesome.com/6614c0786d.js"></script>
+
 <!-- bs-custom-file-input -->
 <script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
 <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script>
     $(function() {
         $('.select2').select2({
@@ -102,7 +106,7 @@
             text: "Anda tidak akan dapat mengembalikan ini!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#174ea6',
+            confirmButtonColor: '#1b5cb8',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus',
             cancelButtonText: 'Batal'
@@ -112,13 +116,14 @@
             }
         })
     });
+
     var fixmeTop = $('.fixme').offset().top;
     $(window).scroll(function() {
         var currentScroll = $(window).scrollTop();
         if (currentScroll >= fixmeTop) {
             $('.fixme').css({
                 position: 'sticky',
-                top: '10px',
+                top: '100px',
             });
         } else {
             $('.fixme').css({

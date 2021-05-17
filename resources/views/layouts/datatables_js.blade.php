@@ -95,7 +95,7 @@
             text: "Anda tidak akan dapat mengembalikan ini!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#174ea6',
+            confirmButtonColor: '#1b5cb8',
             cancelButtonColor: '#d33',
             cancelButtonText:'Batal',
             confirmButtonText: 'Yes, Delete '

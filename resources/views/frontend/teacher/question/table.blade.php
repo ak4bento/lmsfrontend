@@ -27,10 +27,10 @@
                             class='btn btn-primary btn-sm'>
                             <i class="far fa-edit"></i>
                         </a>
-                        <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $question->id }}"
+                        <a class="btn btn-danger btn-sm delete" data-id="{{ $question->id }}"
                             data-url="{{ route('destroyQuestion', ['slug' => $classroom->slug, 'quiz_id' => $quizzes->id, 'id' => $question->id]) }}">
                             <i class="far fa-trash-alt"></i>
-                        </button>
+                        </a>
 
                     </td>
                 </tr>
@@ -38,3 +38,29 @@
         </tbody>
     </table>
 </div>
+@push('page_scripts')
+    <script>
+        
+    $(".delete").click(function(e) {
+        e.preventDefault();
+        let url = $(this).data('url');
+
+        console.log('url 1', url);
+        Swal.fire({
+            title: 'Anda Yakin?',
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#1b5cb8',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.value) {
+                window.location.href = url;
+            }
+        })
+    });
+
+    </script>
+@endpush

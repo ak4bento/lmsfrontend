@@ -16,12 +16,6 @@
         id="content">{{ isset($question) ? $question->content : '' }}</textarea>
 </div>
 
-<!-- Answers Field -->
-<div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('answers', 'Answers:') !!}
-    <input type="text" class="form-control" name="answers" value="{{ isset($question) ? $question->answers : '' }}">
-</div>
-
 <div class="form-group col-sm-12 col-lg-12" style="margin-top: 30px">
     <h2 style="font-size: 30px">
         Pilihan

@@ -28,6 +28,7 @@
                             $teachables = 1;
                         $progress = DB::table('progress')
                             ->where('class_id',$class->classroom_id)
+                            ->where('user_id',Auth::user()->id)
                             ->count();
                     @endphp
                     <div class="progress">

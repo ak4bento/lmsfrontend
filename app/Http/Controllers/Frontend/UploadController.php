@@ -11,6 +11,7 @@ use DB;
 use App\Models\Subject;
 use App\Models\Media;
 use Alert;
+use Response; 
 
 class UploadController extends Controller
 {
@@ -20,7 +21,7 @@ class UploadController extends Controller
     public function __construct(ClassroomRepository $classroomRepo)
     {
         $this->classroomRepository = $classroomRepo;
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -57,5 +58,41 @@ class UploadController extends Controller
 
         // return route('class.work.detail', ['slug' => 'assignments', 'id' => $request['media_id']])->with('classWork',$classWork);
         // return view('frontend.classWork.assignments')->with('classWork',$classWork);
+    }
+
+    public function banner(Request $request, $slug)
+    {
+        $input = $request->all();
+        $user_id = 2;
+        $files = $request->file('file');
+        $classrooms = DB::table('classrooms')
+                    ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
+                    ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
+                    ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
+                    ->where('classrooms.slug',$slug)
+                    ->where('classrooms.deleted_at',null)
+                    ->first();
+        $collection_name = $request->file('file')->extension();
+
+        $input['type']   = 'image';
+
+        $fileName = $files->getClientOriginalName();
+        $name = pathinfo($fileName, PATHINFO_FILENAME);
+
+        $data['name'] = $name;
+        $data['file_name'] = $fileName;
+        $data['disk'] = 'public';
+        $data['collection_name'] = $collection_name;
+        $data['order_column'] = '1';
+        $data['media_type'] = 'banner';
+        $data['size'] = $files->getSize();
+
+        $data['media_id'] =$classrooms->id;
+        $data['custom_properties'] = json_encode(array('user' => $user_id));
+
+        Media::create($data);
+        $files->move('files',$files->getClientOriginalName());
+
+        return Response::json($data);
     }
 }
