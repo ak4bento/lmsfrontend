@@ -85,6 +85,10 @@ class AssignmentController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
+        
+        if(is_null($classrooms)){
+            abort(404);
+        }
 
         $classroomUser = ClassroomUser::where('classroom_id', $classrooms->id)->where('deleted_at', null)->get();
         $user = DB::table('classroom_user')
@@ -163,6 +167,9 @@ class AssignmentController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
+        if(is_null($classrooms)){
+            abort(404);
+        }
         $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('teachables.*')->first();
         $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('assignments.*')->first();
         $classroomUser = ClassroomUser::where('classroom_id', $classrooms->id)->where('deleted_at', null)->get();

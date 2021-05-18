@@ -140,7 +140,9 @@ class ClassroomController extends Controller
                     ->where('classrooms.slug',$slug)
                     ->where('classrooms.deleted_at',null)
                     ->first();
-        
+        if(is_null($classrooms)){
+            abort(404);
+        }
         $media      = Media::where('media_type', 'banner')->where('media_id', $classrooms->id)->latest('created_at')->first();
         // dd($media);
         // if(is_null($media))
@@ -217,7 +219,9 @@ class ClassroomController extends Controller
     {
         $user = Auth::user();
         $classWork = DB::table($slug)->where('id',$id)->first();
-
+        if(is_null($classWork)){
+            abort(404);
+        }
         $discussions = DB::table('discussions')->where('discussable_type',$slug)->where('discussable_id',$id)->get();
 
         if($slug =='resources'){
