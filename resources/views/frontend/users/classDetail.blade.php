@@ -31,7 +31,8 @@
                 font-size:22px;
             }
             .bookmark-clik:hover{
-                transform: scale(1.20);
+                transform: scale(1.50);
+                transition: 0.5s;
                 cursor: pointer;
                 color:#3b72ca;
             }
@@ -341,9 +342,9 @@
                                         </h3>
                                     </div>
                                     <div class="card-body">
-                                        <dl>
+                                        <p style="text-align:justify">
                                             {{ $classrooms->description }}
-                                        </dl>
+                                        </p>
                                         @hasanyrole('student')
                                         @if ($classroomUsersCount < 1)
                                             <a class="btn btn-primary btn-block join-class"
@@ -464,6 +465,7 @@
                                                 @hasanyrole('student|owner')
                                                 @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->where('user_id',auth()->user()->id)->first() ))
                                                     <i 
+                                                        style="font-size: 20px"
                                                         data-slug="{{$classrooms->slug}}"
                                                         data-teachable_id="{{$teachable->id}}" 
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
@@ -471,6 +473,7 @@
                                                     </i>
                                                 @else
                                                     <i 
+                                                        style="font-size: 20px"
                                                         data-slug="{{$classrooms->slug}}"
                                                         data-teachable_id="{{$teachable->id}}"  
                                                         class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
