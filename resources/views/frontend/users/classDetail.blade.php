@@ -79,7 +79,6 @@
                 background-size: cover;
                 background-position: center center;
                 color: #fff;
-                height:25vh;
                 padding-top: 50px;
             }
         </style>
@@ -87,7 +86,6 @@
         @if ($classroomUsersCount > 0)
 
         <style>
-
             .bg-overlay:hover{
                 cursor: pointer; 
                 background: linear-gradient(#1e5aad, #154588); 
