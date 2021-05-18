@@ -33,16 +33,20 @@ class DiscoverController extends Controller
     {
         //dd($request->all());
         $classrooms = $this->query();
-        foreach ($request->all() as $key => $value) {
-            if ($key != 'search') {
-                $classrooms = $classrooms->orWhere('subjects.id', $key);
+        $classrooms = $classrooms->where(function ($val) use ($request)
+        {
+            # code...
+            foreach ($request->all() as $key => $value) {
+                if ($key != 'search') {
+                    $val->orWhere('subjects.id', $key);
+                }
             }
-            if ($key == 'search') {
-                $classrooms = $classrooms->where('subjects.title','like','%'.$value.'%');
-            }
-        }
+        });
+        
         $subjects = Subject::all();
-        $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->paginate(10);
+
+        $classrooms = $classrooms->where('classrooms.title','like','%'.$request['search'].'%')->orderBy('classrooms.created_at','DESC')->paginate(10);
+        // $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->paginate(10);
         if($request->ajax()){
             $view = view('frontend.users.card_classroom_discover',compact('subjects','classrooms'))->render();
             return response()->json(['html'=>$view]);

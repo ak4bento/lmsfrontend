@@ -83,6 +83,7 @@
                 padding-top: 50px;
             }
         </style>
+        @hasanyrole('owner')
         @if ($classroomUsersCount > 0)
 
         <style>
@@ -97,6 +98,8 @@
             }
         </style>
         @endif
+        @endhasanyrole
+
 
     @endif
     <div class="container">
