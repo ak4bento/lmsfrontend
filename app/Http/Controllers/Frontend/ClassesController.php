@@ -28,19 +28,21 @@ class ClassesController extends Controller
      */
     public function index(Request $request)
     {
+        // DB::enableQueryLog();
         $classrooms = $this->query();
-        foreach ($request->all() as $key => $value) {
-            if ($key != 'search') {
-                $classrooms = $classrooms->where('subjects.id', $key);
+        $classrooms = $classrooms->where(function ($val) use ($request)
+        {
+            # code...
+            foreach ($request->all() as $key => $value) {
+                if ($key != 'search') {
+                    $val->orWhere('subjects.id', $key);
+                }
             }
-            if ($key == 'search') {
-                $classrooms = $classrooms->where('subjects.title','like','%'.$value.'%');
-            }
-        }
+        });
 
-        $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->get();
+        $classrooms = $classrooms->where('classrooms.title','like','%'.$request['search'].'%')->orderBy('classrooms.created_at','DESC')->get();
         // dd($classrooms);
-
+        // dd(DB::getQueryLog());
         $subjects = Subject::all();
 
         return view('frontend.users.classes')->with('classrooms', $classrooms)->with('subjects',$subjects);
