@@ -8,7 +8,15 @@
         overflow-x: hidden; 
         overflow-y: scroll; 
         -webkit-overflow-scrolling: touch;
-        
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-color: #1b5cb838;
+    }
+
+    .border{
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-color: #1b5cb838;
     }
  
     #style-3::-webkit-scrollbar-track
@@ -59,85 +67,85 @@
             </div>
         </div>
 
-        <section class="content">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input hover-all" onclick="checkAll(this)"  id="selectAll" name="select_all" type="checkbox">
-                                <label style="width: 100px; font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover-all d-block custom-control-label" for="selectAll">
-                                    Pilih Semua
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <section class="content"> 
             <div class="row" >
                 @php
                     $count = 1;
                 @endphp 
-
-                {{-- kategori 1 --}}
-                <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                    <ul class="list-group" id="style-3">
-                        @for ($b = 1; $b <= 20; $b++,$count++)
-                        <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input hover"  id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
-                                <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
+                <div class="card col-lg-12">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                                <div class="card py-2" style="padding-left: 20px">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input hover-all" onclick="checkAll(this)"  id="selectAll" name="select_all" type="checkbox">
+                                        <label style="width: 100px; font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover-all d-block custom-control-label" for="selectAll">
+                                            Pilih Semua
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                        </li>
-                        @endfor
-                    </ul>
-                </div>
-
-                {{-- kategori 2 --}}
-                <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                    <ul class="list-group" id="style-3">
-                        @for ($b = 1; $b <= 20; $b++,$count++)
-                        <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input hover"  id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
-                                <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
+                            {{-- kategori 1 --}}
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
+                                <ul class="list-group" id="style-3">
+                                    @for ($b = 1; $b <= 20; $b++,$count++)
+                                    <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input hover"  id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
+                                            <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
+                                        </div>
+                                    </li>
+                                    @endfor
+                                </ul>
                             </div>
-                        </li>
-                        @endfor
-                    </ul>
-                </div>
-
-                {{-- kategori 3 --}}
-                <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                    <ul class="list-group" id="style-3">
-                        @for ($b = 1; $b <= 20; $b++,$count++)
-                        <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input hover"  id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
-                                <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
-                            </div>
-                        </li>
-                        @endfor
-                    </ul>
-                </div>
-
-                {{-- kategori 4 --}}
-                <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                    <ul class="list-group" id="style-3">
-                        @for ($b = 1; $b <= 20; $b++,$count++)
-                        <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input hover" id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
-                                <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
-                            </div>
-                        </li>
-                        @endfor
-                    </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
     
+                            {{-- kategori 2 --}}
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
+                                <ul class="list-group" id="style-3">
+                                    @for ($b = 1; $b <= 20; $b++,$count++)
+                                    <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input hover"  id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
+                                            <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
+                                        </div>
+                                    </li>
+                                    @endfor
+                                </ul>
+                            </div>
+    
+                            {{-- kategori 3 --}}
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
+                                <ul class="list-group" id="style-3">
+                                    @for ($b = 1; $b <= 20; $b++,$count++)
+                                    <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input hover"  id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
+                                            <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
+                                        </div>
+                                    </li>
+                                    @endfor
+                                </ul>
+                            </div>
+    
+                            {{-- kategori 4 --}}
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
+                                <ul class="list-group" id="style-3">
+                                    @for ($b = 1; $b <= 20; $b++,$count++)
+                                    <li class="list-group-item rounded-0 hover" onclick="listClick({{$count}})">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input hover" id="categori[{{$count}}]" name="categori[{{$count}}]" type="checkbox">
+                                            <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="customCheck[{{$count}}]">Margherita</label>
+                                        </div>
+                                    </li>
+                                    @endfor
+                                </ul>
+                            </div>
+    
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
+                
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -171,7 +179,9 @@
                                     </select>
                                 </div>
                                 <div class="col-lg-2">
-                                    <button class="btn btn-block btn-primary">Buat Kuis</button>
+                                    <button class="btn btn-block btn-primary" data-toggle="modal"
+                                    data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
+                                    data-target="#quizZummary">Buat Kuis</button>
                                 </div>
                             </div>
                         </div>
@@ -179,6 +189,36 @@
                 </div>
             </div>
         </section>
+        <div class="modal fade" id="quizZummary" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="container-fluid" style="text-align: center">
+                            <span style="font-size: 20px" id="exampleModalLongTitle">
+                                Ringkasan Kuis
+                            </span>
+                        </div>
+                    </div>
+                    <form action="{{ route('updateProfile', Auth::user()->id) }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                     
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="container-fluid">
+                                <button type="submit" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
+                                    data-placement="top" title="Simpan">Mulai</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection 
 @push('page_scripts')

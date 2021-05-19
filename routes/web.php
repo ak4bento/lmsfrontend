@@ -172,3 +172,10 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
 
 
 
+
+
+Route::resource('flashcardCategories', App\Http\Controllers\FlashcardCategoriesController::class);
+
+Route::resource('flashcardQuestions', App\Http\Controllers\FlashcardQuestionController::class);
+
+Route::resource('flashcardSubjects', App\Http\Controllers\FlashcardSubjectController::class);

@@ -154,3 +154,27 @@
         <p>Bookmarks</p>
     </a>
 </li> --}}
+<li class="nav-item">
+    <a href="{{ route('flashcardCategories.index') }}"
+       class="nav-link {{ Request::is('flashcardCategories*') ? 'active' : '' }}">
+        <p>Flashcard Categories</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('flashcardQuestions.index') }}"
+       class="nav-link {{ Request::is('flashcardQuestions*') ? 'active' : '' }}">
+        <p>Flashcard Questions</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('flashcardSubjects.index') }}"
+       class="nav-link {{ Request::is('flashcardSubjects*') ? 'active' : '' }}">
+        <p>Flashcard Subjects</p>
+    </a>
+</li>
+
+
