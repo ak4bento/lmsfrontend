@@ -42,7 +42,7 @@ class DiscoverController extends Controller
                 }
             }
         });
-        
+
         $subjects = Subject::all();
 
         $classrooms = $classrooms->where('classrooms.title','like','%'.$request['search'].'%')->orderBy('classrooms.created_at','DESC')->paginate(10);
@@ -62,5 +62,31 @@ class DiscoverController extends Controller
         ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
         ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
         ->where('classrooms.deleted_at',null);
+    }
+
+    public function ajaxRequest(Request $request)
+    {
+        $classrooms = $this->query();
+        $subjects = Subject::all();
+        if (isset($request['search'])) {
+            $classrooms = $classrooms->where(function ($val) use ($request)
+            {
+                # code...
+                foreach ($request->all() as $key => $value) {
+                    if ($key != 'search') {
+                        $val->orWhere('subjects.id', $key);
+                    }
+                }
+            });
+
+            $classrooms = $classrooms->where('classrooms.title','like','%'.$request['search'].'%')->orderBy('classrooms.created_at','DESC')->paginate(10);
+        } else {
+            $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->paginate(10);
+        }
+        // dd($classrooms);
+
+        // $classrooms = $classrooms->orderBy('classrooms.created_at','DESC')->paginate(10);
+        $view = view('frontend.users.card_classroom_discover',compact('subjects','classrooms'))->render();
+        return response()->json(['html'=>$view]);
     }
 }
