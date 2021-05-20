@@ -53,6 +53,20 @@ class FlashcardCategoriesController extends Controller
         return Response::json($data);
     }
 
+    public function selected($id)
+    {
+        $data = FlashcardCategories::find($id);
+        // dd($data);
+        return Response::json($data);
+    }
+
+    public function unselected($id)
+    {
+        $data = FlashcardCategories::where("parent_id",$id)->get();
+        
+        return Response::json($data);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

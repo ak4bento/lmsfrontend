@@ -13,7 +13,7 @@
     }
 
     .style{
-        border-radius: 10px; 
+        border-radius: 5px; 
         font-family: sans-serif;
         background: linear-gradient(#206dda, #1b5cb8);
     }
@@ -105,8 +105,8 @@
                                 @foreach (App\Models\FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get() as $item)
                                 <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input hover" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
-                                        <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="category[{{ $item->id}}]">{{ $item->category}}</label>
+                                        <input class="custom-control-input hover" onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
+                                        <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category[{{ $item->id}}]">{{ $item->category}}</label>
                                     </div>
                                 </div>
                                 @endforeach
@@ -135,8 +135,8 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-12 p-0" style="margin-top:10px">
-                                <button class="btn btn-primary style" >Kategori </button>
+                            <div class="col-lg-12 p-0 btn-category" id="btn-category" style="margin-top:10px">
+                                {{-- <button class="btn btn-primary style" >Kategori </button> --}}
                             </div>
                         </div>
                     </div>
@@ -217,6 +217,86 @@
 @endsection 
 @push('page_scripts')
     <script>
+
+        checked_category = (id) => {
+            var rute = "{{ url('flashcard-selected') }}/" + id;
+            checkbox_id = 'category['+id+']';
+            var checkboxes = document.getElementById(checkbox_id);
+            console.log(checkboxes);
+            if(checkboxes.checked){
+                $.ajax({
+                    url: rute,
+                    type: 'get',
+                    success: function(response) { 
+                        console.log('ini on button select: ', response); 
+                        var data =  '<span class="btn btn-primary btn-sm style" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </span>';
+                        $(".btn-category").append(data);
+                    }
+                });
+            }
+            else {
+                rute = "{{ url('flashcard-unselected') }}/" + id;
+                btn_id = 'btn['+id+']';
+                var btn = document.getElementById(btn_id);
+                btn.remove();
+                console.log('222222 : ',btn_id);
+
+                $.ajax({
+                    url: rute,
+                    type: 'get',
+                    success: function(response) { 
+                        console.log('ini on button 2222: ', response); 
+                        $.each(response, function(key, value) {
+                       
+                            btn_id = 'btn['+value.id+']';
+                            btn = document.getElementById(btn_id);
+                            console.log('333333333 : ',btn_id);
+                            console.log('obeject btn 3', btn);
+                            if(btn != null)
+                                btn.remove();
+
+                            rute = "{{ url('flashcard-unselected') }}/" + value.id;
+                            btn_id = 'btn['+value.id+']';
+                            btn = document.getElementById(btn_id); 
+
+                            $.ajax({
+                                url: rute,
+                                type: 'get',
+                                success: function(response) { 
+                                    console.log('ini on button 3333: ', response); 
+                                    $.each(response, function(key, value) {
+                                
+                                        btn_id = 'btn['+value.id+']';
+                                        btn = document.getElementById(btn_id);
+                                        if(btn != null)
+                                            btn.remove();
+                                        rute = "{{ url('flashcard-unselected') }}/" + value.id;
+                                        btn_id = 'btn['+value.id+']';
+                                        btn = document.getElementById(btn_id); 
+                                        
+                                        $.ajax({
+                                            url: rute,
+                                            type: 'get',
+                                            success: function(response) { 
+                                                console.log('ini on button 4444: ', response); 
+                                                    $.each(response, function(key, value) {
+                                                
+                                                    btn_id = 'btn['+value.id+']';
+                                                    btn = document.getElementById(btn_id);
+                                                    if(btn != null)
+                                                        btn.remove();
+                                                });
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+        }
+
         first_category = (id) => {
 
             document.getElementById('second_category').innerHTML = "Loading...";
@@ -235,8 +315,8 @@
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" id="second_category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="second_category['+ value.id +']">'+ value.category +'</label>'+
+                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
+                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
                         $(".second_category").append(data);
@@ -258,8 +338,8 @@
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" id="second_category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="second_category['+ value.id +']">'+ value.category +'</label>'+
+                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
+                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
                                      
@@ -286,8 +366,8 @@
                         console.log('ini on value : ', value);
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" id="third_category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="third_category['+ value.id +']">'+ value.category +'</label>'+
+                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
+                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
 
@@ -313,8 +393,8 @@
 
                         var data =  '<div class="py-2 px-2 hover border-bottom" >'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" id="fourth_category['+ value.id +']" name="fourth_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="fourth_category['+ value.id +']">'+ value.category +'</label>'+
+                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="fourth_category['+ value.id +']" type="checkbox">'+
+                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
                         $(".fourth_category").append(data);

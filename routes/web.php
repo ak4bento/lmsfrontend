@@ -24,6 +24,9 @@ Route::get('/flashcard', function () {
 });
 
 Route::resource('flashcard-categories', App\Http\Controllers\Frontend\FlashcardCategoriesController::class);
+Route::get('flashcard-selected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'selected'])->name('flashcard.selected');
+Route::get('flashcard-unselected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'unselected'])->name('flashcard.unselected');
+
 Route::resource('flashcard-question', App\Http\Controllers\Frontend\FlashcardQuestionController::class);
 
 Route::get('flashcard-start', [App\Http\Controllers\Frontend\FlashcardQuestionController::class, 'start'])->name('flashcard.start');
