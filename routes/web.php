@@ -37,7 +37,7 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
 
     Route::post('/submit-quiz', [App\Http\Controllers\Frontend\QuizController::class, 'submitQuiz'])->name('submitQuiz');
     Route::get('all-quiz/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'index'])->name('allquiz');
-    
+
     // upload avatar
     Route::post('avatar-upload', [App\Http\Controllers\Frontend\UserController::class, 'avatar_upload'])->name('avatar_upload');
     // update profile
@@ -49,25 +49,25 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('edit-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'edit'])->name('editAssignment');
     Route::post('update-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'update'])->name('updateAssignment');
     Route::get('destroy-assignment/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'destroy'])->name('destroyAssignment');
-    
+
     //assignment teacher
     Route::get('all-assignment/{slug}/{id}', [App\Http\Controllers\Frontend\AssignmentController::class, 'index'])->name('allAssignment');
     Route::post('store-grade/{slug}', [App\Http\Controllers\Frontend\AssignmentController::class, 'gradeStore'])->name('gradeStore');
-    
+
     //teacher resources
     Route::get('create-resources/{slug}', [App\Http\Controllers\Frontend\ResourcesController::class, 'create'])->name('createResources');
     Route::post('store-resources', [App\Http\Controllers\Frontend\ResourcesController::class, 'store'])->name('storeResources');
     Route::get('edit-resources/{slug}/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'edit'])->name('editResources');
     Route::post('update-resources/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'update'])->name('updateResources');
     Route::get('destroy-resources/{id}', [App\Http\Controllers\Frontend\ResourcesController::class, 'destroy'])->name('destroyResources');
-    
+
     //teacher Quezzes
     Route::get('create-quezzes/{slug}', [App\Http\Controllers\Frontend\QuezzesController::class, 'create'])->name('createQuezzes');
     Route::post('store-quezzes', [App\Http\Controllers\Frontend\QuezzesController::class, 'store'])->name('storeQuezzes');
     Route::get('edit-quezzes/{slug}/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'edit'])->name('editQuezzes');
     Route::post('update-quezzes/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'update'])->name('updateQuezzes');
     Route::get('destroy-quezzes/{id}', [App\Http\Controllers\Frontend\QuezzesController::class, 'destroy'])->name('destroyQuezzes');
-    
+
     //teacher Question
     Route::get('create-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'create'])->name('createQuestion');
     Route::post('store-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'store'])->name('storeQuestion');
@@ -76,22 +76,23 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('destroy-question/{slug}/{quiz_id}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'destroy'])->name('destroyQuestion');
     Route::get('quiz/all-question/{slug}/{id}', [App\Http\Controllers\Frontend\QuestionController::class, 'index'])->name('showAllQuestion');
     Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
-    
+
     // owner classroom
     Route::get('create-classroom', [App\Http\Controllers\Frontend\ClassroomController::class,'createClassroom'])->name('createClassroom');
     Route::post('store-classroom', [App\Http\Controllers\Frontend\ClassroomController::class,'storeClassroom'])->name('storeClassroom');
     Route::get('edit-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'editClassroom'])->name('editClassroom');
     Route::post('update-classroom/{id}', [App\Http\Controllers\Frontend\ClassroomController::class,'updateClassroom'])->name('updateClassroom');
     Route::get('delete-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class,'destroyClassroom'])->name('destroyClassroom');
-    
+
     //owner classroom user
     Route::get('user-classroom/{slug}', [App\Http\Controllers\Frontend\UserController::class,'index'])->name('showUser');
     Route::post('store-teacher/{slug}', [App\Http\Controllers\Frontend\UserController::class,'store'])->name('storeTeacher');
     Route::get('delete-teacher/{slug}/{id}', [App\Http\Controllers\Frontend\UserController::class,'destroy'])->name('destroyTeacher');
-    
+
 
     Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home');
     Route::get('/discover', [App\Http\Controllers\Frontend\DiscoverController::class, 'index'])->name('discover');
+    Route::get('/discover/ajax', [App\Http\Controllers\Frontend\DiscoverController::class, 'ajaxRequest'])->name('ajax.request');
     Route::get('/class-detail/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'show'])->name('classroom.detail');
     Route::get('/class-work-detail/{slug}/{id}', [App\Http\Controllers\Frontend\ClassroomController::class, 'classWork'])->name('class.work.detail');
     Route::post('/class-work-detail/{slug}/{id}', [App\Http\Controllers\Frontend\ClassroomController::class, 'discussions'])->name('class.work.discussions');
@@ -108,9 +109,9 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('/join-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'joinClassroom'])->name('joinClassroom');
 
     Route::get('/get-time-quiz/{id}', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getTimeQuiz'])->name('getTimeQuiz');
-    
+
     Route::get('backpack', [App\Http\Controllers\Frontend\BookmarkController::class, 'index'])->name('backpack');
-    
+
 });
 
 Route::post('set-choice-item', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getChoiceItem'])->name('getChoiceItem');
@@ -157,21 +158,21 @@ Route::group(['middleware' => ['role:super'], 'prefix' => 'admin'], function () 
 
     Route::resource('questionChoiceItems', App\Http\Controllers\QuestionChoiceItemController::class);
     Route::get('get-choice-item/{id}', [App\Http\Controllers\QuestionChoiceItemController::class,'getChoiceItem']);
-    
+
     Route::resource('resources', App\Http\Controllers\ResourceController::class);
-    
+
     Route::resource('assignments', App\Http\Controllers\AssignmentController::class);
-    
+
     Route::resource('quizAttempts', App\Http\Controllers\QuizAttemptController::class);
-    
+
     Route::resource('teachableUsers', App\Http\Controllers\TeachableUserController::class);
-    
+
     Route::resource('grades', App\Http\Controllers\GradeController::class);
-    
+
     Route::resource('modelHasRoles', App\Http\Controllers\ModelHasRoleController::class);
-    
+
     Route::resource('roles', App\Http\Controllers\RoleController::class);
-    
+
     Route::resource('bookmarks', App\Http\Controllers\BookmarkController::class);
 });
 
