@@ -19,9 +19,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/flash-card', function () {
-    return view('frontend.flash_card.index');
+Route::get('/flashcard', function () {
+    return view('frontend.flashcard.index');
 });
+
+Route::resource('flashcard-categories', App\Http\Controllers\Frontend\FlashcardCategoriesController::class);
+
+
 Route::post('/class-detail/banner/{slug}', [App\Http\Controllers\Frontend\UploadController::class, 'banner'])->name('classroom.detail.banner');
 
 Route::group(['middleware' => ['role:student|teacher|owner']], function () {

@@ -50,7 +50,7 @@
                             <a href="{{ url('discover') }}" class="nav-link">Discover</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('flash-card') }}" class="nav-link">Flash Card</a>
+                            <a href="{{ url('flashcard') }}" class="nav-link">Flashcard</a>
                         </li>
 
 
