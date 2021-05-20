@@ -5,20 +5,27 @@
     .list-group{
         max-height: 300px;
         min-height: 300px;
-        margin-bottom: 10px;
         overflow-x: hidden; 
         overflow-y: scroll; 
         -webkit-overflow-scrolling: touch;
-        border-top-style: solid;
-        border-bottom-style: solid;
+        border-style: solid;
         border-color: #1b5cb838;
     }
 
     .border{
-        border-top-style: solid;
-        border-bottom-style: solid;
+        /* border-bottom-style:solid; */
+        /* border-width: thin;  */
+    }
+    .group{
+        max-height: 300px;
+        min-height: 300px;
+        overflow-x: hidden; 
+        overflow-y: scroll; 
+        -webkit-overflow-scrolling: touch;
+        border-style: solid;
         border-color: #1b5cb838;
     }
+
  
     .style-3::-webkit-scrollbar-track
     {
@@ -77,7 +84,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                <div class="card py-2" style="padding-left: 20px">
+                                <div class="card py-2" style="padding-left: 10px">
                                     <div class="custom-control custom-checkbox">
                                         <input class="custom-control-input hover-all" onclick="checkAll(this)"  id="selectAll" name="select_all" type="checkbox">
                                         <label style="width: 100px; font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover-all d-block custom-control-label" for="selectAll">
@@ -86,44 +93,44 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- kategori 1 --}}
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                                <ul class="list-group style-3" id="" style="border-left-style:solid ">
-                                    @foreach (App\Models\FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get() as $item)
-                                        <li class="list-group-item rounded-0 hover" onclick="first_category({{ $item->id}})">
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input hover" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
-                                                <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="category[{{ $item->id}}]">{{ $item->category}}</label>
-                                            </div>
-                                        </li>
-                                    @endforeach
-                                </ul>
+                            <div class="col-lg-3 p-0 group style-3" style="border-style: solid;border-width:thin ">
+                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
+                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
+                                </div>
+                                @foreach (App\Models\FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get() as $item)
+                                <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input hover" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
+                                        <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="category[{{ $item->id}}]">{{ $item->category}}</label>
+                                    </div>
+                                </div>
+                                @endforeach
                             </div>
-    
-                            {{-- kategori 2 --}}
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                                <ul class="list-group second_category style-3" id="second_category">
-                                     
-                                </ul>
+                            <div class="col-lg-3 p-0 group style-3 " style="border-style: solid;border-width:thin " >
+                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
+                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
+                                </div>
+                                <div class="second_category" id="second_category">
+
+                                </div>
                             </div>
-    
-                            {{-- kategori 3 --}}
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                                <ul class="list-group style-3 third_category" id="third_category">
-                                    
-                                </ul>
+                            <div class="col-lg-3 p-0 group style-3" style="border-style: solid;border-width:thin ">
+                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
+                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
+                                </div>
+                                <div class="third_category" id="third_category">
+
+                                </div>
                             </div>
-    
-                            {{-- kategori 4 --}}
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                                <ul class="list-group style-3 fourth_category" id="fourth_category">
-                                     
-                                </ul>
+                            <div class="col-lg-3 p-0 group style-3"  style="border-style: solid;border-width:thin ">
+                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
+                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
+                                </div>
+                                <div class="fourth_category" id="fourth_category">
+
+                                </div>
                             </div>
-    
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0">
-                
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -191,8 +198,8 @@
                         </div>
                         <div class="modal-footer">
                             <div class="container-fluid">
-                                <button type="submit" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
-                                    data-placement="top" title="Simpan">Mulai</button>
+                                <a href="" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
+                                    data-placement="top" title="Simpan">Mulai</a>
                             </div>
                         </div>
                     </form>
@@ -219,21 +226,20 @@
 
                     console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        var data = '<li class="list-group-item rounded-0 hover" onclick="third_category('+ value.id +')">'+
+                        var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover"  id="second_category['+ value.id +']" name="second_category[]" type="checkbox">'+
+                                            '<input class="custom-control-input hover" id="second_category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="second_category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
-                                    '</li>';
+                                    '</div>';
                         $(".second_category").append(data);
                     });
                 }
             });
-              
         }
 
         second_category = (id) => {
-            document.getElementById('third_category').innerHTML = "Loading...";
+            document.getElementById('third_category').innerHTML = "Loading...2";
             var rute = "{{ url('flashcard-categories') }}/" + id;
             $.ajax({
                 url: rute,
@@ -243,12 +249,13 @@
 
                     console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        var data = '<li class="list-group-item rounded-0 hover" onclick="third_category('+ value.id +')">'+
+                        var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover"  id="second_category['+ value.id +']" name="second_category[]" type="checkbox">'+
+                                            '<input class="custom-control-input hover" id="second_category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="second_category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
-                                    '</li>';
+                                    '</div>';
+                                     
                         $(".third_category").append(data);
                     });
                 }
@@ -270,13 +277,13 @@
                     console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
                         console.log('ini on value : ', value);
-
-                        var data = '<li class="list-group-item rounded-0 hover" onclick="fourth_category('+ value.id +')">'+
+                        var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover"  id="third_category['+ value.id +']" name="third_category[]" type="checkbox">'+
+                                            '<input class="custom-control-input hover" id="third_category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="third_category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
-                                    '</li>';
+                                    '</div>';
+
                         $(".third_category").append(data);
                     });
                 }
@@ -284,7 +291,7 @@
         } 
 
         fourth_category = (id) => {
-            document.getElementById('fourth_category').innerHTML = "Loading...3";
+            document.getElementById('fourth_category').innerHTML = "Loading...";
 
             var rute = "{{ url('flashcard-categories') }}/" + id;
             $.ajax({
@@ -297,12 +304,12 @@
                     $.each(response, function(key, value) {
                         console.log('ini on value : ', value);
 
-                        var data = '<li class="list-group-item rounded-0 hover">'+
+                        var data =  '<div class="py-2 px-2 hover border-bottom" >'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover"  id="fourth_category['+ value.id +']" name="fourth_category[]" type="checkbox">'+
+                                            '<input class="custom-control-input hover" id="fourth_category['+ value.id +']" name="fourth_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="fourth_category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
-                                    '</li>';
+                                    '</div>';
                         $(".fourth_category").append(data);
                     });
                 }
