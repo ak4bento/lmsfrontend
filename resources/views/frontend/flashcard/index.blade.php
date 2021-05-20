@@ -12,6 +12,11 @@
         border-color: #1b5cb838;
     }
 
+    .style{
+        border-radius: 10px; 
+        font-family: sans-serif;
+        background: linear-gradient(#206dda, #1b5cb8);
+    }
     .border{
         /* border-bottom-style:solid; */
         /* border-width: thin;  */
@@ -110,7 +115,7 @@
                                 <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
                                     <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
                                 </div>
-                                <div class="second_category" id="second_category">
+                                <div class="second_category style-3" id="second_category">
 
                                 </div>
                             </div>
@@ -130,7 +135,9 @@
 
                                 </div>
                             </div>
-                            
+                            <div class="col-lg-12 p-0" style="margin-top:10px">
+                                <button class="btn btn-primary style" >Kategori </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,7 +205,7 @@
                         </div>
                         <div class="modal-footer">
                             <div class="container-fluid">
-                                <a href="" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
+                                <a href="{{ route('flashcard.start') }}" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
                                     data-placement="top" title="Simpan">Mulai</a>
                             </div>
                         </div>

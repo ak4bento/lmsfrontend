@@ -14,6 +14,13 @@ class FlashcardQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function start()
+    {
+       
+        return view('frontend.flashcard.quiz');
+    }
+
     public function index()
     {
         //

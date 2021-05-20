@@ -26,6 +26,7 @@ Route::get('/flashcard', function () {
 Route::resource('flashcard-categories', App\Http\Controllers\Frontend\FlashcardCategoriesController::class);
 Route::resource('flashcard-question', App\Http\Controllers\Frontend\FlashcardQuestionController::class);
 
+Route::get('flashcard-start', [App\Http\Controllers\Frontend\FlashcardQuestionController::class, 'start'])->name('flashcard.start');
 
 Route::post('/class-detail/banner/{slug}', [App\Http\Controllers\Frontend\UploadController::class, 'banner'])->name('classroom.detail.banner');
 
