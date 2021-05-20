@@ -21,7 +21,7 @@ class FlashcardCategories extends Model
     use HasFactory;
 
     public $table = 'flashcard_categories';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -32,6 +32,7 @@ class FlashcardCategories extends Model
 
     public $fillable = [
         'parent_id',
+        'level',
         'category'
     ];
 
@@ -43,6 +44,7 @@ class FlashcardCategories extends Model
     protected $casts = [
         'id' => 'integer',
         'parent_id' => 'integer',
+        'level' => 'integer',
         'category' => 'string'
     ];
 
@@ -53,11 +55,12 @@ class FlashcardCategories extends Model
      */
     public static $rules = [
         'parent_id' => 'nullable|integer',
+        'level' => 'integer',
         'category' => 'required|string|max:191',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    
+
 }

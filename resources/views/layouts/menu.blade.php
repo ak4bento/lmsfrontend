@@ -1,3 +1,4 @@
+<li class="nav-header">Menu Utama</li>
 <li class="nav-item">
     <a href="{{ route('admin.home') }}" class="nav-link {{ Request::is('home*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-home"></i>
@@ -65,7 +66,7 @@
 </li>
 --}}
 <li
-    class="nav-item 
+    class="nav-item
     {{ Request::is('questions*') ? 'menu-is-opening menu-open' : '' }}
     {{ Request::is('quizzes*') ? 'menu-is-opening menu-open' : '' }}
     "
@@ -154,9 +155,13 @@
         <p>Bookmarks</p>
     </a>
 </li> --}}
+
+<li class="nav-header">Flashcard</li>
+
 <li class="nav-item">
     <a href="{{ route('flashcardCategories.index') }}"
        class="nav-link {{ Request::is('flashcardCategories*') ? 'active' : '' }}">
+       <i class="far fa-circle nav-icon"></i>
         <p>Flashcard Categories</p>
     </a>
 </li>
@@ -165,6 +170,7 @@
 <li class="nav-item">
     <a href="{{ route('flashcardQuestions.index') }}"
        class="nav-link {{ Request::is('flashcardQuestions*') ? 'active' : '' }}">
+       <i class="far fa-circle nav-icon"></i>
         <p>Flashcard Questions</p>
     </a>
 </li>
@@ -173,6 +179,7 @@
 <li class="nav-item">
     <a href="{{ route('flashcardSubjects.index') }}"
        class="nav-link {{ Request::is('flashcardSubjects*') ? 'active' : '' }}">
+       <i class="far fa-circle nav-icon"></i>
         <p>Flashcard Subjects</p>
     </a>
 </li>

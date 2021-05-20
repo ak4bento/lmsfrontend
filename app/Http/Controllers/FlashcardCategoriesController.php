@@ -56,6 +56,10 @@ class FlashcardCategoriesController extends AppBaseController
     {
         $input = $request->all();
 
+        if ($input['parent_id'] == '0') {
+            $input['parent_id'] = null;
+        }
+
         $flashcardCategories = $this->flashcardCategoriesRepository->create($input);
 
         Flash::success('Flashcard Categories saved successfully.');

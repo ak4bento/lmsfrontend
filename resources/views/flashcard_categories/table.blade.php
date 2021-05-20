@@ -1,17 +1,19 @@
 <div class="table-responsive">
-    <table class="table" id="flashcardCategories-table">
+    <table id="example2" class="table table-bordered">
         <thead>
             <tr>
-                <th>Parent Id</th>
-        <th>Category</th>
-                <th colspan="3">Action</th>
+                <th>Level</th>
+                <th>Parent</th>
+                <th>Category</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($flashcardCategories as $flashcardCategories)
             <tr>
-                <td>{{ $flashcardCategories->parent_id }}</td>
-            <td>{{ $flashcardCategories->category }}</td>
+                <td>Level Ketegori {{ $flashcardCategories->level }}</td>
+                <td>{{ App\Models\FlashcardCategories::find($flashcardCategories->parent_id)->category ?? 'Kategori Utama' }}</td>
+                <td>{{ $flashcardCategories->category }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['flashcardCategories.destroy', $flashcardCategories->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
