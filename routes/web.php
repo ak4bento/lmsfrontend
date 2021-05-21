@@ -189,3 +189,10 @@ Route::resource('flashcardCategories', App\Http\Controllers\FlashcardCategoriesC
 Route::resource('flashcardQuestions', App\Http\Controllers\FlashcardQuestionController::class);
 
 Route::resource('flashcardSubjects', App\Http\Controllers\FlashcardSubjectController::class);
+
+
+Route::resource('flashcardCategoriesQuestions', App\Http\Controllers\FlashcardCategoriesQuestionController::class);
+
+Route::resource('flashcardQuestionsSubjects', App\Http\Controllers\FlashcardQuestionsSubjectController::class);
+
+Route::resource('flashcardAnswers', App\Http\Controllers\FlashcardAnswerController::class);

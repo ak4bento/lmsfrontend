@@ -185,3 +185,27 @@
 </li>
 
 
+<li class="nav-item">
+    <a href="{{ route('flashcardCategoriesQuestions.index') }}"
+       class="nav-link {{ Request::is('flashcardCategoriesQuestions*') ? 'active' : '' }}">
+        <p>Flashcard Categories Questions</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('flashcardQuestionsSubjects.index') }}"
+       class="nav-link {{ Request::is('flashcardQuestionsSubjects*') ? 'active' : '' }}">
+        <p>Flashcard Questions Subjects</p>
+    </a>
+</li>
+
+
+<li class="nav-item">
+    <a href="{{ route('flashcardAnswers.index') }}"
+       class="nav-link {{ Request::is('flashcardAnswers*') ? 'active' : '' }}">
+        <p>Flashcard Answers</p>
+    </a>
+</li>
+
+

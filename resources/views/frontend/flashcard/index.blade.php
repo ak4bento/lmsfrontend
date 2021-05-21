@@ -144,19 +144,19 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
                     <div class="card">
                         <div class="card-body"> 
-                            <div class="row d-flex align-items-center">
-                                <div style="text-align: center" class="col-lg-2">
+                            <div class="row align-items-center">
+                                <div style="text-align: center" class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
                                     <a style="font-weight: bold;font-size: 30px; display: block;">891237</a>
                                     <a style="font-size: 18px;"> Flash Card </a>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-1">
                                     <div class="progress" style="height: 40px; border-radius: 30px">
                                         <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 20%"
                                             aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">20 %
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
                                     <select class="form-control">
                                         <option value="" selected disabled>Maksimal Soal</option>
                                         <option>10</option>
@@ -169,7 +169,7 @@
                                         <option>3000</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
                                     <button class="btn btn-block btn-primary" data-toggle="modal"
                                     data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
                                     data-target="#quizZummary">Buat Kuis</button>
@@ -214,47 +214,55 @@
 @endsection 
 @push('page_scripts')
     <script>
+        function itemOptionClick(question_id, itemOption_radio) {
+            checkedItem = itemOption_radio.value;
+           
+            allData = '{"question_id":"' + question_id + '","checkedItem_id":"' + checkedItem + '"}';
+            sessionStorage.setItem('data_' + question_id, allData);  
+            
+        }
 
         checked_category = (id) => {
             var rute = "{{ url('flashcard-selected') }}/" + id;
             checkbox_id = 'category['+id+']';
             var checkboxes = document.getElementById(checkbox_id);
-            console.log(checkboxes);
+            // console.log(checkboxes);
             if(checkboxes.checked){
                 $.ajax({
                     url: rute,
                     type: 'get',
                     success: function(response) { 
-                        console.log('ini on button select: ', response); 
                         var data =  '<button class="btn btn-primary btn-sm style" data-button="delete" name="btn['+response.id+']" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </button>';
                         var buttonId = 'btn['+response.id+']';
                         var buttonLabel = document.getElementById(buttonId);
-                        console.log('button label :', buttonLabel);
-                        if(buttonLabel == null)
-                        $(".btn-category").append(data);
+                        if(buttonLabel == null){
+                            sessionStorage.setItem(response.id, true);  
+                            $(".btn-category").append(data);
+                        }
                     }
                 });
-            }
-            else {
+            } else {
                 rute = "{{ url('flashcard-unselected') }}/" + id;
                 btn_id = 'btn['+id+']';
                 var btn = document.getElementById(btn_id);
                 btn.remove();
-                console.log('222222 : ',btn_id);
-
+                // console.log('222222 : ',btn_id);
+                sessionStorage.removeItem(id);
                 $.ajax({
                     url: rute,
                     type: 'get',
                     success: function(response) { 
-                        console.log('ini on button 2222: ', response); 
+                        // console.log('ini on button 2222: ', response); 
                         $.each(response, function(key, value) {
                        
                             btn_id = 'btn['+value.id+']';
                             btn = document.getElementById(btn_id);
-                            console.log('333333333 : ',btn_id);
-                            console.log('obeject btn 3', btn);
-                            if(btn != null)
+                            // console.log('333333333 : ',btn_id);
+                            // console.log('obeject btn 3', btn);
+                            if(btn != null){
                                 btn.remove();
+                                sessionStorage.removeItem(value.id);
+                            }
 
                             rute = "{{ url('flashcard-unselected') }}/" + value.id;
                             btn_id = 'btn['+value.id+']';
@@ -264,13 +272,15 @@
                                 url: rute,
                                 type: 'get',
                                 success: function(response) { 
-                                    console.log('ini on button 3333: ', response); 
+                                    // console.log('ini on button 3333: ', response); 
                                     $.each(response, function(key, value) {
                                 
                                         btn_id = 'btn['+value.id+']';
                                         btn = document.getElementById(btn_id);
-                                        if(btn != null)
+                                        if(btn != null){
                                             btn.remove();
+                                            sessionStorage.removeItem(value.id);
+                                        }
                                         rute = "{{ url('flashcard-unselected') }}/" + value.id;
                                         btn_id = 'btn['+value.id+']';
                                         btn = document.getElementById(btn_id); 
@@ -279,15 +289,17 @@
                                             url: rute,
                                             type: 'get',
                                             success: function(response) { 
-                                                console.log('ini on button 4444: ', response); 
-                                                    $.each(response, function(key, value) {
+                                                // console.log('ini on button 4444: ', response); 
+                                                $.each(response, function(key, value) {
                                                 
                                                     btn_id = 'btn['+value.id+']';
 
-                                                    btn = document.getElementsByName(btn_id); 
-                                                        // console.log();
-                                                    if(btn != null)
+                                                    btn = document.getElementById(btn_id); 
+                                                        console.log();
+                                                    if(btn != null){
                                                         btn.remove();
+                                                        sessionStorage.removeItem(value.id);
+                                                    }
                                                 });
                                             }
                                         });
@@ -313,7 +325,7 @@
                 success: function(response) {
                     document.getElementById('second_category').innerHTML = "";
 
-                    console.log('ini on button : ', response);
+                    // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
@@ -336,7 +348,7 @@
                 success: function(response) {
                     document.getElementById('second_category').innerHTML = "";
 
-                    console.log('ini on button : ', response);
+                    // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
@@ -363,9 +375,9 @@
                 success: function(response) {
                     document.getElementById('third_category').innerHTML = "";
 
-                    console.log('ini on button : ', response);
+                    // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        console.log('ini on value : ', value);
+                        // console.log('ini on value : ', value);
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
                                             '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
@@ -389,9 +401,9 @@
                 success: function(response) {
                     document.getElementById('fourth_category').innerHTML = "";
 
-                    console.log('ini on button : ', response);
+                    // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        console.log('ini on value : ', value);
+                        // console.log('ini on value : ', value);
 
                         var data =  '<div class="py-2 px-2 hover border-bottom" >'+
                                         '<div class="custom-control custom-checkbox">'+
@@ -416,6 +428,7 @@
             btn.remove(); 
             var data = '<div class="btn-category" id="btn-category"></div>';
             $("#btn-group").append(data);
+            sessionStorage.clear();
 
         });
 
@@ -428,7 +441,7 @@
             //             btn_id = 'btn['+i+']';
             //             var btn = document.getElementById(btn_id); 
 
-            //             console.log('btn : ', btn);
+                        console.log('btn : ', btn);
             //             if(btn != null)
             //                 btn.remove();
             //         }
@@ -436,7 +449,7 @@
             //     for (var i = 0; i < checkboxes.length; i++) {
             //         if (checkboxes[i].type == 'checkbox' ) {
             //             checkboxes[i].checked = true;
-            //             console.log('select all : ',checkboxes[i].getAttribute("id"));
+                        console.log('select all : ',checkboxes[i].getAttribute("id"));
             //             if(checkboxes[i].getAttribute("id") != null && checkboxes[i].getAttribute("data-category") != null){
             //                 var data =  '<button class="btn btn-primary btn-sm style" id="btn['+i+']" style="margin-left:2px;margin-right:2px" > '+ checkboxes[i].getAttribute("data-category") +' </button>';
             //                 $(".btn-category").append(data);
@@ -451,13 +464,13 @@
                     btn_id = 'btn['+i+']';
                     var btn = document.getElementById(btn_id); 
 
-                    console.log('btn : ', i);
+                    // console.log('btn : ', i);
                     if(btn != null){
                         btn.remove(); 
                     }
                     // if(i == 6){
                     //     btn_id = 'btn['+ i+1 +']';
-                    //     console.log('btn 7 : ', btn_id);
+                        console.log('btn 7 : ', btn_id);
 
                     //     btn = document.getElementById(btn_id); 
                     //     btn.remove();
