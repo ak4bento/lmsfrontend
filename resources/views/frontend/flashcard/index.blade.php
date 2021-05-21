@@ -229,7 +229,7 @@
                     type: 'get',
                     success: function(response) { 
                         console.log('ini on button select: ', response); 
-                        var data =  '<span class="btn btn-primary btn-sm style" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </span>';
+                        var data =  '<button class="btn btn-primary btn-sm style" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </button>';
                         $(".btn-category").append(data);
                     }
                 });
@@ -298,8 +298,7 @@
         }
 
         first_category = (id) => {
-
-            document.getElementById('second_category').innerHTML = "Loading...";
+            document.getElementById('second_category').innerHTML =  'Loading...';
 
             document.getElementById('third_category').innerHTML = "";
             document.getElementById('fourth_category').innerHTML = "";
@@ -315,7 +314,7 @@
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
+                                            '<input class="custom-control-input hover" data-text="category'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
@@ -409,12 +408,19 @@
                 for (var i = 0; i < checkboxes.length; i++) {
                     if (checkboxes[i].type == 'checkbox' ) {
                         checkboxes[i].checked = true;
+                        console.log('select all : ',checkboxes[i].data);
                     }
                 }
             } else {
                 for (var i = 0; i < checkboxes.length; i++) {
                     if (checkboxes[i].type == 'checkbox') {
                         checkboxes[i].checked = false;
+                        btn_id = 'btn['+i+']';
+                        var btn = document.getElementById(btn_id); 
+
+                        console.log('btn : ', btn);
+                        if(btn != null)
+                            btn.remove();
                     }
                 }
             }
