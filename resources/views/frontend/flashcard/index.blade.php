@@ -49,7 +49,7 @@
     }
     .hover:hover{
         cursor: pointer;
-        background: rgb(204, 205, 209);
+        background: rgba(133, 153, 224, 0.151);
     } 
 
     .hover-all:hover{
@@ -95,9 +95,11 @@
                                 </div>
                                 @foreach (App\Models\FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get() as $item)
                                 <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input hover" data-category="{{ $item->category }}" onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
-                                        <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category[{{ $item->id}}]">{{ $item->category }}</label>
+                                    <div class="icheck-primary d-inline">
+                                        <input data-category="{{ $item->category }}" onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
+                                        <label for="category[{{ $item->id}}]" style="font-family: sans-serif; font-weight: normal !important;">
+                                            {{ $item->category }}
+                                        </label>
                                     </div>
                                 </div>
                                 @endforeach
@@ -202,8 +204,7 @@
                         </div>
                         <div class="modal-footer">
                             <div class="container-fluid">
-                                <a href="{{ route('flashcard.start') }}" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
-                                    data-placement="top" title="Simpan">Mulai</a>
+                                <button id="start" data-url="{{ route('flashcard.start') }}" class="btn btn-primary btn-md float-right" >Mulai</button>
                             </div>
                         </div>
                     </form>
@@ -214,13 +215,63 @@
 @endsection 
 @push('page_scripts')
     <script>
-        function itemOptionClick(question_id, itemOption_radio) {
-            checkedItem = itemOption_radio.value;
-           
-            allData = '{"question_id":"' + question_id + '","checkedItem_id":"' + checkedItem + '"}';
-            sessionStorage.setItem('data_' + question_id, allData);  
+        $("#start").click(function(e) {
+            e.preventDefault();
             
-        }
+            let url = $(this).data('url');
+ 
+            key = Object.keys(sessionStorage);
+            console.log("ini key : ", key);
+            data = "";
+            var dataArray = "";
+            for (let index = 0; index < key.length; index++) {
+                const element = key[index];
+                console.log("ini element : ", index);
+                if (element !== 'quizzes_id') {
+                    // dataArray[index] = element;
+                    if (index === key.length - 1)
+                        data = data + '"' + element + '":' + sessionStorage.getItem(element);
+                    else
+                        data = data + '"' + element + '":' + sessionStorage.getItem(element) + ',';
+                }
+            }
+            let quizzes_id = sessionStorage.getItem('quizzes_id');
+            console.log('ini quizzes id', quizzes_id);
+
+            data = '{"quizzes_id":"' + quizzes_id + '","data":{' + data + '}}';
+            // console.log("ini gabungan element : ",data);
+            console.log('url', url);
+            var rute = url;
+            console.log("ini gabungan element : ", data);
+            // var rute = url+"/" + data;
+            let _token = $('meta[name="csrf-token"]').attr('content');
+            Swal.fire({
+                title: 'Anda Yakin?',
+                text: "Anda tidak dapat mengulanginya kembali!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1b5cb8',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.value) {
+                    sessionStorage.clear();
+                    $.ajax({
+                        type: 'post',
+                        url: rute,
+                        data: {
+                            quizzes_id: quizzes_id,
+                            _token: _token
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
+                            window.location.href = url;
+                        }
+                    });
+                }
+            })
+        });
 
         checked_category = (id) => {
             var rute = "{{ url('flashcard-selected') }}/" + id;
@@ -327,12 +378,14 @@
 
                     // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
-                                        '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
+                        var data = '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
+                                        '<div class="icheck-primary d-inline">'+
+                                            '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
+                                            '<label for="category['+ value.id +']" style="font-family: sans-serif; font-weight: normal !important;">'
+                                                + value.category +
+                                            '</label>'+
                                         '</div>'+
-                                    '</div>';
+                                    '</div>'; 
                         $(".second_category").append(data);
                     });
                 }
@@ -378,13 +431,14 @@
                     // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
                         // console.log('ini on value : ', value);
-                        var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
-                                        '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
+                        var data = '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
+                                        '<div class="icheck-primary d-inline">'+
+                                            '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
+                                            '<label for="category['+ value.id +']" style="font-family: sans-serif; font-weight: normal !important;">'
+                                                + value.category +
+                                            '</label>'+
                                         '</div>'+
-                                    '</div>';
-
+                                    '</div>'; 
                         $(".third_category").append(data);
                     });
                 }
@@ -404,13 +458,14 @@
                     // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
                         // console.log('ini on value : ', value);
-
-                        var data =  '<div class="py-2 px-2 hover border-bottom" >'+
-                                        '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="fourth_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
+                        var data = '<div class="py-2 px-2 hover border-bottom" >'+
+                                        '<div class="icheck-primary d-inline">'+
+                                            '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
+                                            '<label for="category['+ value.id +']" style="font-family: sans-serif; font-weight: normal !important;">'
+                                                + value.category +
+                                            '</label>'+
                                         '</div>'+
-                                    '</div>';
+                                    '</div>'; 
                         $(".fourth_category").append(data);
                     });
                 }
