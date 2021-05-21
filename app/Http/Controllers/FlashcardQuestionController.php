@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Auth;
 
 class FlashcardQuestionController extends AppBaseController
 {
@@ -56,9 +57,23 @@ class FlashcardQuestionController extends AppBaseController
     {
         $input = $request->all();
 
+        $images = $request->file('images');
+        $images_name = date('Ymd').'-'.Auth::user()->id.'-'.$images->getClientOriginalName();
+        // $name_images = pathinfo($images_name, PATHINFO_FILENAME);
+
+        $images_explanation = $request->file('images_explanation');
+        $images_name_explanation = date('Ymd').'-'.Auth::user()->id.'-'.$images_explanation->getClientOriginalName();
+        // $name_images_explanation = pathinfo($images_name_explanation, PATHINFO_FILENAME);
+
+        $input['images'] = $images_name;
+        $input['images_explanation'] = $images_name_explanation;
+
         $flashcardQuestion = $this->flashcardQuestionRepository->create($input);
 
         Flash::success('Flashcard Question saved successfully.');
+
+        $images->move('flashcardfiles/images/',$images_name);
+        $images_explanation->move('flashcardfiles/images_explanation/',$images_name_explanation);
 
         return redirect(route('flashcardQuestions.index'));
     }
@@ -115,13 +130,26 @@ class FlashcardQuestionController extends AppBaseController
     {
         $flashcardQuestion = $this->flashcardQuestionRepository->find($id);
 
+        $input = $request->all();
+
+        $images = $request->file('images');
+        $images_name = date('Ymd').'-'.Auth::user()->id.'-'.$images->getClientOriginalName();
+        // $name_images = pathinfo($images_name, PATHINFO_FILENAME);
+
+        $images_explanation = $request->file('images_explanation');
+        $images_name_explanation = date('Ymd').'-'.Auth::user()->id.'-'.$images_explanation->getClientOriginalName();
+        // $name_images_explanation = pathinfo($images_name_explanation, PATHINFO_FILENAME);
+
+        $input['images'] = $images_name;
+        $input['images_explanation'] = $images_name_explanation;
+
         if (empty($flashcardQuestion)) {
             Flash::error('Flashcard Question not found');
 
             return redirect(route('flashcardQuestions.index'));
         }
 
-        $flashcardQuestion = $this->flashcardQuestionRepository->update($request->all(), $id);
+        $flashcardQuestion = $this->flashcardQuestionRepository->update($input, $id);
 
         Flash::success('Flashcard Question updated successfully.');
 

@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Auth;
+use Alert;
 
 class FlashcardSubjectController extends AppBaseController
 {
@@ -56,9 +58,22 @@ class FlashcardSubjectController extends AppBaseController
     {
         $input = $request->all();
 
+        if (!$request->file('files')) {
+            Alert::error('Files harus di isi');
+            return redirect()->back();
+        }
+        $files = $request->file('files');
+
+        $files_name = date('Ymd').'-'.Auth::user()->id.'-'.$files->getClientOriginalName();
+        $extension = $request->file('files')->extension();
+
+        $input['files'] = $files_name;
+        $input['subject_type'] = $extension;
+
         $flashcardSubject = $this->flashcardSubjectRepository->create($input);
 
         Flash::success('Flashcard Subject saved successfully.');
+        $files->move('flashcardfiles/files/',$files_name);
 
         return redirect(route('flashcardSubjects.index'));
     }
@@ -115,16 +130,28 @@ class FlashcardSubjectController extends AppBaseController
     {
         $flashcardSubject = $this->flashcardSubjectRepository->find($id);
 
+        $input = $request->all();
+
+        if ($request->file('files')) {
+            $files = $request->file('files');
+            $files_name = date('Ymd').'-'.Auth::user()->id.'-'.$files->getClientOriginalName();
+            $extension = $request->file('files')->extension();
+            $input['files'] = $files_name;
+            $input['subject_type'] = $extension;
+        }
+
         if (empty($flashcardSubject)) {
             Flash::error('Flashcard Subject not found');
 
             return redirect(route('flashcardSubjects.index'));
         }
 
-        $flashcardSubject = $this->flashcardSubjectRepository->update($request->all(), $id);
+        $flashcardSubject = $this->flashcardSubjectRepository->update($input, $id);
 
         Flash::success('Flashcard Subject updated successfully.');
-
+        if ($request->file('files')) {
+            $files->move('flashcardfiles/files/',$files_name);
+        }
         return redirect(route('flashcardSubjects.index'));
     }
 
