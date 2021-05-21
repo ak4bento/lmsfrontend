@@ -88,25 +88,16 @@
                 <div class="card col-lg-12">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                                <div class="card py-2" style="padding-left: 10px">
-                                    <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input hover-all" onclick="checkAll(this)"  id="selectAll" name="select_all" type="checkbox">
-                                        <label style="width: 100px; font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover-all d-block custom-control-label" for="selectAll">
-                                            Pilih Semua
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="col-lg-3 p-0 group style-3" style="border-style: solid;border-width:thin ">
-                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
+                                <div class="py-2 px-2 border-bottom" style="  background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
                                     <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
                                 </div>
                                 @foreach (App\Models\FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get() as $item)
                                 <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input hover" onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
-                                        <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category[{{ $item->id}}]">{{ $item->category}}</label>
+                                        <input class="custom-control-input hover" data-category="{{ $item->category }}" onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
+                                        <label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category[{{ $item->id}}]">{{ $item->category }}</label>
                                     </div>
                                 </div>
                                 @endforeach
@@ -135,9 +126,15 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-12 p-0 btn-category" id="btn-category" style="margin-top:10px">
+                            <div class="col-lg-12 p-0" id="btn-group" style="margin-top:10px">
+                                <div class="btn-category" id="btn-category">
+
+                                </div>
                                 {{-- <button class="btn btn-primary style" >Kategori </button> --}}
                             </div>
+                            <div class="col-lg-12 p-0"  style="margin-top:10px">
+                                <input type="button" class="check btn btn-outline-primary" value="Bersihkan" />
+                            </div>                                    
                         </div>
                     </div>
                 </div>
@@ -229,7 +226,11 @@
                     type: 'get',
                     success: function(response) { 
                         console.log('ini on button select: ', response); 
-                        var data =  '<button class="btn btn-primary btn-sm style" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </button>';
+                        var data =  '<button class="btn btn-primary btn-sm style" data-button="delete" name="btn['+response.id+']" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </button>';
+                        var buttonId = 'btn['+response.id+']';
+                        var buttonLabel = document.getElementById(buttonId);
+                        console.log('button label :', buttonLabel);
+                        if(buttonLabel == null)
                         $(".btn-category").append(data);
                     }
                 });
@@ -282,7 +283,9 @@
                                                     $.each(response, function(key, value) {
                                                 
                                                     btn_id = 'btn['+value.id+']';
-                                                    btn = document.getElementById(btn_id);
+
+                                                    btn = document.getElementsByName(btn_id); 
+                                                        // console.log();
                                                     if(btn != null)
                                                         btn.remove();
                                                 });
@@ -314,7 +317,7 @@
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" data-text="category'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
+                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
@@ -337,7 +340,7 @@
                     $.each(response, function(key, value) {
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
+                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
@@ -365,7 +368,7 @@
                         console.log('ini on value : ', value);
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
+                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="third_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
@@ -392,7 +395,7 @@
 
                         var data =  '<div class="py-2 px-2 hover border-bottom" >'+
                                         '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="fourth_category['+ value.id +']" type="checkbox">'+
+                                            '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="fourth_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
                                         '</div>'+
                                     '</div>';
@@ -401,27 +404,65 @@
                 }
             }); 
         }
+ 
+
+        $('.check:button').click(function(){
+            var checked = false;
+            $('input:checkbox').prop('checked', checked);
+            $(this).val(checked ? 'uncheck all' : 'Bersihkan' )
+            $(this).data('checked', checked);
+            
+            var btn = document.getElementById('btn-category'); 
+            btn.remove(); 
+            var data = '<div class="btn-category" id="btn-category"></div>';
+            $("#btn-group").append(data);
+
+        });
 
         checkAll = (ele) => {
         var checkboxes = document.getElementsByTagName('input');
-            if (ele.checked) {
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].type == 'checkbox' ) {
-                        checkboxes[i].checked = true;
-                        console.log('select all : ',checkboxes[i].data);
-                    }
-                }
-            } else {
-                for (var i = 0; i < checkboxes.length; i++) {
-                    if (checkboxes[i].type == 'checkbox') {
-                        checkboxes[i].checked = false;
-                        btn_id = 'btn['+i+']';
-                        var btn = document.getElementById(btn_id); 
+            // if (ele.checked) {
+            //     for (var i = 0; i < checkboxes.length; i++) {
+            //         if (checkboxes[i].type == 'checkbox') {
+            //             checkboxes[i].checked = false;
+            //             btn_id = 'btn['+i+']';
+            //             var btn = document.getElementById(btn_id); 
 
-                        console.log('btn : ', btn);
-                        if(btn != null)
-                            btn.remove();
+            //             console.log('btn : ', btn);
+            //             if(btn != null)
+            //                 btn.remove();
+            //         }
+            //     }
+            //     for (var i = 0; i < checkboxes.length; i++) {
+            //         if (checkboxes[i].type == 'checkbox' ) {
+            //             checkboxes[i].checked = true;
+            //             console.log('select all : ',checkboxes[i].getAttribute("id"));
+            //             if(checkboxes[i].getAttribute("id") != null && checkboxes[i].getAttribute("data-category") != null){
+            //                 var data =  '<button class="btn btn-primary btn-sm style" id="btn['+i+']" style="margin-left:2px;margin-right:2px" > '+ checkboxes[i].getAttribute("data-category") +' </button>';
+            //                 $(".btn-category").append(data);
+            //             }
+            //         }
+            //     }
+                
+            // } 
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = false;
+                    btn_id = 'btn['+i+']';
+                    var btn = document.getElementById(btn_id); 
+
+                    console.log('btn : ', i);
+                    if(btn != null){
+                        btn.remove(); 
                     }
+                    // if(i == 6){
+                    //     btn_id = 'btn['+ i+1 +']';
+                    //     console.log('btn 7 : ', btn_id);
+
+                    //     btn = document.getElementById(btn_id); 
+                    //     btn.remove();
+                    // }
+                        
                 }
             }
         }
