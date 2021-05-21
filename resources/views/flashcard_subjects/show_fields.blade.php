@@ -27,7 +27,3 @@
     {!! Form::label('external_link', 'External Link:') !!}
     <p>{{ $flashcardSubject->external_link }}</p>
 </div>
-
-{
-    ['https://jsonapi.org/examples/'],['https://stackoverflow.com/questions/38403558/get-an-image-extension-from-an-uploaded-file-in-laravel/38403610']
-}
