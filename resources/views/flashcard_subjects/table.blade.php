@@ -1,26 +1,24 @@
 <div class="table-responsive">
-    <table class="table" id="flashcardSubjects-table">
+    <table id="example2" class="table table-bordered">
         <thead>
             <tr>
                 <th>Subject</th>
-        <th>Subject Type</th>
-        <th>Reference</th>
-        <th>External Link</th>
-                <th colspan="3">Action</th>
+                <th>Files</th>
+                <th>Subject Type</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($flashcardSubjects as $flashcardSubject)
             <tr>
                 <td>{{ $flashcardSubject->subject }}</td>
-            <td>{{ $flashcardSubject->subject_type }}</td>
-            <td>{{ $flashcardSubject->reference }}</td>
-            <td>{{ $flashcardSubject->external_link }}</td>
+                <td>{{ $flashcardSubject->files }}</td>
+                <td>{{ $flashcardSubject->subject_type }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['flashcardSubjects.destroy', $flashcardSubject->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{{ route('flashcardSubjects.show', [$flashcardSubject->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
+                            <i class="far fa-eye"></i> Lihat
                         </a>
                         <a href="{{ route('flashcardSubjects.edit', [$flashcardSubject->id]) }}" class='btn btn-default btn-xs'>
                             <i class="far fa-edit"></i>

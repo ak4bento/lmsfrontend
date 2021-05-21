@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::open(['route' => 'flashcardQuestions.store']) !!}
+            {!! Form::open(['route' => 'flashcardQuestions.store', 'files' => true]) !!}
 
             <div class="card-body">
 

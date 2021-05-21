@@ -23,7 +23,7 @@ class FlashcardSubject extends Model
     use HasFactory;
 
     public $table = 'flashcard_subjects';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -34,6 +34,7 @@ class FlashcardSubject extends Model
 
     public $fillable = [
         'subject',
+        'files',
         'subject_type',
         'reference',
         'external_link'
@@ -47,7 +48,6 @@ class FlashcardSubject extends Model
     protected $casts = [
         'id' => 'integer',
         'subject' => 'string',
-        'subject_type' => 'string',
         'reference' => 'string',
         'external_link' => 'string'
     ];
@@ -59,13 +59,10 @@ class FlashcardSubject extends Model
      */
     public static $rules = [
         'subject' => 'required|string|max:191',
-        'subject_type' => 'required|string|max:191',
-        'reference' => 'nullable|string|max:191',
-        'external_link' => 'nullable|string|max:191',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-    
+
 }
