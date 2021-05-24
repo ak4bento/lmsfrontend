@@ -8,6 +8,7 @@ use App\Models\FlashcardQuestion;
 use App\Models\FlashcardCategoriesQuestion;
 use Response;
 use App\Models\FlashcardCategories;
+use Illuminate\Support\Arr;
 
 class FlashcardQuestionController extends Controller
 {
@@ -27,25 +28,49 @@ class FlashcardQuestionController extends Controller
         $second_categorys    = "";
         $third_categorys     = "";
         $fourth_category    = "";
-        $data_category = 0;
-
+        $origin =array(0);
+        $data_category = array(
+            'id' => null,
+            'parent_id' => null,
+            'level' => null,
+            'category' => null,
+        );
         foreach ($quiz as $key => $value) {
             $category = FlashcardCategories::where('id',$key)->first();
+            // dd($category);
             if($category->level == 4){
-                $data_category = array_push($data_category, $category);
+                $origin = array(
+                    'id' => $category['id'],
+                    'parent_id' => $category['parent_id'],
+                    'level' => $category['level'],
+                    'category' => $category['category'],
+                );
+               $data_category =Arr::add($origin);
             } else if($category->level == 3){
                 $third_categorys = FlashcardCategories::where('parent_id',$category->id)->get();
                 foreach ($third_categorys as $third_category) {
-                    dd($third_category);
-                    $data_category = array_push($data_category, $third_category);
+                    // dd($third_category);
+                    $origin = array( 
+                            'id' => $third_category['id'],
+                            'parent_id' => $third_category['parent_id'],
+                            'level' => $third_category['level'],
+                            'category' => $third_category['category'],
+                    ); 
+                    // dd($origin);
+                   $data_category =Arr::add($origin);
                 }
             } else if($category->level == 2){
                 $second_categorys = FlashcardCategories::where('parent_id',$category->id)->get();
                 foreach($second_categorys as $second_category){
                     $third_categorys = FlashcardCategories::where('parent_id',$second_category->id)->get();
                     foreach ($third_categorys as $third_category) {
-                        dd($third_category);
-                        $data_category = array_push($data_category, $third_category);
+                        $origin = array(
+                            'id' => $third_category['id'],
+                            'parent_id' => $third_category['parent_id'],
+                            'level' => $third_category['level'],
+                            'category' => $third_category['category'],
+                        );
+                       $data_category =Arr::add($origin);
                     }
                 }
             } else {
@@ -55,8 +80,13 @@ class FlashcardQuestionController extends Controller
                     foreach($second_categorys as $second_category){
                         $third_categorys = FlashcardCategories::where('parent_id',$second_category->id)->get();
                         foreach ($third_categorys as $third_category) {
-                            dd($data_category);
-                            $data_category = array_push($data_category, $third_category);
+                            $origin = array(
+                                'id' => $third_category['id'],
+                                'parent_id' => $third_category['parent_id'],
+                                'level' => $third_category['level'],
+                                'category' => $third_category['category'],
+                            );
+                           $data_category =Arr::add($origin);
                         }
                     }
                 }

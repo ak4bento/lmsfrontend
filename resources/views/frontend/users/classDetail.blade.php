@@ -412,7 +412,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-2 col-lg-2 col-md-2 col-sm-2">
-                                                @hasanyrole('teacher')
+                                                @hasanyrole('teacher|owner')
                                                 @if ($classroomUsersCount > 0)
                                                     <div class="dropdown">
                                                         <a class="btn float-right" href="#" role="button"
@@ -433,6 +433,7 @@
                                                                     class="dropdown-item dropdown-remove  dropdown-hover">Hapus dari Backpack
                                                                 </a>
                                                             @endif
+                                                            @hasanyrole('teacher')
                                                             
                                                             @if ($teachable->teachable_type == 'quiz')
                                                                 <a href="{{ route('allquiz', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
@@ -459,11 +460,12 @@
                                                                     data-url="{{ route('destroyAssignment', $teachable->teachable_id) }}">
                                                                     Hapus</a>
                                                             @endif
+                                                            @endhasanyrole
                                                         </div>
                                                     </div>
                                                 @endif
                                                 @endhasanyrole
-                                                @hasanyrole('student|owner')
+                                                @hasanyrole('student')
                                                 @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->where('user_id',auth()->user()->id)->first() ))
                                                     <i 
                                                         style="font-size: 20px"
