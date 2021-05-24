@@ -40,7 +40,7 @@ class ClassroomUserController extends AppBaseController
     public function index(Request $request)
     {
         $classroomUsers = $this->classroomUserRepository->all();
-        dd($classroomUsers);
+        // dd($classroomUsers);
         return view('classroom_users.index')
             ->with('classroomUsers', $classroomUsers);
     }
@@ -139,7 +139,7 @@ class ClassroomUserController extends AppBaseController
 
         $classroomUser = $this->classroomUserRepository->update($request->all(), $id);
 
-        Alert::success('Classroom User updated successfully.'); 
+        Alert::success('Classroom User updated successfully.');
 
 
         return redirect(route('userStudents.show',[$classroomUser->user_id]));
@@ -158,7 +158,7 @@ class ClassroomUserController extends AppBaseController
     {
         $classroomUser = $this->classroomUserRepository->find($id);
         // dd($classroomUser);
-        $id = $classroomUser->id;  
+        $id = $classroomUser->id;
         if (empty($classroomUser)) {
             Flash::error('Classroom User not found');
             return redirect(route('userStudents.index'));
