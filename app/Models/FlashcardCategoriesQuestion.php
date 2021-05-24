@@ -35,6 +35,16 @@ class FlashcardCategoriesQuestion extends Model
         'flashcard_categories_id'
     ];
 
+    public function flashcard_categories()
+    {
+        return $this->hasMany('App\Models\FlashcardCategories','flashcard_categories_id','id');
+    }
+    
+    public function flashcard_questions()
+    {
+        return $this->hasMany('App\Models\FlashcardQuestion','flashcard_questions_id','id');
+    }
+
     /**
      * The attributes that should be casted to native types.
      *
