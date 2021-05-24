@@ -12,6 +12,7 @@ use Response;
 use DB;
 use Alert;
 use Illuminate\Support\Str;
+use Validator;
 
 class ClassroomController extends AppBaseController
 {
@@ -76,10 +77,10 @@ class ClassroomController extends AppBaseController
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-            
+
         $input = $request->all();
-        $input['created_by']=auth()->user()->id; 
-        $input['slug'] = Str::slug($request->title); 
+        $input['created_by']=auth()->user()->id;
+        $input['slug'] = Str::slug($request->title);
 
         $classroom = $this->classroomRepository->create($input);
 
@@ -141,14 +142,14 @@ class ClassroomController extends AppBaseController
         $classroom = $this->classroomRepository->find($id);
         $input = $request->all();
         $input['created_by']=auth()->user()->id;
-        $input['slug'] = Str::slug($request->title); 
- 
+        $input['slug'] = Str::slug($request->title);
+
         $rules = [
             'title' => "required|unique:classrooms,title,$id|max:35",
             'code' => "max:10|unique:classrooms,code,$id",
             'description' => 'max:120|required',
         ];
-        
+
 
         $messages = [
             'title.required' => 'Kelas tidak boleh kosong.',
@@ -164,7 +165,7 @@ class ClassroomController extends AppBaseController
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-        
+
         if (empty($classroom)) {
             Flash::error('Classroom not found');
 
@@ -206,8 +207,8 @@ class ClassroomController extends AppBaseController
     }
 
     public function getClassroom($id)
-    { 
-        $classroom = DB::table('classrooms') 
+    {
+        $classroom = DB::table('classrooms')
             ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
             ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
             ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')

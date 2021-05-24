@@ -22,7 +22,7 @@
                 <a href="{{ url('home') }}" class="navbar-brand py-4">
                     <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat"
                         class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">Sejawat LMS</span>
+                    <span class="brand-text font-weight-light">SIPS LMS</span>
                 </a>
 
                 <button class="navbar-toggler order-1" type="button" data-toggle="collapse"
