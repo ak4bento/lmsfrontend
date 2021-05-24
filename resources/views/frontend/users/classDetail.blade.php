@@ -211,7 +211,7 @@
                                 @endif
                                 @endhasanyrole
 
-                                @hasanyrole('owner|teacher')
+                                @hasanyrole('owner')
                                 @if ($classroomUsersCount > 0)
                                     {{-- owner --}}
                                     <div class="card">
