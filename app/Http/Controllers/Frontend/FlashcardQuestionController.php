@@ -15,10 +15,17 @@ class FlashcardQuestionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function start()
+    public function start(Request $request)
     {
-       
-        return view('frontend.flashcard.quiz');
+        $quiz = $request->all();
+
+        $quiz = json_decode($quiz['data']);
+
+        foreach ($quiz as $key => $value) {
+            $value = FlashcardQuestion::find($key);
+            dd($value);
+        }
+        return view('frontend.flashcard.quiz')->with('quiz', $quiz);
     }
 
     public function index()

@@ -29,7 +29,7 @@ Route::get('flashcard-unselected/{id}', [App\Http\Controllers\Frontend\Flashcard
 
 Route::resource('flashcard-question', App\Http\Controllers\Frontend\FlashcardQuestionController::class);
 
-Route::get('flashcard-start', [App\Http\Controllers\Frontend\FlashcardQuestionController::class, 'start'])->name('flashcard.start');
+Route::post('flashcard-start', [App\Http\Controllers\Frontend\FlashcardQuestionController::class, 'start'])->name('flashcard.start');
 
 Route::post('/class-detail/banner/{slug}', [App\Http\Controllers\Frontend\UploadController::class, 'banner'])->name('classroom.detail.banner');
 

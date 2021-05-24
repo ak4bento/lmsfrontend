@@ -15,6 +15,7 @@
     .style{
         border-radius: 5px; 
         font-family: sans-serif;
+        margin-top:3px; 
         background: linear-gradient(#206dda, #1b5cb8);
     }
     .border{
@@ -89,7 +90,7 @@
                     <div class="card-body">
                         <div class="row">
                             
-                            <div class="col-lg-3 p-0 group style-3" style="border-style: solid;border-width:thin ">
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3" style="border-style: solid;border-width:thin ">
                                 <div class="py-2 px-2 border-bottom" style="  background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
                                     <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
                                 </div>
@@ -104,7 +105,7 @@
                                 </div>
                                 @endforeach
                             </div>
-                            <div class="col-lg-3 p-0 group style-3 " style="border-style: solid;border-width:thin " >
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3 " style="border-style: solid;border-width:thin " >
                                 <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
                                     <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
                                 </div>
@@ -112,7 +113,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-3 p-0 group style-3" style="border-style: solid;border-width:thin ">
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3" style="border-style: solid;border-width:thin ">
                                 <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
                                     <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
                                 </div>
@@ -120,7 +121,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-lg-3 p-0 group style-3"  style="border-style: solid;border-width:thin ">
+                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3"  style="border-style: solid;border-width:thin ">
                                 <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
                                     <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
                                 </div>
@@ -193,18 +194,18 @@
                             </span>
                         </div>
                     </div>
-                    <form action="{{ route('updateProfile', Auth::user()->id) }}" method="POST">
+                    <form action="{{ route('flashcard.start') }}" id="ringkasan" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="container-fluid">
                                 <div class="row">
-                                     
+                                     <input type="hidden" id="data_quiz" name="data" value="">
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <div class="container-fluid">
-                                <button id="start" data-url="{{ route('flashcard.start') }}" class="btn btn-primary btn-md float-right" >Mulai</button>
+                                <button type="submit" id="start" data-url="{{ route('flashcard.start') }}" class="btn btn-primary btn-md float-right" >Mulai</button>
                             </div>
                         </div>
                     </form>
@@ -226,51 +227,23 @@
             var dataArray = "";
             for (let index = 0; index < key.length; index++) {
                 const element = key[index];
-                console.log("ini element : ", index);
-                if (element !== 'quizzes_id') {
-                    // dataArray[index] = element;
-                    if (index === key.length - 1)
-                        data = data + '"' + element + '":' + sessionStorage.getItem(element);
-                    else
-                        data = data + '"' + element + '":' + sessionStorage.getItem(element) + ',';
-                }
+                // console.log("ini element : ", key[index]); 
+                if (index === key.length - 1)
+                    data = data + '"' + element + '":' + sessionStorage.getItem(element);
+                else
+                    data = data + '"' + element + '":' + sessionStorage.getItem(element) + ',';
             }
-            let quizzes_id = sessionStorage.getItem('quizzes_id');
-            console.log('ini quizzes id', quizzes_id);
 
-            data = '{"quizzes_id":"' + quizzes_id + '","data":{' + data + '}}';
+            // data = '{"data":{' + data + '}}';
+            data = "{" + data + "}";
             // console.log("ini gabungan element : ",data);
             console.log('url', url);
             var rute = url;
-            console.log("ini gabungan element : ", data);
-            // var rute = url+"/" + data;
-            let _token = $('meta[name="csrf-token"]').attr('content');
-            Swal.fire({
-                title: 'Anda Yakin?',
-                text: "Anda tidak dapat mengulanginya kembali!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#1b5cb8',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes'
-            }).then((result) => {
-                if (result.value) {
-                    sessionStorage.clear();
-                    $.ajax({
-                        type: 'post',
-                        url: rute,
-                        data: {
-                            quizzes_id: quizzes_id,
-                            _token: _token
-                        },
-                        success: function(data) {
-                            console.log(data);
-                            url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
-                            window.location.href = url;
-                        }
-                    });
-                }
-            })
+            console.log("ini gabungan element : ", data); 
+            document.getElementById("data_quiz").value = data;
+            document.getElementById("ringkasan").submit();
+            // sessionStorage.clear();
+             
         });
 
         checked_category = (id) => {
@@ -287,7 +260,7 @@
                         var buttonId = 'btn['+response.id+']';
                         var buttonLabel = document.getElementById(buttonId);
                         if(buttonLabel == null){
-                            sessionStorage.setItem(response.id, true);  
+                            sessionStorage.setItem(response.id, response.parent_id);  
                             $(".btn-category").append(data);
                         }
                     }
