@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateFlashcardQuestionRequest;
 use App\Repositories\FlashcardQuestionRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use DB;
 use Flash;
 use Response;
 use Auth;
@@ -89,13 +90,15 @@ class FlashcardQuestionController extends AppBaseController
     {
         $flashcardQuestion = $this->flashcardQuestionRepository->find($id);
 
+        $flashcardCategoriesQuestions = DB::table('flashcard_categories_questions')->where('flashcard_questions_id',$id)->get();
+
         if (empty($flashcardQuestion)) {
             Flash::error('Flashcard Question not found');
 
             return redirect(route('flashcardQuestions.index'));
         }
 
-        return view('flashcard_questions.show')->with('flashcardQuestion', $flashcardQuestion);
+        return view('flashcard_questions.show')->with('flashcardQuestion', $flashcardQuestion)->with('flashcardCategoriesQuestions', $flashcardCategoriesQuestions);
     }
 
     /**
