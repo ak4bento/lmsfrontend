@@ -241,8 +241,8 @@
             var rute = url;
             console.log("ini gabungan element : ", data); 
             document.getElementById("data_quiz").value = data;
+            sessionStorage.clear();
             document.getElementById("ringkasan").submit();
-            // sessionStorage.clear();
              
         });
 

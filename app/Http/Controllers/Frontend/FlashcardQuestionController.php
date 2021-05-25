@@ -9,6 +9,7 @@ use App\Models\FlashcardCategoriesQuestion;
 use Response;
 use App\Models\FlashcardCategories;
 use Illuminate\Support\Arr;
+use DB;
 
 class FlashcardQuestionController extends Controller
 {
@@ -24,20 +25,15 @@ class FlashcardQuestionController extends Controller
 
         $quiz = json_decode($quiz['data']);
 
-        $first_categorys     = "";
-        $second_categorys    = "";
-        $third_categorys     = "";
-        $fourth_category    = "";
-        $origin =array(0);
-        $data_category = array(
-            'id' => null,
-            'parent_id' => null,
-            'level' => null,
-            'category' => null,
-        );
+        $first_categorys  = "";
+        $second_categorys = "";
+        $third_categorys  = "";
+        $fourth_category  = "";
+        $origin           = array();
+        $data_category    = array();
+
         foreach ($quiz as $key => $value) {
             $category = FlashcardCategories::where('id',$key)->first();
-            // dd($category);
             if($category->level == 4){
                 $origin = array(
                     'id' => $category['id'],
@@ -45,7 +41,7 @@ class FlashcardQuestionController extends Controller
                     'level' => $category['level'],
                     'category' => $category['category'],
                 );
-               $data_category =Arr::add($origin);
+                array_push($data_category,$origin);
             } else if($category->level == 3){
                 $third_categorys = FlashcardCategories::where('parent_id',$category->id)->get();
                 foreach ($third_categorys as $third_category) {
@@ -56,8 +52,7 @@ class FlashcardQuestionController extends Controller
                             'level' => $third_category['level'],
                             'category' => $third_category['category'],
                     ); 
-                    // dd($origin);
-                   $data_category =Arr::add($origin);
+                    array_push($data_category,$origin);
                 }
             } else if($category->level == 2){
                 $second_categorys = FlashcardCategories::where('parent_id',$category->id)->get();
@@ -70,7 +65,7 @@ class FlashcardQuestionController extends Controller
                             'level' => $third_category['level'],
                             'category' => $third_category['category'],
                         );
-                       $data_category =Arr::add($origin);
+                       array_push($data_category,$origin);
                     }
                 }
             } else {
@@ -86,14 +81,41 @@ class FlashcardQuestionController extends Controller
                                 'level' => $third_category['level'],
                                 'category' => $third_category['category'],
                             );
-                           $data_category =Arr::add($origin);
+                            array_push($data_category,$origin);
                         }
                     }
                 }
             }             
+        } 
+        $data_unique = $this->super_unique($data_category,'id');
+        // dd($data_unique);
+        $id = "";
+        foreach ($data_unique as $key => $value) {
+            $id = $id . $value['id'] . ",";
         }
-        return view('frontend.flashcard.quiz')->with('quiz', $quiz);
+        $id = explode(",",$id);
+        // dd($id);
+        $questions = $users = DB::table('flashcard_categories_questions')
+                                ->join('flashcard_categories', 'flashcard_categories.id', '=', 'flashcard_categories_questions.flashcard_categories_id')
+                                ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_categories_questions.flashcard_questions_id')
+                                ->select('flashcard_questions.*') 
+                                ->whereIn('flashcard_categories_questions.flashcard_categories_id', $id)->paginate(1);
+//  dd($questions);
+        return view('frontend.flashcard.quiz')->with('questions', $questions);
     }
+    
+    public function super_unique($array,$key)
+    {
+       $temp_array = [];
+       foreach ($array as &$v) {
+           if (!isset($temp_array[$v[$key]]))
+           $temp_array[$v[$key]] =& $v;
+       }
+       $array = array_values($temp_array);
+       return $array;
+
+    }
+
 
     public function index()
     {

@@ -99,11 +99,14 @@
                                         </span>
                                     </div>
                                     <div class="card-body">
-                                        <p>
-                                            desripsi
-                                        </p>
+                                        @foreach ($questions as $question)
+                                            <p>
+                                                {{ $question->id }}
+                                            </p>
+                                        @endforeach
                                     </div>
                                 </div>
+                                {{ $questions->links() }}
                             </div>
                         </div>
                     </div>
