@@ -28,29 +28,24 @@
         <section class="content">
             <div class="row ">
                 @hasanyrole('student')
-
-                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                    @endhasanyrole
-                    @hasanyrole('teacher|owner')
+                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+                @endhasanyrole
+                @hasanyrole('teacher|owner')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                        @endhasanyrole
-
+                @endhasanyrole
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Deskripsi</h5>
                                 <p class="card-text">{!! $classWork->description !!}</p>
                                 @hasanyrole('student')
+                                    @if (is_object($complete))
 
-                                @if (is_object($complete))
-
-                                    <div class="alert alert-success alert-dismissible">
-                                        <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
-                                        File sudah di kumpul
-                                    </div>
-                                @endif
+                                        <div class="alert alert-success alert-dismissible">
+                                            <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                                            File sudah di kumpul
+                                        </div>
+                                    @endif
                                 @endhasanyrole
-
                             </div>
                         </div>
                     </div>

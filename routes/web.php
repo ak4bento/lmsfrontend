@@ -102,7 +102,7 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::post('/class-work-detail/{slug}/{id}', [App\Http\Controllers\Frontend\ClassroomController::class, 'discussions'])->name('class.work.discussions');
 
 
-    Route::post('/upload-assigment', [App\Http\Controllers\Frontend\UploadController::class, 'assigment'])->name('upload.assigment');
+    Route::post('/upload-assigment', [App\Http\Controllers\Frontend\UploadController::class, 'assignment'])->name('upload.assignment');
     Route::get('/quizzes/quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'quiz'])->name('class.quiz');
 
     Route::get('/classes', [App\Http\Controllers\Frontend\ClassesController::class, 'index'])->name('classes');

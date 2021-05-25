@@ -29,7 +29,7 @@ class UploadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function assigment(Request $request)
+    public function assignment(Request $request)
     {
         $data = new Media;
         $files = $request->file('file');
@@ -42,7 +42,7 @@ class UploadController extends Controller
         $data['disk'] = 'public';
         $data['collection_name'] = 'files';
         $data['order_column'] = '1';
-        $data['media_type'] = 'assigment';
+        $data['media_type'] = 'assignment';
         $data['media_id'] = $request['media_id'];
         $data['size'] = $files->getSize();
         $data['custom_properties'] = json_encode(array('user' => Auth::user()->id));

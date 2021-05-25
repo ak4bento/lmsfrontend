@@ -268,7 +268,7 @@ class ClassroomController extends Controller
                 ->where('media_id',$id)
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
-
+                
             $teachable      = DB::table('teachables')
                             ->select('*')
                             ->where('teachable_type','assignment')
