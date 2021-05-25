@@ -54,7 +54,7 @@
                         <div class="card">
                             <div class="card-body" style="min-height: 115px; text-align: center">
                                 @if (is_null($grade))
-                                    Tugas Belum Dikumpul
+                                    Tugas Belum Diperiksa
                                 @else
                                 <span style="font-size: 30px">Nilai</span><br>
                                 <span style="font-size: 70px">
