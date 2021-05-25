@@ -264,7 +264,7 @@ class ClassroomController extends Controller
 
         if($slug =='assignments'){
             $complete = DB::table('media')
-                ->where('media_type','assigment')
+                ->where('media_type','assignment')
                 ->where('media_id',$id)
                 ->where('custom_properties','{"user":'.Auth::user()->id.'}')
                 ->first();
