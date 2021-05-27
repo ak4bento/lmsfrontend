@@ -99,7 +99,7 @@
                     @foreach ($discussions as $key)
                         <div class="card-comment">
                             <!-- User image -->
-                            <img class="img-circle img-sm" src="{{ asset('dist/img/user3-128x128.jpg') }}"
+                            <img class="img-circle img-sm" src="files/{{ Media::where('media_type','user')->where('media_id',$key->user_id)->latest('created_at')->first())->file_name ?? 'avatar.png' }}"
                                 alt="User Image">
 
                             <div class="comment-text">
@@ -118,7 +118,7 @@
                 <div class="card-footer">
                     <form action="#" method="post">
                         @csrf
-                        <img class="img-fluid img-circle img-sm" src="{{ asset('dist/img/user4-128x128.jpg') }}"
+                        <img class="img-fluid img-circle img-sm" src="files/{{ Media::where('media_type','user')->where('media_id', Auth::user()->id)->latest('created_at')->first())->file_name ?? 'avatar.png' }}"
                             alt="Alt Text">
                         <!-- .img-push is used to add margin to elements next to floating images -->
                         <div class="img-push">
