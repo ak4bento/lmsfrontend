@@ -18,5 +18,6 @@ class VerifyCsrfToken extends Middleware
         'http://localhost:8000/add-boomark',
         'http://localhost:8000/remove-boomark',
         'http://localhost:8000/submit-quiz',
+        'http://localhost:8000/flashcard-answer',
     ];
 }

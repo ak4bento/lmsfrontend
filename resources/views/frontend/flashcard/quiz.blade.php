@@ -66,8 +66,9 @@
         var data = document.querySelector('#data_question');
         data = data.getAttribute('data-questions');
         data = JSON.parse(data); 
+        var group,choice;
 
-        questionCount = () =>{
+        questionCount = () => {
             var dataLenght = data.length
             var question_count = number+1 + " dari " + dataLenght
             document.getElementById('question_count').innerHTML = question_count;
@@ -93,21 +94,39 @@
                         '</div>'+ 
                         '<div class="row justify-content-center py-2">'+
                             '<div style="margin-right:5px;text-align: center;">'+
-                                '<button class="btn btn-primary" onclick="viewDataExplanation()" >Rendah</button>'+
+                                '<button class="btn btn-primary" onclick="viewDataExplanation(1)" >Rendah</button>'+
                             '</div>'+
                             '<div style="text-align: center;">'+
-                                '<button class="btn btn-primary" onclick="viewDataExplanation()">Menengah</button>'+
+                                '<button class="btn btn-primary" onclick="viewDataExplanation(2)">Menengah</button>'+
                             '</div>'+
                             '<div style="margin-left:5px;text-align: center;">'+
-                                '<button class="btn btn-primary" onclick="viewDataExplanation()">Rendah</button>'+
+                                '<button class="btn btn-primary" onclick="viewDataExplanation(3)">Tinggi</button>'+
                             '</div>'+
                         '</div>';   
               
             $("#question").append(html);
         }
 
-        changeNumber = () =>{
+        changeNumber = (var_choice) =>{
             var dataLenght = data.length
+            choice = var_choice;
+
+            var rute = "{{ url('flashcard-answer') }}";
+            
+            $.ajax({
+                type: 'post',
+                url: rute,
+                data: {
+                    "flashcard_questions_id": data[number].id,
+                    "group": group,
+                    "choice": choice,
+                    "_token": "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    console.log('ini data : ', response);
+
+                }
+            });
             if(number+1 < dataLenght){
                 number++; 
             }
@@ -121,7 +140,9 @@
         }
 
         
-        viewDataExplanation = () => {
+        viewDataExplanation = (var_group) => {
+            group = var_group;
+
             document.getElementById('explanation').innerHTML = "";
             document.getElementById('question').innerHTML = "";
 
@@ -134,7 +155,7 @@
                                 '<h4> '+ data[number].explanation +' </h4>'+
                             '</div>'+
                             '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
-                                '<img class="img-responsive pad col-12 col-sm-12 col-md-12 col-lg-12" style="width:60vw" src="flashcardfiles/images_explanation/'+data[number].images_explanation+'" alt="Photo">'+
+                                '<img class="img-responsive pad col-12 col-sm-12 col-md-12 col-lg-12" src="flashcardfiles/images_explanation/'+data[number].images_explanation+'" alt="Photo">'+
                             '</div>'+
                         '</div>' ;  
 
@@ -153,17 +174,17 @@
                         console.log('subject : ',anchor); 
                     });
 
-                    var subject =   '<div class="row justify-content-center px-3" style="width:60vw">'+
+                    var subject =   '<div class="row justify-content-center px-3">'+
                                         '<div class="card col-12 col-md-12 col-lg-12" >'+
                                             '<div class="card-body" style="text-align: center;">'+ anchor+'</div>'+    
                                         '</div>'+
                                     '</div>'+
                                     '<div class="row justify-content-center py-2">'+ 
                                         '<div style="text-align: center;">'+
-                                            '<button class="btn btn-success" onclick="changeNumber()" >Mengerti</button>'+
+                                            '<button class="btn btn-success" onclick="changeNumber(1)" >Mengerti</button>'+
                                         '</div>'+
                                         '<div style="margin-left:5px;text-align: center;">'+
-                                            '<button class="btn btn-danger" onclick="changeNumber()">Tidak Mengerti</button>'+
+                                            '<button class="btn btn-danger" onclick="changeNumber(2)">Tidak Mengerti</button>'+
                                         '</div>'+
                                     '</div>';
                     $("#explanation").append(subject);

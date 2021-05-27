@@ -35,6 +35,8 @@ Route::get('flashcard-question/{id}', [App\Http\Controllers\Frontend\FlashcardQu
 
 Route::get('flashcard-subject/{id}', [App\Http\Controllers\Frontend\FlashcardSubjectController::class, 'index'])->name('flashcard.subject.all');
 
+Route::post('flashcard-answer', [App\Http\Controllers\Frontend\FlashcardAnswerController::class, 'store'])->name('flashcard.answer.store');
+
 Route::post('/class-detail/banner/{slug}', [App\Http\Controllers\Frontend\UploadController::class, 'banner'])->name('classroom.detail.banner');
 
 Route::group(['middleware' => ['role:student|teacher|owner']], function () {
