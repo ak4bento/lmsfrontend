@@ -31,10 +31,9 @@
                         <i class="far fa-edit"></i>
                     </a>
                     <button class="btn btn-danger btn-sm delete" data-id="{{ $subject->id }}"
-                        data-url="{{ url('subjects/destroy') }}/{{ $subject->id }}">
+                        data-url="{{ url('admin/subjects/destroy') }}/{{ $subject->id }}">
                         <i class="far fa-trash-alt"></i>
                     </button>
-
                 </td>
             </tr>
             @endforeach
