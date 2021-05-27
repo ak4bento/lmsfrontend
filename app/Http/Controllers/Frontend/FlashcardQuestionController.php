@@ -95,12 +95,17 @@ class FlashcardQuestionController extends Controller
         }
         $id = explode(",",$id);
         // dd($id);
-        $questions = $users = DB::table('flashcard_categories_questions')
+        $questions =  DB::table('flashcard_categories_questions')
                                 ->join('flashcard_categories', 'flashcard_categories.id', '=', 'flashcard_categories_questions.flashcard_categories_id')
                                 ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_categories_questions.flashcard_questions_id')
                                 ->select('flashcard_questions.*') 
-                                ->whereIn('flashcard_categories_questions.flashcard_categories_id', $id)->paginate(1);
-//  dd($questions);
+                                ->whereIn('flashcard_categories_questions.flashcard_categories_id', $id)->get();
+        //  dd($questions);
+        session()->put('flashcard_question', Response::json($questions));
+        // session()->pull('flashcard_question', 'default');
+        session()->put('flashcard_question', json_encode( $questions));
+
+        // dd(session()->get('flashcard_question'));
         return view('frontend.flashcard.quiz')->with('questions', $questions);
     }
     

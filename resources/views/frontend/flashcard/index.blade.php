@@ -366,7 +366,7 @@
         }
 
         second_category = (id) => {
-            document.getElementById('third_category').innerHTML = "Loading...2";
+            document.getElementById('third_category').innerHTML = "Loading...";
             var rute = "{{ url('flashcard-categories') }}/" + id;
             $.ajax({
                 url: rute,

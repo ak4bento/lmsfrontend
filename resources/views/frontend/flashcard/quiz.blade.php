@@ -3,63 +3,9 @@
 @push('page_css')
 
 <style>
-    .list-group{
-        max-height: 300px;
-        min-height: 300px;
-        overflow-x: hidden; 
-        overflow-y: scroll; 
-        -webkit-overflow-scrolling: touch;
-        border-style: solid;
-        border-color: #1b5cb838;
-    }
-
-    .border{
-        /* border-bottom-style:solid; */
-        /* border-width: thin;  */
-    }
-    .group{
-        max-height: 300px;
-        min-height: 300px;
-        overflow-x: hidden; 
-        overflow-y: scroll; 
-        -webkit-overflow-scrolling: touch;
-        border-style: solid;
-        border-color: #1b5cb838;
-    }
-
- 
-    .style-3::-webkit-scrollbar-track
-    {
-        -webkit-box-shadow: inset 0 0 6px #cfcfee;
-        background-color: #F5F5F5;
-    }
-
-    .style-3::-webkit-scrollbar
-    {
-        width: 6px;
-        background-color: #F5F5F5;
-    }
-    .style-3::-webkit-scrollbar-thumb
-    {
-        background-color: #206dda;
-    }
-    .hover:hover{
-        cursor: pointer;
-        background: rgb(204, 205, 209);
-    } 
-
-    .hover-all:hover{
-        cursor: pointer;
-    }
+   
 </style>
-<style>
-    .bg-overlay {
-        background: linear-gradient(#206dda, #1b5cb8); 
-        margin-bottom:10px;
-        border-radius:10px;
-        color: #fff;
-    }
-</style>
+
 @endpush
 @section('content')
     
@@ -69,15 +15,15 @@
 			<div class="card py-2 px-2">
                 <div class="row justify-content-between">
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary">
+                        <button type="button" onclick="prev()" class="btn btn-primary">
                             <i class="fas fa-angle-left"></i> 
                         </button>
                     </div>
-                    <div class="col-8  align-self-center" style="text-align: center">
-                        1 dari 10
+                    <div class="col-8  align-self-center" id="question_count" style="text-align: center">
+                        
                     </div>
                     <div class="col-2">
-                        <button type="button" class="btn btn-primary float-right ">
+                        <button type="button" onclick="next()" class="btn btn-primary float-right ">
                              <i class="fas fa-angle-right"></i> 
                         </button>
                     </div>
@@ -86,27 +32,25 @@
 		</div>
     </div>
     <section class="content">
-        <div class="row">
+        <div class="row" id="data_question" data-questions="{{ Session::get('flashcard_question') }}">
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card card-widget card-primary card-outline">
-                                    <div class="card-header">
-                                        <span class="card-title" style="font-size: 15px">
-                                            Diterbitkan - 
-                                        </span>
-                                    </div>
                                     <div class="card-body">
-                                        @foreach ($questions as $question)
-                                            <p>
-                                                {{ $question->id }}
-                                            </p>
-                                        @endforeach
+                                        
+                                        <div id="question">
+
+                                        </div>
+                                        <div id="explanation">
+
+                                            
+                                        </div> 
+                                        
                                     </div>
-                                </div>
-                                {{ $questions->links() }}
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -118,32 +62,134 @@
 @push('page_scripts')
     
 	<script>
-        first_category = (id) => {
+        var number=0;
+        var data = document.querySelector('#data_question');
+        data = data.getAttribute('data-questions');
+        data = JSON.parse(data); 
 
-            document.getElementById('second_category').innerHTML = "Loading...";
+        questionCount = () =>{
+            var dataLenght = data.length
+            var question_count = number+1 + " dari " + dataLenght
+            document.getElementById('question_count').innerHTML = question_count;
+        }
 
-            document.getElementById('third_category').innerHTML = "";
-            document.getElementById('fourth_category').innerHTML = "";
+        $(document).ready(function() {  
+            questionCount();
+            console.log(data);  
+            viewDataQuestion();
+        });
 
-            var rute = "{{ url('flashcard-categories') }}/" + id;
+        viewDataQuestion = () =>{ 
+            document.getElementById('explanation').innerHTML = "";
+            document.getElementById('question').innerHTML = "";
+
+            var html =  '<div class="row justify-content-center py-2">'+
+                            '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+
+                                '<h4> '+ data[number].question +' </h4>'+
+                            '</div>'+
+                            '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
+                                '<img class="img-responsive pad" width="100%" src="flashcardfiles/images/'+data[number].images+'" alt="Photo">'+
+                            '</div>'+
+                        '</div>'+ 
+                        '<div class="row justify-content-center py-2">'+
+                            '<div style="margin-right:5px;text-align: center;">'+
+                                '<button class="btn btn-primary" onclick="viewDataExplanation()" >Rendah</button>'+
+                            '</div>'+
+                            '<div style="text-align: center;">'+
+                                '<button class="btn btn-primary" onclick="viewDataExplanation()">Menengah</button>'+
+                            '</div>'+
+                            '<div style="margin-left:5px;text-align: center;">'+
+                                '<button class="btn btn-primary" onclick="viewDataExplanation()">Rendah</button>'+
+                            '</div>'+
+                        '</div>';   
+              
+            $("#question").append(html);
+        }
+
+        changeNumber = () =>{
+            var dataLenght = data.length
+            if(number+1 < dataLenght){
+                number++; 
+            }
+            
+            var question_count = number+1 + " dari " + dataLenght
+            document.getElementById('question_count').innerHTML = question_count;
+
+            console.log('panjang data : ',data.length);
+            console.log('data sekarang : ',number);
+            viewDataQuestion(); 
+        }
+
+        
+        viewDataExplanation = () => {
+            document.getElementById('explanation').innerHTML = "";
+            document.getElementById('question').innerHTML = "";
+
+            
+            var data = document.querySelector('#data_question');
+            data = data.getAttribute('data-questions');
+            data = JSON.parse(data); 
+            var html =  '<div class="row justify-content-center py-2">'+
+                            '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+
+                                '<h4> '+ data[number].explanation +' </h4>'+
+                            '</div>'+
+                            '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
+                                '<img class="img-responsive pad col-12 col-sm-12 col-md-12 col-lg-12" style="width:60vw" src="flashcardfiles/images_explanation/'+data[number].images_explanation+'" alt="Photo">'+
+                            '</div>'+
+                        '</div>' ;  
+
+            $("#explanation").append(html);
+            
+            var rute = "{{ url('flashcard-subject') }}/" + data[number].id;
+            
+            var anchor = '';
+            var no = 1;
             $.ajax({
                 url: rute,
                 type: 'get',
-                success: function(response) {
-                    document.getElementById('second_category').innerHTML = "";
-
-                    console.log('ini on button : ', response);
+                success: function(response) { 
                     $.each(response, function(key, value) {
-                        var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
-                                        '<div class="custom-control custom-checkbox">'+
-                                            '<input class="custom-control-input hover" id="second_category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover d-block custom-control-label" for="second_category['+ value.id +']">'+ value.category +'</label>'+
+                        anchor = anchor + ' <div class="row"> <a href="#" >'+ no++ +'.'+  value.subject +'</a> </div>';
+                        console.log('subject : ',anchor); 
+                    });
+
+                    var subject =   '<div class="row justify-content-center px-3" style="width:60vw">'+
+                                        '<div class="card col-12 col-md-12 col-lg-12" >'+
+                                            '<div class="card-body" style="text-align: center;">'+ anchor+'</div>'+    
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="row justify-content-center py-2">'+ 
+                                        '<div style="text-align: center;">'+
+                                            '<button class="btn btn-success" onclick="changeNumber()" >Mengerti</button>'+
+                                        '</div>'+
+                                        '<div style="margin-left:5px;text-align: center;">'+
+                                            '<button class="btn btn-danger" onclick="changeNumber()">Tidak Mengerti</button>'+
                                         '</div>'+
                                     '</div>';
-                        $(".second_category").append(data);
-                    });
+                    $("#explanation").append(subject);
+                    
                 }
-            });
+            }); 
+        }
+
+        next = () => {
+            if(number+1 < data.length){
+                number++; 
+            }
+            questionCount();
+            console.log('panjang data : ',data.length);
+            console.log('data sekarang : ',number);
+            viewDataQuestion(); 
+        }
+
+        prev = () => { 
+            if(number > 0){
+                number--; 
+            }
+            questionCount();
+            console.log('panjang data : ',data.length);
+            console.log('data sekarang : ',number);
+            viewDataQuestion(); 
         }
     
 	</script>
