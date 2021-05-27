@@ -25,7 +25,7 @@
                     <a style="font-size: 2.5em">Profil</a>
                 </div>
                 <div class="row">
-                    <a style="font-size: 1.5em">Selamat datang di teman-teman Sejawat.</a>
+                    <a style="font-size: 1.5em">Selamat datang teman-teman Sejawat.</a>
                 </div>
             </div>
         </div>
