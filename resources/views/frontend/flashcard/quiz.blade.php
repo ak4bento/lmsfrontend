@@ -41,10 +41,10 @@
                                 <div class="card card-widget card-primary card-outline">
                                     <div class="card-body">
                                         
-                                        <div id="question">
-
+                                        
+                                        <div id="question" class="col-lg-12 col-md-12 col-sm-12 col-12">
                                         </div>
-                                        <div id="explanation">
+                                        <div id="explanation" class="col-lg-12 col-md-12 col-sm-12 col-12">
 
                                             
                                         </div> 
@@ -129,14 +129,32 @@
             });
             if(number+1 < dataLenght){
                 number++; 
+                var question_count = number+1 + " dari " + dataLenght
+                document.getElementById('question_count').innerHTML = question_count;
+    
+                console.log('panjang data : ',data.length);
+                console.log('data sekarang : ',number);
+                viewDataQuestion(); 
+            } else if (number+1 == dataLenght) {
+                quizDone();
             }
             
-            var question_count = number+1 + " dari " + dataLenght
-            document.getElementById('question_count').innerHTML = question_count;
+        }
 
-            console.log('panjang data : ',data.length);
-            console.log('data sekarang : ',number);
-            viewDataQuestion(); 
+        quizDone = () => {
+            document.getElementById('question').innerHTML = "";
+            document.getElementById('explanation').innerHTML = "";
+
+            var html = '<div class="row justify-content-center" style="text-align: center;">'+
+                '<div class="card col-12 col-sm-12 col-md-6 col-lg-6">'+
+                    '<div class="card-body" >'+
+                        '<h4>You ve finished all the questions in this quiz.</h4>'+
+                        '<button class="btn btn-outline-primary" style="margin-right:5px" > Ulangi</button>'+
+                        '<button class="btn btn-primary" style="margin-right:5px" > Buat Kuis Baru</button>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
+            $("#question").append(html);
         }
 
         
