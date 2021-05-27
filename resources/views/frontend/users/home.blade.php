@@ -25,7 +25,7 @@
                     <a style="font-size: 2.5em">Profil</a>
                 </div>
                 <div class="row">
-                    <a style="font-size: 1.5em">Lorem ipsum dolor sit amet.</a>
+                    <a style="font-size: 1.5em">Selamat datang teman-teman Sejawat.</a>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                                     data-togglebtn="tooltip" data-placement="top" title="Ubah Foto Profil"
                                     data-target="#exampleModalCenter2"
                                     style="width: 200px; height: 200px; object-fit: cover;"
-                                    src="{{ asset('files/') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at') ->first()->file_name ?? 'avatar.png'}}" alt="User profile picture">
+                                    src="{{ asset('files') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at')->first()->file_name ?? 'avatar.png'}}" alt="User profile picture">
                             </div>
 
                             <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>

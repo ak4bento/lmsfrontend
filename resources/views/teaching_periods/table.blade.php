@@ -28,7 +28,7 @@
                         <i class="far fa-edit"></i>
                     </a>
                     <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $teachingPeriod->id }}"
-                        data-url="{{ url('teachingPeriods/destroy') }}/{{ $teachingPeriod->id }}">
+                        data-url="{{ url('admin/teachingPeriods/destroy') }}/{{ $teachingPeriod->id }}">
                         <i class="far fa-trash-alt"></i>
                     </button>
                 </td>

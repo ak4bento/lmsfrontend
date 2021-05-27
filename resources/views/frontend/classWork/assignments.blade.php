@@ -28,29 +28,24 @@
         <section class="content">
             <div class="row ">
                 @hasanyrole('student')
-
-                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
-                    @endhasanyrole
-                    @hasanyrole('teacher|owner')
+                    <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
+                @endhasanyrole
+                @hasanyrole('teacher|owner')
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                        @endhasanyrole
-
+                @endhasanyrole
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Deskripsi</h5>
                                 <p class="card-text">{!! $classWork->description !!}</p>
                                 @hasanyrole('student')
+                                    @if (is_object($complete))
 
-                                @if (is_object($complete))
-
-                                    <div class="alert alert-success alert-dismissible">
-                                        <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
-                                        File sudah di kumpul
-                                    </div>
-                                @endif
+                                        <div class="alert alert-success alert-dismissible">
+                                            <h5><i class="icon fas fa-check"></i> Berhasil!</h5>
+                                            File sudah di kumpul
+                                        </div>
+                                    @endif
                                 @endhasanyrole
-
                             </div>
                         </div>
                     </div>
@@ -59,7 +54,7 @@
                         <div class="card">
                             <div class="card-body" style="min-height: 115px; text-align: center">
                                 @if (is_null($grade))
-                                    Tugas Belum Dikumpul
+                                    Tugas Belum Diperiksa
                                 @else
                                 <span style="font-size: 30px">Nilai</span><br>
                                 <span style="font-size: 70px">
@@ -104,7 +99,7 @@
                     @foreach ($discussions as $key)
                         <div class="card-comment">
                             <!-- User image -->
-                            <img class="img-circle img-sm" src="{{ asset('dist/img/user3-128x128.jpg') }}"
+                            <img class="img-circle img-sm" src="{{ asset('files') }}/{{ (App\Models\Media::where('media_type','user')->where('media_id',$key->user_id)->latest('created_at')->first())->file_name ?? 'avatar.png' }}"
                                 alt="User Image">
 
                             <div class="comment-text">
@@ -123,7 +118,7 @@
                 <div class="card-footer">
                     <form action="#" method="post">
                         @csrf
-                        <img class="img-fluid img-circle img-sm" src="{{ asset('dist/img/user4-128x128.jpg') }}"
+                        <img class="img-fluid img-circle img-sm" src="{{ asset('files') }}/{{ (App\Models\Media::where('media_type','user')->where('media_id', Auth::user()->id)->latest('created_at')->first())->file_name ?? 'avatar.png' }}"
                             alt="Alt Text">
                         <!-- .img-push is used to add margin to elements next to floating images -->
                         <div class="img-push">

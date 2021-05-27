@@ -32,7 +32,7 @@
                             <i class="far fa-edit"></i>
                         </a>
                         <button class="btn btn-danger btn-sm delete" id="delete" data-id="{{ $quizzes->id }}"
-                            data-url="{{ url('quizzes/destroy') }}/{{ $quizzes->id }}">
+                            data-url="{{ url('admin/quizzes/destroy') }}/{{ $quizzes->id }}">
                             <i class="far fa-trash-alt"></i>
                         </button>
                     </div>
