@@ -78,7 +78,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ auth()->user()->email }}
                                 <img src="{{ asset('files') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at')->first()->file_name ?? 'avatar.png'}}" alt="Sejawat"
-                                    class="brand-image img-circle elevation-3" style="opacity: .8">
+                                    class="brand-image img-circle elevation-3" width="33px" style="opacity: .8">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {{-- <a type="button" class=" dropdown-item py-2" data-toggle="modal"
