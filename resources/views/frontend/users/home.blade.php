@@ -16,13 +16,15 @@
             margin-bottom: 17px;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="{{ asset('js/slick/slick.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('js/slick/slick-theme.css') }}">
 @endpush
 @section('content')
     <div class="container">
         <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
             <div class="container ">
                 <div class="row">
-                    <a style="font-size: 2.5em">Profil</a>
+                    <a style="font-size: 2.5em">Dashboard</a>
                 </div>
                 <div class="row">
                     <a style="font-size: 1.5em">Selamat datang teman-teman Sejawat.</a>
@@ -31,7 +33,19 @@
         </div>
         @include('adminlte-templates::common.errors')
         <div class="row">
-            <div class="col-sm-3 col-md-3 col-lg-3 ">
+            <!-- /.col -->
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <!-- Default box -->
+                @hasanyrole('student')
+                @include('frontend.users.student_home')
+                @endhasanyrole
+                @hasanyrole('teacher|owner')
+                @include('frontend.users.teacher_home')
+                @endhasanyrole
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            {{-- <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="fixme">
                     <div class="card card-primary card-outline ">
                         <div class="card-body box-profile">
@@ -61,7 +75,7 @@
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-                    @include('frontend.users.profileForm')
+
                     <!-- About Me Box -->
                     <div class="card card-primary">
                         <div class="card-header">
@@ -96,7 +110,7 @@
                     <!-- /.card -->
 
                     <!-- About Me Box -->
-                    {{-- <div class="card card-primary">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Kelas Saya</h3>
                         </div>
@@ -118,23 +132,31 @@
                             @endforelse
                         </div>
                         <!-- /.card-body -->
-                    </div> --}}
+                    </div>
                     <!-- /.card -->
                 </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-lg-9 col-md-9 col-sm-12">
-                <!-- Default box -->
-                @hasanyrole('student')
-                @include('frontend.users.student_home')
-                @endhasanyrole
-                @hasanyrole('teacher|owner')
-                @include('frontend.users.teacher_home')
-                @endhasanyrole
-                <!-- /.card -->
-            </div>
-            <!-- /.col -->
+            </div> --}}
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 @endsection
+@push('page_scripts')
+<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+<script src="{{ asset('/js/slick/slick.js') }}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(document).on('ready', function() {
+      $(".regular").slick({
+        dots: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        prevArrow: '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button">Previous</button>',
+        nextArrow: '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button">Next</button>',
+      });
+      $(".lazy").slick({
+        lazyLoad: 'ondemand', // ondemand progressive anticipated
+        infinite: true
+      });
+    });
+</script>
+@endpush

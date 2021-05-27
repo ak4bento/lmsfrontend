@@ -77,6 +77,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ auth()->user()->email }}
+                                <img src="{{ asset('files') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at')->first()->file_name ?? 'avatar.png'}}" alt="Sejawat"
+                                    class="brand-image img-circle elevation-3" style="opacity: .8">
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 {{-- <a type="button" class=" dropdown-item py-2" data-toggle="modal"
@@ -84,6 +86,19 @@
                                     Ganti Password
                                 </a> --}}
                                 @auth
+                                    {{-- <a class="nav-link" data-target="#exampleModalCenter">
+                                        Profile
+                                    </a> --}}
+                                    <a type="button" class="nav-link" data-toggle="modal"
+                                        data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
+                                        data-target="#exampleModalCenter">
+                                        Profil
+                                    </a>
+                                    <a type="button" class="nav-link" data-toggle="modal"
+                                        data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
+                                        data-target="#exampleModalCenter2">
+                                        Foto Profil
+                                    </a>
                                     <a href="#" class="nav-link"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Sign out
@@ -101,6 +116,7 @@
                 </ul>
             </div>
         </nav>
+        @include('frontend.users.profileForm')
         <!-- /.navbar -->
 
         <!-- Content Wrapper. Contains page content -->
@@ -143,7 +159,6 @@
         </footer>
     </div>
     <!-- ./wrapper -->
-
     <!-- REQUIRED SCRIPTS -->
 
     @include('frontend.layouts.datatables_js')

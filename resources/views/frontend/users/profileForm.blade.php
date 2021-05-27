@@ -1,7 +1,7 @@
-@push('page_css')
+
     <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
     <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
-@endpush
+
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -98,15 +98,14 @@
                         </div>
                     </div>
                 </div>
-                 
+
             </form>
         </div>
     </div>
 </div>
-@push('page_scripts')
     <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
-    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script> 
+    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
     <script src="{{ asset('filepond/filepond.js') }}"></script>
@@ -118,10 +117,10 @@
         FilePond.registerPlugin(FilePondPluginImageCrop);
         FilePond.registerPlugin(FilePondPluginFileValidateSize);
         FilePond.registerPlugin(FilePondPluginImageTransform);
-        const pond = FilePond.create( 
+        const pond = FilePond.create(
             inputElement,
-            { 
-                
+            {
+
                 allowFileSizeValidation:true,
                 maxFileSize:2048000,
                 allowImageCrop:true,
@@ -157,9 +156,9 @@
                     return transforms;
                     },
                 },
-            } 
+            }
         );
-        
+
         FilePond.setOptions({
             server: {
                 url : "{{ route('avatar_upload') }}",
@@ -176,4 +175,4 @@
         });
 
     </script>
-@endpush
+
