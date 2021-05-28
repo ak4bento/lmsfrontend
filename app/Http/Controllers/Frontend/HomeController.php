@@ -33,9 +33,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $profile = Profile::where('user_id',Auth::user()->id)->first();
-        $user = User::find(Auth::user()->id);
-
         $classroom = DB::table('classrooms')
             ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
             ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
@@ -44,6 +41,6 @@ class HomeController extends Controller
             ->orderBy('classrooms.created_at','DESC')
             ->paginate(10);
         // dd($profile);
-        return view('frontend.users.home')->with('profile', $profile)->with('user',$user)->with('classroom',$classroom);
+        return view('frontend.users.home')->with('classroom',$classroom);
     }
 }

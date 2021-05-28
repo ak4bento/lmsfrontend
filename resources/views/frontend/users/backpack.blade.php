@@ -86,7 +86,7 @@
 
                                                         {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                     </a>
-                                                @elseif ($teachable->teachable_type == 'assignment')
+                                                @elseif ($teachable->teachable_type == 'assignments')
                                                     <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
                                                         style="font-weight: bold;"
                                                         href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
@@ -100,7 +100,7 @@
                                                 @endif
                                             </div>
                                             <div class="row">
-                                                <span style="color: grey;font-size:10px"> 
+                                                <span style="color: grey;font-size:10px">
                                                     Diposting
                                                     {{App\Models\User::find($teachable->created_by)->name}}
                                                     -
@@ -110,19 +110,19 @@
                                         </div>
                                         <div class="col-2 col-lg-2 col-md-2 col-sm-2">
                                             @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->first() ))
-                                                <i 
+                                                <i
                                                     data-teachable_id="{{$teachable->id}}"
-                                                    data-toggle="tooltip" 
-                                                    data-placement="left"  
-                                                    class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
+                                                    data-toggle="tooltip"
+                                                    data-placement="left"
+                                                    class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add"
                                                     aria-hidden="true">
                                                 </i>
                                             @else
-                                                <i 
+                                                <i
                                                     data-teachable_id="{{$teachable->id}}"
-                                                    data-toggle="tooltip" 
-                                                    data-placement="left"  
-                                                    class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
+                                                    data-toggle="tooltip"
+                                                    data-placement="left"
+                                                    class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove"
                                                     aria-hidden="true">
                                                 </i>
                                             @endif
@@ -135,12 +135,12 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                            Belum ada meteri yang di markah 
+                                            Belum ada meteri yang di markah
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @endforelse 
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -158,21 +158,21 @@
             $.ajax({
                 type: 'post',
                 url: url,
-                data: { 
+                data: {
                     teachable_id: teachable_id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log('add bookmark : ',response);
-                    if(response.status == 200){ 
-                        $('.onClick').click(removeToAdd); 
+                    if(response.status == 200){
+                        $('.onClick').click(removeToAdd);
                         window.location.href = '';
 
                     }
                 }
             });
         });
- 
+
         $(".remove").click(function(e) {
             e.preventDefault();
             let slug = $(this).data('slug');
@@ -181,14 +181,14 @@
             $.ajax({
                 type: 'post',
                 url: url,
-                data: { 
+                data: {
                     teachable_id: teachable_id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log('remove bookmark : ',response);
                     if(response == 200){
-                        $('.onClick').click(removeToAdd); 
+                        $('.onClick').click(removeToAdd);
                         window.location.href = '';
 
                     }
@@ -208,7 +208,7 @@
 
 
     <script>
-         
+
         $(".not_allowed").click(function(e) {
             e.preventDefault();
             Swal.fire({

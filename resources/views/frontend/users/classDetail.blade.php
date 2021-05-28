@@ -1,8 +1,8 @@
 @extends('frontend.layouts.app') @section('content')
 
 @push('page_css')
-    <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
-    <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
+    {{-- <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet"> --}}
+    {{-- <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" /> --}}
         <style>
             .ion-medium {
                 font-size: 16px;
@@ -41,7 +41,7 @@
                 cursor: pointer;
             }
 
-           
+
         </style>
     @if(!is_null($media))
         <style>
@@ -58,9 +58,9 @@
             }
         </style>
         @if ($classroomUsersCount > 0)
-        <style> 
+        <style>
             .bg-overlay:hover{
-                cursor: pointer; 
+                cursor: pointer;
                 background: linear-gradient(rgba(0, 0, 0, 0.377), rgba(0, 0, 0, 0.5)), url("{{asset('files')}}/{{$media->file_name}}");
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -72,7 +72,7 @@
     @else
         <style>
             .bg-overlay {
-                background: linear-gradient(#206dda, #1b5cb8); 
+                background: linear-gradient(#206dda, #1b5cb8);
                 margin-bottom:10px;
                 border-radius:10px;
                 background-repeat: no-repeat;
@@ -87,8 +87,8 @@
 
         <style>
             .bg-overlay:hover{
-                cursor: pointer; 
-                background: linear-gradient(#1e5aad, #154588); 
+                cursor: pointer;
+                background: linear-gradient(#1e5aad, #154588);
                 background-repeat: no-repeat;
                 background-size: cover;
                 background-position: center center;
@@ -98,21 +98,21 @@
         @endif
         @endhasanyrole
 
-
     @endif
+@endpush
     <div class="container">
         <div
             @hasanyrole('owner')
             @if ($classroomUsersCount > 0)
 
                 data-toggle="modal"
-                data-togglebtn="tooltip" 
-                data-placement="bottom" 
-                title="Ganti Latar" 
+                data-togglebtn="tooltip"
+                data-placement="bottom"
+                title="Ganti Latar"
                 data-target="#banner"
             @endif
             @endhasanyrole
-           
+
             class="content-header @hasanyrole('owner') hover-latar @endhasanyrole bg-overlay p-5">
             <div class="container p-3">
                 <div class="row">
@@ -146,12 +146,12 @@
                                 <div class="row">
                                     <!-- Name Field -->
                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                        <input type="file" name="file" id="file" accept="image/*">
+                                        <input type="file" name="file" id="fileBackground" accept="image/*">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         
+
                     </form>
                 </div>
             </div>
@@ -159,7 +159,7 @@
         @endif
 
         @endhasanyrole
-        
+
         {{-- @if(is_null($media))
             <div class="jumbotron jumbotron-fluid text-white p-5" style="background: linear-gradient(#206dda, #1b5cb8);border-radius:10px">
                 <div class="container">
@@ -223,7 +223,7 @@
                                             </a>
                                             <div class="dropdown-menu">
                                                 <a type="button" class=" dropdown-item py-2" data-toggle="modal"
-                                                    data-target="#exampleModalCenter">
+                                                    data-target="#classroomUser">
                                                     <i class="far fa-user"></i>
 
                                                     &nbsp;Pengguna Kelas
@@ -239,7 +239,7 @@
                                         </div>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="classroomUser" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
@@ -393,7 +393,7 @@
 
                                                             {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                         </a>
-                                                    @elseif ($teachable->teachable_type == 'assignment')
+                                                    @elseif ($teachable->teachable_type == 'assignments')
                                                         <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
                                                             style="font-weight: bold;"
                                                             href="{{ route('class.work.detail', ['assignments', $teachable->teachable_id]) }}">
@@ -434,7 +434,7 @@
                                                                 </a>
                                                             @endif
                                                             @hasanyrole('teacher')
-                                                            
+
                                                             @if ($teachable->teachable_type == 'quiz')
                                                                 <a href="{{ route('allquiz', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                     class="dropdown-item">Lihat Daftar Pengumpulan </a>
@@ -451,7 +451,7 @@
                                                                 <a class="dropdown-item btn delete"
                                                                     data-url="{{ route('destroyResources', $teachable->teachable_id) }}">
                                                                     Hapus</a>
-                                                            @elseif ($teachable->teachable_type == 'assignment')
+                                                            @elseif ($teachable->teachable_type == 'assignments')
                                                                 <a href="{{ route('allAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
                                                                     class="dropdown-item">Lihat Daftar Pengumpulan </a>
                                                                 <a href="{{ route('editAssignment', ['slug' => $classrooms->slug, 'id' => $teachable->teachable_id]) }}"
@@ -467,19 +467,19 @@
                                                 @endhasanyrole
                                                 @hasanyrole('student')
                                                 @if(is_null(App\Models\Bookmark::where('teachable_id',$teachable->id)->where('user_id',auth()->user()->id)->first() ))
-                                                    <i 
+                                                    <i
                                                         style="font-size: 20px"
                                                         data-slug="{{$classrooms->slug}}"
-                                                        data-teachable_id="{{$teachable->id}}" 
-                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add" 
+                                                        data-teachable_id="{{$teachable->id}}"
+                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-default add"
                                                         aria-hidden="true">
                                                     </i>
                                                 @else
-                                                    <i 
+                                                    <i
                                                         style="font-size: 20px"
                                                         data-slug="{{$classrooms->slug}}"
-                                                        data-teachable_id="{{$teachable->id}}"  
-                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove" 
+                                                        data-teachable_id="{{$teachable->id}}"
+                                                        class="onClick fa fa-bookmark float-right bookmark-clik bookmark-active remove"
                                                         aria-hidden="true">
                                                     </i>
                                                 @endif
@@ -497,27 +497,27 @@
     </div>
 @endsection
 @push('page_scripts')
-<script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+    {{-- <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
-    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script> 
+    <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
+    <script src="{{ asset('filepond/filepond.js') }}"></script> --}}
 
     <script>
         let slug = "{{$classrooms->slug}}";
         let rute = "{{ url('class-detail/banner') }}/"+slug;
         // rute = rute + slug;
-        const inputElement = document.querySelector('input[id="file"]');
+        const inputElementBackground = document.querySelector('input[id="fileBackground"]');
         FilePond.registerPlugin(FilePondPluginFileValidateType);
         FilePond.registerPlugin(FilePondPluginImagePreview);
         FilePond.registerPlugin(FilePondPluginImageCrop);
         FilePond.registerPlugin(FilePondPluginFileValidateSize);
         FilePond.registerPlugin(FilePondPluginImageTransform);
-        const pond = FilePond.create( 
-            inputElement,
-            { 
-                
+        const pondBackground = FilePond.create(
+            inputElementBackground,
+            {
+
                 allowFileSizeValidation:true,
                 maxFileSize:2048000,
                 allowImageCrop:true,
@@ -553,9 +553,9 @@
                     return transforms;
                     },
                 },
-            } 
+            }
         );
-        
+
         FilePond.setOptions({
             server: {
                 url : rute,
@@ -575,21 +575,21 @@
             $.ajax({
                 type: 'post',
                 url: url,
-                data: { 
+                data: {
                     teachable_id: teachable_id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log('add bookmark : ',response);
-                    if(response.status == 200){ 
-                        $('.onClick').click(removeToAdd); 
+                    if(response.status == 200){
+                        $('.onClick').click(removeToAdd);
                         window.location.href = '';
 
                     }
                 }
             });
         });
- 
+
         $(".dropdown-remove").click(function(e) {
             e.preventDefault();
             let slug = $(this).data('slug');
@@ -598,14 +598,14 @@
             $.ajax({
                 type: 'post',
                 url: url,
-                data: { 
+                data: {
                     teachable_id: teachable_id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log('remove bookmark : ',response);
                     if(response == 200){
-                        $('.onClick').click(removeToAdd); 
+                        $('.onClick').click(removeToAdd);
                         window.location.href = '';
 
                     }
@@ -634,7 +634,7 @@
                 }
             })
         });
- 
+
         $(".add").click(function(e) {
             e.preventDefault();
             let slug = $(this).data('slug');
@@ -643,21 +643,21 @@
             $.ajax({
                 type: 'post',
                 url: url,
-                data: { 
+                data: {
                     teachable_id: teachable_id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log('add bookmark : ',response);
-                    if(response.status == 200){ 
-                        $('.onClick').click(removeToAdd); 
+                    if(response.status == 200){
+                        $('.onClick').click(removeToAdd);
                         window.location.href = '';
 
                     }
                 }
             });
         });
- 
+
         $(".remove").click(function(e) {
             e.preventDefault();
             let slug = $(this).data('slug');
@@ -666,14 +666,14 @@
             $.ajax({
                 type: 'post',
                 url: url,
-                data: { 
+                data: {
                     teachable_id: teachable_id,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
                     console.log('remove bookmark : ',response);
                     if(response == 200){
-                        $('.onClick').click(removeToAdd); 
+                        $('.onClick').click(removeToAdd);
                         window.location.href = '';
 
                     }

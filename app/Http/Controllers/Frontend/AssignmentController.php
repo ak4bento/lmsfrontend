@@ -21,7 +21,7 @@ use Validator;
 class AssignmentController extends AppBaseController
 {
     /** @var  AssignmentRepository */
-    private $assignmentRepository; 
+    private $assignmentRepository;
     private $teachableRepository;
     private $gradeRepository;
 
@@ -49,7 +49,7 @@ class AssignmentController extends AppBaseController
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
-        
+
         return view('frontend.teacher.assignment.index')->with('assignments',$assignments)->with('media',$media)->with('classrooms',$classrooms);
 
     }
@@ -78,14 +78,14 @@ class AssignmentController extends AppBaseController
     }
 
     public function create($slug)
-    { 
+    {
         $classrooms = DB::table('classrooms')
                     ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
                     ->join('teaching_periods', 'teaching_periods.id', '=', 'classrooms.teaching_period_id')
                     ->select('classrooms.*','subjects.title as subject','teaching_periods.name as teaching_periods')
                     ->where('classrooms.slug',$slug)
                     ->first();
-        
+
         if(is_null($classrooms)){
             abort(404);
         }
@@ -97,9 +97,9 @@ class AssignmentController extends AppBaseController
                     ->join('model_has_roles', 'model_has_roles.model_id', '=', 'classroom_user.user_id')
                     ->select('classrooms.*','users.id as user_id','users.name')
                     ->where('classrooms.slug',$slug)
-                    ->where('model_has_roles.role_id','!=',3) 
-                    ->where('model_has_roles.role_id','!=',1) 
-                    ->where('model_has_roles.role_id','!=',2) 
+                    ->where('model_has_roles.role_id','!=',3)
+                    ->where('model_has_roles.role_id','!=',1)
+                    ->where('model_has_roles.role_id','!=',2)
                     ->where('classroom_user.deleted_at',null)
                     ->get();
 
@@ -107,14 +107,14 @@ class AssignmentController extends AppBaseController
     }
 
     public function store(Request $request)
-    {  
+    {
         $rules = [
             'title' => 'required|unique:assignments,title',
             'description' => 'required',
             'max_attempts_count' => 'required',
             'pass_threshold' => 'required',
             'available_at' => 'required',
-            'expires_at' => 'required', 
+            'expires_at' => 'required',
         ];
 
         $messages = [
@@ -124,27 +124,27 @@ class AssignmentController extends AppBaseController
             'max_attempts_count.required' => 'Deskripsi tidak boleh kosong.',
             'pass_threshold.required' => 'Nilai Batas Minimum tidak boleh kosong.',
             'expires_at.required' => 'Selesai tidak boleh kosong.',
-            'available_at.required'=> 'Mulai tidak boleh kosong.', 
-            'max_attempts_count.numeric'=> 'Jumlah maksimal mencoba harus berupa angka.', 
-            'max_attempts_count.min'=> 'Jumlah maksimal mencoba minimal 1.', 
-            'max_attempts_count.max'=> 'Jumlah maksimal mencoba minimal 5.', 
+            'available_at.required'=> 'Mulai tidak boleh kosong.',
+            'max_attempts_count.numeric'=> 'Jumlah maksimal mencoba harus berupa angka.',
+            'max_attempts_count.min'=> 'Jumlah maksimal mencoba minimal 1.',
+            'max_attempts_count.max'=> 'Jumlah maksimal mencoba minimal 5.',
         ];
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
-        $input = $request->all(); 
+        $input = $request->all();
         $input['created_by'] = auth()->user()->id;
         $input['final_grade_weight'] = 0;
         $input['order'] = 1;
 
         $assignment = $this->assignmentRepository->create($input);
-        $input['teachable_type'] = "assignment";
+        $input['teachable_type'] = "assignments";
         $input['teachable_id'] = $assignment['id'];
         $input['classroom_id'] = $input['classroom_id'];
-        $teachable = $this->teachableRepository->create($input); 
+        $teachable = $this->teachableRepository->create($input);
         if(isset($input['user_id'])){
             foreach($input['user_id'] as $user_id){
                 $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
@@ -153,7 +153,7 @@ class AssignmentController extends AppBaseController
                     $data['teachable_id'] = $teachable['id'];
                     TeachableUser::create($data);
                 }
-            } 
+            }
         }
         Alert::success('Assignment saved successfully.');
         return redirect()->route('classroom.detail', $input['slug']);
@@ -170,7 +170,7 @@ class AssignmentController extends AppBaseController
         if(is_null($classrooms)){
             abort(404);
         }
-        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('teachables.*')->first();
+        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignments')->where('deleted_at',null)->select('teachables.*')->first();
         $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('assignments.*')->first();
         $classroomUser = ClassroomUser::where('classroom_id', $classrooms->id)->where('deleted_at', null)->get();
         $user = DB::table('classroom_user')
@@ -180,9 +180,9 @@ class AssignmentController extends AppBaseController
                     ->select('classrooms.*','users.id as user_id','users.name','classroom_user.id as classroom_user_id')
                     ->where('classrooms.slug',$slug)
                     ->where('classroom_user.deleted_at',null)
-                    ->where('model_has_roles.role_id','!=',3) 
-                    ->where('model_has_roles.role_id','!=',1) 
-                    ->where('model_has_roles.role_id','!=',2) 
+                    ->where('model_has_roles.role_id','!=',3)
+                    ->where('model_has_roles.role_id','!=',1)
+                    ->where('model_has_roles.role_id','!=',2)
                     ->get();
         $teachableUser = DB::table('teachable_users')
                     ->join('classroom_user', 'classroom_user.id', '=', 'teachable_users.classroom_user_id')
@@ -191,7 +191,7 @@ class AssignmentController extends AppBaseController
                     ->select('classroom_user.*')
                     ->where('teachable_users.teachable_id',$teachable->id)
                     ->where('teachable_users.deleted_at',null)
-                    ->where('model_has_roles.role_id','!=',3) 
+                    ->where('model_has_roles.role_id','!=',3)
                     ->get();
                     // dd($teachableUser);
         return view('frontend.teacher.assignment.edit')
@@ -222,29 +222,29 @@ class AssignmentController extends AppBaseController
             'max_attempts_count.required' => 'Deskripsi tidak boleh kosong.',
             'pass_threshold.required' => 'Nilai Batas Minimum tidak boleh kosong.',
             'expires_at.required' => 'Selesai tidak boleh kosong.',
-            'available_at.required'=> 'Mulai tidak boleh kosong.', 
-            'max_attempts_count.numeric'=> 'Jumlah maksimal mencoba harus berupa angka.', 
-            'max_attempts_count.min'=> 'Jumlah maksimal mencoba minimal 1.', 
-            'max_attempts_count.max'=> 'Jumlah maksimal mencoba minimal 5.', 
+            'available_at.required'=> 'Mulai tidak boleh kosong.',
+            'max_attempts_count.numeric'=> 'Jumlah maksimal mencoba harus berupa angka.',
+            'max_attempts_count.min'=> 'Jumlah maksimal mencoba minimal 1.',
+            'max_attempts_count.max'=> 'Jumlah maksimal mencoba minimal 5.',
         ];
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
         if($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
-        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('*')->first();
+        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignments')->where('deleted_at',null)->select('*')->first();
         $input = $request->all();
         $input['created_by'] = auth()->user()->id;
         $input['final_grade_weight'] = 0;
         $input['order'] = 1;
 
         $assignment = $this->assignmentRepository->update($input, $id);
-        
-        $input['teachable_type'] = "assignment";
+
+        $input['teachable_type'] = "assignments";
         $input['teachable_id'] = $id;
         $input['classroom_id'] = $input['classroom_id'];
-        
+
         $teachable = $this->teachableRepository->update($input, $teachable->id);
         if(isset($input['user_id'])){
             foreach($input['user_id'] as $user_id){
@@ -256,7 +256,7 @@ class AssignmentController extends AppBaseController
                     $TeachableUser = TeachableUser::where('teachable_id',$value['teachable_id'])->delete();
                     TeachableUser::create($value);
                 }
-            } 
+            }
             foreach($input['user_id'] as $user_id){
                 $ClassroomUser = ClassroomUser::where('classroom_id',$input['classroom_id'])->where('user_id',$user_id)->first();
                 $value['classroom_user_id'] = $ClassroomUser['id'];
@@ -279,7 +279,7 @@ class AssignmentController extends AppBaseController
 
             return redirect(route('assignments.index'));
         }
-        $teachable  = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('*')->first();
+        $teachable  = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignments')->where('deleted_at',null)->select('*')->first();
         $classrooms = DB::table('classrooms')->select('*')->where('id',$teachable->classroom_id)->first();
         $this->assignmentRepository->delete($id);
         $this->teachableRepository->delete($teachable->id);
