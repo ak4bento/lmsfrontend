@@ -507,63 +507,63 @@
         let slug = "{{$classrooms->slug}}";
         let rute = "{{ url('class-detail/banner') }}/"+slug;
         // rute = rute + slug;
-        const inputElement = document.querySelector('input[id="file"]');
-        FilePond.registerPlugin(FilePondPluginFileValidateType);
-        FilePond.registerPlugin(FilePondPluginImagePreview);
-        FilePond.registerPlugin(FilePondPluginImageCrop);
-        FilePond.registerPlugin(FilePondPluginFileValidateSize);
-        FilePond.registerPlugin(FilePondPluginImageTransform);
-        const pond = FilePond.create(
-            inputElement,
-            {
+    //     const inputElement = document.querySelector('input[id="file"]');
+    //     FilePond.registerPlugin(FilePondPluginFileValidateType);
+    //     FilePond.registerPlugin(FilePondPluginImagePreview);
+    //     FilePond.registerPlugin(FilePondPluginImageCrop);
+    //     FilePond.registerPlugin(FilePondPluginFileValidateSize);
+    //     FilePond.registerPlugin(FilePondPluginImageTransform);
+    //     const pond = FilePond.create(
+    //         inputElement,
+    //         {
 
-                allowFileSizeValidation:true,
-                maxFileSize:2048000,
-                allowImageCrop:true,
-                imageCropAspectRatio:'5:1',
-                allowImagePreview:true,
-                labelFileSizeNotAvailable:'',
-                labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
-                acceptedFileTypes: ['image/png'],
-                fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
-                    resolve(type);
-                })
-            },
-            {
-                imageResizeTargetWidth: 600,
-                imageCropAspectRatio: 1,
-                imageTransformVariants: {
-                    thumb_medium_: (transforms) => {
-                    transforms.resize = {
-                        size: {
-                        width: 1200,
-                        height: 245,
-                        },
-                    };
-                    return transforms;
-                    },
-                    thumb_small_: (transforms) => {
-                    transforms.resize = {
-                        size: {
-                        width: 1200,
-                        height: 245,
-                        },
-                    };
-                    return transforms;
-                    },
-                },
-            }
-        );
+    //             allowFileSizeValidation:true,
+    //             maxFileSize:2048000,
+    //             allowImageCrop:true,
+    //             imageCropAspectRatio:'5:1',
+    //             allowImagePreview:true,
+    //             labelFileSizeNotAvailable:'',
+    //             labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
+    //             acceptedFileTypes: ['image/png'],
+    //             fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+    //                 resolve(type);
+    //             })
+    //         },
+    //         {
+    //             imageResizeTargetWidth: 600,
+    //             imageCropAspectRatio: 1,
+    //             imageTransformVariants: {
+    //                 thumb_medium_: (transforms) => {
+    //                 transforms.resize = {
+    //                     size: {
+    //                     width: 1200,
+    //                     height: 245,
+    //                     },
+    //                 };
+    //                 return transforms;
+    //                 },
+    //                 thumb_small_: (transforms) => {
+    //                 transforms.resize = {
+    //                     size: {
+    //                     width: 1200,
+    //                     height: 245,
+    //                     },
+    //                 };
+    //                 return transforms;
+    //                 },
+    //             },
+    //         }
+    //     );
 
-        FilePond.setOptions({
-            server: {
-                url : rute,
-                method: 'POST',
-                headers :{
-                   'X-CSRF-TOKEN':'{{ csrf_token() }}'
-                }
-            }
-        });
+    //     FilePond.setOptions({
+    //         server: {
+    //             url : rute,
+    //             method: 'POST',
+    //             headers :{
+    //                'X-CSRF-TOKEN':'{{ csrf_token() }}'
+    //             }
+    //         }
+    //     });
     </script>
     <script>
         $(".dropdown-add").click(function(e) {
