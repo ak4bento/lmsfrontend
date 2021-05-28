@@ -13,6 +13,9 @@
                     </span>
                 </div>
             </div>
+            @php
+                $authProfile = App\Models\Profile::where('user_id',Auth::user()->id)->first();
+            @endphp
             <form action="{{ route('updateProfile', Auth::user()->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
@@ -28,7 +31,7 @@
                             <!-- Email Field -->
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                 <label for="">email</label>
-                                <input type="text" value="{{ $user->email ?? '' }}" placeholder="email"
+                                <input type="text" value="{{ Auth::user()->email ?? '' }}" placeholder="email"
                                     class="form-control" name="email">
                             </div>
 
@@ -42,21 +45,21 @@
                             <!-- Full Name Field -->
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                 <label for="">Nama Lengkap</label>
-                                <input type="text" placeholder="Nama Lengkap" value="{{ $profile->full_name ?? '' }}"
+                                <input type="text" placeholder="Nama Lengkap" value="{{ $authProfile->full_name ?? '' }}"
                                     class="form-control" name="full_name">
                             </div>
 
                             <!-- Address Field -->
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                 <label for="">Alamat</label>
-                                <input type="text" value="{{ $profile->address ?? '' }}" placeholder="Alamat"
+                                <input type="text" value="{{ $authProfile->address ?? '' }}" placeholder="Alamat"
                                     class="form-control" name="address">
                             </div>
 
                             <!-- Phone Number Field -->
                             <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
                                 <label for="">Nomor Hp</label>
-                                <input type="text" value="{{ $profile->phone_number ?? '' }}" placeholder="Nomor Hp"
+                                <input type="text" value="{{ $authProfile->phone_number ?? '' }}" placeholder="Nomor Hp"
                                     class="form-control" name="phone_number">
                             </div>
                         </div>

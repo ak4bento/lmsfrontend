@@ -1,6 +1,8 @@
 <div class="card card-outline card-primary">
     <div class="card-header">
-        Bagaimana proses belajar anda?
+        Kelas Yang Sedang Ajarkan
+        <br>
+        Berikut ini adalah daftar kelas yang kamu ikuti. Mengalami kesusahan untuk bahan ajaran? Pelajari tips menulis di SIPS.
     </div>
     <div class="card-body">
 
@@ -33,7 +35,7 @@
                     @endphp
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped" role="progressbar" style="width: {{ $progress / $teachables * 100 }}%"
-                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ number_format($progress / $teachables * 100, 1) }} %
+                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ number_format($progress / $teachables * 100) }} %
                         </div>
                     </div>
                 </div>
