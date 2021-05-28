@@ -508,14 +508,14 @@
         let slug = "{{$classrooms->slug}}";
         let rute = "{{ url('class-detail/banner') }}/"+slug;
         // rute = rute + slug;
-        const inputElement = document.querySelector('input[id="fileBackground"]');
+        const inputElementBackground = document.querySelector('input[id="fileBackground"]');
         FilePond.registerPlugin(FilePondPluginFileValidateType);
         FilePond.registerPlugin(FilePondPluginImagePreview);
         FilePond.registerPlugin(FilePondPluginImageCrop);
         FilePond.registerPlugin(FilePondPluginFileValidateSize);
         FilePond.registerPlugin(FilePondPluginImageTransform);
         const pond = FilePond.create(
-            inputElement,
+            inputElementBackground,
             {
 
                 allowFileSizeValidation:true,
