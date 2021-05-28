@@ -514,7 +514,7 @@
         FilePond.registerPlugin(FilePondPluginImageCrop);
         FilePond.registerPlugin(FilePondPluginFileValidateSize);
         FilePond.registerPlugin(FilePondPluginImageTransform);
-        const pond = FilePond.create(
+        const pondBackground = FilePond.create(
             inputElementBackground,
             {
 
