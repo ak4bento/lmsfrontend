@@ -64,8 +64,8 @@
                 </div>
                 <div class="modal-footer">
                     <div class="container-fluid">
-                        <button type="submit" class="btn btn-primary btn-md float-right" data-togglebtn="tooltip"
-                            data-placement="top" title="Simpan"><i class="fas fa-save"></i></button>
+                        <button type="submit" class="btn btn-primary btn-md float-right" 
+                             ><i class="fas fa-save"></i></button>
                     </div>
                 </div>
             </form>
@@ -169,10 +169,4 @@
             }
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $('[data-togglebtn="tooltip"]').tooltip();
-        });
-
-    </script>
-
+     

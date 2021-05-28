@@ -22,7 +22,8 @@ class FlashcardQuestionController extends Controller
     public function start(Request $request)
     {
         $quiz = $request->all();
-
+        $input = $request->all();
+        // dd($input);
         $quiz = json_decode($quiz['data']);
 
         $first_categorys  = "";
@@ -99,6 +100,7 @@ class FlashcardQuestionController extends Controller
                                 ->join('flashcard_categories', 'flashcard_categories.id', '=', 'flashcard_categories_questions.flashcard_categories_id')
                                 ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_categories_questions.flashcard_questions_id')
                                 ->select('flashcard_questions.*') 
+                                ->limit($input['limit'])
                                 ->whereIn('flashcard_categories_questions.flashcard_categories_id', $id)->get();
         //  dd($questions);
         session()->put('flashcard_question', Response::json($questions));
