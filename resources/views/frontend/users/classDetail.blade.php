@@ -1,8 +1,8 @@
 @extends('frontend.layouts.app') @section('content')
 
 @push('page_css')
-    <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
-    <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
+    {{-- <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet"> --}}
+    {{-- <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" /> --}}
         <style>
             .ion-medium {
                 font-size: 16px;
@@ -497,12 +497,12 @@
     </div>
 @endsection
 @push('page_scripts')
-<script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+{{-- <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
-    <script src="{{ asset('filepond/filepond.js') }}"></script>
+    <script src="{{ asset('filepond/filepond.js') }}"></script> --}}
 
     <script>
         let slug = "{{$classrooms->slug}}";
