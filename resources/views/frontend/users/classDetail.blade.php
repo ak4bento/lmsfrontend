@@ -146,7 +146,7 @@
                                 <div class="row">
                                     <!-- Name Field -->
                                     <div class="form-group col-sm-12 col-md-12 col-lg-12 col-xs-12">
-                                        <input type="file" name="file" id="file" accept="image/*">
+                                        <input type="file" name="file" id="fileBackground" accept="image/*">
                                     </div>
                                 </div>
                             </div>
@@ -508,7 +508,7 @@
         let slug = "{{$classrooms->slug}}";
         let rute = "{{ url('class-detail/banner') }}/"+slug;
         // rute = rute + slug;
-        const inputElement = document.querySelector('input[id="file"]');
+        const inputElement = document.querySelector('input[id="fileBackground"]');
         FilePond.registerPlugin(FilePondPluginFileValidateType);
         FilePond.registerPlugin(FilePondPluginImagePreview);
         FilePond.registerPlugin(FilePondPluginImageCrop);
