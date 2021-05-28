@@ -42,5 +42,5 @@
 <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
 
-<link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
-<link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
+{{-- <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet"> --}}
+{{-- <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" /> --}}

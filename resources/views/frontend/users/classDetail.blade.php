@@ -1,8 +1,8 @@
 @extends('frontend.layouts.app') @section('content')
 
 @push('page_css')
-    {{-- <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet"> --}}
-    {{-- <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" /> --}}
+    <link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
+    <link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
         <style>
             .ion-medium {
                 font-size: 16px;
@@ -97,6 +97,7 @@
         </style>
         @endif
         @endhasanyrole
+
     @endif
 @endpush
     <div class="container">
@@ -496,74 +497,74 @@
     </div>
 @endsection
 @push('page_scripts')
-    {{-- <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+    <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
-    <script src="{{ asset('filepond/filepond.js') }}"></script> --}}
+    <script src="{{ asset('filepond/filepond.js') }}"></script>
 
     <script>
         let slug = "{{$classrooms->slug}}";
         let rute = "{{ url('class-detail/banner') }}/"+slug;
         // rute = rute + slug;
-    //     const inputElement = document.querySelector('input[id="file"]');
-    //     FilePond.registerPlugin(FilePondPluginFileValidateType);
-    //     FilePond.registerPlugin(FilePondPluginImagePreview);
-    //     FilePond.registerPlugin(FilePondPluginImageCrop);
-    //     FilePond.registerPlugin(FilePondPluginFileValidateSize);
-    //     FilePond.registerPlugin(FilePondPluginImageTransform);
-    //     const pond = FilePond.create(
-    //         inputElement,
-    //         {
+        const inputElement = document.querySelector('input[id="file"]');
+        FilePond.registerPlugin(FilePondPluginFileValidateType);
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        FilePond.registerPlugin(FilePondPluginImageCrop);
+        FilePond.registerPlugin(FilePondPluginFileValidateSize);
+        FilePond.registerPlugin(FilePondPluginImageTransform);
+        const pond = FilePond.create(
+            inputElement,
+            {
 
-    //             allowFileSizeValidation:true,
-    //             maxFileSize:2048000,
-    //             allowImageCrop:true,
-    //             imageCropAspectRatio:'5:1',
-    //             allowImagePreview:true,
-    //             labelFileSizeNotAvailable:'',
-    //             labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
-    //             acceptedFileTypes: ['image/png'],
-    //             fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
-    //                 resolve(type);
-    //             })
-    //         },
-    //         {
-    //             imageResizeTargetWidth: 600,
-    //             imageCropAspectRatio: 1,
-    //             imageTransformVariants: {
-    //                 thumb_medium_: (transforms) => {
-    //                 transforms.resize = {
-    //                     size: {
-    //                     width: 1200,
-    //                     height: 245,
-    //                     },
-    //                 };
-    //                 return transforms;
-    //                 },
-    //                 thumb_small_: (transforms) => {
-    //                 transforms.resize = {
-    //                     size: {
-    //                     width: 1200,
-    //                     height: 245,
-    //                     },
-    //                 };
-    //                 return transforms;
-    //                 },
-    //             },
-    //         }
-    //     );
+                allowFileSizeValidation:true,
+                maxFileSize:2048000,
+                allowImageCrop:true,
+                imageCropAspectRatio:'5:1',
+                allowImagePreview:true,
+                labelFileSizeNotAvailable:'',
+                labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
+                acceptedFileTypes: ['image/png'],
+                fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+                    resolve(type);
+                })
+            },
+            {
+                imageResizeTargetWidth: 600,
+                imageCropAspectRatio: 1,
+                imageTransformVariants: {
+                    thumb_medium_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 1200,
+                        height: 245,
+                        },
+                    };
+                    return transforms;
+                    },
+                    thumb_small_: (transforms) => {
+                    transforms.resize = {
+                        size: {
+                        width: 1200,
+                        height: 245,
+                        },
+                    };
+                    return transforms;
+                    },
+                },
+            }
+        );
 
-    //     FilePond.setOptions({
-    //         server: {
-    //             url : rute,
-    //             method: 'POST',
-    //             headers :{
-    //                'X-CSRF-TOKEN':'{{ csrf_token() }}'
-    //             }
-    //         }
-    //     });
+        FilePond.setOptions({
+            server: {
+                url : rute,
+                method: 'POST',
+                headers :{
+                   'X-CSRF-TOKEN':'{{ csrf_token() }}'
+                }
+            }
+        });
     </script>
     <script>
         $(".dropdown-add").click(function(e) {
