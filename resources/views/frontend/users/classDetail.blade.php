@@ -223,7 +223,7 @@
                                             </a>
                                             <div class="dropdown-menu">
                                                 <a type="button" class=" dropdown-item py-2" data-toggle="modal"
-                                                    data-target="#exampleModalCenter">
+                                                    data-target="#classroomUser">
                                                     <i class="far fa-user"></i>
 
                                                     &nbsp;Pengguna Kelas
@@ -239,7 +239,7 @@
                                         </div>
                                     </div>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                    <div class="modal fade" id="classroomUser" tabindex="-1" role="dialog"
                                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
