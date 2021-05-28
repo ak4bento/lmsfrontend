@@ -11,7 +11,7 @@ use DB;
 use App\Models\Subject;
 use App\Models\Media;
 use Alert;
-use Response; 
+use Response;
 
 class UploadController extends Controller
 {
@@ -42,7 +42,7 @@ class UploadController extends Controller
         $data['disk'] = 'public';
         $data['collection_name'] = 'files';
         $data['order_column'] = '1';
-        $data['media_type'] = 'assignment';
+        $data['media_type'] = 'assignments';
         $data['media_id'] = $request['media_id'];
         $data['size'] = $files->getSize();
         $data['custom_properties'] = json_encode(array('user' => Auth::user()->id));

@@ -264,14 +264,14 @@ class ClassroomController extends Controller
 
         if($slug =='assignments'){
             $complete = DB::table('media')
-                ->where('media_type','assignment')
+                ->where('media_type','assignments')
                 ->where('media_id',$id)
                 ->where('custom_properties','like', '%{"user": '.Auth::user()->id.'}%')
                 ->first();
 
             $teachable      = DB::table('teachables')
                             ->select('*')
-                            ->where('teachable_type','assignment')
+                            ->where('teachable_type','assignments')
                             ->where('teachable_id',$classWork->id)
                             ->first();
             $classrooms     = Classroom::find($teachable->classroom_id);

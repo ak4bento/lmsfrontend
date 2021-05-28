@@ -170,7 +170,7 @@ class AssignmentController extends AppBaseController
         if(is_null($classrooms)){
             abort(404);
         }
-        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('teachables.*')->first();
+        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignments')->where('deleted_at',null)->select('teachables.*')->first();
         $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('assignments.*')->first();
         $classroomUser = ClassroomUser::where('classroom_id', $classrooms->id)->where('deleted_at', null)->get();
         $user = DB::table('classroom_user')
@@ -233,7 +233,7 @@ class AssignmentController extends AppBaseController
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
 
-        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('*')->first();
+        $teachable = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignments')->where('deleted_at',null)->select('*')->first();
         $input = $request->all();
         $input['created_by'] = auth()->user()->id;
         $input['final_grade_weight'] = 0;
@@ -279,7 +279,7 @@ class AssignmentController extends AppBaseController
 
             return redirect(route('assignments.index'));
         }
-        $teachable  = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignment')->where('deleted_at',null)->select('*')->first();
+        $teachable  = DB::table('teachables')->where('teachable_id',$id)->where('teachable_type','assignments')->where('deleted_at',null)->select('*')->first();
         $classrooms = DB::table('classrooms')->select('*')->where('id',$teachable->classroom_id)->first();
         $this->assignmentRepository->delete($id);
         $this->teachableRepository->delete($teachable->id);
