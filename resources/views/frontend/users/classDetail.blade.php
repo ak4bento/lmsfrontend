@@ -97,9 +97,8 @@
         </style>
         @endif
         @endhasanyrole
-
-
     @endif
+@endpush
     <div class="container">
         <div
             @hasanyrole('owner')
@@ -497,7 +496,7 @@
     </div>
 @endsection
 @push('page_scripts')
-{{-- <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+    {{-- <script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script>
     <script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
