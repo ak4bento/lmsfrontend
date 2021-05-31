@@ -229,11 +229,13 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('teachable_type','resource')
                             ->where('teachable_id',$classWork->id)
+                            ->where('deleted_at', null)
                             ->first();
             $classroomUser = DB::table('classroom_user')
                             ->select('*')
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
+                            ->where('deleted_at', null)
                             ->first();
             if (is_null($classroomUser)) {
                 Alert::warning('Anda tidak dapat mengakses halaman ini');
@@ -243,6 +245,7 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
+                            ->where('deleted_at', null)
                             ->first();
             if ($user->hasRole('student')) {
                 if (is_null($teachableUser)) {
@@ -273,6 +276,7 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('teachable_type','assignments')
                             ->where('teachable_id',$classWork->id)
+                            ->where('deleted_at', null)
                             ->first();
             $classrooms     = Classroom::find($teachable->classroom_id);
 
@@ -280,6 +284,7 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
+                            ->where('deleted_at', null)
                             ->first();
 
             if (is_null($classroomUser)) {
@@ -291,6 +296,7 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
+                            ->where('deleted_at', null)
                             ->first();
             $grade = null;
             if ($user->hasRole('student')) {
@@ -323,11 +329,13 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('teachable_type','quiz')
                             ->where('teachable_id',$classWork->id)
+                            ->where('deleted_at', null)
                             ->first();
             $classroomUser = DB::table('classroom_user')
                             ->select('*')
                             ->where('user_id',Auth::user()->id)
                             ->where('classroom_id',$teachable->classroom_id)
+                            ->where('deleted_at', null)
                             ->first();
 
             if (is_null($classroomUser)) {
@@ -339,6 +347,7 @@ class ClassroomController extends Controller
                             ->select('*')
                             ->where('classroom_user_id',$classroomUser->id)
                             ->where('teachable_id',$teachable->id)
+                            ->where('deleted_at', null)
                             ->first();
             $value = null;
 
