@@ -40,7 +40,13 @@ class HomeController extends Controller
             ->where('classrooms.deleted_at',null)
             ->orderBy('classrooms.created_at','DESC')
             ->paginate(10);
+        $teachables = DB::table('bookmarks')
+            ->join('teachables', 'teachables.id', '=', 'bookmarks.teachable_id')
+            ->select('teachables.*')
+            ->where('teachables.deleted_at',null)
+            ->where('bookmarks.user_id',Auth::user()->id)
+            ->paginate(3);
         // dd($profile);
-        return view('frontend.users.home')->with('classroom',$classroom);
+        return view('frontend.users.home')->with('classroom',$classroom)->with('teachables',$teachables);
     }
 }
