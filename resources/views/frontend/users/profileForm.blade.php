@@ -1,4 +1,7 @@
-
+@push('page_css')
+<link href="{{asset('filepond/css/filepond-plugin-image-preview.css')}}" rel="stylesheet">
+<link href="{{asset('filepond/css/filepond.css')}}" rel="stylesheet" />
+@endpush
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -64,7 +67,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="container-fluid">
-                        <button type="submit" class="btn btn-primary btn-md float-right" 
+                        <button type="submit" class="btn btn-primary btn-md float-right"
                              ><i class="fas fa-save"></i></button>
                     </div>
                 </div>
@@ -103,3 +106,72 @@
         </div>
     </div>
 </div>
+@push('page_scripts')
+
+<script src="{{asset('filepond/filepond-plugin-file-validate-type.js')}}"></script>
+<script src="{{asset('filepond/filepond-plugin-image-preview.js')}}"></script>
+<script src="{{asset('filepond/filepond-plugin-image-crop.js')}}"></script>
+<script src="{{asset('filepond/filepond-plugin-file-validate-size.js')}}"></script>
+<script src="{{asset('filepond/filepond-plugin-image-transform.js')}}"></script>
+<script src="{{ asset('filepond/filepond.js') }}"></script>
+
+<script>
+    const inputElement = document.querySelector('input[id="file"]');
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginImageCrop);
+    FilePond.registerPlugin(FilePondPluginFileValidateSize);
+    FilePond.registerPlugin(FilePondPluginImageTransform);
+    const pond = FilePond.create(
+        inputElement,
+        {
+
+            allowFileSizeValidation:true,
+            maxFileSize:2048000,
+            allowImageCrop:true,
+            imageCropAspectRatio:'1:1',
+            allowImagePreview:true,
+            labelFileSizeNotAvailable:'',
+            labelIdle:'Seret Foto Anda atau <span class="filepond--label-action"> Telusuri </span>',
+            acceptedFileTypes: ['image/png'],
+            fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+                resolve(type);
+            })
+        },
+        {
+            imageResizeTargetWidth: 600,
+            imageCropAspectRatio: 1,
+            imageTransformVariants: {
+                thumb_medium_: (transforms) => {
+                transforms.resize = {
+                    size: {
+                    width: 384,
+                    height: 384,
+                    },
+                };
+                return transforms;
+                },
+                thumb_small_: (transforms) => {
+                transforms.resize = {
+                    size: {
+                    width: 128,
+                    height: 128,
+                    },
+                };
+                return transforms;
+                },
+            },
+        }
+    );
+
+    FilePond.setOptions({
+        server: {
+            url : "{{ route('avatar_upload') }}",
+            method: 'POST',
+            headers :{
+               'X-CSRF-TOKEN':'{{ csrf_token() }}'
+            }
+        }
+    });
+</script>
+@endpush

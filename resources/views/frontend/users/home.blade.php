@@ -335,6 +335,7 @@
                 </div>
             </div> --}}
         </div>
+        @include('frontend.users.profileForm')
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 @endsection

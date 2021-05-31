@@ -89,7 +89,7 @@
                                     {{-- <a class="nav-link" data-target="#exampleModalCenter">
                                         Profile
                                     </a> --}}
-                                    <a type="button" class="nav-link" data-toggle="modal"
+                                    {{-- <a type="button" class="nav-link" data-toggle="modal"
                                         data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
                                         data-target="#exampleModalCenter">
                                         Profil
@@ -98,7 +98,7 @@
                                         data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
                                         data-target="#exampleModalCenter2">
                                         Foto Profil
-                                    </a>
+                                    </a> --}}
                                     <a href="#" class="nav-link"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Sign out
@@ -116,7 +116,6 @@
                 </ul>
             </div>
         </nav>
-        @include('frontend.users.profileForm')
         <!-- /.navbar -->
 
         <!-- Content Wrapper. Contains page content -->
