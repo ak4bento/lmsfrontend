@@ -41,7 +41,7 @@ class AssignmentController extends AppBaseController
     public function index($slug, $id)
     {
         $assignments = DB::table('assignments')->where('id',$id)->where('deleted_at',null)->select('*')->first();
-        $media = DB::table('media')->where('media_type','assigment',)->where('media_id',$id)->select('*')->get();
+        $media = DB::table('media')->where('media_type','assignments',)->where('media_id',$id)->select('*')->get();
         // dd($assignments);
         $classrooms = DB::table('classrooms')
                     ->join('subjects', 'subjects.id', '=', 'classrooms.subject_id')
