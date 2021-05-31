@@ -160,20 +160,18 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
-                                    <select class="form-control">
+                                    <select onchange="limitQuestion()" disabled id="limit_question" class="form-control">
                                         <option value="" selected disabled>Maksimal Soal</option>
-                                        <option>10</option>
-                                        <option>25</option>
-                                        <option>40</option>
-                                        <option>50</option>
-                                        <option>100</option>
-                                        <option>250</option>
-                                        <option>1000</option>
-                                        <option>3000</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="250">250</option> 
                                     </select>
                                 </div>
                                 <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
-                                    <button class="btn btn-block btn-primary" data-toggle="modal"
+                                    <button disabled id="btn_limit" class="btn btn-block btn-primary" data-toggle="modal"
                                     data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
                                     data-target="#quizZummary">Buat Kuis</button>
                                 </div>
@@ -200,6 +198,7 @@
                             <div class="container-fluid">
                                 <div class="row">
                                      <input type="hidden" id="data_quiz" name="data" value="">
+                                     <input type="hidden" id="limit" name="limit" value="">
                                 </div>
                             </div>
                         </div>
@@ -216,6 +215,15 @@
 @endsection 
 @push('page_scripts')
     <script>
+        $(document).ready(function() {
+            sessionStorage.clear();
+        });
+
+        limitQuestion = () => {
+            d = document.getElementById("limit_question").value;
+            document.getElementById("limit").value = d;
+        }
+
         $("#start").click(function(e) {
             e.preventDefault();
             
@@ -251,6 +259,9 @@
             checkbox_id = 'category['+id+']';
             var checkboxes = document.getElementById(checkbox_id);
             // console.log(checkboxes);
+            document.getElementById('btn_limit').disabled = false;
+            document.getElementById('limit_question').disabled = false;
+
             if(checkboxes.checked){
                 $.ajax({
                     url: rute,
@@ -270,6 +281,8 @@
                 btn_id = 'btn['+id+']';
                 var btn = document.getElementById(btn_id);
                 btn.remove();
+                
+
                 // console.log('222222 : ',btn_id);
                 sessionStorage.removeItem(id);
                 $.ajax({
@@ -324,6 +337,9 @@
                                                         btn.remove();
                                                         sessionStorage.removeItem(value.id);
                                                     }
+                                                    document.getElementById('limit_question').disabled = true;
+
+                                                    document.getElementById('btn_limit').disabled = true;
                                                 });
                                             }
                                         });
@@ -457,6 +473,9 @@
             var data = '<div class="btn-category" id="btn-category"></div>';
             $("#btn-group").append(data);
             sessionStorage.clear();
+            document.getElementById('btn_limit').disabled = true;
+            document.getElementById('limit_question').disabled = true;
+
 
         });
 
