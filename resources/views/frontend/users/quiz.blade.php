@@ -1,104 +1,103 @@
 @extends('frontend.layouts.app')
 
 @push('page_css')
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @endpush
 
 @section('content')
-    <div class="container">
-        <section class="content-header">
-            <div class="row mb-2">
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h1>{{ $quizzes->title }}</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-                                <li class="breadcrumb-item active"> <a
-                                        href="{{ url('/class-work-detail/quizzes') }}/{{ $quizzes->id }}">Quiz</a>
-                                </li>
-                            </ol>
-                        </div>
+<div class="container">
+    <section class="content-header">
+        <div class="row mb-2">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>{{ $quizzes->title }}</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
+                            <li class="breadcrumb-item active"> <a
+                                    href="{{ url('/class-work-detail/quizzes') }}/{{ $quizzes->id }}">Quiz</a>
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <div class="row">
-            <div class="col-md-12 col-lg-12 col-sm-12">
-                <div class="row">
-                    <div class="col-lg-3 col-md-12 col-sm-12">
-                        <div class="row fixme" style="margin-bottom:10px;">
-                            <div class="col-12">
-                                <!-- Profile Image -->
-                                <div class="card card-primary card-outline">
-                                    <div class="card-body box-profile">
-                                        <h1 class="text-center" id="time">
-                                            Time
-                                        </h1>
-                                    </div>
-                                    <!-- /.card-body -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                    <div class="row fixme" style="margin-bottom:10px;">
+                        <div class="col-12">
+                            <!-- Profile Image -->
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <h1 class="text-center" id="time">
+                                        Time
+                                    </h1>
                                 </div>
-                                <!-- /.card -->
-                                <button type="button" id="submitQuiz" data-url="{{ url('submit-quiz') }}"
-                                    class="btn btn-block btn-primary btn-lg">Selesai</button>
+                                <!-- /.card-body -->
                             </div>
+                            <!-- /.card -->
+                            <button type="button" id="submitQuiz" data-url="{{ url('submit-quiz') }}"
+                                class="btn btn-block btn-primary btn-lg">Selesai</button>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-primary card-outline">
-                                    <div class="card-body">
-                                        <div class="align-items-center" style="text-align:center">
-                                            <div id="btn_question_number"></div>
-                                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary card-outline">
+                                <div class="card-body">
+                                    <div class="align-items-center" style="text-align:center">
+                                        <div id="btn_question_number"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-12 col-sm-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <!-- Box Comment -->
-                                <div class="card card-widget">
-                                    <div class="card-header">
-                                        <div class="user-block">
+                </div>
+                <div class="col-lg-9 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Box Comment -->
+                            <div class="card card-widget">
+                                <div class="card-header">
+                                    <div class="user-block">
 
-                                            <p class="card-title"><a id="questionCounting"></a></p>
-                                            <p>Dari {{ $question->count() }} Soal</p>
-                                        </div>
-                                        <!-- /.user-block -->
-                                        <div class="card-tools" id="arrow_button">
-
-                                        </div>
-                                        <!-- /.card-tools -->
+                                        <p class="card-title"><a id="questionCounting"></a></p>
+                                        <p>Dari {{ $question->count() }} Soal</p>
                                     </div>
-                                    <!-- /.card-header -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-md-12">
-                                <!-- Box Comment -->
-                                <div class="card card-widget">
-                                    <div class="card-body">
-                                        <!-- post text -->
-                                        <div id="question">
-                                            {{-- question --}}
+                                    <!-- /.user-block -->
+                                    <div class="card-tools" id="arrow_button">
 
-                                        </div>
+                                    </div>
+                                    <!-- /.card-tools -->
+                                </div>
+                                <!-- /.card-header -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-12">
+                            <!-- Box Comment -->
+                            <div class="card card-widget">
+                                <div class="card-body">
+                                    <!-- post text -->
+                                    <div id="question">
+                                        {{-- question --}}
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="card card-widget">
-                                    <div class="card-body">
-                                        <div class="form-group" style="font-size: large;" id="itemOption">
-                                            {{-- option --}}
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card card-widget">
+                                <div class="card-body">
+                                    <div class="form-group" style="font-size: large;" id="itemOption">
+                                        {{-- option --}}
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -108,10 +107,11 @@
             </div>
         </div>
     </div>
+</div>
 @endsection
 @push('page_scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             var id = {{ $quizzes->id }};
 
             var rute = "{{ url('get-time-quiz') }}/" + id;
@@ -120,11 +120,14 @@
                 url: rute,
                 type: 'get',
                 success: function(response) {
-                    // console.log("now : ", response[0].data);
+                    console.log("now : ", response[0].data);
 
                     var countDownDate = new Date(response[0].data.timerEndQuiz);
                     console.log('ini response 1 : ', countDownDate);
                     console.log('ini response 2 : ', new Date());
+                    countDownDate = countDownDate.getTime();
+                    console.log('ini response 1 : ', countDownDate);
+
                     var myfunc = setInterval(function() {
 
                         var now = new Date().getTime();
@@ -175,9 +178,9 @@
             });
         });
 
-    </script>
-    <script>
-        $("#submitQuiz").click(function(e) {
+</script>
+<script>
+    $("#submitQuiz").click(function(e) {
             e.preventDefault();
             // let id = $(this).data('id');
             let url = $(this).data('url');
@@ -396,5 +399,5 @@
             var rute = "{{ url('get-question') }}/" + id;
         });
 
-    </script>
+</script>
 @endpush

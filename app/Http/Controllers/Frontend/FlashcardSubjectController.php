@@ -57,7 +57,13 @@ class FlashcardSubjectController extends Controller
      */
     public function show($id)
     {
-        //
+        $subjects = DB::table('flashcard_questions_subjects')
+                        ->join('flashcard_subjects', 'flashcard_subjects.id', '=', 'flashcard_questions_subjects.flashcard_subjects_id')
+                        ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_questions_subjects.flashcard_questions_id')
+                        ->select('flashcard_subjects.*') 
+                        ->where('flashcard_questions_subjects.flashcard_subjects_id', $id)->first();
+
+        return Response::json($subjects);
     }
 
     /**

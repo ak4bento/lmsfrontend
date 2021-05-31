@@ -34,6 +34,7 @@ Route::post('flashcard-start', [App\Http\Controllers\Frontend\FlashcardQuestionC
 Route::get('flashcard-question/{id}', [App\Http\Controllers\Frontend\FlashcardQuestionController::class, 'show'])->name('flashcard.start.show');
 
 Route::get('flashcard-subject/{id}', [App\Http\Controllers\Frontend\FlashcardSubjectController::class, 'index'])->name('flashcard.subject.all');
+Route::get('flashcard-subject-single/{id}', [App\Http\Controllers\Frontend\FlashcardSubjectController::class, 'show'])->name('flashcard.subject.single');
 
 Route::post('flashcard-answer', [App\Http\Controllers\Frontend\FlashcardAnswerController::class, 'store'])->name('flashcard.answer.store');
 

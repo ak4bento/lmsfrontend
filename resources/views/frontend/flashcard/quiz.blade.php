@@ -3,20 +3,20 @@
 @push('page_css')
 
 <style>
-   
+
 </style>
 
 @endpush
 @section('content')
-    
+
 <div class="container">
-	<div class="row">
-		<div class="col-12">
-			<div class="card py-2 px-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="card py-2 px-2">
                 <div class="row justify-content-between">
                     <div class="col-2">
                         <button type="button" onclick="prev()" class="btn btn-primary">
-                            <i class="fas fa-angle-left"></i> 
+                            <i class="fas fa-angle-left"></i>
                         </button>
                     </div>
                     <div class="col-8  align-self-center" style="text-align: center">
@@ -26,19 +26,20 @@
                         <div class="row">
                             <div class="col-12" id="answered_quiz">
                                 <div class="progress" style="height: 3px">
-                                    <div class="progress-bar" id="progress_bar" role="progressbar" style="width: 0%"  aria-valuemax="100"></div>
+                                    <div class="progress-bar" id="progress_bar" role="progressbar" style="width: 0%"
+                                        aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-2">
                         <button type="button" onclick="next()" class="btn btn-primary float-right ">
-                             <i class="fas fa-angle-right"></i> 
+                            <i class="fas fa-angle-right"></i>
                         </button>
                     </div>
                 </div>
-			</div>
-		</div>
+            </div>
+        </div>
     </div>
     <section class="content">
         <div class="row" id="data_question" data-questions="{{ Session::get('flashcard_question') }}">
@@ -49,17 +50,48 @@
                             <div class="col-md-12">
                                 <div class="card card-widget card-primary card-outline">
                                     <div class="card-body">
-                                        
-                                        
+
+                                        <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"
+                                            aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+
+                                                        <span style="font-size: 20px" id="exampleModalLongTitle">
+                                                            <div id="titleSubject">
+
+                                                            </div>
+                                                        </span>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div id="imageSubject">
+
+                                                        </div>
+                                                        <div id="referenceSubject">
+
+                                                        </div>
+                                                        <div id="externalLnk">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
                                         <div id="question" class="col-lg-12 col-md-12 col-sm-12 col-12">
                                         </div>
                                         <div id="explanation" class="col-lg-12 col-md-12 col-sm-12 col-12">
 
-                                            
-                                        </div> 
-                                        
+
+                                        </div>
+
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -67,10 +99,10 @@
             </div>
         </div>
     </section>
-@endsection 
-@push('page_scripts')
-    
-	<script>
+    @endsection
+    @push('page_scripts')
+
+    <script>
         var number=0;
         var data = document.querySelector('#data_question');
         data = data.getAttribute('data-questions');
@@ -117,11 +149,11 @@
             document.getElementById('question_count').innerHTML = question_count;
 
             var html =  '<div class="row justify-content-center py-2">'+
-                            '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+
-                                '<h4> '+ data[number].question +' </h4>'+
+                            '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+ 
+                                '<div class="card"> <div class="card-body"> <h4> '+ data[number].question +' </h4> </div> </div>'+
                             '</div>'+
                             '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
-                                '<img class="img-responsive pad" width="100%" src="flashcardfiles/images/'+data[number].images+'" alt="Photo">'+
+                                '<div class="card"> <div class="card-body"> <img class="img-responsive pad" width="100%" src="flashcardfiles/images/'+data[number].images+'" alt="Photo"> </div></div>'+
                             '</div>'+
                         '</div>'+ 
                         '<div class="row justify-content-center py-2">'+
@@ -226,10 +258,10 @@
             data = JSON.parse(data); 
             var html =  '<div class="row justify-content-center py-2">'+
                             '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+
-                                '<h4> '+ data[number].explanation +' </h4>'+
+                                '<div class="card"> <div class="card-body"> <h4> '+ data[number].explanation +' </h4> </div> </div>'+
                             '</div>'+
                             '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
-                                '<img class="img-responsive pad col-12 col-sm-12 col-md-12 col-lg-12" src="flashcardfiles/images_explanation/'+data[number].images_explanation+'" alt="Photo">'+
+                                '<div class="card"> <div class="card-body"> <img class="img-responsive pad col-12 col-sm-12 col-md-12 col-lg-12" src="flashcardfiles/images_explanation/'+data[number].images_explanation+'" alt="Photo"> </div> </div>'+
                             '</div>'+
                         '</div>' ;  
 
@@ -244,11 +276,15 @@
                 type: 'get',
                 success: function(response) { 
                     $.each(response, function(key, value) {
-                        anchor = anchor + ' <div class="row"> <a href="#" >'+ no++ +'.'+  value.subject +'</a> </div>';
-                        console.log('subject : ',anchor); 
+                        anchor = `${anchor} <div class="row"> ${no++}.
+                                                <a href="#" data-toggle="modal" onclick="viewSubject(${value.id})"
+                                                    data-target=".bd-example-modal-xl" >${value.subject} 
+                                                </a> 
+                                            </div>`;
+                        console.log('subject : ',value); 
                     });
 
-                    var subject =   '<div class="row justify-content-center px-3">'+
+                    var subject =   '<div class="row justify-content-center px-2">'+
                                         '<div class="card col-12 col-md-12 col-lg-12" >'+
                                             '<div class="card-body" style="text-align: center;">'+ anchor+'</div>'+    
                                         '</div>'+
@@ -264,6 +300,27 @@
                     $("#explanation").append(subject);
                 }
             }); 
+        }
+
+        viewSubject = (subject) => {
+            var rute = `{{ url('flashcard-subject-single') }}/${subject}`;
+            document.getElementById('titleSubject').innerHTML = ""; 
+            document.getElementById('imageSubject').innerHTML = ""; 
+            var no = 1;
+            $.ajax({
+                url: rute,
+                type: 'get',
+                success: function(value) { 
+                     
+                        console.log('value : ',value);
+                        let title = `<h5>${value.subject}</h5>`;
+                        $("#titleSubject").append(title);
+                        let image = `<img class="img-responsive pad" width="100%" src="flashcardfiles/files/${value.files}" alt="Photo">`;
+                        $("#imageSubject").append(image);
+
+                     
+                }
+            });  
         }
 
         next = () => {
@@ -286,5 +343,5 @@
             viewDataQuestion(); 
         }
     
-	</script>
-@endpush
+    </script>
+    @endpush

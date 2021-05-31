@@ -47,19 +47,19 @@ class QuizController extends Controller
         date_default_timezone_set("Asia/Makassar");
         $remainingTime=0;
         if(session()->get('timerStartQuiz')){
-            $remainingTime = date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("d/m/Y h:i:s")));
-            session()->put('remainingTime', date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("d/m/Y h:i:s"))));
+            $remainingTime = date("D M d Y H:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("D M d Y H:i:s")));
+            session()->put('remainingTime', date("D M d Y H:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("D M d Y H:i:s"))));
         }else{
-            $timeStart = date("d/m/Y H:i:s"); 
-            $timeEnd = date("d/m/Y H:i:s",strtotime('1 hour')); 
+            $timeStart = date("D M d Y H:i:s"); 
+            $timeEnd = date("D M d Y H:i:s",strtotime('1 hour')); 
             session()->put('timerStartQuiz', $timeStart); 
             session()->put('timerEndQuiz', $timeEnd); 
-            $remainingTime = date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
-            session()->put('remainingTime', date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("d/m/Y h:i:s"))));
+            $remainingTime = date("D M d Y H:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
+            session()->put('remainingTime', date("D M d Y H:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(date("D M d Y H:i:s"))));
         }
 
-        if(session()->get('timerEndQuiz') ==  date("d/m/Y h:i:s")){
-            $remainingTime = date("d/m/Y h:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
+        if(session()->get('timerEndQuiz') ==  date("D M d Y H:i:s")){
+            $remainingTime = date("D M d Y H:i:s",strtotime(session()->get('timerEndQuiz')) - strtotime(session()->get('timerStartQuiz')));
         }
 
         $quizzes = $this->quizzesRepository->find($id);
@@ -120,8 +120,8 @@ class QuizController extends Controller
                      'data' => array(
                          'quiz_id' => $id,
                          'user_id' => auth()->user()->id,
-                         'timerStartQuiz' => date('d-m-Y H:i:s',strtotime(session()->get('timerStartQuiz'))),
-                         'timerEndQuiz' =>  date('d-m-Y H:i:s',strtotime(session()->get('timerEndQuiz'))),
+                         'timerStartQuiz' =>  session()->get('timerStartQuiz'),
+                         'timerEndQuiz' =>   session()->get('timerEndQuiz'),
                          'datetime_submitted' => date('Y-m-d H:i:s'),
                      ),
                      'answer' => array(),
