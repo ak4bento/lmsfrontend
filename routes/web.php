@@ -43,6 +43,9 @@ Route::post('flashcard-answer', [App\Http\Controllers\Frontend\FlashcardAnswerCo
 
 Route::post('/class-detail/banner/{slug}', [App\Http\Controllers\Frontend\UploadController::class, 'banner'])->name('classroom.detail.banner');
 
+Route::get('/flashcard-categories-json/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'json'])->name('flashcard.categories.json');
+
+
 Route::group(['middleware' => ['role:student|teacher|owner']], function () {
 
     // bookmark

@@ -73,7 +73,7 @@
                                                         <i class="fas fa-check-circle text-success"></i>
                                                         @endif
 
-                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->title }} : {{ App\Models\Quizzes::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                     </a>
                                                 @elseif ($teachable->teachable_type == 'resource')
                                                     <a data-toggle="tooltip" data-placement="top" title="Lihat Materi"
@@ -84,7 +84,7 @@
                                                         <i class="fas fa-check-circle text-success"></i>
                                                         @endif
 
-                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->title }} : {{ App\Models\Resource::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                     </a>
                                                 @elseif ($teachable->teachable_type == 'assignments')
                                                     <a data-toggle="tooltip" data-placement="top" title="Lihat Tugas"
@@ -95,7 +95,7 @@
                                                         <i class="fas fa-check-circle text-success"></i>
                                                         @endif
 
-                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->first()->title }} : {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
+                                                        {{  App\Models\Classroom::find($teachable->classroom_id)->title }} : {{ App\Models\Assignment::where('id', $teachable->teachable_id)->where('deleted_at', null)->first()->title }}
                                                     </a>
                                                 @endif
                                             </div>
