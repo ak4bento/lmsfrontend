@@ -32,6 +32,9 @@ class FlashcardCategories extends Model
 
     public $fillable = [
         'parent_id',
+        'second_parent_id',
+        'third_parent_id',
+        'count_question',
         'level',
         'category'
     ];
@@ -44,6 +47,9 @@ class FlashcardCategories extends Model
     protected $casts = [
         'id' => 'integer',
         'parent_id' => 'integer',
+        'second_parent_id' => 'integer',
+        'third_parent_id' => 'integer',
+        'count_question' => 'integer',
         'level' => 'integer',
         'category' => 'string'
     ];
@@ -55,6 +61,8 @@ class FlashcardCategories extends Model
      */
     public static $rules = [
         'parent_id' => 'nullable|integer',
+        'second_parent_id' => 'nullable|integer',
+        'third_parent_id' => 'nullable|integer',
         'level' => 'integer',
         'category' => 'required|string|max:191',
         'deleted_at' => 'nullable',
@@ -62,5 +70,24 @@ class FlashcardCategories extends Model
         'updated_at' => 'nullable'
     ];
 
+    public function getCountQuestionAttribute()
+    {
+        $flashCategory = FlashcardCategories::where('parent_id',$this->id)->where('level',4)->get();
+
+        // return $flashCategory;
+
+        $level4 = array();
+        $level3 = array();
+        $level2 = array();
+        foreach ($flashCategory as $key) {
+            array_push($level4, array(FlashcardCategories::where('id', $key->id)->first()->category => FlashcardCategoriesQuestion::where('flashcard_categories_id',$key->id)->count()));
+            array_push($level3,FlashcardCategories::where('id',$key->third_parent_id)->get());
+        }
+
+        foreach ($level3 as $key) {
+            // array_push($level4, array(FlashcardCategories::where('id', $key->id)->first()->category => FlashcardCategoriesQuestion::where('flashcard_categories_id',$key->id)->count()));
+        }
+        return $level3;
+    }
 
 }
