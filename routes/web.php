@@ -19,12 +19,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/flashcard', function () {
-    return view('frontend.flashcard.index');
-});
+Route::get('flashcard', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'index'])->name('flashcard.index');
 
 Route::resource('flashcard-categories', App\Http\Controllers\Frontend\FlashcardCategoriesController::class);
 Route::get('flashcard-selected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'selected'])->name('flashcard.selected');
+
+Route::get('flashcard-second-categories/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'second_categories'])->name('flashcard.second.categories');
+Route::get('flashcard-third-categories/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'third_categories'])->name('flashcard.third.categories');
+
+
 Route::get('flashcard-unselected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'unselected'])->name('flashcard.unselected');
 
 Route::resource('flashcard-question', App\Http\Controllers\Frontend\FlashcardQuestionController::class);

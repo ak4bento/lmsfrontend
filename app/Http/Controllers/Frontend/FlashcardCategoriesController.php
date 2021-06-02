@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\FlashcardCategories;
 use Response;
+use DB;
 
 class FlashcardCategoriesController extends Controller
 {
@@ -16,7 +17,9 @@ class FlashcardCategoriesController extends Controller
      */
     public function index()
     {
-
+        $flashcardCategories = FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get();
+        
+        return view('frontend.flashcard.index')->with('flashcardCategories', $flashcardCategories);
     }
 
     /**
@@ -48,10 +51,23 @@ class FlashcardCategoriesController extends Controller
      */
     public function show($id)
     {
-        $data = FlashcardCategories::where("parent_id",$id)->get();
+        $data = DB::table('flashcard_categories')  
+                    ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.flashcard_categories_id','=','flashcard_categories.id')
+                    ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
+                    ->groupBy('flashcard_categories.id')
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.parent_id',$id) 
+                    ->get();
         // dd($data);
         return Response::json($data);
     }
+
+    // public function second_categories($id)
+    // {
+    //     $data = FlashcardCategories::where("parent_id",$id)->get();
+    //     // dd($data);
+    //     return Response::json($data);
+    // }
 
     public function selected($id)
     {

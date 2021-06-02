@@ -25,19 +25,20 @@
         <hr>
     </h2>
 </div>
-<div class="form-group col-sm-8">
-    <button type="button" name="add" id="add" class="btn btn-primary">
-        Tambah Pilihan
-    </button>
-</div>
+
 
 <div id="dynamicTable" style="width: 100%">
 
 </div>
+<div class="form-group col-sm-8" style="margin-top: 20px">
+    <button type="button" name="add" id="add" class="btn btn-primary">
+        Tambah Pilihan
+    </button>
+</div>
 @push('page_scripts')
 
-    <script type="text/javascript">
-        var i = 0;
+<script type="text/javascript">
+    var i = 0;
         $("#add").click(function() {
             ++i;
             $("#dynamicTable").append(
@@ -124,14 +125,14 @@
             }
         }
 
-    </script>
+</script>
 
-    <script>
-        var konten = document.getElementById("content");
+<script>
+    var konten = document.getElementById("content");
         CKEDITOR.replace(konten, {
             language: 'en-gb'
         });
         CKEDITOR.config.allowedContent = true;
 
-    </script>
+</script>
 @endpush

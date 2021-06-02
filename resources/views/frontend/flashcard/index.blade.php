@@ -2,220 +2,241 @@
 
 @push('page_css')
 <style>
-    .list-group{
+    .list-group {
         max-height: 300px;
         min-height: 300px;
-        overflow-x: hidden; 
-        overflow-y: scroll; 
+        overflow-x: hidden;
+        overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         border-style: solid;
         border-color: #1b5cb838;
     }
 
-    .style{
-        border-radius: 5px; 
+    .style {
+        border-radius: 5px;
         font-family: sans-serif;
-        margin-top:3px; 
+        margin-top: 3px;
         background: linear-gradient(#206dda, #1b5cb8);
     }
-    .border{
+
+    .border {
         /* border-bottom-style:solid; */
         /* border-width: thin;  */
     }
-    .group{
+
+    .group {
         max-height: 300px;
         min-height: 300px;
-        overflow-x: hidden; 
-        overflow-y: scroll; 
+        overflow-x: hidden;
+        overflow-y: scroll;
         -webkit-overflow-scrolling: touch;
         border-style: solid;
         border-color: #1b5cb838;
     }
 
- 
-    .style-3::-webkit-scrollbar-track
-    {
+
+    .style-3::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px #cfcfee;
         background-color: #F5F5F5;
     }
 
-    .style-3::-webkit-scrollbar
-    {
+    .style-3::-webkit-scrollbar {
         width: 6px;
         background-color: #F5F5F5;
     }
-    .style-3::-webkit-scrollbar-thumb
-    {
+
+    .style-3::-webkit-scrollbar-thumb {
         background-color: #206dda;
     }
-    .hover:hover{
+
+    .hover:hover {
         cursor: pointer;
         background: rgba(133, 153, 224, 0.151);
-    } 
+    }
 
-    .hover-all:hover{
+    .hover-all:hover {
         cursor: pointer;
     }
 </style>
 <style>
     .bg-overlay {
-        background: linear-gradient(#206dda, #1b5cb8); 
-        margin-bottom:10px;
-        border-radius:10px;
+        background: linear-gradient(#206dda, #1b5cb8);
+        margin-bottom: 10px;
+        border-radius: 10px;
         color: #fff;
     }
 </style>
 @endpush
 @section('content')
-    <div class="container">
-        <div class="row p-0">
-            <div class="content-header bg-overlay px-5 py-5 col-lg-12 col-md-12 col-sm-12 ">
-                <div class="container">
-                    <div class="row">
-                        <a style="font-size: 2.5em">Flashcard </a>
-                    </div>
-                    <div class="row">
-                        <a style="font-size: 1.5em">Buat Kuis Anda</a>
-                    </div>
+<div class="container">
+    <div class="row p-0">
+        <div class="content-header bg-overlay px-5 py-5 col-lg-12 col-md-12 col-sm-12 ">
+            <div class="container">
+                <div class="row">
+                    <a style="font-size: 2.5em">Flashcard </a>
                 </div>
-            </div>
-        </div>
-
-        <section class="content"> 
-            <div class="row" >
-                @php
-                    $count = 1;
-                @endphp 
-                <div class="card col-lg-12">
-                    <div class="card-body">
-                        <div class="row">
-                            
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3" style="border-style: solid;border-width:thin ">
-                                <div class="py-2 px-2 border-bottom" style="  background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
-                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
-                                </div>
-                                @foreach (App\Models\FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get() as $item)
-                                <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
-                                    <div class="icheck-primary d-inline">
-                                        <input data-category="{{ $item->category }}" onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]" name="category[{{ $item->id}}]" type="checkbox">
-                                        <label for="category[{{ $item->id}}]" style="font-family: sans-serif; font-weight: normal !important;">
-                                            {{ $item->category }}
-                                        </label>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3 " style="border-style: solid;border-width:thin " >
-                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
-                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
-                                </div>
-                                <div class="second_category style-3" id="second_category">
-
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3" style="border-style: solid;border-width:thin ">
-                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
-                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
-                                </div>
-                                <div class="third_category" id="third_category">
-
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3"  style="border-style: solid;border-width:thin ">
-                                <div class="py-2 px-2 border-bottom" style="background: linear-gradient(#206dda, #1b5cb8); text-align: center" >
-                                    <label style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori </label>
-                                </div>
-                                <div class="fourth_category" id="fourth_category">
-
-                                </div>
-                            </div>
-                            <div class="col-lg-12 p-0" id="btn-group" style="margin-top:10px">
-                                <div class="btn-category" id="btn-category">
-
-                                </div>
-                                {{-- <button class="btn btn-primary style" >Kategori </button> --}}
-                            </div>
-                            <div class="col-lg-12 p-0"  style="margin-top:10px">
-                                <input type="button" class="check btn btn-outline-primary" value="Bersihkan" />
-                            </div>                                    
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-top: 5px">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
-                    <div class="card">
-                        <div class="card-body"> 
-                            <div class="row align-items-center">
-                                <div style="text-align: center" class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
-                                    <a style="font-weight: bold;font-size: 30px; display: block;">891237</a>
-                                    <a style="font-size: 18px;"> Flash Card </a>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-1">
-                                    <div class="progress" style="height: 40px; border-radius: 30px">
-                                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 20%"
-                                            aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">20 %
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
-                                    <select onchange="limitQuestion()" disabled id="limit_question" class="form-control">
-                                        <option value="" selected disabled>Maksimal Soal</option>
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                        <option value="250">250</option> 
-                                    </select>
-                                </div>
-                                <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
-                                    <button disabled id="btn_limit" class="btn btn-block btn-primary" data-toggle="modal"
-                                    data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
-                                    data-target="#quizZummary">Buat Kuis</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="modal fade" id="quizZummary" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="container-fluid" style="text-align: center">
-                            <span style="font-size: 20px" id="exampleModalLongTitle">
-                                Ringkasan Kuis
-                            </span>
-                        </div>
-                    </div>
-                    <form action="{{ route('flashcard.start') }}" id="ringkasan" method="POST">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="container-fluid">
-                                <div class="row">
-                                     <input type="hidden" id="data_quiz" name="data" value="">
-                                     <input type="hidden" id="limit" name="limit" value="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="container-fluid">
-                                <button type="submit" id="start" data-url="{{ route('flashcard.start') }}" class="btn btn-primary btn-md float-right" >Mulai</button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="row">
+                    <a style="font-size: 1.5em">Buat Kuis Anda</a>
                 </div>
             </div>
         </div>
     </div>
-@endsection 
+
+    <section class="content">
+        <div class="row">
+            @php
+            $count = 1;
+            @endphp
+            <div class="card col-lg-12">
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3"
+                            style="border-style: solid;border-width:thin ">
+                            <div class="py-2 px-2 border-bottom"
+                                style="  background: linear-gradient(#206dda, #1b5cb8); text-align: center">
+                                <label
+                                    style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
+                                </label>
+                            </div>
+                            @foreach($flashcardCategories as $item)
+                            <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
+                                <div class="icheck-primary d-inline">
+                                    <input data-category="{{ $item->category }}"
+                                        onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]"
+                                        name="category[{{ $item->id}}]" type="checkbox">
+                                    <label for="category[{{ $item->id}}]"
+                                        style="font-family: sans-serif; font-weight: normal !important;">
+                                        {{ $item->category }}
+                                    </label>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3 "
+                            style="border-style: solid;border-width:thin ">
+                            <div class="py-2 px-2 border-bottom"
+                                style="background: linear-gradient(#206dda, #1b5cb8); text-align: center">
+                                <label
+                                    style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
+                                </label>
+                            </div>
+                            <div class="second_category style-3" id="second_category">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3"
+                            style="border-style: solid;border-width:thin ">
+                            <div class="py-2 px-2 border-bottom"
+                                style="background: linear-gradient(#206dda, #1b5cb8); text-align: center">
+                                <label
+                                    style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
+                                </label>
+                            </div>
+                            <div class="third_category" id="third_category">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-12 col-12 p-0 group style-3"
+                            style="border-style: solid;border-width:thin ">
+                            <div class="py-2 px-2 border-bottom"
+                                style="background: linear-gradient(#206dda, #1b5cb8); text-align: center">
+                                <label
+                                    style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
+                                </label>
+                            </div>
+                            <div class="fourth_category" id="fourth_category">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 p-0" id="btn-group" style="margin-top:10px">
+                            <div class="btn-category" id="btn-category">
+
+                            </div>
+                            {{-- <button class="btn btn-primary style" >Kategori </button> --}}
+                        </div>
+                        <div class="col-lg-12 p-0" style="margin-top:10px">
+                            <input type="button" class="check btn btn-outline-primary" value="Bersihkan" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 5px">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12 p-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div style="text-align: center" class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
+                                <a style="font-weight: bold;font-size: 30px; display: block;">891237</a>
+                                <a style="font-size: 18px;"> Flash Card </a>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-1">
+                                <div class="progress" style="height: 40px; border-radius: 30px">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 20%"
+                                        aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">20 %
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
+                                <select onchange="limitQuestion()" disabled id="limit_question" class="form-control">
+                                    <option value="" selected disabled>Maksimal Soal</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="40">40</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="250">250</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
+                                <button disabled id="btn_limit" class="btn btn-block btn-primary" data-toggle="modal"
+                                    data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
+                                    data-target="#quizZummary">Buat Kuis</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="quizZummary" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="container-fluid" style="text-align: center">
+                        <span style="font-size: 20px" id="exampleModalLongTitle">
+                            Ringkasan Kuis
+                        </span>
+                    </div>
+                </div>
+                <form action="{{ route('flashcard.start') }}" id="ringkasan" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <input type="hidden" id="data_quiz" name="data" value="">
+                                <input type="hidden" id="limit" name="limit" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="container-fluid">
+                            <button type="submit" id="start" data-url="{{ route('flashcard.start') }}"
+                                class="btn btn-primary btn-md float-right">Mulai</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
 @push('page_scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             sessionStorage.clear();
         });
 
@@ -267,6 +288,7 @@
                     url: rute,
                     type: 'get',
                     success: function(response) { 
+                        console.log('ini ceked : ',response);
                         var data =  '<button class="btn btn-primary btn-sm style" data-button="delete" name="btn['+response.id+']" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </button>';
                         var buttonId = 'btn['+response.id+']';
                         var buttonLabel = document.getElementById(buttonId);
@@ -365,7 +387,7 @@
                 success: function(response) {
                     document.getElementById('second_category').innerHTML = "";
 
-                    // console.log('ini on button : ', response);
+                    console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
                         var data = '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="icheck-primary d-inline">'+
@@ -526,5 +548,5 @@
                 }
             }
         }
-    </script>
+</script>
 @endpush
