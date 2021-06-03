@@ -57,8 +57,9 @@ class FlashcardCategoriesController extends Controller
                     ->groupBy('flashcard_categories.id')
                     ->where('flashcard_categories.deleted_at',null)
                     ->where('flashcard_categories.parent_id',$id) 
+                    ->where('flashcard_categories.level',2) 
                     ->get();
-        // dd($data);
+        dd($data);
         return Response::json($data);
     }
 
@@ -79,7 +80,7 @@ class FlashcardCategoriesController extends Controller
     public function unselected($id)
     {
         $data = FlashcardCategories::where("parent_id",$id)->get();
-
+        
         return Response::json($data);
     }
 
@@ -115,16 +116,5 @@ class FlashcardCategoriesController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function json($id)
-    {
-        return Response::json(FlashcardCategories::find($id)->count_question);
     }
 }

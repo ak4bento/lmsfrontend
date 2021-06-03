@@ -274,7 +274,7 @@
             document.getElementById("ringkasan").submit();
              
         });
-
+        
         checked_category = (id) => {
             var rute = "{{ url('flashcard-selected') }}/" + id;
             checkbox_id = 'category['+id+']';
