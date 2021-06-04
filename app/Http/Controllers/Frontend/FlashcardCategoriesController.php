@@ -77,13 +77,7 @@ class FlashcardCategoriesController extends Controller
                 ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.second_parent_id','=','flashcard_categories.id')
                 ->join('flashcard_answers', 'flashcard_answers.flashcard_questions_id', '=', 'flashcard_categories_questions.flashcard_questions_id')
                 ->select("flashcard_categories.*",
-                            DB::raw("(select count(flashcard_categories_questions.flashcard_categories_id) as xx
-                            from flashcard_categories left join flashcard_categories_questions
-                                    on flashcard_categories_questions.second_parent_id = flashcard_categories.id
-                            where flashcard_categories.deleted_at is null
-                            and flashcard_categories.level = 2
-                            and flashcard_categories.parent_id = ".$id."
-                            group by flashcard_categories.id) as question_count"),
+                            DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"),
                             DB::raw("count(flashcard_answers.id) as count_answers")
                         )
                 ->whereNull("flashcard_categories.deleted_at")
