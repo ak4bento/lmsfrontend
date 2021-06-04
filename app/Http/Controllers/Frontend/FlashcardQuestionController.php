@@ -35,6 +35,7 @@ class FlashcardQuestionController extends Controller
 
         foreach ($quiz as $key => $value) {
             $category = FlashcardCategories::where('id',$key)->first();
+            // dd($category);
             if($category->level == 4){
                 $origin = array(
                     'id' => $category['id'],
@@ -44,7 +45,7 @@ class FlashcardQuestionController extends Controller
                 );
                 array_push($data_category,$origin);
             } else if($category->level == 3){
-                $third_categorys = FlashcardCategories::where('parent_id',$category->id)->get();
+                $third_categorys = FlashcardCategories::where('third_parent_id',$category->id)->get();
                 foreach ($third_categorys as $third_category) {
                     // dd($third_category);
                     $origin = array( 
@@ -56,35 +57,26 @@ class FlashcardQuestionController extends Controller
                     array_push($data_category,$origin);
                 }
             } else if($category->level == 2){
-                $second_categorys = FlashcardCategories::where('parent_id',$category->id)->get();
+                $second_categorys = FlashcardCategories::where('second_parent_id',$category->id)->get();
                 foreach($second_categorys as $second_category){
-                    $third_categorys = FlashcardCategories::where('parent_id',$second_category->id)->get();
-                    foreach ($third_categorys as $third_category) {
-                        $origin = array(
-                            'id' => $third_category['id'],
-                            'parent_id' => $third_category['parent_id'],
-                            'level' => $third_category['level'],
-                            'category' => $third_category['category'],
-                        );
-                       array_push($data_category,$origin);
-                    }
+                    $origin = array(
+                        'id' => $second_category['id'],
+                        'parent_id' => $second_category['parent_id'],
+                        'level' => $second_category['level'],
+                        'category' => $second_category['category'],
+                    );
+                    array_push($data_category,$origin);
                 }
             } else {
-                $first_categorys  = FlashcardCategories::where('parent_id',$category->id)->get();
+                $first_categorys  = FlashcardCategories::where('parent_id',$category->id)->get(); 
                 foreach ($first_categorys as $first_category) {
-                    $second_categorys = FlashcardCategories::where('parent_id',$first_category->id)->get();
-                    foreach($second_categorys as $second_category){
-                        $third_categorys = FlashcardCategories::where('parent_id',$second_category->id)->get();
-                        foreach ($third_categorys as $third_category) {
-                            $origin = array(
-                                'id' => $third_category['id'],
-                                'parent_id' => $third_category['parent_id'],
-                                'level' => $third_category['level'],
-                                'category' => $third_category['category'],
-                            );
-                            array_push($data_category,$origin);
-                        }
-                    }
+                    $origin = array(
+                        'id' => $first_category['id'],
+                        'parent_id' => $first_category['parent_id'],
+                        'level' => $first_category['level'],
+                        'category' => $first_category['category'],
+                    );
+                    array_push($data_category,$origin);
                 }
             }             
         } 

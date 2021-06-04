@@ -105,9 +105,12 @@
                                     <input data-category="{{ $item->category }}"
                                         onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]"
                                         name="category[{{ $item->id}}]" type="checkbox">
-                                    <label for="category[{{ $item->id}}]"
-                                        style="font-family: sans-serif; font-weight: normal !important;">
+                                    <label for="category[{{ $item->id}}]" style="font-family: sans-serif;">
                                         {{ $item->category }}
+                                    </label>
+                                    <label class="float-right">
+                                        {{ $item->question_count }}
+                                        <i class="fas fa-arrow-right"></i>
                                     </label>
                                 </div>
                             </div>
@@ -169,7 +172,9 @@
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div style="text-align: center" class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
-                                <a style="font-weight: bold;font-size: 30px; display: block;">891237</a>
+                                <a id="countQuestion" style="font-weight: bold;font-size: 30px; display: block;">
+                                    0
+                                </a>
                                 <a style="font-size: 18px;"> Flash Card </a>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-1">
@@ -245,6 +250,8 @@
             document.getElementById("limit").value = d;
         }
 
+        let QC = [];
+
         $("#start").click(function(e) {
             e.preventDefault();
             
@@ -274,6 +281,16 @@
             document.getElementById("ringkasan").submit();
              
         });
+
+        function checkQC(id) {
+            for (let index = 0; index < QC.length; index++) {
+                console.log('QCC : ', QC[index].id);
+                if (QC[index].id == id)
+                    return 1;
+            }
+            return 0;
+        }
+ 
         
         checked_category = (id) => {
             var rute = "{{ url('flashcard-selected') }}/" + id;
@@ -296,78 +313,101 @@
                             sessionStorage.setItem(response.id, response.parent_id);  
                             $(".btn-category").append(data);
                         }
-                    }
+                       
+                        $.ajax({
+                            type: 'post',
+                            url: 'flashcard-selected-count',
+                            data: {
+                                "id": response.id, 
+                                "level": response.level, 
+                                "_token": "{{ csrf_token() }}"
+                            },
+                            success: function(response) {
+                                checkQC(response.id);
+                                // for (let index = 0; index < QC.length; index++) {
+                                if(checkQC(response.id) == 0){
+                                    QC.push({ 'id': response.id, 'count': response.question_count });
+                                }
+                                // }
+                                console.log('count : ',QC);
+                                // document.getElementById('countQuestion').innerHTML = response.question_count; 
+                            }
+                        });
+                    } 
                 });
             } else {
                 rute = "{{ url('flashcard-unselected') }}/" + id;
                 btn_id = 'btn['+id+']';
                 var btn = document.getElementById(btn_id);
                 btn.remove();
-                
 
                 // console.log('222222 : ',btn_id);
                 sessionStorage.removeItem(id);
+                for (let index = 0; index < QC.length; index++) {
+                    if(QC[index].id == id){
+                        QC.splice(index, 1); 
+                        console.log('qcc hapus', QC);
+                    }
+                } 
                 $.ajax({
                     url: rute,
                     type: 'get',
                     success: function(response) { 
-                        // console.log('ini on button 2222: ', response); 
-                        $.each(response, function(key, value) {
-                       
-                            btn_id = 'btn['+value.id+']';
-                            btn = document.getElementById(btn_id);
-                            // console.log('333333333 : ',btn_id);
-                            // console.log('obeject btn 3', btn);
+                        $.each(response, function(key, value) { 
+                            btn_id = 'btn['+value.id+']';   
+                            btn = document.getElementById(btn_id);  
                             if(btn != null){
+                                
                                 btn.remove();
                                 sessionStorage.removeItem(value.id);
                             }
 
-                            rute = "{{ url('flashcard-unselected') }}/" + value.id;
-                            btn_id = 'btn['+value.id+']';
-                            btn = document.getElementById(btn_id); 
 
-                            $.ajax({
-                                url: rute,
-                                type: 'get',
-                                success: function(response) { 
-                                    // console.log('ini on button 3333: ', response); 
-                                    $.each(response, function(key, value) {
+                        //     rute = "{{ url('flashcard-unselected') }}/" + value.id;
+                        //     btn_id = 'btn['+value.id+']';
+                        //     btn = document.getElementById(btn_id); 
+
+                        //     $.ajax({
+                        //         url: rute,
+                        //         type: 'get',
+                        //         success: function(response) { 
+                        //             console.log('ini on button 3333: ', response); 
+                        //             $.each(response, function(key, value) {
                                 
-                                        btn_id = 'btn['+value.id+']';
-                                        btn = document.getElementById(btn_id);
-                                        if(btn != null){
-                                            btn.remove();
-                                            sessionStorage.removeItem(value.id);
-                                        }
-                                        rute = "{{ url('flashcard-unselected') }}/" + value.id;
-                                        btn_id = 'btn['+value.id+']';
-                                        btn = document.getElementById(btn_id); 
+                        //                 btn_id = 'btn['+value.id+']';
+                        //                 btn = document.getElementById(btn_id);
+                        //                 if(btn != null){
+                        //                     btn.remove();
+                        //                     sessionStorage.removeItem(value.id);
+                        //                 }
+                        //                 rute = "{{ url('flashcard-unselected') }}/" + value.id;
+                        //                 btn_id = 'btn['+value.id+']';
+                        //                 btn = document.getElementById(btn_id); 
                                         
-                                        $.ajax({
-                                            url: rute,
-                                            type: 'get',
-                                            success: function(response) { 
-                                                // console.log('ini on button 4444: ', response); 
-                                                $.each(response, function(key, value) {
+                        //                 $.ajax({
+                        //                     url: rute,
+                        //                     type: 'get',
+                        //                     success: function(response) { 
+                        //                         // console.log('ini on button 4444: ', response); 
+                        //                         $.each(response, function(key, value) {
                                                 
-                                                    btn_id = 'btn['+value.id+']';
+                        //                             btn_id = 'btn['+value.id+']';
 
-                                                    btn = document.getElementById(btn_id); 
-                                                        console.log();
-                                                    if(btn != null){
-                                                        btn.remove();
-                                                        sessionStorage.removeItem(value.id);
-                                                    }
-                                                    document.getElementById('limit_question').disabled = true;
+                        //                             btn = document.getElementById(btn_id); 
+                        //                                 console.log();
+                        //                             if(btn != null){
+                        //                                 btn.remove();
+                        //                                 sessionStorage.removeItem(value.id);
+                        //                             }
+                        //                             document.getElementById('limit_question').disabled = true;
 
-                                                    document.getElementById('btn_limit').disabled = true;
-                                                });
-                                            }
-                                        });
-                                    });
-                                }
-                            });
+                        //                             document.getElementById('btn_limit').disabled = true;
+                        //                         });
+                        //                     }
+                        //                 });
+                        //             });
+                        //         }
+                        //     });
                         });
                     }
                 });
@@ -380,7 +420,7 @@
             document.getElementById('third_category').innerHTML = "";
             document.getElementById('fourth_category').innerHTML = "";
 
-            var rute = "{{ url('flashcard-categories') }}/" + id;
+            var rute = "{{ url('flashcard-second-categories') }}/" + id;
             $.ajax({
                 url: rute,
                 type: 'get',
@@ -392,9 +432,10 @@
                         var data = '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
-                                            '<label for="category['+ value.id +']" style="font-family: sans-serif; font-weight: normal !important;">'
-                                                + value.category +
+                                            '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
+                                                + value.category + 
                                             '</label>'+
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'
                                         '</div>'+
                                     '</div>'; 
                         $(".second_category").append(data);
@@ -402,6 +443,7 @@
                 }
             });
         }
+        
 
         second_category = (id) => {
             document.getElementById('third_category').innerHTML = "Loading...";
@@ -417,7 +459,8 @@
                         var data =  '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
                                         '<div class="custom-control custom-checkbox">'+
                                             '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
-                                            '<label style="font-family: sans-serif; font-weight: normal !important;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
+                                            '<label style="font-family: sans-serif;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
                                         '</div>'+
                                     '</div>';
                                      
@@ -432,7 +475,7 @@
             document.getElementById('third_category').innerHTML = "Loading...";
             document.getElementById('fourth_category').innerHTML = "";
 
-            var rute = "{{ url('flashcard-categories') }}/" + id;
+            var rute = "{{ url('flashcard-third-categories') }}/" + id;
             $.ajax({
                 url: rute,
                 type: 'get',
@@ -445,9 +488,10 @@
                         var data = '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
-                                            '<label for="category['+ value.id +']" style="font-family: sans-serif; font-weight: normal !important;">'
-                                                + value.category +
+                                            '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
+                                                + value.category + 
                                             '</label>'+
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
                                         '</div>'+
                                     '</div>'; 
                         $(".third_category").append(data);
@@ -459,7 +503,7 @@
         fourth_category = (id) => {
             document.getElementById('fourth_category').innerHTML = "Loading...";
 
-            var rute = "{{ url('flashcard-categories') }}/" + id;
+            var rute = "{{ url('flashcard-fourth-categories') }}/" + id;
             $.ajax({
                 url: rute,
                 type: 'get',
@@ -472,9 +516,10 @@
                         var data = '<div class="py-2 px-2 hover border-bottom" >'+
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
-                                            '<label for="category['+ value.id +']" style="font-family: sans-serif; font-weight: normal !important;">'
-                                                + value.category +
+                                            '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
+                                                + value.category +  
                                             '</label>'+
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
                                         '</div>'+
                                     '</div>'; 
                         $(".fourth_category").append(data);

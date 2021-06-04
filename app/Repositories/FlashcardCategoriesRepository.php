@@ -18,6 +18,9 @@ class FlashcardCategoriesRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'parent_id',
+        'second_parent_id',
+        'third_parent_id',
+        'count_question',
         'category'
     ];
 

@@ -21,7 +21,7 @@ class FlashcardCategoriesQuestion extends Model
     use HasFactory;
 
     public $table = 'flashcard_categories_questions';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -32,6 +32,9 @@ class FlashcardCategoriesQuestion extends Model
 
     public $fillable = [
         'flashcard_questions_id',
+        'first_parent_id',
+        'second_parent_id',
+        'third_parent_id',
         'flashcard_categories_id'
     ];
 
@@ -39,7 +42,7 @@ class FlashcardCategoriesQuestion extends Model
     {
         return $this->hasMany('App\Models\FlashcardCategories','flashcard_categories_id','id');
     }
-    
+
     public function flashcard_questions()
     {
         return $this->hasMany('App\Models\FlashcardQuestion','flashcard_questions_id','id');
@@ -69,5 +72,5 @@ class FlashcardCategoriesQuestion extends Model
         'updated_at' => 'nullable'
     ];
 
-    
+
 }

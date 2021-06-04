@@ -23,9 +23,11 @@ Route::get('flashcard', [App\Http\Controllers\Frontend\FlashcardCategoriesContro
 
 Route::resource('flashcard-categories', App\Http\Controllers\Frontend\FlashcardCategoriesController::class);
 Route::get('flashcard-selected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'selected'])->name('flashcard.selected');
-
+Route::post('flashcard-selected-count', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'selected_count'])->name('flashcard.selected.count');
+ 
 Route::get('flashcard-second-categories/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'second_categories'])->name('flashcard.second.categories');
 Route::get('flashcard-third-categories/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'third_categories'])->name('flashcard.third.categories');
+Route::get('flashcard-fourth-categories/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'fourth_categories'])->name('flashcard.fourth.categories');
 
 
 Route::get('flashcard-unselected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'unselected'])->name('flashcard.unselected');
