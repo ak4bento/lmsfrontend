@@ -106,11 +106,11 @@
         var number=0;
         var data = document.querySelector('#data_question');
         data = data.getAttribute('data-questions');
-        data = JSON.parse(data); 
+        data = JSON.parse(data);
         var group,choice;
         var dataLenght = data.length;
 
-        // $(document).ready(function() { 
+        // $(document).ready(function() {
         //     console.log('ini  lenght : ',sessionStorage.getItem('finish'));
         //     if(dataLenght == sessionStorage.getItem('finish')){
         //         quizDone();
@@ -124,38 +124,38 @@
             document.getElementById('question_count').innerHTML = question_count;
         }
 
-        $(document).ready(function() {  
+        $(document).ready(function() {
             questionCount();
-            console.log(data);  
+            console.log(data);
             viewDataQuestion();
             sessionStorage.setItem('finished', 0);
             if(dataLenght == sessionStorage.getItem('finish')){
                 quizDone();
                 number = dataLenght;
-                document.getElementById("progress_bar").setAttribute("style", "width:100%"); 
+                document.getElementById("progress_bar").setAttribute("style", "width:100%");
                 var question_count = number + " dari " + dataLenght
                 document.getElementById('question_count').innerHTML = question_count;
             }
         });
 
-        viewDataQuestion = () =>{ 
-            
+        viewDataQuestion = () =>{
+
             document.getElementById('explanation').innerHTML = "";
             document.getElementById('question').innerHTML = "";
 
             var question_count = number+1 + " dari " + dataLenght
-            
+
 
             document.getElementById('question_count').innerHTML = question_count;
 
             var html =  '<div class="row justify-content-center py-2">'+
-                            '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+ 
-                                '<div class="card"> <div class="card-body"> <h4> '+ data[number].question +' </h4> </div> </div>'+
+                            '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+
+                                '<div class="card"> <div class="card-body"> <h4> '+ data[number].question + data[number].id +' </h4> </div> </div>'+
                             '</div>'+
                             '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
                                 '<div class="card"> <div class="card-body"> <img class="img-responsive pad" width="100%" src="flashcardfiles/images/'+data[number].images+'" alt="Photo"> </div></div>'+
                             '</div>'+
-                        '</div>'+ 
+                        '</div>'+
                         '<div class="row justify-content-center py-2">'+
                             '<div style="margin-right:5px;text-align: center;">'+
                                 '<button class="btn btn-primary" onclick="viewDataExplanation(1)" >Rendah</button>'+
@@ -166,18 +166,18 @@
                             '<div style="margin-left:5px;text-align: center;">'+
                                 '<button class="btn btn-primary" onclick="viewDataExplanation(3)">Tinggi</button>'+
                             '</div>'+
-                        '</div>';   
-              
+                        '</div>';
+
             $("#question").append(html);
         }
 
         changeNumber = (var_choice) =>{
-            
+
             choice = var_choice;
             // console.log('var choice : ',var_choice);
             var rute = "{{ url('flashcard-answer') }}";
-            
-            
+
+
             $.ajax({
                 type: 'post',
                 url: rute,
@@ -189,33 +189,33 @@
                 },
                 success: function(response) {
                     progressBar();
-                    
+
                 }
             });
             if(number+1 < dataLenght){
-                number++; 
+                number++;
                 var question_count = number+1 + " dari " + dataLenght
                 document.getElementById('question_count').innerHTML = question_count;
-    
+
                 console.log('panjang data : ',data.length);
                 console.log('data sekarang : ',number);
-                viewDataQuestion(); 
+                viewDataQuestion();
             } else if (number+1 == dataLenght) {
                 quizDone();
             }
         }
 
         progressBar = () => {
-              
+
                 var finished = sessionStorage.getItem('finished')
-                console.log('progress : ', finished);  
+                console.log('progress : ', finished);
                 finished++;
                 var percent = (finished / dataLenght) * 100;
-                var width = "width: "+percent+"%";  
+                var width = "width: "+percent+"%";
                 var progress =  document.getElementById("progress_bar").setAttribute("style", width);
-                
+
                 sessionStorage.setItem('finished', finished);
-             
+
         }
 
         quizDone = () => {
@@ -245,17 +245,17 @@
             viewDataQuestion();
         }
 
-        
+
         viewDataExplanation = (var_group) => {
             group = var_group;
 
             document.getElementById('explanation').innerHTML = "";
             document.getElementById('question').innerHTML = "";
 
-            
+
             var data = document.querySelector('#data_question');
             data = data.getAttribute('data-questions');
-            data = JSON.parse(data); 
+            data = JSON.parse(data);
             var html =  '<div class="row justify-content-center py-2">'+
                             '<div class="col-12 col-md-12 col-lg-12 py-2" style="text-align: center;">'+
                                 '<div class="card"> <div class="card-body"> <h4> '+ data[number].explanation +' </h4> </div> </div>'+
@@ -263,33 +263,33 @@
                             '<div class="col-12 col-md-12 col-lg-12" style="text-align: center;">'+
                                 '<div class="card"> <div class="card-body"> <img class="img-responsive pad col-12 col-sm-12 col-md-12 col-lg-12" src="flashcardfiles/images_explanation/'+data[number].images_explanation+'" alt="Photo"> </div> </div>'+
                             '</div>'+
-                        '</div>' ;  
+                        '</div>' ;
 
             $("#explanation").append(html);
-            
+
             var rute = "{{ url('flashcard-subject') }}/" + data[number].id;
-            
+
             var anchor = '';
             var no = 1;
             $.ajax({
                 url: rute,
                 type: 'get',
-                success: function(response) { 
+                success: function(response) {
                     $.each(response, function(key, value) {
                         anchor = `${anchor} <div class="row"> ${no++}.
                                                 <a href="#" data-toggle="modal" onclick="viewSubject(${value.id})"
-                                                    data-target=".bd-example-modal-xl" >${value.subject} 
-                                                </a> 
+                                                    data-target=".bd-example-modal-xl" >${value.subject}
+                                                </a>
                                             </div>`;
-                        console.log('subject : ',value); 
+                        console.log('subject : ',value);
                     });
 
                     var subject =   '<div class="row justify-content-center px-2">'+
                                         '<div class="card col-12 col-md-12 col-lg-12" >'+
-                                            '<div class="card-body" style="text-align: center;">'+ anchor+'</div>'+    
+                                            '<div class="card-body" style="text-align: center;">'+ anchor+'</div>'+
                                         '</div>'+
                                     '</div>'+
-                                    '<div class="row justify-content-center py-2">'+ 
+                                    '<div class="row justify-content-center py-2">'+
                                         '<div style="text-align: center;">'+
                                             '<button class="btn btn-success" onclick="changeNumber(1)" >Mengerti</button>'+
                                         '</div>'+
@@ -299,49 +299,49 @@
                                     '</div>';
                     $("#explanation").append(subject);
                 }
-            }); 
+            });
         }
 
         viewSubject = (subject) => {
             var rute = `{{ url('flashcard-subject-single') }}/${subject}`;
-            document.getElementById('titleSubject').innerHTML = ""; 
-            document.getElementById('imageSubject').innerHTML = ""; 
+            document.getElementById('titleSubject').innerHTML = "";
+            document.getElementById('imageSubject').innerHTML = "";
             var no = 1;
             $.ajax({
                 url: rute,
                 type: 'get',
-                success: function(value) { 
-                     
+                success: function(value) {
+
                         console.log('value : ',value);
                         let title = `<h5>${value.subject}</h5>`;
                         $("#titleSubject").append(title);
                         let image = `<img class="img-responsive pad" width="100%" src="flashcardfiles/files/${value.files}" alt="Photo">`;
                         $("#imageSubject").append(image);
 
-                     
+
                 }
-            });  
+            });
         }
 
         next = () => {
             if(number+1 < data.length){
-                number++; 
+                number++;
             }
             questionCount();
             console.log('panjang data : ',data.length);
             console.log('data sekarang : ',number);
-            viewDataQuestion(); 
+            viewDataQuestion();
         }
 
-        prev = () => { 
+        prev = () => {
             if(number > 0){
-                number--; 
+                number--;
             }
             questionCount();
             console.log('panjang data : ',data.length);
             console.log('data sekarang : ',number);
-            viewDataQuestion(); 
+            viewDataQuestion();
         }
-    
+
     </script>
     @endpush

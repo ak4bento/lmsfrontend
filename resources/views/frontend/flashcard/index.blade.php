@@ -112,6 +112,11 @@
                                         {{ $item->question_count }}
                                         <i class="fas fa-arrow-right"></i>
                                     </label>
+                                    {{-- <div class="progress progress-xxs">
+                                        <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                        <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             @endforeach
@@ -429,10 +434,10 @@
                 }
                 QC_result = 0;
                 for (let index = 0; index < QC.length; index++) {
-                    QC_result = QC_result+QC[index].count;
+                    QC_result = QC_result+QC[index].question_count;
                     console.log('qc result hapus', QC_result);
-                    document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                 }
+                document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                 $.ajax({
                     url: rute,
                     type: 'get',
@@ -618,6 +623,10 @@
             $('input:checkbox').prop('checked', checked);
             $(this).val(checked ? 'uncheck all' : 'Bersihkan' )
             $(this).data('checked', checked);
+
+            QC = [];
+            QC_result = 0;
+            document.getElementById('countQuestion').innerHTML = QC_result;
 
             var btn = document.getElementById('btn-category');
             btn.remove();
