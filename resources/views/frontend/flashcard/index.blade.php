@@ -110,7 +110,7 @@
                                     </label>
                                     <label class="float-right">
                                         {{ $item->question_count }}
-                                        <i class="fas fa-arrow-right"></i>
+                                        <i class="fas fa-angle-right"></i>
                                     </label>
                                 </div>
                             </div>
@@ -429,7 +429,7 @@
                 }
                 QC_result = 0;
                 for (let index = 0; index < QC.length; index++) {
-                    QC_result = QC_result+QC[index].count;
+                    QC_result = QC_result+QC[index].question_count;
                     console.log('qc result hapus', QC_result);
                     document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                 }
@@ -519,7 +519,7 @@
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
                                                 + value.category +
                                             '</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'
                                         '</div>'+
                                     '</div>';
                         $(".second_category").append(data);
@@ -544,7 +544,7 @@
                                         '<div class="custom-control custom-checkbox">'+
                                             '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
                                         '</div>'+
                                     '</div>';
 
@@ -575,7 +575,7 @@
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
                                                 + value.category +
                                             '</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
+                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
                                         '</div>'+
                                     '</div>';
                         $(".third_category").append(data);
@@ -603,7 +603,7 @@
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
                                                 + value.category +
                                             '</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
+                                            '<label class="float-right"> '+ value.question_count +
                                         '</div>'+
                                     '</div>';
                         $(".fourth_category").append(data);
