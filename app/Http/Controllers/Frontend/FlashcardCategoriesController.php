@@ -130,7 +130,9 @@ class FlashcardCategoriesController extends Controller
     public function selected_count(Request $request)
     {
         $data = $request->all();
-        $field= "";
+        // $json = json_decode($data['data']);
+        // return $data;
+        // $field= "";
         $field1="";
         if($data['level'] == 4){
             $field1 = "flashcard_categories_questions.flashcard_categories_id";
@@ -154,7 +156,7 @@ class FlashcardCategoriesController extends Controller
                     ->where('flashcard_categories.deleted_at',null) 
                     ->where('flashcard_categories.level',$data['level']) 
                     ->where('flashcard_categories.id',$data['id']) 
-                    ->first();
+                    ->get();
         if($data['level'] == 1 ){
             $flashcardCategories = DB::table('flashcard_categories')  
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.first_parent_id','=','flashcard_categories.id')
@@ -163,8 +165,12 @@ class FlashcardCategoriesController extends Controller
                     ->where('flashcard_categories.deleted_at',null) 
                     ->where('flashcard_categories.level',1) 
                     ->where('flashcard_categories.id',$data['id'])  
-                    ->first();
+                    ->get();
         }
+ 
+            
+            
+        // }
         return Response::json($flashcardCategories);
     }
 

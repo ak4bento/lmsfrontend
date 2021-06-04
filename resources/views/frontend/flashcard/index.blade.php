@@ -197,7 +197,6 @@
                             </div>
                             <div class="col-lg-2 col-md-6 col-sm-12 col-12 py-1">
                                 <button disabled id="btn_limit" class="btn btn-block btn-primary" data-toggle="modal"
-                                    data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
                                     data-target="#quizZummary">Buat Kuis</button>
                             </div>
                         </div>
@@ -222,7 +221,7 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <input type="hidden" id="data_quiz" name="data" value="">
+                                <input type="text" id="data_quiz" name="data" value="">
                                 <input type="hidden" id="limit" name="limit" value="">
                             </div>
                         </div>
@@ -312,25 +311,28 @@
                         if(buttonLabel == null){
                             sessionStorage.setItem(response.id, response.parent_id);  
                             $(".btn-category").append(data);
-                        }
-                       
+                        } 
+
                         $.ajax({
                             type: 'post',
                             url: 'flashcard-selected-count',
                             data: {
-                                "id": response.id, 
-                                "level": response.level, 
+                                "id": response.id,  
+                                "level": response.level,  
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function(response) {
+                                
+                                
                                 checkQC(response.id);
-                                // for (let index = 0; index < QC.length; index++) {
+
+                                for (let index = 0; index < QC.length; index++) {
                                 if(checkQC(response.id) == 0){
                                     QC.push({ 'id': response.id, 'count': response.question_count });
                                 }
-                                // }
+                                }
                                 console.log('count : ',QC);
-                                // document.getElementById('countQuestion').innerHTML = response.question_count; 
+                                document.getElementById('countQuestion').innerHTML = response.question_count; 
                             }
                         });
                     } 
