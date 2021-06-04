@@ -250,19 +250,20 @@
         }
 
         let QC = [];
+        let QC_result = 0;
 
         $("#start").click(function(e) {
             e.preventDefault();
-            
+
             let url = $(this).data('url');
- 
+
             key = Object.keys(sessionStorage);
             console.log("ini key : ", key);
             data = "";
             var dataArray = "";
             for (let index = 0; index < key.length; index++) {
                 const element = key[index];
-                // console.log("ini element : ", key[index]); 
+                // console.log("ini element : ", key[index]);
                 if (index === key.length - 1)
                     data = data + '"' + element + '":' + sessionStorage.getItem(element);
                 else
@@ -274,23 +275,95 @@
             // console.log("ini gabungan element : ",data);
             console.log('url', url);
             var rute = url;
-            console.log("ini gabungan element : ", data); 
+            console.log("ini gabungan element : ", data);
             document.getElementById("data_quiz").value = data;
             sessionStorage.clear();
             document.getElementById("ringkasan").submit();
-             
+
         });
 
-        function checkQC(id) {
+        function checkQC(data) {
             for (let index = 0; index < QC.length; index++) {
                 console.log('QCC : ', QC[index].id);
-                if (QC[index].id == id)
-                    return 1;
+                if (data.level == 4) {
+                    if (data.third_parent_id == QC[index].id)
+                        return 1;
+                } else if (data.level == 3) {
+                    if (data.second_parent_id == QC[index].id)
+                        return 1;
+                } else if (data.level == 2) {
+                    if (data.parent_id == QC[index].id)
+                        return 1;
+                }
+
+                if (data.level == 1) {
+                    if (QC[index].parent_id == data.id)
+                    {
+                        for (let index = 0; index < QC.length; index++) {
+                            if(QC[index].parent_id == data.id){
+                                QC.splice(index, 1);
+                                console.log('qcc hapus', QC);
+                            }
+                        }
+
+                        QC_result = 0;
+                        for (let index = 0; index < QC.length; index++) {
+                            QC_result = QC_result+QC[index].question_count;
+                            console.log('qc result hapus', QC_result);
+                            document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                        }
+                        return 0;
+                    }
+                }
+
+                if (data.level == 2) {
+                    if (QC[index].second_parent_id == data.id)
+                    {
+                        for (let index = 0; index < QC.length; index++) {
+                            if(QC[index].second_parent_id == data.id){
+                                QC.splice(index, 1);
+                                console.log('qcc hapus', QC);
+                            }
+                        }
+
+                        QC_result = 0;
+                        for (let index = 0; index < QC.length; index++) {
+                            QC_result = QC_result+QC[index].question_count;
+                            console.log('qc result hapus', QC_result);
+                            document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                        }
+                        return 0;
+                    }
+                }
+
+                if (data.level == 3) {
+                    if (QC[index].third_parent_id == data.id)
+                    {
+                        for (let index = 0; index < QC.length; index++) {
+                            if(QC[index].third_parent_id == data.id){
+                                QC.splice(index, 1);
+                                console.log('qcc hapus', QC);
+                            }
+                        }
+
+                        QC_result = 0;
+                        for (let index = 0; index < QC.length; index++) {
+                            console.log('sebelum di hitung', QC_result);
+                            QC_result = QC_result+QC[index].question_count;
+                            console.log('index qc count', QC[index].question_count);
+                            console.log('qc result hapus', QC_result);
+                            document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                        }
+                        return 0;
+                    }
+                }
+                // if (QC[index].id == data.id)
+                //     return 1;
             }
             return 0;
         }
- 
-        
+
+
         checked_category = (id) => {
             var rute = "{{ url('flashcard-selected') }}/" + id;
             checkbox_id = 'category['+id+']';
@@ -303,39 +376,42 @@
                 $.ajax({
                     url: rute,
                     type: 'get',
-                    success: function(response) { 
+                    success: function(response) {
                         console.log('ini ceked : ',response);
                         var data =  '<button class="btn btn-primary btn-sm style" data-button="delete" name="btn['+response.id+']" id="btn['+response.id+']" style="margin-left:2px;margin-right:2px" > '+ response.category +' </button>';
                         var buttonId = 'btn['+response.id+']';
                         var buttonLabel = document.getElementById(buttonId);
                         if(buttonLabel == null){
-                            sessionStorage.setItem(response.id, response.parent_id);  
+                            sessionStorage.setItem(response.id, response.parent_id);
                             $(".btn-category").append(data);
-                        } 
+                        }
 
                         $.ajax({
                             type: 'post',
                             url: 'flashcard-selected-count',
                             data: {
-                                "id": response.id,  
-                                "level": response.level,  
+                                "id": response.id,
+                                "level": response.level,
                                 "_token": "{{ csrf_token() }}"
                             },
                             success: function(response) {
-                                
-                                
-                                checkQC(response.id);
 
-                                for (let index = 0; index < QC.length; index++) {
-                                if(checkQC(response.id) == 0){
-                                    QC.push({ 'id': response.id, 'count': response.question_count });
+                                console.log('ini response : ',response);
+
+                                checkQC(response);
+
+                                // for (let index = 0; index < QC.length; index++) {
+                                if(checkQC(response) == 0){
+                                    QC.push(response);
+                                    QC_result = QC_result+response.question_count;
                                 }
-                                }
+                                // }
                                 console.log('count : ',QC);
-                                document.getElementById('countQuestion').innerHTML = response.question_count; 
+                                console.log('count result QC : ',QC_result);
+                                document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                             }
                         });
-                    } 
+                    }
                 });
             } else {
                 rute = "{{ url('flashcard-unselected') }}/" + id;
@@ -347,19 +423,25 @@
                 sessionStorage.removeItem(id);
                 for (let index = 0; index < QC.length; index++) {
                     if(QC[index].id == id){
-                        QC.splice(index, 1); 
+                        QC.splice(index, 1);
                         console.log('qcc hapus', QC);
                     }
-                } 
+                }
+                QC_result = 0;
+                for (let index = 0; index < QC.length; index++) {
+                    QC_result = QC_result+QC[index].count;
+                    console.log('qc result hapus', QC_result);
+                    document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                }
                 $.ajax({
                     url: rute,
                     type: 'get',
-                    success: function(response) { 
-                        $.each(response, function(key, value) { 
-                            btn_id = 'btn['+value.id+']';   
-                            btn = document.getElementById(btn_id);  
+                    success: function(response) {
+                        $.each(response, function(key, value) {
+                            btn_id = 'btn['+value.id+']';
+                            btn = document.getElementById(btn_id);
                             if(btn != null){
-                                
+
                                 btn.remove();
                                 sessionStorage.removeItem(value.id);
                             }
@@ -367,15 +449,15 @@
 
                         //     rute = "{{ url('flashcard-unselected') }}/" + value.id;
                         //     btn_id = 'btn['+value.id+']';
-                        //     btn = document.getElementById(btn_id); 
+                        //     btn = document.getElementById(btn_id);
 
                         //     $.ajax({
                         //         url: rute,
                         //         type: 'get',
-                        //         success: function(response) { 
-                        //             console.log('ini on button 3333: ', response); 
+                        //         success: function(response) {
+                        //             console.log('ini on button 3333: ', response);
                         //             $.each(response, function(key, value) {
-                                
+
                         //                 btn_id = 'btn['+value.id+']';
                         //                 btn = document.getElementById(btn_id);
                         //                 if(btn != null){
@@ -384,18 +466,18 @@
                         //                 }
                         //                 rute = "{{ url('flashcard-unselected') }}/" + value.id;
                         //                 btn_id = 'btn['+value.id+']';
-                        //                 btn = document.getElementById(btn_id); 
-                                        
+                        //                 btn = document.getElementById(btn_id);
+
                         //                 $.ajax({
                         //                     url: rute,
                         //                     type: 'get',
-                        //                     success: function(response) { 
-                        //                         // console.log('ini on button 4444: ', response); 
+                        //                     success: function(response) {
+                        //                         // console.log('ini on button 4444: ', response);
                         //                         $.each(response, function(key, value) {
-                                                
+
                         //                             btn_id = 'btn['+value.id+']';
 
-                        //                             btn = document.getElementById(btn_id); 
+                        //                             btn = document.getElementById(btn_id);
                         //                                 console.log();
                         //                             if(btn != null){
                         //                                 btn.remove();
@@ -435,17 +517,17 @@
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
-                                                + value.category + 
+                                                + value.category +
                                             '</label>'+
                                             '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'
                                         '</div>'+
-                                    '</div>'; 
+                                    '</div>';
                         $(".second_category").append(data);
                     });
                 }
             });
         }
-        
+
 
         second_category = (id) => {
             document.getElementById('third_category').innerHTML = "Loading...";
@@ -465,11 +547,11 @@
                                             '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
                                         '</div>'+
                                     '</div>';
-                                     
+
                         $(".third_category").append(data);
                     });
                 }
-            }); 
+            });
         }
 
 
@@ -491,16 +573,16 @@
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
-                                                + value.category + 
+                                                + value.category +
                                             '</label>'+
                                             '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
                                         '</div>'+
-                                    '</div>'; 
+                                    '</div>';
                         $(".third_category").append(data);
                     });
                 }
-            }); 
-        } 
+            });
+        }
 
         fourth_category = (id) => {
             document.getElementById('fourth_category').innerHTML = "Loading...";
@@ -519,26 +601,26 @@
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
-                                                + value.category +  
+                                                + value.category +
                                             '</label>'+
                                             '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-arrow-right"></i></label>'+
                                         '</div>'+
-                                    '</div>'; 
+                                    '</div>';
                         $(".fourth_category").append(data);
                     });
                 }
-            }); 
+            });
         }
- 
+
 
         $('.check:button').click(function(){
             var checked = false;
             $('input:checkbox').prop('checked', checked);
             $(this).val(checked ? 'uncheck all' : 'Bersihkan' )
             $(this).data('checked', checked);
-            
-            var btn = document.getElementById('btn-category'); 
-            btn.remove(); 
+
+            var btn = document.getElementById('btn-category');
+            btn.remove();
             var data = '<div class="btn-category" id="btn-category"></div>';
             $("#btn-group").append(data);
             sessionStorage.clear();
@@ -555,7 +637,7 @@
             //         if (checkboxes[i].type == 'checkbox') {
             //             checkboxes[i].checked = false;
             //             btn_id = 'btn['+i+']';
-            //             var btn = document.getElementById(btn_id); 
+            //             var btn = document.getElementById(btn_id);
 
                         console.log('btn : ', btn);
             //             if(btn != null)
@@ -572,26 +654,26 @@
             //             }
             //         }
             //     }
-                
-            // } 
+
+            // }
             for (var i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].type == 'checkbox') {
                     checkboxes[i].checked = false;
                     btn_id = 'btn['+i+']';
-                    var btn = document.getElementById(btn_id); 
+                    var btn = document.getElementById(btn_id);
 
                     // console.log('btn : ', i);
                     if(btn != null){
-                        btn.remove(); 
+                        btn.remove();
                     }
                     // if(i == 6){
                     //     btn_id = 'btn['+ i+1 +']';
                         console.log('btn 7 : ', btn_id);
 
-                    //     btn = document.getElementById(btn_id); 
+                    //     btn = document.getElementById(btn_id);
                     //     btn.remove();
                     // }
-                        
+
                 }
             }
         }

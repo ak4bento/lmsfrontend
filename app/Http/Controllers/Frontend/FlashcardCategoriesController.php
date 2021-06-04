@@ -18,12 +18,12 @@ class FlashcardCategoriesController extends Controller
     public function index()
     {
         // $flashcardCategories = FlashcardCategories::where('deleted_at',null)->where('parent_id',null)->get();
-        $flashcardCategories = DB::table('flashcard_categories')  
+        $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.first_parent_id','=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',1) 
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',1)
                     ->get();
         // dd($flashcardCategories);
         return view('frontend.flashcard.index')->with('flashcardCategories', $flashcardCategories);
@@ -58,13 +58,13 @@ class FlashcardCategoriesController extends Controller
      */
     public function show($id)
     {
-        $flashcardCategories = DB::table('flashcard_categories')  
+        $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.second_parent_id','=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',2) 
-                    ->where('flashcard_categories.parent_id',$id) 
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',2)
+                    ->where('flashcard_categories.parent_id',$id)
                     ->get();
         // dd($flashcardCategories);
         return Response::json($flashcardCategories);
@@ -72,47 +72,47 @@ class FlashcardCategoriesController extends Controller
 
     public function second_categories($id)
     {
-        $flashcardCategories = DB::table('flashcard_categories')  
+        $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.second_parent_id','=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',2) 
-                    ->where('flashcard_categories.parent_id',$id) 
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',2)
+                    ->where('flashcard_categories.parent_id',$id)
                     ->get();
-                    
+
         return Response::json($flashcardCategories);
     }
-    
+
 
     public function third_categories($id)
     {
-        $flashcardCategories = DB::table('flashcard_categories')  
+        $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.third_parent_id','=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',3) 
-                    ->where('flashcard_categories.second_parent_id',$id) 
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',3)
+                    ->where('flashcard_categories.second_parent_id',$id)
                     ->get();
-                    
+
         return Response::json($flashcardCategories);
     }
 
     public function fourth_categories($id)
     {
-        $flashcardCategories = DB::table('flashcard_categories')  
+        $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.flashcard_categories_id','=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',4) 
-                    ->where('flashcard_categories.third_parent_id',$id) 
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',4)
+                    ->where('flashcard_categories.third_parent_id',$id)
                     ->get();
-                    
+
         return Response::json($flashcardCategories);
     }
-    
+
     // public function second_categories($id)
     // {
     //     $data = FlashcardCategories::where("parent_id",$id)->get();
@@ -149,27 +149,27 @@ class FlashcardCategoriesController extends Controller
             // $data['id'] = null;
         }
         // return $field1;
-        $flashcardCategories = DB::table('flashcard_categories')  
+        $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions',$field1,'=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',$data['level']) 
-                    ->where('flashcard_categories.id',$data['id']) 
-                    ->get();
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',$data['level'])
+                    ->where('flashcard_categories.id',$data['id'])
+                    ->first();
         if($data['level'] == 1 ){
-            $flashcardCategories = DB::table('flashcard_categories')  
+            $flashcardCategories = DB::table('flashcard_categories')
                     ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.first_parent_id','=','flashcard_categories.id')
                     ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
                     ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null) 
-                    ->where('flashcard_categories.level',1) 
-                    ->where('flashcard_categories.id',$data['id'])  
-                    ->get();
+                    ->where('flashcard_categories.deleted_at',null)
+                    ->where('flashcard_categories.level',1)
+                    ->where('flashcard_categories.id',$data['id'])
+                    ->first();
         }
- 
-            
-            
+
+
+
         // }
         return Response::json($flashcardCategories);
     }
