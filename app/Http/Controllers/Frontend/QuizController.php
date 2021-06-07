@@ -191,7 +191,7 @@ class QuizController extends Controller
     {
       
         $data = $request->all();  
-        $user_id = 2;
+        $user_id = Auth::user()->id;
         $teachable     = DB::table('teachables') 
                         ->select('*')
                         ->where('teachable_type','quiz')  
@@ -286,6 +286,9 @@ class QuizController extends Controller
                         ->select('*')
                         ->first();
                         // dd($classroom);
+        
+        session()->pull('timerStartQuiz');
+        session()->pull('timerEndQuiz');
 
         return view('frontend.users.quizSubmit')->with('quiestion_quiz',$quiestion_quiz)->with('classroom',$classroom);
     }
