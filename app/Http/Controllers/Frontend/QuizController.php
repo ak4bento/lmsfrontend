@@ -262,6 +262,7 @@ class QuizController extends Controller
                         ->select('*')
                         ->where('teachable_type','quiz')  
                         ->where('teachable_id',$id)
+                        ->whereNull('deleted_at')
                         ->first();
 
         $quiestion_quiz = DB::table('question_quizzes')
@@ -277,6 +278,7 @@ class QuizController extends Controller
                         ->where('deleted_at',null)
                         ->select('*')
                         ->first();
+
         return view('frontend.users.quizSubmit')->with('quiestion_quiz',$quiestion_quiz)->with('classroom',$classroom);
     }
 }

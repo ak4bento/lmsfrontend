@@ -124,7 +124,6 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
 
     Route::get('/get-question/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuestion'])->name('getQuestion');
     Route::get('/get-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'getQuiz'])->name('getQuiz');
-    Route::get('/submited-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'submitedQuiz'])->name('submitedQuiz');
     Route::get('/join-classroom/{slug}', [App\Http\Controllers\Frontend\ClassroomController::class, 'joinClassroom'])->name('joinClassroom');
 
     Route::get('/get-time-quiz/{id}', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getTimeQuiz'])->name('getTimeQuiz');
@@ -132,6 +131,9 @@ Route::group(['middleware' => ['role:student|teacher|owner']], function () {
     Route::get('backpack', [App\Http\Controllers\Frontend\BookmarkController::class, 'index'])->name('backpack');
 
 });
+
+Route::get('/submited-quiz/{id}', [App\Http\Controllers\Frontend\QuizController::class, 'submitedQuiz'])->name('submitedQuiz');
+
 
 Route::post('set-choice-item', [App\Http\Controllers\Frontend\QuizJsonController::class, 'getChoiceItem'])->name('getChoiceItem');
 
