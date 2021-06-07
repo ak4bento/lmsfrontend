@@ -101,7 +101,7 @@ class QuizController extends Controller
                         ->where('classroom_user_id',$classroom_user->id)
                         ->first();
         
-                        if(!is_null($teachableUser)){
+                        if(is_null($teachableUser)){
                             Alert::error('Anda tidak dapat mengakses halaman ini');
                             return back();
                         }
