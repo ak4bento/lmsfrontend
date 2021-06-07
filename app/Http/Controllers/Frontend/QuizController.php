@@ -99,6 +99,7 @@ class QuizController extends Controller
                         ->select('*')
                         ->where('teachable_id',$teachable->id)  
                         ->where('classroom_user_id',$classroom_user->id)
+                        ->whereNull('deleted_at')
                         ->first();
         
                         if(is_null($teachableUser)){
