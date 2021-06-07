@@ -234,9 +234,9 @@
                             console.log('response submit',data);
                             url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
                             window.location.href = url;
-                        },error:( function(err){
+                        },error:function(err){
                             console.log('ini eror submit kuis : ', err);
-                        });
+                        }
                     });
                 }
             })
