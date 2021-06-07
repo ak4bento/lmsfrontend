@@ -10,7 +10,8 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url('/class-detail') }}/{{$classroom->slug}}" >Kelas</a></li>
+                            <li class="breadcrumb-item"><a
+                                    href="{{ url('/class-detail') }}/{{$classroom->slug}}">Kelas</a></li>
                             <li class="breadcrumb-item active">Kuis</li>
                         </ol>
                     </div>
@@ -31,13 +32,18 @@
                                     <div class="card card-widget">
                                         <div class="card-body">
                                             <div class="card">
-                                                <div class="row p-1 align-items-center" style="margin-left: 5px;margin-right: 5px">
-                                                    <a class="text-dark" style="padding-top: 15px">{!!  $item->content!!}</a>
+                                                <div class="row p-1 align-items-center"
+                                                    style="margin-left: 5px;margin-right: 5px">
+                                                    <a class="text-dark" style="padding-top: 15px">{!!
+                                                        $item->content!!}</a>
                                                 </div>
                                             </div>
-                                            @foreach (App\Models\QuestionChoiceItem::where('question_id',$item->id)->get() as $value)
+                                            @foreach
+                                            (App\Models\QuestionChoiceItem::where('question_id',$item->id)->whereNull('deleted_at')->get()
+                                            as $value)
                                             <div class="card">
-                                                <div class="row p-1 align-items-center" style="margin-left: 5px;margin-right: 5px">
+                                                <div class="row p-1 align-items-center"
+                                                    style="margin-left: 5px;margin-right: 5px">
                                                     @if($value->is_correct)
                                                     <a>{{$value->choice_text}}
                                                         &nbsp;:&nbsp;
