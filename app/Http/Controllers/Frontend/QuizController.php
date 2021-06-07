@@ -87,11 +87,13 @@ class QuizController extends Controller
                     ->select('*')
                     ->where('teachable_type','quiz')  
                     ->where('teachable_id',$id)
+                    ->whereNull('deleted_at')
                     ->first();
         
         $classroom_user =  DB::table('classroom_user') 
                         ->where('classroom_id',$teachable->classroom_id)
                         ->where('user_id',Auth::user()->id)
+                        ->whereNull('deleted_at')
                         ->select('*')
                         ->first();
         
