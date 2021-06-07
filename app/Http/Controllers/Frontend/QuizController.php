@@ -196,20 +196,27 @@ class QuizController extends Controller
                         ->select('*')
                         ->where('teachable_type','quiz')  
                         ->where('teachable_id',$data['quizzes_id'])
+                        ->whereNull('deleted_at')
                         ->first();
+
         $classroomUser = DB::table('classroom_user') 
                         ->select('*')
                         ->where('user_id',$user_id)  
                         ->where('classroom_id',$teachable->classroom_id)
+                        ->whereNull('deleted_at')
                         ->first();
+
         $teachableUser = DB::table('teachable_users') 
                         ->select('*')
                         ->where('classroom_user_id',$classroomUser->id)  
                         ->where('teachable_id',$teachable->id)
+                        ->whereNull('deleted_at')
                         ->first();
+                        
         $quiz_attempts = DB::table('quiz_attempts') 
                         ->select('*') 
                         ->where('teachable_user_id',$teachableUser->id)
+                        ->whereNull('deleted_at')
                         ->get();
         
         $model = new QuizAttempt;
