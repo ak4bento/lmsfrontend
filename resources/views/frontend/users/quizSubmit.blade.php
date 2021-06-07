@@ -27,6 +27,7 @@
                     <div class="row">
                         <div class="col-md-9">
                             <div class="row">
+
                                 @foreach ($quiestion_quiz as $item)
                                 <div class="col-md-12">
                                     <div class="card card-widget">
@@ -38,8 +39,8 @@
                                                         $item->content!!}</a>
                                                 </div>
                                             </div>
-                                            @foreach
-                                            (App\Models\QuestionChoiceItem::where('question_id',$item->id)->whereNull('deleted_at')->get()
+
+                                            @foreach(App\Models\QuestionChoiceItem::where('question_id',$item->id)->whereNull('deleted_at')->get()
                                             as $value)
                                             <div class="card">
                                                 <div class="row p-1 align-items-center"

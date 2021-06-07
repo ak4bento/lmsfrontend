@@ -285,6 +285,7 @@ class QuizController extends Controller
                         ->where('deleted_at',null)
                         ->select('*')
                         ->first();
+                        // dd($classroom);
 
         return view('frontend.users.quizSubmit')->with('quiestion_quiz',$quiestion_quiz)->with('classroom',$classroom);
     }
