@@ -100,7 +100,12 @@ class QuizController extends Controller
                         ->where('teachable_id',$teachable->id)  
                         ->where('classroom_user_id',$classroom_user->id)
                         ->first();
-                    
+        
+                        if(!is_null($teachableUser)){
+                            Alert::error('Anda tidak dapat mengakses halaman ini');
+                            return back();
+                        }
+
         $quiz_attempts =  DB::table('quiz_attempts')   
                         ->select('*')
                         ->where('teachable_user_id',$teachableUser->id)  
