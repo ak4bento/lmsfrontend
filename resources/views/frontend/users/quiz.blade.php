@@ -231,7 +231,7 @@
                             _token: _token
                         },
                         success: function(data) {
-                            console.log('response ',data);
+                            console.log('response submit',data);
                             url = "{{ url('submited-quiz') }}" + "/" + quizzes_id;
                             window.location.href = url;
                         }
