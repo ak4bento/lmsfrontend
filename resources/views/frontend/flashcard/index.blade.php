@@ -100,7 +100,7 @@
                                 </label>
                             </div>
                             @foreach($flashcardCategories as $item)
-                            <div class="py-2 px-2 hover border-bottom" onclick="first_category({{ $item->id}})">
+                            <div class="py-2 px-2  border-bottom">
                                 <div class="icheck-primary d-inline">
                                     <input data-category="{{ $item->category }}"
                                         onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]"
@@ -108,15 +108,28 @@
                                     <label for="category[{{ $item->id}}]" style="font-family: sans-serif;">
                                         {{ $item->category }}
                                     </label>
-                                    <label class="float-right">
-                                        {{ $item->question_count }}
+                                    @php
+                                    $answer_count = DB::table('flashcard_categories_questions')
+                                    ->join('flashcard_answers','flashcard_answers.flashcard_questions_id','=','flashcard_categories_questions.flashcard_questions_id')
+                                    ->select('flashcard_answers.*')
+                                    ->where('flashcard_categories_questions.deleted_at',null)
+                                    ->where('flashcard_categories_questions.first_parent_id',$item->id)
+                                    ->where('flashcard_answers.user_id',Auth::user()->id)
+                                    ->get();
+                                    @endphp
+
+                                    <label onclick="first_category({{ $item->id}})" style="font-size: 12px"
+                                        class="hover float-right">
+                                        {{ count($answer_count) }} &nbsp;/&nbsp;{{ $item->question_count }}
                                         <i class="fas fa-angle-right"></i>
                                     </label>
-                                    {{-- <div class="progress progress-xxs">
-                                        <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                        <span class="sr-only">60% Complete (warning)</span>
+                                    <div class="progress progress-xxs">
+                                        <div class="progress-bar progress-bar-danger progress-bar-striped"
+                                            role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: {{ count($answer_count) / $item->question_count * 100 }}%">
+                                            <span class="sr-only">60% Complete (warning)</span>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                             @endforeach
@@ -226,7 +239,7 @@
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
-                                <input type="text" id="data_quiz" name="data" value="">
+                                <input type="hidden" id="data_quiz" name="data" value="">
                                 <input type="hidden" id="limit" name="limit" value="">
                             </div>
                         </div>
@@ -424,6 +437,10 @@
                 var btn = document.getElementById(btn_id);
                 btn.remove();
 
+                let kotakcek = "category["+id+"]";
+                kotakcek = document.getElementById(kotakcek)
+                if(! btn == null)
+                    kotakcek.checked = false;
                 // console.log('222222 : ',btn_id);
                 sessionStorage.removeItem(id);
                 for (let index = 0; index < QC.length; index++) {
@@ -445,10 +462,14 @@
                         $.each(response, function(key, value) {
                             btn_id = 'btn['+value.id+']';
                             btn = document.getElementById(btn_id);
-                            if(btn != null){
-
+                            let kotakcek = "category["+value.id+"]";
+                            if(btn != null){ 
                                 btn.remove();
                                 sessionStorage.removeItem(value.id);
+                            }
+                            kotakcek = document.getElementById(kotakcek);
+                            if(btn != null){
+                                kotakcek.checked = false;
                             }
 
 
@@ -503,7 +524,15 @@
             }
         }
 
-        first_category = (id) => {
+        let viewListCount='';
+        async function getapi(url) { 
+            const response = await fetch(url); 
+            var data = await response.json();
+            console.log(data);
+            return data;
+        }
+
+        async function first_category  (id){
             document.getElementById('second_category').innerHTML =  'Loading...';
 
             document.getElementById('third_category').innerHTML = "";
@@ -514,20 +543,36 @@
                 url: rute,
                 type: 'get',
                 success: function(response) {
-                    document.getElementById('second_category').innerHTML = "";
+                    document.getElementById('second_category').innerHTML = ""; 
+                    $.each(response, function(key, value) { 
+                        var route = "{{ url('flashcard-second-categories-answer') }}/" + value.id;  
+                        let vall = getapi(route);
+                        let countAnswer=''; 
+                        
+                        $.ajax({
+                            url: route,
+                            type: 'get',
+                            success: function(response) {
+                                countAnswer = response;    
+                                viewListCount = '<div class="py-2 px-2 hover border-bottom"  >'+
+                                            '<div class="icheck-primary d-inline">'+
+                                                '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
+                                                '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
+                                                    + value.category +
+                                                '</label>'+
+                                                '<label onclick="third_category('+ value.id +')" style="font-size: 12px" class="hover float-right"> '+ countAnswer +'&nbsp;/&nbsp;'+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'
+                                            '</div>'+
+                                        '</div>';                            
+                            }
+                        }).done(function() {
+                            console.log('answer count 3 : ', response); 
+                            // document.getElementById('second_category').innerHTML = "4444444"; 
 
-                    console.log('ini on button : ', response);
-                    $.each(response, function(key, value) {
-                        var data = '<div class="py-2 px-2 hover border-bottom"  onclick="third_category('+ value.id +')">'+
-                                        '<div class="icheck-primary d-inline">'+
-                                            '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
-                                            '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
-                                                + value.category +
-                                            '</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'
-                                        '</div>'+
-                                    '</div>';
-                        $(".second_category").append(data);
+                            
+                            $(".second_category").append(viewListCount);    
+                        });
+                        
+
                     });
                 }
             });
@@ -549,7 +594,7 @@
                                         '<div class="custom-control custom-checkbox">'+
                                             '<input class="custom-control-input hover" data-category="'+value.category+'" onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="second_category['+ value.id +']" type="checkbox">'+
                                             '<label style="font-family: sans-serif;" class="cursor-pointer hover  custom-control-label" for="category['+ value.id +']">'+ value.category +'</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
+                                            '<label  style="font-size: 12px" class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
                                         '</div>'+
                                     '</div>';
 
@@ -573,17 +618,33 @@
 
                     // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        // console.log('ini on value : ', value);
-                        var data = '<div class="py-2 px-2 hover border-bottom"  onclick="fourth_category('+ value.id +')">'+
+                        var route = "{{ url('flashcard-third-categories-answer') }}/" + value.id;
+                        console.log('id answer count 3 : ', value.id);
+                        let data = null;
+                        document.getElementById('third_category').innerHTML = "";
+
+                        $.ajax({
+                            url: route,
+                            type: 'get',
+                            success: function(response) {
+                                countAnswer = response;                                
+                            }
+                        }).done(function() {
+                            console.log('answer count 3 : ', response); 
+                            // console.log('ini on value : ', value);
+                            data = '<div class="py-2 px-2 hover border-bottom"  >'+
                                         '<div class="icheck-primary d-inline">'+
                                             '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
                                             '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
                                                 + value.category +
                                             '</label>'+
-                                            '<label class="float-right"> '+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
+                                            '<label onclick="fourth_category('+ value.id +')"  style="font-size: 12px" class="hover float-right"> '+ countAnswer +'&nbsp;/&nbsp;'+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
                                         '</div>'+
-                                    '</div>';
-                        $(".third_category").append(data);
+                                    '</div>'; 
+
+                            $(".third_category").append(data);
+                        });
+                        
                     });
                 }
             });
@@ -601,17 +662,30 @@
 
                     // console.log('ini on button : ', response);
                     $.each(response, function(key, value) {
-                        // console.log('ini on value : ', value);
-                        var data = '<div class="py-2 px-2 hover border-bottom" >'+
-                                        '<div class="icheck-primary d-inline">'+
-                                            '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
-                                            '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
-                                                + value.category +
-                                            '</label>'+
-                                            '<label class="float-right"> '+ value.question_count +
-                                        '</div>'+
-                                    '</div>';
-                        $(".fourth_category").append(data);
+                        var route = "{{ url('flashcard-fourth-categories-answer') }}/" + value.id;
+                        console.log('id answer count : ', value.id);
+                        let data = null;
+                        document.getElementById('fourth_category').innerHTML = "";
+
+                        $.ajax({
+                            url: route,
+                            type: 'get',
+                            success: function(response) {
+
+                                console.log('answer count : ', response); 
+                                // console.log('ini on value : ', value);
+                                data = '<div class="py-2 px-2 hover border-bottom" >'+
+                                            '<div class="icheck-primary d-inline">'+
+                                                '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
+                                                '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
+                                                    + value.category +
+                                                '</label>'+
+                                                '<label  style="font-size: 12px" class="float-right"> '+ response.length +'&nbsp;/&nbsp;'+ value.question_count +
+                                            '</div>'+
+                                        '</div>';
+                                $(".fourth_category").append(data); 
+                            }
+                        }); 
                     });
                 }
             });
