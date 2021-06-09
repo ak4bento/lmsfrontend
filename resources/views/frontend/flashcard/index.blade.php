@@ -301,84 +301,136 @@
         });
 
         function checkQC(data) {
-            for (let index = 0; index < QC.length; index++) {
-                console.log('QCC : ', QC[index].id);
-                if (data.level == 4) {
-                    if (data.third_parent_id == QC[index].id)
-                        return 1;
-                } else if (data.level == 3) {
-                    if (data.second_parent_id == QC[index].id)
-                        return 1;
-                } else if (data.level == 2) {
-                    if (data.parent_id == QC[index].id)
-                        return 1;
-                }
+            
+            if(QC.length > 0){
 
-                if (data.level == 1) {
-                    if (QC[index].parent_id == data.id)
-                    {
-                        for (let index = 0; index < QC.length; index++) {
-                            if(QC[index].parent_id == data.id){
-                                QC.splice(index, 1);
-                                console.log('qcc hapus', QC);
-                            }
-                        }
+                for (let index = 0; index < QC.length; index++) {
+                    console.log('QCC : ', QC[index].id);
+                    console.log('data count : ', data);
 
-                        QC_result = 0;
-                        for (let index = 0; index < QC.length; index++) {
-                            QC_result = QC_result+QC[index].question_count;
-                            console.log('qc result hapus', QC_result);
-                            document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                    if (data.level == 4) {
+                        if (data.third_parent_id == QC[index].id){
+                            console.log('ini level 4 : ', data);
+                            return 1;
                         }
-                        return 0;
+                    } else if (data.level == 3) {
+                        if (data.second_parent_id == QC[index].id){
+                            console.log('ini level 3 : ', data);
+                            return 1;
+                        }
+                    } else if (data.level == 2) {
+                        if (data.parent_id == QC[index].id){
+                            console.log('ini level 2 : ', data);
+                            return 1;
+                        }
                     }
-                }
 
-                if (data.level == 2) {
-                    if (QC[index].second_parent_id == data.id)
-                    {
-                        for (let index = 0; index < QC.length; index++) {
-                            if(QC[index].second_parent_id == data.id){
-                                QC.splice(index, 1);
-                                console.log('qcc hapus', QC);
+                    if (data.level == 1) {
+                        if (QC[index].parent_id == data.id)
+                        {
+                            for (let index = 0; index < QC.length; index++) {
+                                if(QC[index].parent_id == data.id){
+                                    QC.splice(index, 1);
+                                    console.log('qcc level 1', QC);
+                                }
                             }
-                        }
 
-                        QC_result = 0;
-                        for (let index = 0; index < QC.length; index++) {
-                            QC_result = QC_result+QC[index].question_count;
-                            console.log('qc result hapus', QC_result);
-                            document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
-                        }
-                        return 0;
-                    }
-                }
-
-                if (data.level == 3) {
-                    if (QC[index].third_parent_id == data.id)
-                    {
-                        for (let index = 0; index < QC.length; index++) {
-                            if(QC[index].third_parent_id == data.id){
-                                QC.splice(index, 1);
-                                console.log('qcc hapus', QC);
+                            QC_result = 0;
+                            for (let index = 0; index < QC.length; index++) {
+                                QC_result = QC_result+QC[index].question_count;
+                                console.log('qc result hapus', QC_result);
+                                document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                             }
+                            return 0;
+                        }else{
+                            return 0;
                         }
-
-                        QC_result = 0;
-                        for (let index = 0; index < QC.length; index++) {
-                            console.log('sebelum di hitung', QC_result);
-                            QC_result = QC_result+QC[index].question_count;
-                            console.log('index qc count', QC[index].question_count);
-                            console.log('qc result hapus', QC_result);
-                            document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
-                        }
-                        return 0;
                     }
+
+                    else if (data.level == 2) {
+                        if (QC[index].second_parent_id == data.id)
+                        {
+                            for (let index = 0; index < QC.length; index++) {
+                                if(QC[index].second_parent_id == data.id){
+                                    QC.splice(index, 1);
+                                    console.log('qcc level 2', QC);
+                                }
+                            }
+
+                            QC_result = 0;
+                            for (let index = 0; index < QC.length; index++) {
+                                QC_result = QC_result+QC[index].question_count;
+                                console.log('qc result hapus', QC_result);
+                                document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                            }
+                            return 0;
+                        } else if (QC[index].third_parent_id == data.id){
+                            return 1;
+                        } else if (QC[index].second_parent_id == data.id){
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    }
+
+                    else if (data.level == 3) {
+                        if (QC[index].third_parent_id == data.id)
+                        {
+                            for (let index = 0; index < QC.length; index++) {
+                                if(QC[index].third_parent_id == data.id){
+                                    QC.splice(index, 1);
+                                    console.log('qcc level 3', QC);
+                                } 
+                            }
+
+                            QC_result = 0;
+                            for (let index = 0; index < QC.length; index++) {
+                                console.log('sebelum di hitung 3', QC_result);
+                                QC_result = QC_result+QC[index].question_count;
+                                console.log('index qc count 3', QC[index].question_count);
+                                console.log('qc result hapus 3', QC_result);
+                                document.getElementById('countQuestion 3').innerHTML = QC_result;//response.question_count;
+                            }
+                            return 0;
+                        } else if (QC[index].id == data.second_parent_id){
+                            return 1;
+                        } else if (QC[index].id == data.parent_id){
+                            return 1;
+                        } 
+                    }else if (data.level == 4) {
+                        if (QC[index].third_parent_id == data.id)
+                        {
+                            for (let index = 0; index < QC.length; index++) {
+                                if(QC[index].third_parent_id == data.id){
+                                    QC.splice(index, 1);
+                                    console.log('qcc level 3', QC);
+                                } 
+                            }
+
+                            QC_result = 0;
+                            for (let index = 0; index < QC.length; index++) {
+                                console.log('sebelum di hitung 3', QC_result);
+                                QC_result = QC_result+QC[index].question_count;
+                                console.log('index qc count 3', QC[index].question_count);
+                                console.log('qc result hapus 3', QC_result);
+                                document.getElementById('countQuestion 3').innerHTML = QC_result;//response.question_count;
+                            }
+                            return 0;
+                        } else if (QC[index].id == data.second_parent_id){
+                            return 1;
+                        } else if (QC[index].id == data.parent_id){
+                            return 1;
+                        } else if (QC[index].id != data.second_parent_id){
+                            return 0;
+                        }
+                    } else {
+                        console.log("else ")
+                        return 0;
+                    } 
                 }
-                // if (QC[index].id == data.id)
-                //     return 1;
+            } else {
+                return 0;
             }
-            return 0;
         }
 
 
@@ -532,7 +584,7 @@
             return data;
         }
 
-        async function first_category  (id){
+        function first_category  (id){
             document.getElementById('second_category').innerHTML =  'Loading...';
 
             document.getElementById('third_category').innerHTML = "";
@@ -554,25 +606,24 @@
                             type: 'get',
                             success: function(response) {
                                 countAnswer = response;    
-                                viewListCount = '<div class="py-2 px-2 hover border-bottom"  >'+
-                                            '<div class="icheck-primary d-inline">'+
-                                                '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
-                                                '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
-                                                    + value.category +
-                                                '</label>'+
-                                                '<label onclick="third_category('+ value.id +')" style="font-size: 12px" class="hover float-right"> '+ countAnswer +'&nbsp;/&nbsp;'+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'
-                                            '</div>'+
-                                        '</div>';                            
+                                                          
                             }
                         }).done(function() {
-                            console.log('answer count 3 : ', response); 
-                            // document.getElementById('second_category').innerHTML = "4444444"; 
-
-                            
+                            console.log('answer count 3 : ', response);  
+                            viewListCount = '<div class="py-2 px-2 hover border-bottom"  >'+
+                                                '<div class="icheck-primary d-inline">'+
+                                                    '<input data-category="'+value.category+'"  onclick="checked_category('+ value.id +')" id="category['+ value.id +']" name="category['+ value.id +']" type="checkbox">'+
+                                                    '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
+                                                        + value.category +
+                                                    '</label>'+
+                                                    '<label onclick="third_category('+ value.id +')"  style="font-size: 12px" class="hover float-right"> '+ countAnswer +'&nbsp;/&nbsp;'+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
+                                                    '<div class="progress" style="height:3px">'+
+                                                        '<div class="progress-bar" role="progressbar" style="width: '+ countAnswer / value.question_count * 100 +'%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>'+
+                                                    '</div>'+
+                                                '</div>'+ 
+                                            '</div>';  
                             $(".second_category").append(viewListCount);    
                         });
-                        
-
                     });
                 }
             });
@@ -639,6 +690,9 @@
                                                 + value.category +
                                             '</label>'+
                                             '<label onclick="fourth_category('+ value.id +')"  style="font-size: 12px" class="hover float-right"> '+ countAnswer +'&nbsp;/&nbsp;'+ value.question_count + ' <i class="fas fa-angle-right"></i></label>'+
+                                            '<div class="progress" style="height:3px">'+
+                                                '<div class="progress-bar" role="progressbar" style="width: '+ countAnswer / value.question_count * 100 +'%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>'+
+                                            '</div>'+
                                         '</div>'+
                                     '</div>'; 
 
@@ -680,7 +734,10 @@
                                                 '<label for="category['+ value.id +']" style="font-family: sans-serif;">'
                                                     + value.category +
                                                 '</label>'+
-                                                '<label  style="font-size: 12px" class="float-right"> '+ response.length +'&nbsp;/&nbsp;'+ value.question_count +
+                                                '<label  style="font-size: 12px" class="float-right"> '+ response.length +'&nbsp;/&nbsp;'+ value.question_count +'</label>'+
+                                                '<div class="progress" style="height:3px">'+
+                                                    '<div class="progress-bar" role="progressbar" style="width: '+ countAnswer / value.question_count * 100 +'%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>'+
+                                                '</div>'+
                                             '</div>'+
                                         '</div>';
                                 $(".fourth_category").append(data); 
