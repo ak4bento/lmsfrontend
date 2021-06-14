@@ -20,7 +20,7 @@ class VerifyCsrfToken extends Middleware
         'http://localhost:8000/submit-quiz',
         'http://localhost:8000/flashcard-answer',
         'http://localhost:8000/flashcard-selected-count',
-
+        'http://localhost:8000/flashcard-selected-answer-count'
         
     ];
 }

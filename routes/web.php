@@ -33,7 +33,7 @@ Route::get('flashcard-second-categories-answer/{id}', [App\Http\Controllers\Fron
 Route::get('flashcard-third-categories-answer/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'third_categories_answer'])->name('flashcard.third.categories.answer');
 Route::get('flashcard-fourth-categories-answer/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'fourth_categories_answer'])->name('flashcard.fourth.categories.answer');
 
-
+Route::post('flashcard-selected-answer-count', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'selected_answer_count'])->name('flashcard.selected.answer.count');
 
 Route::get('flashcard-unselected/{id}', [App\Http\Controllers\Frontend\FlashcardCategoriesController::class, 'unselected'])->name('flashcard.unselected');
 

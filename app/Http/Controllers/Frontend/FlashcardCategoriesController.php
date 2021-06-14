@@ -187,51 +187,219 @@ class FlashcardCategoriesController extends Controller
         return Response::json($data);
     }
 
+    public function selected_answer_count(Request $request)
+    {
+        $quiz = $request->all();
+        $quiz = json_decode($quiz['value']);
+        $first_categorys  = "";
+        $second_categorys = "";
+        $third_categorys  = "";
+        $fourth_category  = "";
+        $origin           = array();
+        $data_category    = array();
+
+        foreach ($quiz as $key => $value) {
+            $category = FlashcardCategories::where('id',$key)->first();
+            // dd($category);
+            if($category->level == 4){
+                $origin = array(
+                    'id' => $category['id'],
+                    'parent_id' => $category['parent_id'],
+                    'level' => $category['level'],
+                    'category' => $category['category'],
+                );
+                array_push($data_category,$origin);
+            } else if($category->level == 3){
+                $third_categorys = FlashcardCategories::where('third_parent_id',$category->id)->get();
+                foreach ($third_categorys as $third_category) {
+                    // dd($third_category);
+                    $origin = array( 
+                            'id' => $third_category['id'],
+                            'parent_id' => $third_category['parent_id'],
+                            'level' => $third_category['level'],
+                            'category' => $third_category['category'],
+                    ); 
+                    array_push($data_category,$origin);
+                }
+            } else if($category->level == 2){
+                $second_categorys = FlashcardCategories::where('second_parent_id',$category->id)->get();
+                foreach($second_categorys as $second_category){
+                    $origin = array(
+                        'id' => $second_category['id'],
+                        'parent_id' => $second_category['parent_id'],
+                        'level' => $second_category['level'],
+                        'category' => $second_category['category'],
+                    );
+                    array_push($data_category,$origin);
+                }
+            } else {
+                $first_categorys  = FlashcardCategories::where('parent_id',$category->id)->get(); 
+                foreach ($first_categorys as $first_category) {
+                    $origin = array(
+                        'id' => $first_category['id'],
+                        'parent_id' => $first_category['parent_id'],
+                        'level' => $first_category['level'],
+                        'category' => $first_category['category'],
+                    );
+                    array_push($data_category,$origin);
+                }
+            }             
+        } 
+        $data_unique = $this->super_unique($data_category,'id');
+        // dd($data_unique);
+        $id = "";
+        foreach ($data_unique as $key => $value) {
+            $id = $id . $value['id'] . ",";
+        }
+        $id = explode(",",$id);
+        // dd($id);
+        $questions =  DB::table('flashcard_categories_questions')
+                                ->join('flashcard_categories', 'flashcard_categories.id', '=', 'flashcard_categories_questions.flashcard_categories_id')
+                                ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_categories_questions.flashcard_questions_id')
+                                ->select('flashcard_questions.*')  
+                                ->whereIn('flashcard_categories_questions.flashcard_categories_id', $id)->get();
+        return Response::json($questions);
+
+    }
+
+    public function super_unique($array,$key)
+    {
+       $temp_array = [];
+       foreach ($array as &$v) {
+           if (!isset($temp_array[$v[$key]]))
+           $temp_array[$v[$key]] =& $v;
+       }
+       $array = array_values($temp_array);
+       return $array;
+
+    }
+
     public function selected_count(Request $request)
     {
         $data = $request->all();
         // $json = json_decode($data['data']);
         // return $data;
         // $field= "";
-        $field1="";
-        if($data['level'] == 4){
-            $field1 = "flashcard_categories_questions.flashcard_categories_id";
-            $field = "flashcard_categories.third_parent_id";
-        } else if($data['level'] == 3){
-            $field1 = "flashcard_categories_questions.third_parent_id";
-            $field = "flashcard_categories.second_parent_id";
-        } else if($data['level'] == 2){
-            $field1 = "flashcard_categories_questions.second_parent_id";
-            $field = "flashcard_categories.parent_id";
-        } else {
-            $field1 = 'flashcard_categories_questions.first_parent_id';
-            $field = "flashcard_categories.parent_id";
-            // $data['id'] = null;
-        }
-        // return $field1;
-        $flashcardCategories = DB::table('flashcard_categories')
-                    ->leftJoin('flashcard_categories_questions',$field1,'=','flashcard_categories.id')
-                    ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
-                    ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null)
-                    ->where('flashcard_categories.level',$data['level'])
-                    ->where('flashcard_categories.id',$data['id'])
-                    ->first();
-        if($data['level'] == 1 ){
+        if(isset($data['id'])){
+
+            $field1="";
+            if($data['level'] == 4){
+                $field1 = "flashcard_categories_questions.flashcard_categories_id";
+                $field = "flashcard_categories.third_parent_id";
+            } else if($data['level'] == 3){
+                $field1 = "flashcard_categories_questions.third_parent_id";
+                $field = "flashcard_categories.second_parent_id";
+            } else if($data['level'] == 2){
+                $field1 = "flashcard_categories_questions.second_parent_id";
+                $field = "flashcard_categories.parent_id";
+            } else {
+                $field1 = 'flashcard_categories_questions.first_parent_id';
+                $field = "flashcard_categories.parent_id";
+                // $data['id'] = null;
+            }
+            // return $field1;
             $flashcardCategories = DB::table('flashcard_categories')
-                    ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.first_parent_id','=','flashcard_categories.id')
-                    ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
-                    ->groupBy('flashcard_categories.id')
-                    ->where('flashcard_categories.deleted_at',null)
-                    ->where('flashcard_categories.level',1)
-                    ->where('flashcard_categories.id',$data['id'])
-                    ->first();
+                        ->leftJoin('flashcard_categories_questions',$field1,'=','flashcard_categories.id')
+                        ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
+                        ->groupBy('flashcard_categories.id')
+                        ->where('flashcard_categories.deleted_at',null)
+                        ->where('flashcard_categories.level',$data['level'])
+                        ->where('flashcard_categories.id',$data['id'])
+                        ->first();
+            if($data['level'] == 1 ){
+                $flashcardCategories = DB::table('flashcard_categories')
+                        ->leftJoin('flashcard_categories_questions','flashcard_categories_questions.first_parent_id','=','flashcard_categories.id')
+                        ->select('flashcard_categories.*' ,DB::raw("count(flashcard_categories_questions.flashcard_categories_id) as question_count"))
+                        ->groupBy('flashcard_categories.id')
+                        ->where('flashcard_categories.deleted_at',null)
+                        ->where('flashcard_categories.level',1)
+                        ->where('flashcard_categories.id',$data['id'])
+                        ->first();
+            }
+            $all_data = array('flashcardCategories'=>$flashcardCategories,'questions'=>0);
+
         }
 
 
-
-        // }
-        return Response::json($flashcardCategories);
+        if(isset($data['value'])){
+            $quiz = json_decode($data['value']);
+            $first_categorys  = "";
+            $second_categorys = "";
+            $third_categorys  = "";
+            $fourth_category  = "";
+            $origin           = array();
+            $data_category    = array();
+    
+            foreach ($quiz as $key => $value) {
+                $category = FlashcardCategories::where('id',$key)->first();
+                // dd($category);
+                if($category->level == 4){
+                    $origin = array(
+                        'id' => $category['id'],
+                        'parent_id' => $category['parent_id'],
+                        'level' => $category['level'],
+                        'category' => $category['category'],
+                    );
+                    array_push($data_category,$origin);
+                } else if($category->level == 3){
+                    $third_categorys = FlashcardCategories::where('third_parent_id',$category->id)->get();
+                    foreach ($third_categorys as $third_category) {
+                        // dd($third_category);
+                        $origin = array( 
+                                'id' => $third_category['id'],
+                                'parent_id' => $third_category['parent_id'],
+                                'level' => $third_category['level'],
+                                'category' => $third_category['category'],
+                        ); 
+                        array_push($data_category,$origin);
+                    }
+                } else if($category->level == 2){
+                    $second_categorys = FlashcardCategories::where('second_parent_id',$category->id)->get();
+                    foreach($second_categorys as $second_category){
+                        $origin = array(
+                            'id' => $second_category['id'],
+                            'parent_id' => $second_category['parent_id'],
+                            'level' => $second_category['level'],
+                            'category' => $second_category['category'],
+                        );
+                        array_push($data_category,$origin);
+                    }
+                } else {
+                    $first_categorys  = FlashcardCategories::where('parent_id',$category->id)->get(); 
+                    foreach ($first_categorys as $first_category) {
+                        $origin = array(
+                            'id' => $first_category['id'],
+                            'parent_id' => $first_category['parent_id'],
+                            'level' => $first_category['level'],
+                            'category' => $first_category['category'],
+                        );
+                        array_push($data_category,$origin);
+                    }
+                }             
+            } 
+            $data_unique = $this->super_unique($data_category,'id');
+            // dd($data_unique);
+            $id = "";
+            foreach ($data_unique as $key => $value) {
+                $id = $id . $value['id'] . ",";
+            }
+            $id = explode(",",$id);
+            // dd($id); 
+            $user_id = 4;
+            $questions =  DB::table('flashcard_categories_questions')
+                                    ->join('flashcard_categories', 'flashcard_categories.id', '=', 'flashcard_categories_questions.flashcard_categories_id')
+                                    ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_categories_questions.flashcard_questions_id')
+                                    ->join('flashcard_answers', 'flashcard_answers.flashcard_questions_id', '=', 'flashcard_categories_questions.flashcard_questions_id')
+                                    ->select('flashcard_questions.*','flashcard_answers.user_id')  
+                                    ->where('flashcard_answers.user_id',$user_id)
+                                    
+                                    ->whereIn('flashcard_categories_questions.flashcard_categories_id', $id)->get();
+    
+            
+            $all_data = array('flashcardCategories'=>$flashcardCategories,'questions'=>count($questions));
+        }
+        
+        return Response::json($all_data);
     }
 
     public function unselected($id)

@@ -266,12 +266,14 @@ class ClassroomController extends Controller
         }
 
         if($slug =='assignments'){
+            $user_data = '{"user":'.Auth::user()->id.'}';
+            $user_data ='%'.$user_data.'%';
             $complete = DB::table('media')
                 ->where('media_type','assignments')
                 ->where('media_id',$id)
-                ->where('custom_properties','like', '%{"user": '.Auth::user()->id.'}%')
+                ->where('custom_properties','like', $user_data)
                 ->first();
-
+// dd($complete);
             $teachable      = DB::table('teachables')
                             ->select('*')
                             ->where('teachable_type','assignments')

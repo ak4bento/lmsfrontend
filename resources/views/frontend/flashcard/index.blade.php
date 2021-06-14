@@ -102,7 +102,7 @@
                             @foreach($flashcardCategories as $item)
                             <div class="py-2 px-2  border-bottom">
                                 <div class="icheck-primary d-inline">
-                                    <input data-category="{{ $item->category }}"
+                                    <input data-category="{{ $item->category }}" onchange='answerCount(this);'
                                         onclick="checked_category({{ $item->id}})" id="category[{{ $item->id}}]"
                                         name="category[{{ $item->id}}]" type="checkbox">
                                     <label for="category[{{ $item->id}}]" style="font-family: sans-serif;">
@@ -116,17 +116,22 @@
                                     ->where('flashcard_categories_questions.first_parent_id',$item->id)
                                     ->where('flashcard_answers.user_id',Auth::user()->id)
                                     ->get();
+                                    $answer_count = count($answer_count);
+                                    if($item->question_count == 0){
+                                    $item->question_count =0;
+
+                                    }
                                     @endphp
 
                                     <label onclick="first_category({{ $item->id}})" style="font-size: 12px"
                                         class="hover float-right">
-                                        {{ count($answer_count) }} &nbsp;/&nbsp;{{ $item->question_count }}
+                                        {{ $answer_count }} &nbsp;/&nbsp;{{ $item->question_count }}
                                         <i class="fas fa-angle-right"></i>
                                     </label>
                                     <div class="progress progress-xxs">
                                         <div class="progress-bar progress-bar-danger progress-bar-striped"
                                             role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                            style="width: {{ count($answer_count) / $item->question_count * 100 }}%">
+                                            style="width: {{ $item->question_count == 0 ? 0 : $answer_count / $item->question_count * 100 }}%">
                                             <span class="sr-only">60% Complete (warning)</span>
                                         </div>
                                     </div>
@@ -138,7 +143,7 @@
                             style="border-style: solid;border-width:thin ">
                             <div class="py-2 px-2 border-bottom"
                                 style="background: linear-gradient(#206dda, #1b5cb8); text-align: center">
-                                <label
+                                <label id="levelTwo"
                                     style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
                                 </label>
                             </div>
@@ -150,7 +155,7 @@
                             style="border-style: solid;border-width:thin ">
                             <div class="py-2 px-2 border-bottom"
                                 style="background: linear-gradient(#206dda, #1b5cb8); text-align: center">
-                                <label
+                                <label id="levelThere"
                                     style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
                                 </label>
                             </div>
@@ -162,7 +167,7 @@
                             style="border-style: solid;border-width:thin ">
                             <div class="py-2 px-2 border-bottom"
                                 style="background: linear-gradient(#206dda, #1b5cb8); text-align: center">
-                                <label
+                                <label id="levelFour"
                                     style="color:white; font-family: sans-serif; font-weight: normal !important;">Kategori
                                 </label>
                             </div>
@@ -197,8 +202,9 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12 col-12 py-1">
                                 <div class="progress" style="height: 40px; border-radius: 30px">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 20%"
-                                        aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">20 %
+                                    <div class="progress-bar" role="progressbar" id="mainProgress" style="width: 0%"
+                                        aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                                        20 %
                                     </div>
                                 </div>
                             </div>
@@ -238,6 +244,34 @@
                     @csrf
                     <div class="modal-body">
                         <div class="container-fluid">
+                            <div class="card card-danger">
+                                <div class="card-header">
+                                    <h3 class="card-title">Donut Chart</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chartjs-size-monitor">
+                                        <div class="chartjs-size-monitor-expand">
+                                            <div class=""></div>
+                                        </div>
+                                        <div class="chartjs-size-monitor-shrink">
+                                            <div class=""></div>
+                                        </div>
+                                    </div>
+                                    <canvas id="donutChart"
+                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 656px;"
+                                        width="1312" height="500" class="chartjs-render-monitor"></canvas>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
                             <div class="row">
                                 <input type="hidden" id="data_quiz" name="data" value="">
                                 <input type="hidden" id="limit" name="limit" value="">
@@ -257,6 +291,41 @@
 </div>
 @endsection
 @push('page_scripts')
+<script>
+    //-------------
+    //- DONUT CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+          'Chrome',
+          'IE',
+          'FireFox',
+          'Safari',
+          'Opera',
+          'Navigator',
+      ],
+      datasets: [
+        {
+          data: [5,3,1,2,1,3],
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+
+</script>
 <script>
     $(document).ready(function() {
             sessionStorage.clear();
@@ -342,12 +411,15 @@
                                 document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                             }
                             return 0;
-                        }else{
-                            return 0;
-                        }
+                        } 
                     }
 
                     else if (data.level == 2) {
+                        // if (QC[index].parent_id == data.id){
+                        //     console.log('ini yang sama');
+                        //     return 0;
+                        // }
+                        // else 
                         if (QC[index].second_parent_id == data.id)
                         {
                             for (let index = 0; index < QC.length; index++) {
@@ -364,11 +436,7 @@
                                 document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                             }
                             return 0;
-                        } else if (QC[index].third_parent_id == data.id){
-                            return 1;
-                        } else if (QC[index].second_parent_id == data.id){
-                            return 1;
-                        } else {
+                        }  else{
                             return 0;
                         }
                     }
@@ -392,56 +460,32 @@
                                 document.getElementById('countQuestion 3').innerHTML = QC_result;//response.question_count;
                             }
                             return 0;
-                        } else if (QC[index].id == data.second_parent_id){
-                            return 1;
-                        } else if (QC[index].id == data.parent_id){
-                            return 1;
-                        } 
-                    }else if (data.level == 4) {
-                        if (QC[index].third_parent_id == data.id)
-                        {
-                            for (let index = 0; index < QC.length; index++) {
-                                if(QC[index].third_parent_id == data.id){
-                                    QC.splice(index, 1);
-                                    console.log('qcc level 3', QC);
-                                } 
-                            }
-
-                            QC_result = 0;
-                            for (let index = 0; index < QC.length; index++) {
-                                console.log('sebelum di hitung 3', QC_result);
-                                QC_result = QC_result+QC[index].question_count;
-                                console.log('index qc count 3', QC[index].question_count);
-                                console.log('qc result hapus 3', QC_result);
-                                document.getElementById('countQuestion 3').innerHTML = QC_result;//response.question_count;
-                            }
-                            return 0;
-                        } else if (QC[index].id == data.second_parent_id){
-                            return 1;
-                        } else if (QC[index].id == data.parent_id){
-                            return 1;
-                        } else if (QC[index].id != data.second_parent_id){
-                            return 0;
-                        }
-                    } else {
-                        console.log("else ")
-                        return 0;
-                    } 
+                        }  
+                    }   
                 }
             } else {
                 return 0;
             }
         }
 
+        let dataAnswer = "";
 
-        checked_category = (id) => {
+        function answerCount() { 
+            
+            // return dataAnswer; 
+           
+        }
+
+        let answered ="";
+        function checked_category (id) {
+            
             var rute = "{{ url('flashcard-selected') }}/" + id;
             checkbox_id = 'category['+id+']';
             var checkboxes = document.getElementById(checkbox_id);
             // console.log(checkboxes);
             document.getElementById('btn_limit').disabled = false;
             document.getElementById('limit_question').disabled = false;
-
+            
             if(checkboxes.checked){
                 $.ajax({
                     url: rute,
@@ -455,32 +499,52 @@
                             sessionStorage.setItem(response.id, response.parent_id);
                             $(".btn-category").append(data);
                         }
+                        key = Object.keys(sessionStorage);
+                        console.log("ini key : ", key);
+                        
+                        var dataArray = "";
+                        for (let index = 0; index < key.length; index++) {
+                            const element = key[index];
+                            // console.log("ini element : ", key[index]);
+                            if (index === key.length - 1)
+                            dataAnswer = dataAnswer + '"' + element + '":' + sessionStorage.getItem(element);
+                            else
+                            dataAnswer = dataAnswer + '"' + element + '":' + sessionStorage.getItem(element) + ',';
+                        } 
 
+                        dataAnswer = "{" + dataAnswer + "}";
+                        console.log("ini datanya answer: ", dataAnswer);
                         $.ajax({
                             type: 'post',
                             url: 'flashcard-selected-count',
                             data: {
                                 "id": response.id,
                                 "level": response.level,
+                                "value": dataAnswer,
                                 "_token": "{{ csrf_token() }}"
                             },
-                            success: function(response) {
+                            success: function(res) {
 
-                                console.log('ini response : ',response);
+                                console.log('ini response categories : ',res.flashcardCategories);
 
-                                checkQC(response);
-
-                                // for (let index = 0; index < QC.length; index++) {
-                                if(checkQC(response) == 0){
-                                    QC.push(response);
-                                    QC_result = QC_result+response.question_count;
-                                }
-                                // }
+                                // checkQC(res.flashcardCategories);
+ 
+                                if(checkQC(res.flashcardCategories) == 0){
+                                    QC.push(res.flashcardCategories);
+                                    QC_result = QC_result+res.flashcardCategories.question_count;
+                                } 
+                                
+                                dataAnswer="";
+                                answered = res.questions;
+                                let percen = res.questions / QC_result  * 100; 
+                                document.getElementById("mainProgress").style.width = `${percen}%`; 
+                                document.getElementById('mainProgress').innerHTML= `${percen}%`;
                                 console.log('count : ',QC);
                                 console.log('count result QC : ',QC_result);
                                 document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
                             }
                         });
+                        
                     }
                 });
             } else {
@@ -506,7 +570,62 @@
                     QC_result = QC_result+QC[index].question_count;
                     console.log('qc result hapus', QC_result);
                 }
+
+                // let percen =  answered  / QC_result * 100;
+
+                let percen = '';
+                if(QC_result == 0){
+                    percen = 0;
+                } else {
+                    // alert(answered);
+                    percen = answered / QC_result  * 100; 
+                }
+                dataAnswer="";
+
+                document.getElementById("mainProgress").style.width = `${percen}%`; 
+                document.getElementById('mainProgress').innerHTML= `${percen}%`;
+
                 document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                
+                if(dataAnswer == ""){
+                    $.ajax({
+                    type: 'post',
+                    url: 'flashcard-selected-count',
+                    data: {
+                        "id": 0,
+                        "level": 0,
+                        "value": dataAnswer,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+
+                        // console.log('ini response : ',response.flashcardCategories);
+
+                        // checkQC(response.flashcardCategories);
+
+                        // if(checkQC(response.flashcardCategories) == 0){
+                        //     QC.push(response.flashcardCategories);
+                        //     // QC_result = QC_result+response.flashcardCategories.question_count;
+                        // } 
+                        
+                        dataAnswer="";
+                        let percen = '';
+                        if(response.questions == 0 && QC_result == 0){
+                            percen = 0;
+                        } else {
+                            // alert(response.questions);
+                            percen = response.questions / QC_result  * 100; 
+                        }
+                        
+                        document.getElementById("mainProgress").style.width = `${percen}%`; 
+                        document.getElementById('mainProgress').innerHTML= `${percen}%`;
+                        console.log('count : ',QC);
+                        console.log('count result QC : ',QC_result);
+                        document.getElementById('countQuestion').innerHTML = QC_result;//response.question_count;
+                    }
+                });
+                }
+                
                 $.ajax({
                     url: rute,
                     type: 'get',
@@ -523,7 +642,7 @@
                             if(btn != null){
                                 kotakcek.checked = false;
                             }
-
+                            
 
                         //     rute = "{{ url('flashcard-unselected') }}/" + value.id;
                         //     btn_id = 'btn['+value.id+']';
@@ -596,6 +715,7 @@
                 type: 'get',
                 success: function(response) {
                     document.getElementById('second_category').innerHTML = ""; 
+                    document.getElementById('levelTwo').innerHTML = ""; 
                     $.each(response, function(key, value) { 
                         var route = "{{ url('flashcard-second-categories-answer') }}/" + value.id;  
                         let vall = getapi(route);
@@ -622,7 +742,12 @@
                                                     '</div>'+
                                                 '</div>'+ 
                                             '</div>';  
+                            document.getElementById('levelTwo').innerHTML = "Sub Kategori 2"; 
+
+                            document.getElementById('levelThere').innerHTML = "Sub Kategori 3"; 
+                            document.getElementById('levelFour').innerHTML = "Sub Kategori 4"; 
                             $(".second_category").append(viewListCount);    
+                              
                         });
                     });
                 }
@@ -695,8 +820,10 @@
                                             '</div>'+
                                         '</div>'+
                                     '</div>'; 
-
+                            // document.getElementById('levelThere').innerHTML = value.category; 
+                            document.getElementById('levelThere').innerHTML = "Sub Kategori 3"; 
                             $(".third_category").append(data);
+                            document.getElementById('levelFour').innerHTML = "Sub Kategori 4"; 
                         });
                         
                     });
@@ -740,6 +867,8 @@
                                                 '</div>'+
                                             '</div>'+
                                         '</div>';
+                                document.getElementById('levelFour').innerHTML = "Sub Kategori 4"; 
+
                                 $(".fourth_category").append(data); 
                             }
                         }); 
