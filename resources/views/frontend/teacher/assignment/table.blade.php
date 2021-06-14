@@ -11,47 +11,50 @@
         </thead>
         <tbody>
             @php
-                $no = 1;
+            $no = 1;
             @endphp
             @foreach ($media as $data)
-                <tr>
-                    <td width="5%">{{ $no++ }}</td>
-                    <td>
-                        @foreach (json_decode($data->custom_properties) as $item)
-                            {{ App\Models\User::find($item)->name }}
-                        @endforeach
-                    </td>
-                    <td>
-                        <a target="_blank" href="{{ asset('files') }}/{{ $data->file_name }}">
-                            {{ $data->name }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ $data->created_at }}
-                    </td>
-                    <td width="9%">
+            <tr>
+                <td width="5%">{{ $no++ }}</td>
+                <td>
+                    @foreach (json_decode($data->custom_properties) as $item)
+                    {{ App\Models\User::find($item)->name }}
+                    @endforeach
+                </td>
+                <td>
+                    <a target="_blank" href="{{ asset('files') }}/{{ $data->file_name }}">
+                        {{ $data->name }}
+                    </a>
+                </td>
+                <td>
+                    {{ $data->created_at }}
+                </td>
+                <td width="9%">
 
-                        @if (App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first() != null)
-                            <button type="button"
-                                data-grade="{{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }}"
-                                data-id="{{ $data->id }}" data-media_id="{{ $data->media_id }}" id="button"
-                                data-togglebtn="tooltip" data-placement="top" title="Beri Nilai"
-                                class="btn btn-primary btn-sm" data-dismiss="modal" data-toggle="modal"
-                                data-target="#exampleModalCenter">
-                                {{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }}
-                            </button>
+                    @if (App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()
+                    != null)
+                    <button type="button"
+                        onclick="gradeBtnClick({{ $data->id }},{{ $data->media_id }},{{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }})"
+                        data-grade="{{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }}"
+                        data-id="{{ $data->id }}" data-media_id="{{ $data->media_id }}" id="button"
+                        data-togglebtn="tooltip" data-placement="top" title="Beri Nilai" class="btn btn-primary btn-sm"
+                        data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">
+                        {{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade }}
+                    </button>
 
-                        @else
-                            <button type="button" data-grade="0" data-id="{{ $data->id }}"
-                                data-media_id="{{ $data->media_id }}" id="button" data-togglebtn="tooltip"
-                                data-placement="top" title="Beri Nilai" class="btn btn-danger btn-sm"
-                                data-dismiss="modal" data-toggle="modal" data-target="#exampleModalCenter">
-                                Beri Nilai
-                            </button>
-                        @endif
+                    @else
+                    <button
+                        onclick="gradeBtnClick({{ $data->id }},{{ $data->media_id }},{{ App\Models\Grade::where('gradeable_id', $data->id)->where('gradeable_type', 'media')->first()->grade  ?? 0}})"
+                        type="button" data-grade="0" data-id="{{ $data->id }}" data-media_id="{{ $data->media_id }}"
+                        id="button" data-togglebtn="tooltip" data-placement="top" title="Beri Nilai"
+                        class="btn btn-danger btn-sm" data-dismiss="modal" data-toggle="modal"
+                        data-target="#exampleModalCenter">
+                        Beri Nilai
+                    </button>
+                    @endif
 
-                    </td>
-                </tr>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -88,20 +91,28 @@
     </div>
 </div>
 @push('page_scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
             $('[data-togglebtn="tooltip"]').tooltip();
         });
-        $("#button").click(function(e) {
-            e.preventDefault();
-            let id = $(this).data('id');
-            let media_id = $(this).data('media_id');
-            let grade = $(this).data('grade');
-            console.log('ini data ku :', id);
+
+        function gradeBtnClick(id, media_id, grade){
+            console.log('ini data ku onclick : ', id);
             $("#id").val(id);
             $("#media_id").val(media_id);
             $("#grade").val(grade);
-        });
+        }
 
-    </script>
+        // $("#button").click(function(e) {
+        //     e.preventDefault();
+        //     let id = $(this).data('id');
+        //     let media_id = $(this).data('media_id');
+        //     let grade = $(this).data('grade');
+        //     console.log('ini data ku :', id);
+        //     $("#id").val(id);
+        //     $("#media_id").val(media_id);
+        //     $("#grade").val(grade);
+        // });
+
+</script>
 @endpush

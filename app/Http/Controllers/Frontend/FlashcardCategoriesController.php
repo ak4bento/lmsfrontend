@@ -385,7 +385,7 @@ class FlashcardCategoriesController extends Controller
             }
             $id = explode(",",$id);
             // dd($id); 
-            $user_id = 4;
+            $user_id = 4;//Auth::user()->id;
             $questions =  DB::table('flashcard_categories_questions')
                                     ->join('flashcard_categories', 'flashcard_categories.id', '=', 'flashcard_categories_questions.flashcard_categories_id')
                                     ->join('flashcard_questions', 'flashcard_questions.id', '=', 'flashcard_categories_questions.flashcard_questions_id')

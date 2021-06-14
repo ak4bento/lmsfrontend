@@ -607,7 +607,7 @@
                         //     QC.push(response.flashcardCategories);
                         //     // QC_result = QC_result+response.flashcardCategories.question_count;
                         // } 
-                        
+                        console.log('ini uncheck : ', dataAnswer);
                         dataAnswer="";
                         let percen = '';
                         if(response.questions == 0 && QC_result == 0){
