@@ -7,9 +7,10 @@ use App\Http\Requests\UpdateFlashcardQuestionRequest;
 use App\Repositories\FlashcardQuestionRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
-use DB;
 use Flash;
-use Response;
+use Response; 
+use App\Models\FlashcardCategories;
+use App\Models\FlashcardCategoriesQuestion;
 use Auth;
 
 class FlashcardQuestionController extends AppBaseController
@@ -58,6 +59,7 @@ class FlashcardQuestionController extends AppBaseController
     {
         $input = $request->all();
 
+
         $images = $request->file('images');
         $images_name = date('Ymd').'-'.Auth::user()->id.'-'.$images->getClientOriginalName();
         // $name_images = pathinfo($images_name, PATHINFO_FILENAME);
@@ -69,12 +71,22 @@ class FlashcardQuestionController extends AppBaseController
         $input['images'] = $images_name;
         $input['images_explanation'] = $images_name_explanation;
 
+        // dd($input);
+        $FlashcardCategories =  FlashcardCategories::find($input['flashcard_categories_id']);
+        
+        // dd($FlashcardCategories);
+        
         $flashcardQuestion = $this->flashcardQuestionRepository->create($input);
 
-        Flash::success('Flashcard Question saved successfully.');
+        $FlashcardCategoriesQuestion = new FlashcardCategoriesQuestion();
+        $FlashcardCategoriesQuestion->flashcard_questions_id = $flashcardQuestion->id;
+        $FlashcardCategoriesQuestion->first_parent_id = $FlashcardCategories->parent_id;
+        $FlashcardCategoriesQuestion->second_parent_id = $FlashcardCategories->second_parent_id;
+        $FlashcardCategoriesQuestion->third_parent_id = $FlashcardCategories->third_parent_id;
+        $FlashcardCategoriesQuestion->flashcard_categories_id = $FlashcardCategories->id;
+        $FlashcardCategoriesQuestion->save();
 
-        $images->move('flashcardfiles/images/',$images_name);
-        $images_explanation->move('flashcardfiles/images_explanation/',$images_name_explanation);
+        Flash::success('Flashcard Question saved successfully.');
 
         return redirect(route('flashcardQuestions.index'));
     }
@@ -90,15 +102,13 @@ class FlashcardQuestionController extends AppBaseController
     {
         $flashcardQuestion = $this->flashcardQuestionRepository->find($id);
 
-        $flashcardCategoriesQuestions = DB::table('flashcard_categories_questions')->where('flashcard_questions_id',$id)->get();
-
         if (empty($flashcardQuestion)) {
             Flash::error('Flashcard Question not found');
 
             return redirect(route('flashcardQuestions.index'));
         }
 
-        return view('flashcard_questions.show')->with('flashcardQuestion', $flashcardQuestion)->with('flashcardCategoriesQuestions', $flashcardCategoriesQuestions);
+        return view('flashcard_questions.show')->with('flashcardQuestion', $flashcardQuestion);
     }
 
     /**
@@ -134,7 +144,7 @@ class FlashcardQuestionController extends AppBaseController
         $flashcardQuestion = $this->flashcardQuestionRepository->find($id);
 
         $input = $request->all();
-
+// dd($input);
         $images = $request->file('images');
         $images_name = date('Ymd').'-'.Auth::user()->id.'-'.$images->getClientOriginalName();
         // $name_images = pathinfo($images_name, PATHINFO_FILENAME);
@@ -146,6 +156,7 @@ class FlashcardQuestionController extends AppBaseController
         $input['images'] = $images_name;
         $input['images_explanation'] = $images_name_explanation;
 
+
         if (empty($flashcardQuestion)) {
             Flash::error('Flashcard Question not found');
 
@@ -153,6 +164,15 @@ class FlashcardQuestionController extends AppBaseController
         }
 
         $flashcardQuestion = $this->flashcardQuestionRepository->update($input, $id);
+        
+        $FlashcardCategories =  FlashcardCategories::find($input['flashcard_categories_id']);
+
+        $FlashcardCategoriesQuestion = FlashcardCategoriesQuestion::where('flashcard_questions_id',$id)->first();
+        $FlashcardCategoriesQuestion->first_parent_id = $FlashcardCategories->parent_id;
+        $FlashcardCategoriesQuestion->second_parent_id = $FlashcardCategories->second_parent_id;
+        $FlashcardCategoriesQuestion->third_parent_id = $FlashcardCategories->third_parent_id;
+        $FlashcardCategoriesQuestion->flashcard_categories_id = $FlashcardCategories->id;
+        $FlashcardCategoriesQuestion->save();
 
         Flash::success('Flashcard Question updated successfully.');
 

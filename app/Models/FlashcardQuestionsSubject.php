@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class FlashcardQuestionsSubject
  * @package App\Models
- * @version May 21, 2021, 7:24 am UTC
+ * @version June 21, 2021, 6:08 am UTC
  *
  * @property integer $flashcard_questions_id
  * @property integer $flashcard_subjects_id

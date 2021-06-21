@@ -23,6 +23,9 @@ class FlashcardCategoriesFactory extends Factory
     {
         return [
             'parent_id' => $this->faker->randomDigitNotNull,
+        'second_parent_id' => $this->faker->text,
+        'third_parent_id' => $this->faker->text,
+        'level' => $this->faker->randomDigitNotNull,
         'category' => $this->faker->word,
         'deleted_at' => $this->faker->date('Y-m-d H:i:s'),
         'created_at' => $this->faker->date('Y-m-d H:i:s'),

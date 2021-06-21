@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class FlashcardSubjectRepository
  * @package App\Repositories
- * @version May 19, 2021, 6:58 am UTC
+ * @version June 21, 2021, 6:09 am UTC
 */
 
 class FlashcardSubjectRepository extends BaseRepository
@@ -18,6 +18,7 @@ class FlashcardSubjectRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'subject',
+        'files',
         'subject_type',
         'reference',
         'external_link'

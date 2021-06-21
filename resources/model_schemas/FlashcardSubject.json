@@ -24,6 +24,18 @@
         "inView": true
     },
     {
+        "name": "files",
+        "dbType": "text,65535:nullable",
+        "htmlType": "textarea",
+        "validations": "nullable|string|nullable|string",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "subject_type",
         "dbType": "string,191",
         "htmlType": "text",
@@ -37,9 +49,9 @@
     },
     {
         "name": "reference",
-        "dbType": "string,191:nullable",
-        "htmlType": "text",
-        "validations": "nullable|string|max:191|nullable|string|max:191",
+        "dbType": "text,65535:nullable",
+        "htmlType": "textarea",
+        "validations": "nullable|string|nullable|string",
         "searchable": true,
         "fillable": true,
         "primary": false,
@@ -49,9 +61,9 @@
     },
     {
         "name": "external_link",
-        "dbType": "string,191:nullable",
-        "htmlType": "text",
-        "validations": "nullable|string|max:191|nullable|string|max:191",
+        "dbType": "text,65535:nullable",
+        "htmlType": "textarea",
+        "validations": "nullable|string|nullable|string",
         "searchable": true,
         "fillable": true,
         "primary": false,

@@ -56,10 +56,6 @@ class FlashcardCategoriesController extends AppBaseController
     {
         $input = $request->all();
 
-        if ($input['parent_id'] == '0') {
-            $input['parent_id'] = null;
-        }
-
         $flashcardCategories = $this->flashcardCategoriesRepository->create($input);
 
         Flash::success('Flashcard Categories saved successfully.');
@@ -119,19 +115,13 @@ class FlashcardCategoriesController extends AppBaseController
     {
         $flashcardCategories = $this->flashcardCategoriesRepository->find($id);
 
-        $input = $request->all();
-
-        if ($input['parent_id'] == '0') {
-            $input['parent_id'] = null;
-        }
-
         if (empty($flashcardCategories)) {
             Flash::error('Flashcard Categories not found');
 
             return redirect(route('flashcardCategories.index'));
         }
 
-        $flashcardCategories = $this->flashcardCategoriesRepository->update($input, $id);
+        $flashcardCategories = $this->flashcardCategoriesRepository->update($request->all(), $id);
 
         Flash::success('Flashcard Categories updated successfully.');
 

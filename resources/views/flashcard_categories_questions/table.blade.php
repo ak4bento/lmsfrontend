@@ -1,17 +1,23 @@
 <div class="table-responsive">
-    <table id="example2" class="table table-bordered">
+    <table class="table" id="flashcardCategoriesQuestions-table">
         <thead>
             <tr>
                 <th>Flashcard Questions Id</th>
-                <th>Flashcard Categories Id</th>
-                <th>Action</th>
+        <th>First Parent Id</th>
+        <th>Second Parent Id</th>
+        <th>Third Parent Id</th>
+        <th>Flashcard Categories Id</th>
+                <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
         @foreach($flashcardCategoriesQuestions as $flashcardCategoriesQuestion)
             <tr>
                 <td>{{ $flashcardCategoriesQuestion->flashcard_questions_id }}</td>
-                <td>{{ $flashcardCategoriesQuestion->flashcard_categories_id }}</td>
+            <td>{{ $flashcardCategoriesQuestion->first_parent_id }}</td>
+            <td>{{ $flashcardCategoriesQuestion->second_parent_id }}</td>
+            <td>{{ $flashcardCategoriesQuestion->third_parent_id }}</td>
+            <td>{{ $flashcardCategoriesQuestion->flashcard_categories_id }}</td>
                 <td width="120">
                     {!! Form::open(['route' => ['flashcardCategoriesQuestions.destroy', $flashcardCategoriesQuestion->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class FlashcardAnswerRepository
  * @package App\Repositories
- * @version May 21, 2021, 7:28 am UTC
+ * @version June 21, 2021, 6:03 am UTC
 */
 
 class FlashcardAnswerRepository extends BaseRepository

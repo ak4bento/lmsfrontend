@@ -11,17 +11,19 @@
     @yield('third_party_stylesheets')
 
     @stack('page_css')
+
 </head>
 
 <body class="hold-transition layout-top-nav">
+
     <div class="wrapper">
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white fixed-top">
             <div class="container">
                 <a href="{{ url('home') }}" class="navbar-brand py-4">
-                    <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat"
-                        class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="{{ asset('dist/img/Logo.png') }}" alt="Sejawat" class="brand-image img-circle elevation-3"
+                        style="opacity: .8">
                     <span class="brand-text font-weight-light">SIPS LMS</span>
                 </a>
 
@@ -73,23 +75,24 @@
                 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 
                     @if (Route::has('login'))
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ auth()->user()->email }}
-                                <img src="{{ asset('files') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at')->first()->file_name ?? 'avatar.png'}}" alt="Sejawat"
-                                    class="brand-image img-circle elevation-3" width="33px" style="opacity: .8">
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                {{-- <a type="button" class=" dropdown-item py-2" data-toggle="modal"
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ auth()->user()->email }}
+                            <img src="{{ asset('files') }}/{{App\Models\Media::where('media_type', 'user')->where('media_id', Auth::user()->id)->latest('created_at')->first()->file_name ?? 'avatar.png'}}"
+                                alt="Sejawat" class="brand-image img-circle elevation-3" width="33px"
+                                style="opacity: .8">
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {{-- <a type="button" class=" dropdown-item py-2" data-toggle="modal"
                                     data-target="#exampleModalCenter">
                                     Ganti Password
                                 </a> --}}
-                                @auth
-                                    {{-- <a class="nav-link" data-target="#exampleModalCenter">
+                            @auth
+                            {{-- <a class="nav-link" data-target="#exampleModalCenter">
                                         Profile
                                     </a> --}}
-                                    {{-- <a type="button" class="nav-link" data-toggle="modal"
+                            {{-- <a type="button" class="nav-link" data-toggle="modal"
                                         data-togglebtn="tooltip" data-placement="top" title="Lengkapi atau ubah biodata"
                                         data-target="#exampleModalCenter">
                                         Profil
@@ -99,19 +102,19 @@
                                         data-target="#exampleModalCenter2">
                                         Foto Profil
                                     </a> --}}
-                                    <a href="#" class="nav-link"
-                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        Sign out
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                @endauth
-                            </div>
-                        </li>
-                        <li class="nav-item">
+                            <a href="#" class="nav-link"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Sign out
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                            @endauth
+                        </div>
+                    </li>
+                    <li class="nav-item">
 
-                        </li>
+                    </li>
                     @endif
                 </ul>
             </div>
@@ -119,10 +122,10 @@
         <!-- /.navbar -->
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" >
+        <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content" style="margin-top: 90px" >
-                <div class="container-fluid" >
+            <section class="content" style="margin-top: 90px">
+                <div class="container-fluid">
                     <div class="row mb-2">
                     </div>
                 </div><!-- /.container-fluid -->

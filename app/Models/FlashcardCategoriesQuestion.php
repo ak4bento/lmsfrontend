@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class FlashcardCategoriesQuestion
  * @package App\Models
- * @version May 21, 2021, 7:22 am UTC
+ * @version June 21, 2021, 6:07 am UTC
  *
  * @property integer $flashcard_questions_id
+ * @property string $first_parent_id
+ * @property string $second_parent_id
+ * @property string $third_parent_id
  * @property integer $flashcard_categories_id
  */
 class FlashcardCategoriesQuestion extends Model
@@ -21,7 +24,7 @@ class FlashcardCategoriesQuestion extends Model
     use HasFactory;
 
     public $table = 'flashcard_categories_questions';
-
+    
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -38,16 +41,6 @@ class FlashcardCategoriesQuestion extends Model
         'flashcard_categories_id'
     ];
 
-    public function flashcard_categories()
-    {
-        return $this->hasMany('App\Models\FlashcardCategories','flashcard_categories_id','id');
-    }
-
-    public function flashcard_questions()
-    {
-        return $this->hasMany('App\Models\FlashcardQuestion','flashcard_questions_id','id');
-    }
-
     /**
      * The attributes that should be casted to native types.
      *
@@ -56,6 +49,9 @@ class FlashcardCategoriesQuestion extends Model
     protected $casts = [
         'id' => 'integer',
         'flashcard_questions_id' => 'integer',
+        'first_parent_id' => 'string',
+        'second_parent_id' => 'string',
+        'third_parent_id' => 'string',
         'flashcard_categories_id' => 'integer'
     ];
 
@@ -66,11 +62,14 @@ class FlashcardCategoriesQuestion extends Model
      */
     public static $rules = [
         'flashcard_questions_id' => 'required|integer',
+        'first_parent_id' => 'nullable|string',
+        'second_parent_id' => 'nullable|string',
+        'third_parent_id' => 'nullable|string',
         'flashcard_categories_id' => 'required|integer',
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-
+    
 }

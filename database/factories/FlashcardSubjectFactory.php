@@ -23,9 +23,10 @@ class FlashcardSubjectFactory extends Factory
     {
         return [
             'subject' => $this->faker->word,
+        'files' => $this->faker->text,
         'subject_type' => $this->faker->word,
-        'reference' => $this->faker->word,
-        'external_link' => $this->faker->word,
+        'reference' => $this->faker->text,
+        'external_link' => $this->faker->text,
         'deleted_at' => $this->faker->date('Y-m-d H:i:s'),
         'created_at' => $this->faker->date('Y-m-d H:i:s'),
         'updated_at' => $this->faker->date('Y-m-d H:i:s')

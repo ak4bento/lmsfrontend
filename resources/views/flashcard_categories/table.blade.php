@@ -2,30 +2,41 @@
     <table id="example2" class="table table-bordered">
         <thead>
             <tr>
+                <th>Parent Id</th>
+                <th>Second Parent Id</th>
+                <th>Third Parent Id</th>
                 <th>Level</th>
-                <th>Parent</th>
                 <th>Category</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-        @foreach($flashcardCategories as $flashcardCategories)
+            @foreach($flashcardCategories as $flashcardCategories)
             <tr>
-                <td>Level Ketegori {{ $flashcardCategories->level }}</td>
-                <td>{{ App\Models\FlashcardCategories::find($flashcardCategories->parent_id)->category ?? 'Kategori Utama' }}</td>
+                <td>{{ $flashcardCategories->parent_id }}</td>
+                <td>{{ $flashcardCategories->second_parent_id }}</td>
+                <td>{{ $flashcardCategories->third_parent_id }}</td>
+                <td>{{ $flashcardCategories->level }}</td>
                 <td>{{ $flashcardCategories->category }}</td>
                 <td width="120">
-                    {!! Form::open(['route' => ['flashcardCategories.destroy', $flashcardCategories->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['flashcardCategories.destroy', $flashcardCategories->id], 'method' =>
+                    'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('flashcardCategories.edit', [$flashcardCategories->id]) }}" class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i> Ubah
+                        <a href="{{ route('flashcardCategories.show', [$flashcardCategories->id]) }}"
+                            class='btn btn-default btn-xs'>
+                            <i class="far fa-eye"></i>
                         </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i> Hapus', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        <a href="{{ route('flashcardCategories.edit', [$flashcardCategories->id]) }}"
+                            class='btn btn-default btn-xs'>
+                            <i class="far fa-edit"></i>
+                        </a>
+                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
+                        btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 </div>

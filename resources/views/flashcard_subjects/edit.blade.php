@@ -17,7 +17,7 @@
 
         <div class="card">
 
-            {!! Form::model($flashcardSubject, ['route' => ['flashcardSubjects.update', $flashcardSubject->id], 'method' => 'patch', 'files' => true]) !!}
+            {!! Form::model($flashcardSubject, ['route' => ['flashcardSubjects.update', $flashcardSubject->id], 'method' => 'patch']) !!}
 
             <div class="card-body">
                 <div class="row">

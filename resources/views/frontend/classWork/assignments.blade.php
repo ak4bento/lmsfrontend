@@ -50,11 +50,17 @@
                     </div>
                 </div>
                 @hasanyrole('student')
+
                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12">
                     <div class="card">
                         <div class="card-body" style="min-height: 115px; text-align: center">
                             @if (is_null($grade))
+                            @if (is_object($complete))
+
                             Tugas Belum Diperiksa
+                            @else
+                            Tugas Belum Dikumpul
+                            @endif
                             @else
                             <span style="font-size: 30px">Nilai</span><br>
                             <span style="font-size: 70px">

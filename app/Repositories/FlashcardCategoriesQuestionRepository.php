@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class FlashcardCategoriesQuestionRepository
  * @package App\Repositories
- * @version May 21, 2021, 7:22 am UTC
+ * @version June 21, 2021, 6:07 am UTC
 */
 
 class FlashcardCategoriesQuestionRepository extends BaseRepository
@@ -18,6 +18,9 @@ class FlashcardCategoriesQuestionRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'flashcard_questions_id',
+        'first_parent_id',
+        'second_parent_id',
+        'third_parent_id',
         'flashcard_categories_id'
     ];
 

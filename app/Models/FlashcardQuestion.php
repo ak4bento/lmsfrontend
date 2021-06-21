@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class FlashcardQuestion
  * @package App\Models
- * @version May 19, 2021, 6:57 am UTC
+ * @version June 21, 2021, 6:07 am UTC
  *
  * @property integer $flashcard_categories_id
  * @property string $question
@@ -24,7 +24,7 @@ class FlashcardQuestion extends Model
     use HasFactory;
 
     public $table = 'flashcard_questions';
-
+    
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -63,11 +63,11 @@ class FlashcardQuestion extends Model
     public static $rules = [
         'flashcard_categories_id' => 'required|integer',
         'question' => 'required|string|max:191',
-        'explanation' => 'required|string|max:191',
+        'explanation' => 'required|string|max:191', 
         'deleted_at' => 'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
 
-
+    
 }

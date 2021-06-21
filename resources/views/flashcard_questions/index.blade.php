@@ -24,12 +24,12 @@
         <div class="clearfix"></div>
 
         <div class="card">
-            <div class="card-body">
+            <div class="card-body p-0">
                 @include('flashcard_questions.table')
 
                 <div class="card-footer clearfix float-right">
                     <div class="float-right">
-
+                        
                     </div>
                 </div>
             </div>

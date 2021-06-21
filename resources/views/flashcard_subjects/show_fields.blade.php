@@ -4,10 +4,10 @@
     <p>{{ $flashcardSubject->subject }}</p>
 </div>
 
-<!-- Files Type Field -->
+<!-- Files Field -->
 <div class="col-sm-12">
     {!! Form::label('files', 'Files:') !!}
-    <p><img src="/flashcardfiles/files/{{ $flashcardSubject->files }}" alt="" width="200px"></p>
+    <p>{{ $flashcardSubject->files }}</p>
 </div>
 
 <!-- Subject Type Field -->
@@ -27,3 +27,4 @@
     {!! Form::label('external_link', 'External Link:') !!}
     <p>{{ $flashcardSubject->external_link }}</p>
 </div>
+
