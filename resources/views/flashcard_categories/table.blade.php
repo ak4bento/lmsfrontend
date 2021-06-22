@@ -21,18 +21,16 @@
                 <td width="120">
                     {!! Form::open(['route' => ['flashcardCategories.destroy', $flashcardCategories->id], 'method' =>
                     'delete']) !!}
-                    <div class='btn-group'>
-                        <a href="{{ route('flashcardCategories.show', [$flashcardCategories->id]) }}"
-                            class='btn btn-default btn-xs'>
-                            <i class="far fa-eye"></i>
-                        </a>
-                        <a href="{{ route('flashcardCategories.edit', [$flashcardCategories->id]) }}"
-                            class='btn btn-default btn-xs'>
-                            <i class="far fa-edit"></i>
-                        </a>
-                        {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
-                        btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
+                    {{-- <a href="{{ route('flashcardCategories.show', [$flashcardCategories->id]) }}"
+                    class='btn btn-default btn-xs'>
+                    <i class="far fa-eye"></i>
+                    </a> --}}
+                    <a href="{{ route('flashcardCategories.edit', [$flashcardCategories->id]) }}"
+                        class='btn btn-primary btn-sm'>
+                        <i class="far fa-edit"></i>
+                    </a>
+                    {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn
+                    btn-danger btn-sm', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     {!! Form::close() !!}
                 </td>
             </tr>

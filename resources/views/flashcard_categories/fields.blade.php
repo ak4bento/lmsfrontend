@@ -21,7 +21,7 @@
 <div class="form-group col-sm-6" id="one" style="display: none;">
     {!! Form::label('parent_id', 'Parent Id:') !!}
     <select name="parent_id" class="form-control select2" id="parent_id" style="width: 100%;">
-        <option value="">Pilih</option>
+        <option></option>
         @foreach (App\Models\FlashcardCategories::where('level',1)->get() as $item)
         <option value="{{ $item->id }}">
             {{ $item->category }}
@@ -35,8 +35,7 @@
 <div class="form-group col-sm-6 col-lg-6" id="two" style="display: none;">
     {!! Form::label('second_parent_id', 'Second Parent Id:') !!}
     <select name="second_parent_id" class="form-control select2" id="second_parent_id" style="width: 100%;">
-        <option value="">Pilih</option>
-
+        <option></option>
         @foreach (App\Models\FlashcardCategories::where('level',2)->get() as $item)
         <option value="{{ $item->id }}">
             {{ $item->category }}
@@ -49,8 +48,7 @@
 <div class="form-group col-sm-6 col-lg-6" id="three" style="display: none;">
     {!! Form::label('third_parent_id', 'Third Parent Id:') !!}
     <select name="third_parent_id" class="form-control select2" id="third_parent_id" style="width: 100%;">
-        <option value="">Pilih</option>
-
+        <option></option>
         @foreach (App\Models\FlashcardCategories::where('level',3)->get() as $item)
         <option value="{{ $item->id }}">
             {{ $item->category }}

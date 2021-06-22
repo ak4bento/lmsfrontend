@@ -61,9 +61,9 @@ class FlashcardCategories extends Model
      * @var array
      */
     public static $rules = [
-        'parent_id' => 'nullable|integer',
-        'second_parent_id' => 'nullable|string',
-        'third_parent_id' => 'nullable|string',
+        // 'parent_id' => 'nullable|integer',
+        // 'second_parent_id' => 'nullable|string',
+        // 'third_parent_id' => 'nullable|string',
         'level' => 'required|integer',
         'category' => 'required|string|max:191',
         'deleted_at' => 'nullable',

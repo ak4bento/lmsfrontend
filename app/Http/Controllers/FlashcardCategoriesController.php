@@ -55,7 +55,7 @@ class FlashcardCategoriesController extends AppBaseController
     public function store(CreateFlashcardCategoriesRequest $request)
     {
         $input = $request->all();
-
+// dd($input);
         $flashcardCategories = $this->flashcardCategoriesRepository->create($input);
 
         Flash::success('Flashcard Categories saved successfully.');
