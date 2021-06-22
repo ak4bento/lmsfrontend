@@ -2,9 +2,9 @@
     <table id="example2" class="table table-bordered">
         <thead>
             <tr>
-                <th>Parent Id</th>
+                {{-- <th>Parent Id</th>
                 <th>Second Parent Id</th>
-                <th>Third Parent Id</th>
+                <th>Third Parent Id</th> --}}
                 <th>Level</th>
                 <th>Category</th>
                 <th>Action</th>
@@ -13,9 +13,9 @@
         <tbody>
             @foreach($flashcardCategories as $flashcardCategories)
             <tr>
-                <td>{{ $flashcardCategories->parent_id }}</td>
+                {{-- <td>{{ $flashcardCategories->parent_id }}</td>
                 <td>{{ $flashcardCategories->second_parent_id }}</td>
-                <td>{{ $flashcardCategories->third_parent_id }}</td>
+                <td>{{ $flashcardCategories->third_parent_id }}</td> --}}
                 <td>{{ $flashcardCategories->level }}</td>
                 <td>{{ $flashcardCategories->category }}</td>
                 <td width="120">

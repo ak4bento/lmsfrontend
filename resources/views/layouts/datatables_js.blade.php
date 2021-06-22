@@ -52,8 +52,9 @@
 <script>
     $(function() {
         $('.select2').select2({
-            theme: "bootstrap4",
             placeholder: "Pilih",
+            theme: "bootstrap4",
+            
             // width: 'auto',
             dropdownAutoWidth: true,
             allowClear: true,

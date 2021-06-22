@@ -194,11 +194,11 @@
 </li>
 
 
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ route('flashcardCategoriesQuestions.index') }}"
-        class="nav-link {{ Request::is('admin/flashcardCategoriesQuestions*') ? 'active' : '' }}">
-        <p>Flashcard Categories Questions</p>
-    </a>
+class="nav-link {{ Request::is('admin/flashcardCategoriesQuestions*') ? 'active' : '' }}">
+<p>Flashcard Categories Questions</p>
+</a>
 </li>
 
 
@@ -207,12 +207,14 @@
         class="nav-link {{ Request::is('admin/flashcardQuestionsSubjects*') ? 'active' : '' }}">
         <p>Flashcard Questions Subjects</p>
     </a>
-</li>
+</li> --}}
 
 
 <li class="nav-item">
     <a href="{{ route('flashcardAnswers.index') }}"
         class="nav-link {{ Request::is('admin/flashcardAnswers*') ? 'active' : '' }}">
+        <i class="far fa-circle nav-icon"></i>
+
         <p>Flashcard Answers</p>
     </a>
 </li>
