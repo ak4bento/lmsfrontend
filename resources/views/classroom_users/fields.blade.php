@@ -3,10 +3,9 @@
     {!! Form::label('classroom_id', 'Pilih Kelas:') !!}
     <select name="classroom_id" class="form-control select2" id="classroom_id" style="width: 100%;">
         @foreach (App\Models\Classroom::all() as $data)
-            <option
-                {{ isset($classroomUser->classroom_id) && $classroomUser->classroom_id == $data->id ? 'selected' : '' }}
-                value="{{ $data->id }}">{{ $data->title }}
-            </option>
+        <option {{ isset($classroomUser->classroom_id) && $classroomUser->classroom_id == $data->id ? 'selected' : '' }}
+            value="{{ $data->id }}">{{ $data->title }}
+        </option>
         @endforeach
     </select>
 </div>
@@ -32,7 +31,7 @@
 </div>
 
 <div class="form-group col-sm-6">
-    {!! Form::label('teaching_periods', 'Periode Mengajar   :') !!}
+    {!! Form::label('teaching_periods', 'Periode Mengajar :') !!}
     <input type="text" disabled name="teaching_periods" id="teaching_periods" class="form-control"
         placeholder="Periode Mengajar">
 </div>
@@ -41,20 +40,20 @@
 <input type="hidden" name="user_id" id="user_id" value="{{ isset($userStudent) ? $userStudent->id : '' }}">
 
 <div class="form-group col-sm-6">
-    {!! Form::label('full_name', 'Nama Lengkap   :') !!}
+    {!! Form::label('full_name', 'Nama Lengkap :') !!}
     <input type="text" disabled name="full_name"
         value="{{ isset($userStudent) && isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->full_name : '' }}"
         id="full_name" class="form-control" placeholder="Nama Lengkap">
 </div>
 
 <div class="form-group col-sm-6">
-    {!! Form::label('email', 'Email   :') !!}
+    {!! Form::label('email', 'Email :') !!}
     <input type="text" disabled name="email" id="email" class="form-control" placeholder="Email"
         value="{{ isset($userStudent) ? App\Models\User::find($userStudent->id)->first()->email : '' }}">
 </div>
 
 <div class="form-group col-sm-6">
-    {!! Form::label('phone_number', 'Nomor Hp   :') !!}
+    {!! Form::label('phone_number', 'Nomor Hp :') !!}
     <input type="text" disabled name="phone_number" id="phone_number" class="form-control" placeholder="Nomor Hp"
         value="{{ isset($userStudent) && isset(App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number) ? App\Models\Profile::where('user_id', $userStudent->id)->first()->phone_number : '' }}">
 </div>
@@ -72,8 +71,8 @@
 </div>
 
 @push('page_scripts')
-    <script type='text/javascript'>
-        $(document).ready(function() {
+<script type='text/javascript'>
+    $(document).ready(function() {
             // Department Change
             $('#classroom_id').change(function() {
                 var id = $(this).val();
@@ -116,17 +115,18 @@
                         });
                     }
                 });
-            });
+            }); 
         });
 
-    </script>
-    <script type="text/javascript">
-        $(function() {
+</script>
+<script type="text/javascript">
+    $(function() {
+            
             $('#datetimepicker1').datetimepicker({
                 defaultDate: "{{ isset($classroomUser) ? $classroomUser->last_accesed_at : '' }}",
                 locale: 'id'
             });
         });
 
-    </script>
+</script>
 @endpush

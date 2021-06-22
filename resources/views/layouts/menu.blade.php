@@ -19,7 +19,7 @@
 <li class="nav-item">
     <a href="{{ route('modelHasRoles.index') }}"
         class="nav-link {{ Request::is('admin/modelHasRoles*') ? 'active' : '' }}">
-        <i class="nav-icon fas fa-users"></i>
+        <i class="nav-icon fa fa-briefcase"></i>
         <p>Manajement Pengguna</p>
     </a>
 </li>

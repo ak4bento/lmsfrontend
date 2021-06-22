@@ -168,6 +168,7 @@ class FlashcardQuestionController extends AppBaseController
         $FlashcardCategories =  FlashcardCategories::find($input['flashcard_categories_id']);
 
         $FlashcardCategoriesQuestion = FlashcardCategoriesQuestion::where('flashcard_questions_id',$id)->first();
+        dd($FlashcardCategoriesQuestion);
         $FlashcardCategoriesQuestion->first_parent_id = $FlashcardCategories->parent_id;
         $FlashcardCategoriesQuestion->second_parent_id = $FlashcardCategories->second_parent_id;
         $FlashcardCategoriesQuestion->third_parent_id = $FlashcardCategories->third_parent_id;
