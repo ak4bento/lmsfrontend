@@ -62,7 +62,7 @@ class FlashcardSubject extends Model
      */
     public static $rules = [
         'subject' => 'required|string|max:191',
-        'files' => 'nullable|string',
+        // 'files' => 'nullable|string',
         'subject_type' => 'required|string|max:191',
         'reference' => 'nullable|string',
         'external_link' => 'nullable|string',
